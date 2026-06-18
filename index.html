@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日経ストックリーグ 企画案</title>
+<style>
+  :root {
+    --primary: #1a2744;
+    --accent: #e8a020;
+    --accent2: #2e86c1;
+    --light: #f4f7fb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --green: #16a34a;
+    --red: #dc2626;
+    --border: #e2e8f0;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'Yu Gothic', sans-serif;
+    background: #0d1117;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  #header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(13,17,23,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  #header h1 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* version toggle */
+  #version-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50px;
+    padding: 3px;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  #version-toggle button {
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  #version-toggle button.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(232,160,32,0.4);
+  }
+
+  /* slide counter */
+  #slide-counter {
+    color: rgba(255,255,255,0.45);
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ── Main ── */
+  #main {
+    padding-top: 72px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Slide deck ── */
+  #deck {
+    width: 100%;
+    max-width: 960px;
+    padding: 32px 20px 120px;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    animation: fadeSlide 0.4s ease;
+  }
+  .slide.active { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Slide card ── */
+  .slide-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  /* slide header */
+  .slide-header {
+    background: var(--primary);
+    padding: 28px 36px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(232,160,32,0.08);
+  }
+  .slide-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .slide-title {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.3;
+    position: relative;
+  }
+  .slide-subtitle {
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .slide-num {
+    position: absolute;
+    top: 24px; right: 32px;
+    font-size: 42px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+
+  /* slide body */
+  .slide-body {
+    padding: 32px 36px;
+  }
+
+  /* ── Navigation ── */
+  #nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(13,17,23,0.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 100;
+  }
+  #nav button {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  #nav button:hover { background: rgba(255,255,255,0.15); }
+  #nav button:disabled { opacity: 0.3; cursor: default; }
+  #nav button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 2px 12px rgba(232,160,32,0.35);
+  }
+  #nav button.primary:hover { background: #d4911c; }
+
+  /* progress dots */
+  #progress-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 400px;
+  }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .dot.active {
+    background: var(--accent);
+    width: 20px;
+    border-radius: 4px;
+  }
+  .dot:hover { background: rgba(255,255,255,0.5); }
+
+  /* ── Components ── */
+
+  /* hero slide */
+  .hero-card {
+    background: linear-gradient(135deg, #1a2744 0%, #0d1b3e 100%);
+    border-radius: var(--radius);
+    padding: 52px 48px;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 400px;
+    background: radial-gradient(ellipse, rgba(232,160,32,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(232,160,32,0.15);
+    border: 1px solid rgba(232,160,32,0.4);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+  }
+  .hero-main {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+  .theme-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  .theme-box label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .theme-box p {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .hero-tagline {
+    margin-top: 28px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* revision list */
+  .revision-list { display: flex; flex-direction: column; gap: 12px; }
+  .revision-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 0 16px;
+    background: var(--light);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  .revision-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .revision-num {
+    background: var(--primary);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    grid-row: span 2;
+  }
+  .revision-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    padding: 12px 16px 2px;
+  }
+  .revision-detail {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 16px 12px;
+  }
+  .revision-item.open .revision-detail { display: flex; }
+  .rev-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .rev-badge {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 1px;
+    height: fit-content;
+  }
+  .rev-badge.weak { background: #fee2e2; color: #dc2626; }
+  .rev-badge.fix  { background: #dcfce7; color: #16a34a; }
+
+  /* two-column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  .info-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .info-card h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-card h4 .icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--primary);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .info-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .info-card li {
+    font-size: 13px;
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+    color: #374151;
+  }
+  .info-card li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 10px;
+    top: 3px;
+  }
+
+  /* flow chain */
+  .flow-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0 16px;
+    cursor: pointer;
+  }
+  .flow-step:not(:last-child) .flow-line-wrap::after {
+    content: '';
+    display: block;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    flex: 1;
+    margin: 0 auto;
+  }
+  .flow-line-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .flow-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 900;
+    flex-shrink: 0;
+    border: 3px solid var(--accent);
+    transition: transform 0.2s;
+  }
+  .flow-step:hover .flow-circle { transform: scale(1.1); }
+  .flow-connector {
+    width: 2px;
+    flex: 1;
+    min-height: 16px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    margin: 0 auto;
+  }
+  .flow-content {
+    padding: 0 0 20px;
+  }
+  .flow-content h4 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 4px;
+    padding-top: 8px;
+  }
+  .flow-content p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .flow-detail {
+    background: var(--light);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #374151;
+    display: none;
+    line-height: 1.6;
+  }
+  .flow-step.open .flow-detail { display: block; }
+
+  /* key highlight */
+  .key-highlight {
+    background: linear-gradient(135deg, #1a2744, #0d1b3e);
+    border-radius: 12px;
+    padding: 20px 24px;
+    color: #fff;
+    margin-top: 16px;
+  }
+  .key-highlight h4 {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .key-highlight p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* timeline phases */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 600px) { .phase-grid { grid-template-columns: 1fr; } }
+  .phase-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .phase-card:hover, .phase-card.open {
+    border-color: var(--accent);
+    background: #fffbf0;
+  }
+  .phase-num {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .phase-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .phase-result {
+    font-size: 12px;
+    color: var(--accent2);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .phase-detail {
+    display: none;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.7;
+  }
+  .phase-card.open .phase-detail { display: block; }
+
+  /* screening 3-axis */
+  .axis-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .axis-tab {
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid transparent;
+    background: var(--light);
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .axis-tab.active {
+    background: var(--primary);
+    color: var(--accent);
+    border-color: var(--primary);
+  }
+  .axis-content { display: none; }
+  .axis-content.active { display: block; }
+  .axis-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .axis-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--light);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .axis-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .axis-item-text h5 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 2px;
+  }
+  .axis-item-text p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* fieldwork */
+  .fw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .fw-grid { grid-template-columns: 1fr; } }
+  .fw-section h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  .fw-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .fw-step {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .fw-item p { font-size: 13px; color: #374151; line-height: 1.6; }
+  .fw-badge-green {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #dcfce7;
+    color: #16a34a;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+
+  /* risk cards */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) { .risk-grid { grid-template-columns: 1fr; } }
+  .risk-card {
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .risk-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220,38,38,0.1); }
+  .risk-card h5 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #dc2626;
+    margin-bottom: 4px;
+  }
+  .risk-card p { font-size: 12px; color: #7f1d1d; line-height: 1.5; }
+
+  .mpt-warn {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .mpt-warn h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #92400e;
+    margin-bottom: 8px;
+  }
+  .mpt-warn ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .mpt-warn li {
+    font-size: 12px;
+    color: #78350f;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .mpt-warn li::before { content: '⚠️'; position: absolute; left: -2px; font-size: 10px; }
+
+  /* 3 pillars */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 600px) { .pillars { grid-template-columns: 1fr; } }
+  .pillar {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 2px solid transparent;
+  }
+  .pillar:hover { border-color: var(--accent); background: #fffbf0; }
+  .pillar-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  .pillar h4 {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .pillar-detail {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    display: none;
+  }
+  .pillar:hover .pillar-detail,
+  .pillar.open .pillar-detail { display: block; }
+  .final-tagline {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--primary);
+    padding: 20px;
+    background: linear-gradient(135deg, #fff9ed, #fef3c7);
+    border-radius: 12px;
+    border: 1px solid #fcd34d;
+  }
+
+  /* glossary */
+  .glossary-cats {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .glossary-cat {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    color: var(--muted);
+    background: #fff;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .glossary-cat.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 600px) { .glossary-grid { grid-template-columns: 1fr; } }
+  .gloss-item {
+    background: var(--light);
+    border-radius: 10px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--accent2);
+  }
+  .gloss-item.cat-market { border-left-color: #8b5cf6; }
+  .gloss-item.cat-semi { border-left-color: #2e86c1; }
+  .gloss-item.cat-invest { border-left-color: #16a34a; }
+  .gloss-item h5 { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+  .gloss-item p { font-size: 12px; color: #374151; line-height: 1.5; }
+  .gloss-item[data-cat="market"] { display: block; }
+  .gloss-item[data-cat="semi"] { display: block; }
+  .gloss-item[data-cat="invest"] { display: block; }
+
+  /* differentiation NG/OK */
+  .diff-list { display: flex; flex-direction: column; gap: 10px; }
+  .diff-row {
+    display: flex;
+    gap: 12px;
+    background: var(--light);
+    border-radius: 10px;
+    padding: 14px 16px;
+    align-items: flex-start;
+  }
+  .diff-mark {
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+  .diff-text h5 { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+  .diff-text p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .diff-row.ok { background: #f0fdf4; border: 1px solid #86efac; }
+  .diff-row.ng { background: #fff5f5; border: 1px solid #fecaca; }
+
+  /* overview three-col */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) { .overview-grid { grid-template-columns: 1fr; } }
+  .ov-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .ov-icon { font-size: 24px; margin-bottom: 8px; }
+  .ov-title { font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+  .ov-items { font-size: 12px; color: #374151; line-height: 1.8; }
+
+  /* summary tagline in body */
+  .summary-box {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 12px;
+    padding: 18px 22px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .summary-box strong { color: var(--accent); }
+
+  /* intro note */
+  .intro-note {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #1e40af;
+    line-height: 1.6;
+  }
+
+  /* screening note */
+  .screening-note {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #166534;
+    line-height: 1.6;
+  }
+  .screening-note strong { color: #15803d; }
+
+  /* why note */
+  .why-note {
+    background: #fefce8;
+    border: 1px solid #fde047;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #854d0e;
+    line-height: 1.6;
+  }
+
+  /* smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* hover hint */
+  .hint {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>🗾 日経ストックリーグ ― 企画案</h1>
+  <div id="version-toggle">
+    <button id="btn-kaiteiban" class="active" onclick="switchVersion('kaiteiban')">改訂版</button>
+    <button id="btn-yasashii" onclick="switchVersion('yasashii')">やさしい版</button>
+  </div>
+  <div id="slide-counter">1 / 9</div>
+</div>
+
+<div id="main">
+  <div id="deck">
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--  改訂版 Slides                             -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <!-- K-1 -->
+    <div class="slide active" data-version="kaiteiban" data-idx="0">
+      <div class="hero-card">
+        <div class="hero-badge">TEAM MEETING ｜ 企画案【改訂版】</div>
+        <div class="hero-main">日経ストックリーグ<br>プロジェクト企画案<br><span style="color:var(--accent);">弱点補強版</span></div>
+        <div class="hero-sub">後工程ニッチ × 地方クラスターの競争優位</div>
+        <div class="theme-box">
+          <label>メインテーマ</label>
+          <p>超微細化の限界と次世代パッケージング（後工程）</p>
+        </div>
+        <div class="theme-box">
+          <label>サブテーマ</label>
+          <p>後工程ニッチを"寡占"する日本の素材・装置企業の競争優位 ＋ 地方クラスターの経済波及効果</p>
+        </div>
+        <div class="hero-tagline">"支配"ではなく"寡占"を語る。<br>AI時代の真のボトルネック＝後工程ニッチで世界シェアを握る日本企業を、<br>誇張せず・検証で示す。</div>
+      </div>
+    </div>
+
+    <!-- K-2 -->
+    <div class="slide" data-version="kaiteiban" data-idx="1">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">02</div>
+          <div class="slide-tag">Revision Summary</div>
+          <div class="slide-title">改訂の要点 ― 5つの弱点を補強する</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各項目をクリックで詳細を展開</p>
+          <div class="revision-list">
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">1</div>
+              <div class="revision-label">独自性</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>「ニッチトップ／専業企業」テーマは第25回最優秀（EXPERTNER）と重複</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>"後工程ニッチ × 地方クラスター"への一点突破で差別化する</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">2</div>
+              <div class="revision-label">テーマの一本化</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>「グローバル競争優位」と「地方経済」の2軸が分離していた</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>「世界シェア寡占 ⇄ 地方集積」を1つの因果仮説に統合する</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">3</div>
+              <div class="revision-label">表現の精緻化</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>「後工程を支配」は誇張で、専門家には信頼性を欠く</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>工程・領域別に"寡占ニッチ"を特定し、シェアで具体的に語る</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">4</div>
+              <div class="revision-label">フィールドワーク</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>IRの独占データに依存（公平開示で入手困難・拒否リスク）</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>公平開示を前提に「対話＋公開情報の再解釈」、代替手段も用意</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">5</div>
+              <div class="revision-label">定量検証</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>「TOPIX優位の"証明"」は過剰主張（インサンプル最適化）</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>MPTの限界を明示し、期間分割＋リスクシナリオで頑健性を検証</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-3 -->
+    <div class="slide" data-version="kaiteiban" data-idx="2">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">03</div>
+          <div class="slide-tag">Originality</div>
+          <div class="slide-title">投資テーマの再定義 ― なぜ"後工程ニッチ"か</div>
+        </div>
+        <div class="slide-body">
+          <div class="two-col" style="margin-bottom:16px;">
+            <div class="info-card">
+              <h4><span class="icon">💡</span> 論点：価値は"後工程"へ移動する</h4>
+              <ul>
+                <li>微細化（前工程）は物理限界＋巨額投資</li>
+                <li>数兆円規模の競争では日本に勝ち目が薄い</li>
+                <li>性能向上の主役はパッケージング（後工程）へ</li>
+                <li>チップレット／3D実装が次の主戦場</li>
+                <li>日本は素材・一部装置で世界シェアを寡占</li>
+                <li>"全領域支配"ではなく領域別の強みを特定</li>
+              </ul>
+            </div>
+            <div>
+              <div class="diff-list">
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>ありきたりな「AI・半導体株」</h5>
+                    <p>クラウド／GPU等は混雑。話題性だけでは埋もれる</p>
+                  </div>
+                </div>
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>「専業企業」一般論</h5>
+                    <p>第25回最優秀テーマと重複。新鮮さに欠ける</p>
+                  </div>
+                </div>
+                <div class="diff-row ok">
+                  <span class="diff-mark">◎</span>
+                  <div class="diff-text">
+                    <h5>我々の絞り込み</h5>
+                    <p>「工程最下流のニッチ寡占」×「地方集積の因果」に一点集中</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-4 -->
+    <div class="slide" data-version="kaiteiban" data-idx="3">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">04</div>
+          <div class="slide-tag">Investment Logic</div>
+          <div class="slide-title">投資仮説の一本化 ― 2軸を1つの因果でつなぐ</div>
+          <div class="slide-subtitle">「グローバル寡占」と「地方貢献」は別物ではない</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各ステップをクリックで補足を表示</p>
+          <div class="flow-chain">
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">①</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>国内集積の加速</h4>
+                <p>TSMC熊本・Rapidus北海道 等の拠点投資</p>
+                <div class="flow-detail">大型半導体拠点が国内に続々設立。地方への投資が活発化し、周辺産業への波及が始まる。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">②</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>近接ニッチ企業へ波及</h4>
+                <p>素材・装置の受注／設備投資が増加</p>
+                <div class="flow-detail">拠点の近くに位置するニッチ企業が受注増。スイッチングコストの高さが安定供給を担保する。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">③</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>地方経済への波及</h4>
+                <p>雇用・税収・関連産業の拡大</p>
+                <div class="flow-detail">地域の雇用・税収が増加し、関連する中小企業も活性化。地方創生の好循環が生まれる。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">④</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>企業の中長期成長</h4>
+                <p>需要近接 → 安定受注 → 収益拡大</p>
+                <div class="flow-detail">「需要が隣にある」状態は競争優位そのもの。受注の安定性が長期的な収益成長につながる。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">⑤</div>
+              </div>
+              <div class="flow-content">
+                <h4>株主価値の向上</h4>
+                <p>投資妥当性として定量検証へ</p>
+                <div class="flow-detail">上記の連鎖が株主価値の向上に直結。定量検証でその妥当性を誠実に示す。</div>
+              </div>
+            </div>
+          </div>
+          <div class="key-highlight">
+            <h4>仮説の要：「地方貢献度」を加点する理由</h4>
+            <p>地方への貢献は"社会的意義"であると同時に、集積地への近接性＝『需要が隣にある』という競争優位の代理指標。だから単なる社会貢献ではなく、<strong style="color:var(--accent);">投資妥当性そのものに直結する。</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-5 -->
+    <div class="slide" data-version="kaiteiban" data-idx="4">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">05</div>
+          <div class="slide-tag">Timeline</div>
+          <div class="slide-title">4段階ロードマップ（改訂版）</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各フェーズをクリックで詳細を展開</p>
+          <div class="phase-grid">
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">01 PHASE 1</div>
+              <div class="phase-title">仮説 ＆ スタディ</div>
+              <div class="phase-result">→ 分析対象 20社の選定</div>
+              <div class="phase-detail">
+                ・後工程（パッケージング）技術の勉強<br>
+                ・領域別ニッチ企業 20社をリスト化<br>
+                ・国内集積マップの作成
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">02 PHASE 2</div>
+              <div class="phase-title">スクリーニング</div>
+              <div class="phase-result">→ 投資銘柄 10社の確定</div>
+              <div class="phase-detail">
+                ・財務×技術×地方"近接性"の3軸基準<br>
+                ・貢献度を公開数値で客観スコア化<br>
+                ・最終10銘柄へ絞り込み
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">03 PHASE 3</div>
+              <div class="phase-title">フィールドワーク（対話）</div>
+              <div class="phase-result">→ 検証の深さで差別化</div>
+              <div class="phase-detail">
+                ・公開IRを精読し検証質問を設計<br>
+                ・IR・自治体へ書面／オンライン対話<br>
+                ・代替：専門家・証券リポート活用
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">04 PHASE 4</div>
+              <div class="phase-title">ポートフォリオ＆検証</div>
+              <div class="phase-result">→ 誇張なきレポート提出</div>
+              <div class="phase-detail">
+                ・MPTで構築（限界を明示）<br>
+                ・期間分割で頑健性を確認<br>
+                ・リスクシナリオ付 30pレポート
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-6 -->
+    <div class="slide" data-version="kaiteiban" data-idx="5">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">06</div>
+          <div class="slide-tag">Screening</div>
+          <div class="slide-title">スクリーニング設計 ― 3軸で客観化</div>
+          <div class="slide-subtitle">主観評価を避け、すべて公開データで点数化する</div>
+        </div>
+        <div class="slide-body">
+          <div class="axis-tabs">
+            <button class="axis-tab active" onclick="switchAxis(this,'fin')">💰 財務（定量）</button>
+            <button class="axis-tab" onclick="switchAxis(this,'tech')">🔬 技術（定量×定性）</button>
+            <button class="axis-tab" onclick="switchAxis(this,'local')">📍 地方近接性（新設）</button>
+          </div>
+          <div class="axis-content active" id="ax-fin">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📈</div><div class="axis-item-text"><h5>成長率</h5><p>売上高・営業利益の成長率</p></div></div>
+              <div class="axis-item"><div class="axis-icon">💹</div><div class="axis-item-text"><h5>ROIC／自己資本比率</h5><p>資本効率と財務健全性</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🖥️</div><div class="axis-item-text"><h5>半導体売上構成比</h5><p>半導体事業への依存度・専業性</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-tech">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">🌍</div><div class="axis-item-text"><h5>世界シェア</h5><p>領域別の世界市場シェア</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔒</div><div class="axis-item-text"><h5>特許・代替困難性</h5><p>特許数・他社参入障壁の高さ</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔗</div><div class="axis-item-text"><h5>スイッチングコスト</h5><p>顧客が他社へ乗り換える際の負担</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-local">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📏</div><div class="axis-item-text"><h5>集積地との距離</h5><p>熊本／北海道の拠点との地理的距離</p></div></div>
+              <div class="axis-item"><div class="axis-icon">👷</div><div class="axis-item-text"><h5>地元雇用比率</h5><p>地元採用・雇用の割合</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🏗️</div><div class="axis-item-text"><h5>設備投資の所在地</h5><p>新規投資先が集積地に近いか</p></div></div>
+            </div>
+          </div>
+          <div class="screening-note">
+            「貢献度」を距離・雇用比率・投資額など公開数値でスコア化 →
+            <strong>審査で問われる客観性・再現性をクリアする。</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-7 -->
+    <div class="slide" data-version="kaiteiban" data-idx="6">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">07</div>
+          <div class="slide-tag">Fieldwork</div>
+          <div class="slide-title">フィールドワーク戦略 ― 対話と代替策</div>
+          <div class="slide-subtitle">原則：公平開示（フェア・ディスクロージャー）を遵守</div>
+        </div>
+        <div class="slide-body">
+          <div class="fw-grid">
+            <div class="fw-section">
+              <h4>📋 やること</h4>
+              <div class="fw-item">
+                <div class="fw-step">1</div>
+                <p>公開IR資料を精読し"仮説の検証質問"を設計</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">2</div>
+                <p>IR・自治体へ書面＋オンラインで対話</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">3</div>
+                <p>回答を一次データとして再解釈・分析</p>
+              </div>
+            </div>
+            <div class="fw-section">
+              <h4>🔄 代替策（単一依存の回避）</h4>
+              <div class="fw-item">
+                <div class="fw-step">A</div>
+                <p>業界専門家・大学研究者への質問</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">B</div>
+                <p>証券会社レポート・IR説明会資料</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">C</div>
+                <p>経産省・自治体の公表統計</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="fw-badge-green">✓ なぜ効くか</div>
+            <div class="info-card">
+              <ul>
+                <li>過去入賞でも"企業との対話"は高評価</li>
+                <li>拒否されても代替で確実にデータ確保</li>
+                <li>投資家と企業の対話を実践する姿勢</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-8 -->
+    <div class="slide" data-version="kaiteiban" data-idx="7">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">08</div>
+          <div class="slide-tag">Logic & Risk</div>
+          <div class="slide-title">定量検証とリスク ― 誠実に語る</div>
+        </div>
+        <div class="slide-body">
+          <div class="mpt-warn">
+            <h4>⚠️ 定量検証を"証明"にしない</h4>
+            <ul>
+              <li>小型株10銘柄は同一サイクルで相関が高く分散効果は限定的</li>
+              <li>インサンプルの罠を回避（過去最適化が指数に勝つのは当然）</li>
+              <li>期間分割でアウトオブサンプル検証、対TOPIXは"参考比較"として提示</li>
+            </ul>
+          </div>
+          <p style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px;">リスクシナリオ（クリックで詳細）</p>
+          <div class="risk-grid">
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🌏 地政学</h5>
+              <p>対中輸出規制・米中摩擦<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">輸出規制強化により製造装置・素材の輸出が制限されるシナリオ。代替顧客の有無を確認する。</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>📉 市況シクリカリティ</h5>
+              <p>半導体需要の急減局面<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">半導体の在庫調整局面では売上が急減する。過去サイクルの財務耐性を確認する。</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🏭 顧客集中</h5>
+              <p>TSMC・特定客先への依存<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">特定顧客への売上依存度が高い場合、顧客の設備投資縮小がダイレクトに影響する。</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>💱 為替・金利</h5>
+              <p>円高・調達コスト変動<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">輸出依存の企業は円高で収益が圧迫される。材料調達コストの変動も要注視。</span></p>
+            </div>
+          </div>
+          <div class="why-note">※ リスクを明示するほど審査の信頼性は上がる（過去講評も特化リスクを指摘）。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-9 -->
+    <div class="slide" data-version="kaiteiban" data-idx="8">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">09</div>
+          <div class="slide-tag">Why We Win</div>
+          <div class="slide-title">審査基準への対応 ― 補強後の3本柱</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各柱をクリックで詳細を表示</p>
+          <div class="pillars">
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🎯</div>
+              <h4>独創性</h4>
+              <div class="pillar-detail">混雑するAI株／専業企業テーマと一線。"後工程ニッチ×地方因果"の一点突破で新鮮さを確保。</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🤝</div>
+              <h4>熱意（対話）</h4>
+              <div class="pillar-detail">公平開示を守りつつ企業・自治体・専門家と対話で検証。代替策で確実性も担保。</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">📐</div>
+              <h4>論理性</h4>
+              <div class="pillar-detail">技術×財務×近接性の客観基準＋MPTの限界明示＋リスクシナリオで、過剰主張なく妥当性を示す。</div>
+            </div>
+          </div>
+          <div class="final-tagline">「誇張せず、検証で語る。」<br><span style="font-size:14px;font-weight:600;color:var(--muted);">審査員に「本物だ」と確信させるレポートへ</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--  やさしい版 Slides                         -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <!-- Y-1 -->
+    <div class="slide" data-version="yasashii" data-idx="0" style="display:none;">
+      <div class="hero-card">
+        <div class="hero-badge">TEAM MEETING ｜ 企画案【改訂版】やさしい版</div>
+        <div class="hero-main">日経ストックリーグ<br>プロジェクト企画案<br><span style="color:var(--accent);">弱点補強版</span></div>
+        <div class="hero-sub">後工程のすきま市場 × 地方への経済効果</div>
+        <div class="theme-box">
+          <label>メインテーマ</label>
+          <p>微細化の限界と、次世代パッケージング（後工程＝チップの組み立て）</p>
+        </div>
+        <div class="theme-box">
+          <label>サブテーマ</label>
+          <p>後工程の"すきま市場"で世界シェアを握る日本の素材・装置メーカーの強み ＋ 地方への経済効果</p>
+        </div>
+        <div class="hero-tagline">"日本がすべてを支配"とは言わない。<br>AI時代の本当のボトルネック＝後工程のすきま市場で<br>世界シェアの大半を持つ日本企業を、誇張せずデータで示す。</div>
+      </div>
+    </div>
+
+    <!-- Y-2 Overview -->
+    <div class="slide" data-version="yasashii" data-idx="1" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">02</div>
+          <div class="slide-tag">Overview</div>
+          <div class="slide-title">ひとことで言うと ― この企画の全体像</div>
+          <div class="slide-subtitle">細かい話に入る前に、「何を・なぜ・どうやって」を先に押さえよう</div>
+        </div>
+        <div class="slide-body">
+          <div class="overview-grid">
+            <div class="ov-card">
+              <div class="ov-icon">🔍</div>
+              <div class="ov-title">何を調べる？</div>
+              <div class="ov-items">
+                半導体の「後工程」が対象<br>＝チップを組み立てる工程<br>そこで世界シェア上位の日本メーカー
+              </div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-icon">💡</div>
+              <div class="ov-title">なぜ面白い？</div>
+              <div class="ov-items">
+                微細化（前工程）は限界・巨額投資<br>これからの主役は後工程へ<br>強い企業は地方の集積地の近くに集まる
+              </div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-icon">📊</div>
+              <div class="ov-title">どうやって選ぶ？</div>
+              <div class="ov-items">
+                財務×技術×地方の近さを点数化<br>公開データで10銘柄に絞る<br>企業と対話して裏取り＋リスクも検証
+              </div>
+            </div>
+          </div>
+          <div class="summary-box">
+            つまり「後工程のすきま市場で<strong>世界の大半を握る日本企業</strong>」を、地方とのつながりに注目して選び、<strong>誇張せずデータで検証する</strong>企画。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-3 Glossary -->
+    <div class="slide" data-version="yasashii" data-idx="2" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">03</div>
+          <div class="slide-tag">Glossary</div>
+          <div class="slide-title">用語ミニ辞典 ― この企画でよく出る言葉</div>
+          <div class="slide-subtitle">わからない言葉が出てきたら、まずこのページへ</div>
+        </div>
+        <div class="slide-body">
+          <div class="intro-note">専門用語が多いので、まずここで意味を押さえておこう。読みながら迷ったら、このページに戻ってくればOK。</div>
+          <div class="glossary-cats">
+            <button class="glossary-cat active" onclick="filterGloss(this,'all')">すべて</button>
+            <button class="glossary-cat" onclick="filterGloss(this,'market')">市場・競争</button>
+            <button class="glossary-cat" onclick="filterGloss(this,'semi')">半導体工程</button>
+            <button class="glossary-cat" onclick="filterGloss(this,'invest')">投資・検証</button>
+          </div>
+          <div class="glossary-grid" id="gloss-grid">
+            <div class="gloss-item cat-market" data-cat="market">
+              <h5>ニッチ（すきま市場）</h5>
+              <p>規模は小さいが専門性の高い市場</p>
+            </div>
+            <div class="gloss-item cat-market" data-cat="market">
+              <h5>寡占</h5>
+              <p>少数の企業が市場の大半を握る状態</p>
+            </div>
+            <div class="gloss-item cat-market" data-cat="market">
+              <h5>スイッチングコスト</h5>
+              <p>他社に乗り換えるときの負担の大きさ</p>
+            </div>
+            <div class="gloss-item cat-semi" data-cat="semi">
+              <h5>前工程／後工程</h5>
+              <p>回路を作る工程／組み立て・封止する工程</p>
+            </div>
+            <div class="gloss-item cat-semi" data-cat="semi">
+              <h5>パッケージング</h5>
+              <p>チップを保護し外部とつなぐ後工程</p>
+            </div>
+            <div class="gloss-item cat-semi" data-cat="semi">
+              <h5>チップレット・3D実装</h5>
+              <p>小さなチップを連結・積層して高性能化</p>
+            </div>
+            <div class="gloss-item cat-invest" data-cat="invest">
+              <h5>公平開示</h5>
+              <p>一部の人だけに未公開情報を渡すのを禁じる規則</p>
+            </div>
+            <div class="gloss-item cat-invest" data-cat="invest">
+              <h5>MPT</h5>
+              <p>現代ポートフォリオ理論。リスクを抑えた組み方</p>
+            </div>
+            <div class="gloss-item cat-invest" data-cat="invest">
+              <h5>シクリカリティ</h5>
+              <p>業績が景気の波で大きく上下する性質</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-4 Revision -->
+    <div class="slide" data-version="yasashii" data-idx="3" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">04</div>
+          <div class="slide-tag">Revision Summary</div>
+          <div class="slide-title">改訂のポイント ― 5つの弱点をこう直した</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各項目をクリックで詳細を展開</p>
+          <div class="revision-list">
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">1</div>
+              <div class="revision-label">独自性</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>前の案は、第25回の最優秀賞（EXPERTNER）と似ていて新しさがない</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>「後工程のすきま市場 × 地方の産業集積」の1点に絞って差をつける</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">2</div>
+              <div class="revision-label">テーマの一本化</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>「世界での競争力」と「地方経済」が、別々の話になっていた</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>「世界シェア ⇄ 地方の集積」を1本のストーリーにまとめる</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">3</div>
+              <div class="revision-label">表現を正確に</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>「後工程を支配」は大げさで、専門家に信用されない</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>工程・分野ごとに強い部分を特定し、具体的なシェアの数字で語る</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">4</div>
+              <div class="revision-label">現地調査（対話）</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>企業のIR情報だけに頼る → ルール上もらえない・断られる恐れ</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>公開情報を読み込み「対話＋再分析」。断られた時の代わりの手段も準備</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">5</div>
+              <div class="revision-label">数字での検証</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">弱点</span>「TOPIXに勝つと"証明"」は言い過ぎ（過去に合わせただけ）</div>
+                <div class="rev-row"><span class="rev-badge fix">改訂</span>理論（MPT）の限界を正直に書き、期間を分けて検証＋リスク想定で補強</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-5 Originality -->
+    <div class="slide" data-version="yasashii" data-idx="4" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">05</div>
+          <div class="slide-tag">Originality</div>
+          <div class="slide-title">投資テーマ ― なぜ"後工程のすきま市場"か</div>
+        </div>
+        <div class="slide-body">
+          <div class="two-col" style="margin-bottom:16px;">
+            <div class="info-card">
+              <h4><span class="icon">💡</span> ポイント：価値は"後工程"に移っていく</h4>
+              <ul>
+                <li>微細化（前工程）は物理的な限界＋巨額の投資</li>
+                <li>数兆円規模の勝負では日本は不利</li>
+                <li>性能アップの主役は組み立て（後工程）へ移る</li>
+                <li>チップレット/3D実装が次の主戦場</li>
+                <li>日本は素材や一部の装置で世界シェアの大半を持つ</li>
+                <li>「全部強い」ではなく「特定分野が強い」を見つける</li>
+              </ul>
+            </div>
+            <div>
+              <div class="diff-list">
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>ありふれた「AI・半導体株」</h5>
+                    <p>クラウドやGPUは皆が注目。話題性だけでは埋もれる</p>
+                  </div>
+                </div>
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>ありふれた「専業企業」論</h5>
+                    <p>過去の最優秀テーマと被り、新しさに欠ける</p>
+                  </div>
+                </div>
+                <div class="diff-row ok">
+                  <span class="diff-mark">◎</span>
+                  <div class="diff-text">
+                    <h5>私たちの絞り込み</h5>
+                    <p>「工程の一番下流のすきま市場」×「地方の集積効果」に集中</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-6 Story -->
+    <div class="slide" data-version="yasashii" data-idx="5" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">06</div>
+          <div class="slide-tag">Investment Logic</div>
+          <div class="slide-title">全体ストーリー ― 「世界の強さ」と「地方」を1本でつなぐ</div>
+          <div class="slide-subtitle">「世界での強さ」と「地方への貢献」はバラバラの話ではない</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各ステップをクリックで補足を表示</p>
+          <div class="flow-chain">
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">①</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>国内に工場が集まる</h4>
+                <p>TSMC熊本・Rapidus北海道などの大型投資</p>
+                <div class="flow-detail">大型半導体拠点が国内に続々設立。地方への投資が活発化し、周辺産業への波及が始まる。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">②</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>近くのすきま企業に仕事が回る</h4>
+                <p>素材・装置の受注や設備投資が増える</p>
+                <div class="flow-detail">拠点の近くに位置するニッチ企業が受注増。スイッチングコストの高さが安定供給を担保する。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">③</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>地方経済が潤う</h4>
+                <p>雇用・税収・関連産業が拡大</p>
+                <div class="flow-detail">地域の雇用・税収が増加し、関連する中小企業も活性化。地方創生の好循環が生まれる。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">④</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>企業が中長期で成長</h4>
+                <p>需要が近い → 安定受注 → 収益が伸びる</p>
+                <div class="flow-detail">「需要が隣にある」状態は競争優位そのもの。受注の安定性が長期的な収益成長につながる。</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">⑤</div>
+              </div>
+              <div class="flow-content">
+                <h4>株主価値が上がる</h4>
+                <p>投資先として検証する価値あり</p>
+                <div class="flow-detail">上記の連鎖が株主価値の向上に直結。定量検証でその妥当性を誠実に示す。</div>
+              </div>
+            </div>
+          </div>
+          <div class="key-highlight">
+            <h4>なぜ「地方への貢献度」を評価点に加えるのか</h4>
+            <p>地方への貢献は"社会的に良いこと"であると同時に、「需要（＝工場）がすぐ隣にある」という競争上の強さを示すサイン（代理指標）。だから単なる社会貢献ではなく、<strong style="color:var(--accent);">投資先として有望かどうかに直結する。</strong>これがこの企画の中心となる考え方だ。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-7 Timeline -->
+    <div class="slide" data-version="yasashii" data-idx="6" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">07</div>
+          <div class="slide-tag">Timeline</div>
+          <div class="slide-title">4ステップの進め方（改訂版）</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各フェーズをクリックで詳細を展開</p>
+          <div class="phase-grid">
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">01 PHASE 1</div>
+              <div class="phase-title">仮説と勉強</div>
+              <div class="phase-result">→ 分析対象 20社を選ぶ</div>
+              <div class="phase-detail">
+                ・後工程（パッケージング）技術を勉強<br>
+                ・分野別のすきま企業を20社リスト化<br>
+                ・国内の集積マップを作る
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">02 PHASE 2</div>
+              <div class="phase-title">スクリーニング（ふるい分け）</div>
+              <div class="phase-result">→ 投資する10社を決定</div>
+              <div class="phase-detail">
+                ・財務×技術×地方の近さ、の3つの基準<br>
+                ・貢献度を公開データで点数化する<br>
+                ・10銘柄へ絞り込む
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">03 PHASE 3</div>
+              <div class="phase-title">現地調査（対話）</div>
+              <div class="phase-result">→ 検証の深さで差をつける</div>
+              <div class="phase-detail">
+                ・公開IRを読み込み検証用の質問を作る<br>
+                ・企業・自治体へ書面やオンラインで対話<br>
+                ・代わりに専門家・証券レポートも活用
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">04 PHASE 4</div>
+              <div class="phase-title">ポートフォリオ作成と検証</div>
+              <div class="phase-result">→ 誇張のないレポート提出</div>
+              <div class="phase-detail">
+                ・MPTで組む（限界も明記）<br>
+                ・期間を分けて頑健性を確認<br>
+                ・リスク想定つき 30ページのレポート
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-8 Screening -->
+    <div class="slide" data-version="yasashii" data-idx="7" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">08</div>
+          <div class="slide-tag">Screening</div>
+          <div class="slide-title">銘柄の選び方 ― 3つの基準で客観的に</div>
+          <div class="slide-subtitle">好き嫌い（主観）で選ばず、すべて公開データで点数化する</div>
+        </div>
+        <div class="slide-body">
+          <div class="axis-tabs">
+            <button class="axis-tab active" onclick="switchAxis(this,'fin2')">💰 財務（数字で見る）</button>
+            <button class="axis-tab" onclick="switchAxis(this,'tech2')">🔬 技術（数字＋中身）</button>
+            <button class="axis-tab" onclick="switchAxis(this,'local2')">📍 地方の近さ（新基準）</button>
+          </div>
+          <div class="axis-content active" id="ax-fin2">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📈</div><div class="axis-item-text"><h5>売上高・営業利益の成長率</h5><p>どれだけ事業が伸びているか</p></div></div>
+              <div class="axis-item"><div class="axis-icon">💹</div><div class="axis-item-text"><h5>ROIC・自己資本比率</h5><p>稼ぐ力と安全性のバランス</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🖥️</div><div class="axis-item-text"><h5>売上に占める半導体の割合</h5><p>半導体事業への集中度</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-tech2">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">🌍</div><div class="axis-item-text"><h5>分野ごとの世界シェア</h5><p>その分野で世界のどのくらいを占めるか</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔒</div><div class="axis-item-text"><h5>特許・代わりの効きにくさ</h5><p>他社が簡単に追いつけないか</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔗</div><div class="axis-item-text"><h5>乗り換えコストの高さ</h5><p>顧客が他社に変えにくい理由</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-local2">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📏</div><div class="axis-item-text"><h5>工場と集積地の距離</h5><p>熊本／北海道の拠点との近さ</p></div></div>
+              <div class="axis-item"><div class="axis-icon">👷</div><div class="axis-item-text"><h5>地元での雇用の割合</h5><p>地元の人を何人採用しているか</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🏗️</div><div class="axis-item-text"><h5>設備投資をする場所</h5><p>新しい投資先が集積地に近いか</p></div></div>
+            </div>
+          </div>
+          <div class="screening-note">
+            「地方への貢献度」を距離・雇用比率・投資額などの公開数値で点数化 →
+            <strong>審査で問われる「客観性・再現性」をクリアできる。</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-9 Fieldwork -->
+    <div class="slide" data-version="yasashii" data-idx="8" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">09</div>
+          <div class="slide-tag">Fieldwork</div>
+          <div class="slide-title">現地調査の進め方 ― 対話と代わりの手段</div>
+          <div class="slide-subtitle">原則：公平開示のルールを守る。まだ公表されていない重要情報は求めない。</div>
+        </div>
+        <div class="slide-body">
+          <div class="fw-grid">
+            <div class="fw-section">
+              <h4>📋 やること</h4>
+              <div class="fw-item">
+                <div class="fw-step">1</div>
+                <p>公開IR資料を読み込んで"仮説を確かめる質問"を作る</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">2</div>
+                <p>企業・自治体に書面＋オンラインで対話</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">3</div>
+                <p>もらった回答を自分たちのデータとして再分析</p>
+              </div>
+            </div>
+            <div class="fw-section">
+              <h4>🔄 代わりの手段（1つに頼らない）</h4>
+              <div class="fw-item">
+                <div class="fw-step">A</div>
+                <p>業界の専門家・大学の研究者に質問</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">B</div>
+                <p>証券会社のレポート・IR説明会の資料</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">C</div>
+                <p>経産省・自治体が公表する統計</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="fw-badge-green">✓ なぜ効くか</div>
+            <div class="info-card">
+              <ul>
+                <li>過去の入賞でも"企業との対話"は高評価</li>
+                <li>断られても、代わりの手段で確実にデータを確保</li>
+                <li>投資家として企業と対話する姿勢を実践できる</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-10 Risk -->
+    <div class="slide" data-version="yasashii" data-idx="9" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">10</div>
+          <div class="slide-tag">Logic & Risk</div>
+          <div class="slide-title">数字での検証とリスク ― 正直に語る</div>
+        </div>
+        <div class="slide-body">
+          <div class="mpt-warn">
+            <h4>⚠️ 数字での検証を"証明"にしない（言い過ぎない）</h4>
+            <ul>
+              <li>小型株10銘柄は同じ景気の波で一緒に動きやすく分散の効果は小さい</li>
+              <li>「過去に合わせただけ」の罠を避ける（過去データに合わせれば指数に勝つのは当たり前）</li>
+              <li>期間を分けて確かめる（別の期間でアウトオブサンプル検証）</li>
+            </ul>
+          </div>
+          <p style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px;">リスクの想定（クリックで詳細）</p>
+          <div class="risk-grid">
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🌏 地政学リスク</h5>
+              <p>対中輸出規制・米中の摩擦<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">輸出規制強化により製造装置・素材の輸出が制限されるシナリオ。代替顧客の有無を確認する。</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>📉 景気の波（シクリカリティ）</h5>
+              <p>半導体需要が急に落ちる局面<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">半導体の在庫調整局面では売上が急減する。過去サイクルの財務耐性を確認する。</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🏭 顧客の集中</h5>
+              <p>TSMCなど特定の取引先への依存<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">特定顧客への売上依存度が高い場合、顧客の設備投資縮小がダイレクトに影響する。</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>💱 為替・金利</h5>
+              <p>円高・調達コストの変動<br><span style="display:none;margin-top:6px;display:block;font-style:italic;">輸出依存の企業は円高で収益が圧迫される。材料調達コストの変動も要注視。</span></p>
+            </div>
+          </div>
+          <div class="why-note">※ リスクを正直に書くほど、審査での信頼性は上がる（過去の講評も特定リスクを指摘）。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-11 Why We Win -->
+    <div class="slide" data-version="yasashii" data-idx="10" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">11</div>
+          <div class="slide-tag">Why We Win</div>
+          <div class="slide-title">審査基準への対応 ― 強化した3つの柱</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">各柱をクリックで詳細を表示</p>
+          <div class="pillars">
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🎯</div>
+              <h4>独創性</h4>
+              <div class="pillar-detail">混みすぎたAI株や専業企業テーマと一線を画す。"後工程のすきま市場×地方の因果"の1点突破で新しさを出す。</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🤝</div>
+              <h4>熱意（対話）</h4>
+              <div class="pillar-detail">公平開示のルールを守りつつ企業・自治体・専門家と対話して検証。代わりの手段で確実性も確保。</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">📐</div>
+              <h4>論理性</h4>
+              <div class="pillar-detail">技術×財務×地方の近さという客観基準＋MPTの限界明示＋リスク想定で、言い過ぎずに妥当性を示す。</div>
+            </div>
+          </div>
+          <div class="final-tagline">「誇張せず、データで語る。」<br><span style="font-size:14px;font-weight:600;color:var(--muted);">審査員に「本物だ」と思わせるレポートになる</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /deck -->
+</div><!-- /main -->
+
+<!-- Navigation -->
+<div id="nav">
+  <button id="btn-prev" onclick="changeSlideDelta(-1)" disabled>← 前へ</button>
+  <div id="progress-dots"></div>
+  <button id="btn-next" onclick="changeSlideDelta(1)" class="primary">次へ →</button>
+</div>
+
+<script>
+  // State
+  let version = 'kaiteiban';
+  let currentIdx = 0;
+
+  const versions = {
+    kaiteiban: { total: 9 },
+    yasashii:  { total: 11 }
+  };
+
+  function getSlides(v) {
+    return document.querySelectorAll(`.slide[data-version="${v}"]`);
+  }
+
+  function showSlide(v, idx) {
+    // hide all
+    document.querySelectorAll('.slide').forEach(s => {
+      s.classList.remove('active');
+      s.style.display = 'none';
+    });
+
+    const slides = getSlides(v);
+    if (idx < 0) idx = 0;
+    if (idx >= slides.length) idx = slides.length - 1;
+    currentIdx = idx;
+
+    slides[currentIdx].style.display = 'block';
+    slides[currentIdx].classList.add('active');
+
+    // update counter
+    document.getElementById('slide-counter').textContent =
+      `${currentIdx + 1} / ${slides.length}`;
+
+    // update nav buttons
+    document.getElementById('btn-prev').disabled = currentIdx === 0;
+    const nextBtn = document.getElementById('btn-next');
+    nextBtn.disabled = currentIdx === slides.length - 1;
+
+    // update dots
+    renderDots(v, slides.length, currentIdx);
+
+    // scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderDots(v, total, active) {
+    const wrap = document.getElementById('progress-dots');
+    wrap.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === active ? ' active' : '');
+      d.onclick = () => { currentIdx = i; showSlide(version, i); };
+      wrap.appendChild(d);
+    }
+  }
+
+  function changeSlideDelta(delta) {
+    showSlide(version, currentIdx + delta);
+  }
+
+  function switchVersion(v) {
+    version = v;
+    currentIdx = 0;
+    document.getElementById('btn-kaiteiban').classList.toggle('active', v === 'kaiteiban');
+    document.getElementById('btn-yasashii').classList.toggle('active', v === 'yasashii');
+    showSlide(v, 0);
+  }
+
+  // keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlideDelta(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlideDelta(-1);
+  });
+
+  // ── Interactive components ──
+
+  function toggleRevision(el) {
+    el.classList.toggle('open');
+  }
+
+  function toggleFlow(el) {
+    el.classList.toggle('open');
+  }
+
+  function togglePhase(el) {
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.phase-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  }
+
+  function switchAxis(btn, contentId) {
+    // get all tabs in same parent
+    const tabGroup = btn.closest('.axis-tabs');
+    tabGroup.querySelectorAll('.axis-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    // hide all axis contents nearby
+    const bodyParent = btn.closest('.slide-body') || btn.closest('.slide-card');
+    bodyParent.querySelectorAll('.axis-content').forEach(c => c.classList.remove('active'));
+    document.getElementById(contentId).classList.add('active');
+  }
+
+  function toggleRisk(el) {
+    const hidden = el.querySelector('span[style*="display:none"], span[style*="display: none"]');
+    const shown  = el.querySelector('span[style*="display:block"], span[style*="display: block"]');
+    if (hidden) {
+      hidden.style.display = 'block';
+    } else if (shown) {
+      shown.style.display = 'none';
+    }
+  }
+
+  function togglePillar(el) {
+    el.classList.toggle('open');
+  }
+
+  function filterGloss(btn, cat) {
+    document.querySelectorAll('.glossary-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.gloss-item').forEach(item => {
+      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }
+
+  // Init
+  showSlide('kaiteiban', 0);
+</script>
+</body>
+</html>

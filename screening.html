@@ -200,7 +200,9 @@ function drawChart(){
   svg.innerHTML="";
   // best-zone tint (top-right)
   svg.appendChild(el("rect",{x:xpix(25),y:M.t,width:xpix(X.max)-xpix(25),height:ypix(20)-M.t,
-    fill:"#2DD4BF","fill-opacity":.05}));
+    fill:"#2DD4BF","fill-opacity":.09,stroke:"#2DD4BF","stroke-opacity":.3,"stroke-width":1,"stroke-dasharray":"4,3"}));
+  const zoneLab=el("text",{x:xpix(X.max)-6,y:M.t+14,class:"axis-label","text-anchor":"end","font-size":"9.5","fill-opacity":".7"});
+  zoneLab.textContent="本命ゾーン";svg.appendChild(zoneLab);
   // gridlines + ticks X
   for(let v=0;v<=50;v+=10){
     svg.appendChild(el("line",{x1:xpix(v),y1:M.t,x2:xpix(v),y2:M.t+PH,class:"grid","stroke-opacity":.5}));

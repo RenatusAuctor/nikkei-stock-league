@@ -2048,12 +2048,7 @@
     bodyParent.querySelectorAll('.axis-content').forEach(c => c.classList.remove('active'));
     document.getElementById(contentId).classList.add('active');
   }
-  function toggleRisk(el) {
-    const hidden = el.querySelector('span[style*="display:none"], span[style*="display: none"]');
-    const shown  = el.querySelector('span[style*="display:block"], span[style*="display: block"]');
-    if (hidden) { hidden.style.display = 'block'; }
-    else if (shown) { shown.style.display = 'none'; }
-  }
+  function toggleRisk(el) { el.classList.toggle('open'); }
   function togglePillar(el) { el.classList.toggle('open'); }
   function filterGloss(btn, cat) {
     document.querySelectorAll('.glossary-cat').forEach(b => b.classList.remove('active'));

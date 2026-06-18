@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>後工程ニッチトップ 銘柄スクリーニング</title>
+<style>
+  :root{
+    --bg:#0B1C28; --panel:#102A37; --panel2:#0E2330; --edge:#21404E;
+    --ink:#EAF2F4; --mute:#9FB3BD; --mute2:#7C95A1;
+    --teal:#2DD4BF; --teal2:#14B8A6; --amber:#E0A340; --blue:#7DA7FF;
+    --red:#F0826B; --good:#5EEAD4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans CJK JP","Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
+  .eyebrow{color:var(--teal);font-size:12px;font-weight:700;letter-spacing:.14em;}
+  h1{font-size:26px;margin:6px 0 4px;font-weight:800;}
+  .sub{color:var(--mute);font-size:13.5px;margin-bottom:18px;line-height:1.6;}
+  .alert{background:rgba(240,130,107,.10);border:1px solid rgba(240,130,107,.5);
+    border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;line-height:1.7;}
+  .alert b{color:var(--red);}
+  .alert .tag{display:inline-block;background:var(--red);color:#1a0f0c;font-weight:700;
+    font-size:10.5px;padding:2px 7px;border-radius:5px;margin-right:6px;}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:14px;
+    padding:18px;margin-bottom:20px;}
+  .panel h2{font-size:16px;margin:0 0 2px;font-weight:700;}
+  .panel .hint{color:var(--mute);font-size:12px;margin-bottom:12px;}
+  /* controls */
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
+  .chip{background:var(--panel2);border:1px solid var(--edge);color:var(--mute);
+    border-radius:999px;padding:6px 13px;font-size:12.5px;cursor:pointer;user-select:none;}
+  .chip.active{background:var(--teal2);border-color:var(--teal2);color:#06231f;font-weight:700;}
+  .chip.amber.active{background:var(--amber);border-color:var(--amber);}
+  .chip.blue.active{background:var(--blue);border-color:var(--blue);}
+  .toggle{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+  input[type=search]{background:var(--panel2);border:1px solid var(--edge);color:var(--ink);
+    border-radius:8px;padding:7px 11px;font-size:13px;min-width:170px;}
+  input[type=search]::placeholder{color:var(--mute2);}
+  /* chart */
+  .chartwrap{position:relative;width:100%;overflow:visible;}
+  svg{width:100%;height:auto;display:block;}
+  .axis-label{fill:var(--mute);font-size:11px;}
+  .tick{fill:var(--mute2);font-size:10px;}
+  .grid{stroke:var(--edge);stroke-width:1;}
+  .bub{cursor:pointer;transition:opacity .15s;}
+  .bub:hover{opacity:1!important;}
+  .bub-lab{fill:var(--ink);font-size:9.5px;pointer-events:none;}
+  .quad{fill:var(--mint);}
+  .tooltip{position:absolute;pointer-events:none;background:#06161f;border:1px solid var(--teal2);
+    border-radius:8px;padding:8px 10px;font-size:11.5px;line-height:1.55;color:var(--ink);
+    opacity:0;transition:opacity .12s;max-width:230px;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:8px;}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top;}
+  th{color:var(--mute);font-weight:700;font-size:11.5px;cursor:pointer;white-space:nowrap;
+    position:sticky;top:0;background:var(--panel);}
+  th:hover{color:var(--teal);}
+  th .arr{opacity:.5;font-size:9px;}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  tr.rec td:first-child{color:var(--amber);font-weight:700;}
+  tr.delisted{opacity:.5;}
+  tr.delisted td:nth-child(2){text-decoration:line-through;}
+  .badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;white-space:nowrap;}
+  .b-infra{background:rgba(45,212,191,.16);color:var(--teal);}
+  .b-pkg{background:rgba(224,163,64,.16);color:var(--amber);}
+  .b-mat{background:rgba(125,167,255,.16);color:var(--blue);}
+  .b-del{background:var(--red);color:#1a0f0c;}
+  .b-clu{background:rgba(94,234,212,.14);color:var(--good);}
+  .pur-high{color:var(--good);} .pur-mid{color:var(--mute);} .pur-low{color:var(--red);}
+  .conf-高{color:var(--good);} .conf-中{color:var(--amber);}
+  .pos{color:var(--good);} .neg{color:var(--red);}
+  .foot{color:var(--mute2);font-size:11px;line-height:1.7;margin-top:6px;}
+  .count{color:var(--teal);font-weight:700;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">PHASE 1 ｜ スクリーニング作業台</div>
+  <h1>後工程ニッチトップ 銘柄スクリーニング</h1>
+  <p class="sub">Gemini Deep Research のロングリスト（25社）を検証・整理した作業用ダッシュボード。数値は各社決算・IR等の「報告値」で、Phase 2 確定前に一次情報（有報・決算短信）での照合が必要。横軸＝営業利益率（参入障壁・価格支配力の代理）、縦軸＝直近営業利益成長率。</p>
+
+  <div class="alert">
+    <div><span class="tag">要修正</span><b>新光電気工業（6967）は2025年6月6日に上場廃止</b>（JICによるTOB・非公開化）。投資対象外のため除外 → 推奨は実質19社。基板領域の代替候補は TOPPAN（7911）／日本特殊陶業（5334）。</div>
+    <div style="margin-top:7px"><span class="tag">要確認</span>日本マイクロニクス（6871）の世界シェアが表内「約33%・1位」と本文「3位」で矛盾 → 一次情報で確定。</div>
+    <div style="margin-top:7px"><span class="tag">データ欠落</span>半導体売上構成比がほぼ全社 unknown。Phase 2 の純度判定に必須のため要補完。多角化大手（信越4063＝実質前工程／東レ3402／日東電工6988／旭化成3407）は後工程ピュア度が低い点に注意。</div>
+  </div>
+
+  <div class="panel">
+    <h2>解析マトリクス：参入障壁 × 利益成長</h2>
+    <div class="hint">右上＝高収益かつ高成長の「本命ゾーン」。バブル径＝売上規模、色＝カテゴリ、白いリング＝半導体クラスター近接。点にカーソルで詳細。</div>
+    <div class="controls" id="chartControls">
+      <span class="chip active" data-cat="all">全て</span>
+      <span class="chip active" data-cat="インフラ">インフラ</span>
+      <span class="chip amber active" data-cat="パッケージング">パッケージング</span>
+      <span class="chip blue active" data-cat="素材・部品">素材・部品</span>
+    </div>
+    <div class="chartwrap">
+      <svg id="chart" viewBox="0 0 820 470" role="img" aria-label="バブルチャート"></svg>
+      <div class="tooltip" id="tip"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--teal)"></i>インフラ（装置・検査・実装）</span>
+      <span><i style="background:var(--amber)"></i>パッケージング（基板・リードフレーム）</span>
+      <span><i style="background:var(--blue)"></i>素材・部品</span>
+      <span><i style="background:transparent;border:2px solid #fff"></i>クラスター近接</span>
+    </div>
+    <p class="foot">※ アドバンテストは利益成長+118.8%の外れ値。三井ハイテック・タカトリ等は成長率 unknown のためプロットから除外（表には掲載）。</p>
+  </div>
+
+  <div class="panel">
+    <h2>銘柄テーブル（並べ替え・絞り込み可）</h2>
+    <div class="hint">列見出しクリックでソート。<span class="count" id="shownCount"></span> 社を表示中。</div>
+    <div class="controls" id="tableControls">
+      <span class="chip active" data-cat="all">全カテゴリ</span>
+      <span class="chip" data-cat="インフラ">インフラ</span>
+      <span class="chip" data-cat="パッケージング">パッケージング</span>
+      <span class="chip" data-cat="素材・部品">素材・部品</span>
+      <span class="chip" data-flag="rec">推奨のみ</span>
+      <span class="chip" data-flag="cluster">クラスター近接のみ</span>
+      <div class="toggle">
+        <input type="search" id="search" placeholder="企業名・コードで検索">
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table id="tbl">
+        <thead><tr id="head"></tr></thead>
+        <tbody id="body"></tbody>
+      </table>
+    </div>
+    <p class="foot">推奨★＝Deep Research の推奨20社（新光電気を除く19社）。信頼性は出典の質（高＝決算短信/IR、中＝二次情報）。半導体ピュア度＝後工程売上の集中度の暫定評価。</p>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  // cat: インフラ / パッケージング / 素材・部品
+  {name:"ディスコ",code:"6146",mkt:"PRM",cat:"インフラ",niche:"ダイシングソー 約80%",opm:42.3,growth:10.9,sales:4368,cluster:"九州(支援)",purity:"高",conf:"高",rec:true,note:"HBM極薄ウェハ切断。装置+消耗品で代替不可"},
+  {name:"アドバンテスト",code:"6857",mkt:"PRM",cat:"インフラ",niche:"SoCテスタ 世界トップ級",opm:44.2,growth:118.8,sales:11286,cluster:"—",purity:"高",conf:"高",rec:true,note:"顧客集中(Nvidia/TSMC)リスク。成長は外れ値"},
+  {name:"TOWA",code:"6315",mkt:"PRM",cat:"インフラ",niche:"コンプレッションモールド No.1",opm:12.7,growth:-22.1,sales:543,cluster:"九州(鳥栖)",purity:"高",conf:"高",rec:true,note:"大型封止の反り制御。今期は減益"},
+  {name:"東京精密",code:"7729",mkt:"PRM",cat:"インフラ",niche:"プローバ/ダイシング 高シェア",opm:20.2,growth:14,sales:1668,cluster:"—",purity:"高",conf:"高",rec:true,note:"テスタ連動のプローバ"},
+  {name:"日本マイクロニクス",code:"6871",mkt:"PRM",cat:"インフラ",niche:"プローブカード 約33%(1位?)",opm:23.5,growth:31.6,sales:701,cluster:"東北",purity:"高",conf:"中",rec:true,note:"シェア順位に矛盾(33%↔3位)。要確認"},
+  {name:"芝浦メカトロニクス",code:"6590",mkt:"PRM",cat:"インフラ",niche:"フリップチップボンダー 高シェア",opm:null,growth:null,sales:null,cluster:"—",purity:"中",conf:"中",rec:true,note:"熱圧着接合。業績データ未取得"},
+  {name:"タカトリ",code:"6338",mkt:"STD",cat:"インフラ",niche:"SiCスライサー",opm:11.2,growth:null,sales:73,cluster:"—",purity:"中",conf:"中",rec:true,note:"SiCパワー半導体向け。成長率unknown"},
+  {name:"テラプローブ",code:"6627",mkt:"STD",cat:"インフラ",niche:"ウェハテスト受託 国内トップ級",opm:21.3,growth:28.0,sales:417,cluster:"九州(JASM隣接)",purity:"高",conf:"高",rec:true,note:"半導体100%。JASM至近でシナジー大"},
+
+  {name:"イビデン",code:"4062",mkt:"PRM",cat:"パッケージング",niche:"ICパッケージ基板 世界トップ級",opm:14.8,growth:30.3,sales:4162,cluster:"—",purity:"高",conf:"高",rec:true,note:"大面積FC-BGA。顧客集中(Intel/Nvidia)"},
+  {name:"新光電気工業",code:"6967",mkt:"廃止",cat:"パッケージング",niche:"フリップチップ基板 世界トップ級",opm:null,growth:null,sales:3800,cluster:"—",purity:"高",conf:"高",rec:false,delisted:true,note:"2025/6/6 上場廃止(JIC・TOB)。投資不可"},
+  {name:"三井ハイテック",code:"6966",mkt:"PRM",cat:"パッケージング",niche:"ICリードフレーム 首位級",opm:5.7,growth:null,sales:2183,cluster:"九州(北九州)",purity:"低",conf:"高",rec:true,note:"EVモーターコア比率が高く後工程純度低"},
+  {name:"大日本印刷",code:"7912",mkt:"PRM",cat:"パッケージング",niche:"次世代ガラスコア基板 開発",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:true,note:"有機基板の限界突破候補。業績未取得"},
+  {name:"TOPPAN",code:"7911",mkt:"PRM",cat:"パッケージング",niche:"FC-BGA基板",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"新光の代替候補。今期は減益推移"},
+  {name:"日本特殊陶業",code:"5334",mkt:"PRM",cat:"パッケージング",niche:"セラミックパッケージ基板",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"特殊環境向け。基板代替候補"},
+
+  {name:"レゾナック",code:"4004",mkt:"PRM",cat:"素材・部品",niche:"後工程材料 世界No.1(5材料1位)",opm:8.0,growth:18.4,sales:13471,cluster:"—",purity:"中",conf:"高",rec:true,note:"アンダーフィル等。コア営業利益ベース"},
+  {name:"住友ベークライト",code:"4203",mkt:"PRM",cat:"素材・部品",niche:"封止材(エポキシ) 約40%",opm:11.0,growth:43.1,sales:3199,cluster:"九州(直方)",purity:"中",conf:"高",rec:true,note:"AI向け大型封止で過去最高益"},
+  {name:"三井金属",code:"5706",mkt:"PRM",cat:"素材・部品",niche:"極薄銅箔 MicroThin 95%+",opm:17.2,growth:75.1,sales:7585,cluster:"—",purity:"中",conf:"高",rec:true,note:"FC-BGA微細配線に直結。圧倒的障壁"},
+  {name:"太陽ホールディングス",code:"4626",mkt:"PRM",cat:"素材・部品",niche:"ソルダーレジスト 世界No.1",opm:23.5,growth:47.4,sales:1378,cluster:"九州(北九州)",purity:"中",conf:"高",rec:true,note:"基板保護・絶縁の覇者"},
+  {name:"東京応化工業",code:"4186",mkt:"PRM",cat:"素材・部品",niche:"先端フォトレジスト 世界トップ級",opm:16.9,growth:43.2,sales:2370,cluster:"九州/北海道(供給)",purity:"中",conf:"中",rec:true,note:"TSMC/Rapidusへ供給。FOWLP対応"},
+  {name:"上村工業",code:"4966",mkt:"STD",cat:"素材・部品",niche:"無電解メッキ液 高シェア",opm:23.2,growth:13.3,sales:917,cluster:"—",purity:"中",conf:"高",rec:true,note:"ビアフィル・配線形成。高収益"},
+  {name:"日東電工",code:"6988",mkt:"PRM",cat:"素材・部品",niche:"半導体製造用テープ",opm:17.8,growth:-1.1,sales:10281,cluster:"—",purity:"低",conf:"中",rec:true,note:"多角化大手で半導体純度は低い"},
+  {name:"信越化学工業",code:"4063",mkt:"PRM",cat:"素材・部品",niche:"シリコンウェハ/層間絶縁材",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:true,note:"実質前工程寄り。論旨との距離に注意"},
+  {name:"東レ",code:"3402",mkt:"PRM",cat:"素材・部品",niche:"ビルドアップ材/ポリイミド",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"多角化。後工程純度低"},
+  {name:"日本ゼオン",code:"4205",mkt:"PRM",cat:"素材・部品",niche:"塗布型絶縁膜材料",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"先端パッケージの平坦化・絶縁"},
+  {name:"旭化成",code:"3407",mkt:"PRM",cat:"素材・部品",niche:"ビルドアップ材 素材",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"多角化。基礎素材供給"},
+];
+
+const CATCOLOR = {"インфラ":"#2DD4BF","パッケージング":"#E0A340","素材・部品":"#7DA7FF"};
+const CATBADGE = {"インフラ":"b-infra","パッケージング":"b-pkg","素材・部品":"b-mat"};
+
+/* ---------- BUBBLE CHART ---------- */
+const svg = document.getElementById('chart');
+const tip = document.getElementById('tip');
+const NS="http://www.w3.org/2000/svg";
+const M={l:54,r:24,t:20,b:46}, W=820, H=470;
+const PW=W-M.l-M.r, PH=H-M.t-M.b;
+const X={min:0,max:50}, Y={min:-30,max:130};
+const xpix=v=>M.l+(v-X.min)/(X.max-X.min)*PW;
+const ypix=v=>M.t+PH-(v-Y.min)/(Y.max-Y.min)*PH;
+const rpix=s=>Math.max(7,Math.sqrt(s/Math.PI)/4.2);
+let chartCats=new Set(["インフラ","パッケージング","素材・部品"]);
+
+function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+function drawChart(){
+  svg.innerHTML="";
+  // best-zone tint (top-right)
+  svg.appendChild(el("rect",{x:xpix(25),y:M.t,width:xpix(X.max)-xpix(25),height:ypix(20)-M.t,
+    fill:"#2DD4BF","fill-opacity":.05}));
+  // gridlines + ticks X
+  for(let v=0;v<=50;v+=10){
+    svg.appendChild(el("line",{x1:xpix(v),y1:M.t,x2:xpix(v),y2:M.t+PH,class:"grid","stroke-opacity":.5}));
+    const t=el("text",{x:xpix(v),y:M.t+PH+16,class:"tick","text-anchor":"middle"});t.textContent=v+"%";svg.appendChild(t);
+  }
+  // gridlines + ticks Y
+  for(let v=-30;v<=130;v+=40){
+    svg.appendChild(el("line",{x1:M.l,y1:ypix(v),x2:M.l+PW,y2:ypix(v),class:"grid","stroke-opacity":v===0?.9:.4}));
+    const t=el("text",{x:M.l-8,y:ypix(v)+3,class:"tick","text-anchor":"end"});t.textContent=v+"%";svg.appendChild(t);
+  }
+  // axis labels
+  const xl=el("text",{x:M.l+PW/2,y:H-6,class:"axis-label","text-anchor":"middle"});
+  xl.textContent="営業利益率（参入障壁・価格支配力の代理）→";svg.appendChild(xl);
+  const yl=el("text",{x:16,y:M.t+PH/2,class:"axis-label","text-anchor":"middle",
+    transform:`rotate(-90 16 ${M.t+PH/2})`});
+  yl.textContent="直近 営業利益成長率 →";svg.appendChild(yl);
+
+  DATA.filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted)
+      .filter(d=>chartCats.has(d.cat))
+      .sort((a,b)=>b.sales-a.sales)
+      .forEach(d=>{
+    const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
+    const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
+      stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],"stroke-width":d.cluster!=="—"?2:1,
+      "stroke-opacity":d.cluster!=="—"?.9:.5});
+    c.addEventListener("mousemove",e=>showTip(e,d));
+    c.addEventListener("mouseleave",()=>tip.style.opacity=0);
+    svg.appendChild(c);
+    const lab=el("text",{x:cx,y:cy-r-4,class:"bub-lab","text-anchor":"middle"});
+    lab.textContent=d.name.length>6?d.name.slice(0,6):d.name;svg.appendChild(lab);
+  });
+}
+function showTip(e,d){
+  const rect=svg.getBoundingClientRect();
+  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code})<br>`+
+    `${d.niche}<br>OPM ${d.opm}%・利益成長 ${d.growth>0?'+':''}${d.growth}%<br>`+
+    `売上 ${d.sales.toLocaleString()}億円${d.cluster!=="—"?'<br>クラスター: '+d.cluster:''}`;
+  const wrap=svg.parentElement.getBoundingClientRect();
+  tip.style.left=(e.clientX-wrap.left+12)+"px";
+  tip.style.top=(e.clientY-wrap.top+12)+"px";
+  tip.style.opacity=1;
+}
+document.querySelectorAll('#chartControls .chip').forEach(ch=>{
+  ch.addEventListener('click',()=>{
+    const cat=ch.dataset.cat;
+    if(cat==="all"){
+      const turnOn=!ch.classList.contains('active');
+      document.querySelectorAll('#chartControls .chip').forEach(c=>c.classList.toggle('active',turnOn));
+      chartCats=turnOn?new Set(["インフラ","パッケージング","素材・部品"]):new Set();
+    }else{
+      ch.classList.toggle('active');
+      ch.classList.contains('active')?chartCats.add(cat):chartCats.delete(cat);
+      const allOn=chartCats.size===3;
+      document.querySelector('#chartControls .chip[data-cat=all]').classList.toggle('active',allOn);
+    }
+    drawChart();
+  });
+});
+
+/* ---------- TABLE ---------- */
+const COLS=[
+  {k:"rec",label:"",get:d=>d.delisted?'除外':(d.rec?'★':''),sort:d=>d.delisted?-1:(d.rec?1:0)},
+  {k:"name",label:"企業名",get:d=>d.name,sort:d=>d.name},
+  {k:"code",label:"コード",get:d=>d.code,sort:d=>d.code,num:true},
+  {k:"cat",label:"カテゴリ",html:d=>`<span class="badge ${CATBADGE[d.cat]}">${d.cat}</span>`,sort:d=>d.cat},
+  {k:"niche",label:"ニッチ・世界シェア",get:d=>d.niche,sort:d=>d.niche},
+  {k:"opm",label:"OPM%",get:d=>d.opm==null?'—':d.opm,sort:d=>d.opm==null?-999:d.opm,num:true},
+  {k:"growth",label:"営利成長%",html:d=>d.growth==null?'—':`<span class="${d.growth>=0?'pos':'neg'}">${d.growth>0?'+':''}${d.growth}</span>`,sort:d=>d.growth==null?-999:d.growth,num:true},
+  {k:"sales",label:"売上(億円)",get:d=>d.sales==null?'—':d.sales.toLocaleString(),sort:d=>d.sales==null?-1:d.sales,num:true},
+  {k:"cluster",label:"クラスター",html:d=>d.cluster==="—"?'<span style="color:var(--mute2)">—</span>':`<span class="badge b-clu">${d.cluster}</span>`,sort:d=>d.cluster},
+  {k:"purity",label:"半導体ピュア度",html:d=>`<span class="pur-${d.purity==='高'?'high':d.purity==='中'?'mid':'low'}">${d.purity}</span>`,sort:d=>({高:3,中:2,低:1}[d.purity])},
+  {k:"conf",label:"信頼性",html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`,sort:d=>({高:2,中:1}[d.conf])},
+];
+let sortKey="rec",sortDir=-1,filterCat="all",flags=new Set(),query="";
+
+function buildHead(){
+  const h=document.getElementById('head');h.innerHTML="";
+  COLS.forEach(c=>{
+    const th=document.createElement('th');
+    th.innerHTML=c.label+(sortKey===c.k?` <span class="arr">${sortDir>0?'▲':'▼'}</span>`:'');
+    if(c.num)th.style.textAlign='right';
+    th.onclick=()=>{if(sortKey===c.k)sortDir*=-1;else{sortKey=c.k;sortDir=1;}render();};
+    h.appendChild(th);
+  });
+}
+function passFilter(d){
+  if(filterCat!=="all"&&d.cat!==filterCat)return false;
+  if(flags.has('rec')&&!d.rec)return false;
+  if(flags.has('cluster')&&d.cluster==="—")return false;
+  if(query){const q=query.toLowerCase();if(!(d.name.toLowerCase().includes(q)||d.code.includes(q)))return false;}
+  return true;
+}
+function render(){
+  buildHead();
+  const col=COLS.find(c=>c.k===sortKey);
+  const rows=DATA.filter(passFilter).sort((a,b)=>{
+    const va=col.sort(a),vb=col.sort(b);
+    if(va<vb)return -sortDir;if(va>vb)return sortDir;return 0;
+  });
+  const body=document.getElementById('body');body.innerHTML="";
+  rows.forEach(d=>{
+    const tr=document.createElement('tr');
+    if(d.rec)tr.classList.add('rec');
+    if(d.delisted)tr.classList.add('delisted');
+    COLS.forEach(c=>{
+      const td=document.createElement('td');
+      if(c.num)td.classList.add('num');
+      if(c.k==="rec"&&d.delisted)td.innerHTML=`<span class="badge b-del">除外</span>`;
+      else td.innerHTML=c.html?c.html(d):c.get(d);
+      tr.appendChild(td);
+    });
+    tr.title=d.note||"";
+    body.appendChild(tr);
+  });
+  document.getElementById('shownCount').textContent=rows.length;
+}
+document.querySelectorAll('#tableControls .chip').forEach(ch=>{
+  ch.addEventListener('click',()=>{
+    if(ch.dataset.flag){
+      ch.classList.toggle('active');
+      ch.classList.contains('active')?flags.add(ch.dataset.flag):flags.delete(ch.dataset.flag);
+    }else{
+      document.querySelectorAll('#tableControls .chip[data-cat]').forEach(c=>c.classList.remove('active'));
+      ch.classList.add('active');filterCat=ch.dataset.cat;
+    }
+    render();
+  });
+});
+document.getElementById('search').addEventListener('input',e=>{query=e.target.value;render();});
+
+drawChart();
+render();
+</script>
+</body>
+</html>

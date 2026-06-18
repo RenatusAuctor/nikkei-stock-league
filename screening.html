@@ -220,10 +220,12 @@ function drawChart(){
     transform:`rotate(-90 16 ${M.t+PH/2})`});
   yl.textContent="直近 営業利益成長率 →";svg.appendChild(yl);
 
-  DATA.filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted)
+  const bubData=DATA.filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted)
       .filter(d=>chartCats.has(d.cat))
-      .sort((a,b)=>b.sales-a.sales)
-      .forEach(d=>{
+      .sort((a,b)=>b.sales-a.sales);
+
+  // Pass 1: draw circles
+  bubData.forEach(d=>{
     const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
     const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
       stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],"stroke-width":d.cluster!=="—"?2:1,
@@ -231,8 +233,37 @@ function drawChart(){
     c.addEventListener("mousemove",e=>showTip(e,d));
     c.addEventListener("mouseleave",()=>tip.style.opacity=0);
     svg.appendChild(c);
-    const lab=el("text",{x:cx,y:cy-r-4,class:"bub-lab","text-anchor":"middle"});
-    lab.textContent=d.name.length>6?d.name.slice(0,6):d.name;svg.appendChild(lab);
+  });
+
+  // Pass 2: place labels with collision avoidance
+  const bpos=bubData.map(d=>({cx:xpix(d.opm),cy:ypix(d.growth),r:rpix(d.sales)}));
+  bubData.forEach((d,i)=>{
+    const {cx,cy,r}=bpos[i];
+    const name=d.name.length>5?d.name.slice(0,5):d.name;
+    const dirs=[
+      {dx:0,       dy:-(r+5),  anchor:'middle'},
+      {dx:r+5,     dy:4,       anchor:'start'},
+      {dx:0,       dy:r+12,    anchor:'middle'},
+      {dx:-(r+5),  dy:4,       anchor:'end'},
+      {dx:r+4,     dy:-(r+3),  anchor:'start'},
+      {dx:r+4,     dy:r+9,     anchor:'start'},
+      {dx:-(r+4),  dy:-(r+3),  anchor:'end'},
+      {dx:-(r+4),  dy:r+9,     anchor:'end'},
+    ];
+    let best=dirs[0], bestScore=-Infinity;
+    for(const dir of dirs){
+      const lx=cx+dir.dx, ly=cy+dir.dy;
+      if(lx<M.l+2||lx>M.l+PW-2||ly<M.t+8||ly>M.t+PH-2) continue;
+      let score=0;
+      for(let j=0;j<bpos.length;j++){
+        if(j===i) continue;
+        const dist=Math.sqrt((lx-bpos[j].cx)**2+(ly-bpos[j].cy)**2);
+        score+=Math.min(dist,160);
+      }
+      if(score>bestScore){bestScore=score;best=dir;}
+    }
+    const lab=el("text",{x:cx+best.dx,y:cy+best.dy,class:"bub-lab","text-anchor":best.anchor});
+    lab.textContent=name;svg.appendChild(lab);
   });
 }
 function showTip(e,d){

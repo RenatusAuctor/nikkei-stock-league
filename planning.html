@@ -965,6 +965,63 @@
     margin-bottom: 8px;
     font-style: italic;
   }
+
+  /* ── Dark Theme Overrides ── */
+
+  /* elements using --primary as text color → use --text */
+  .ov-title, .info-card h4, .flow-content h4, .phase-title, .axis-item-text h5,
+  .fw-section h4, .diff-text h5, .gloss-item h5, .revision-label, .pillar h4 { color: var(--text); }
+
+  /* hardcoded dark text */
+  .info-card li, .fw-item p, .ov-items, .flow-detail { color: var(--muted); }
+
+  /* diff rows */
+  .diff-row.ok { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.3); }
+  .diff-row.ng { background: rgba(220,38,38,0.1); border-color: rgba(220,38,38,0.3); }
+
+  /* risk cards */
+  .risk-detail { display: none; }
+  .risk-card.open .risk-detail { display: block; margin-top: 6px; font-style: italic; }
+  .risk-card { background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.25); }
+  .risk-card:hover { box-shadow: 0 4px 12px rgba(220,38,38,0.15); }
+  .risk-card h5 { color: #f87171; }
+  .risk-card p { color: var(--muted); }
+
+  /* MPT warning */
+  .mpt-warn { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); }
+  .mpt-warn h4 { color: #fbbf24; }
+  .mpt-warn li { color: var(--muted); }
+
+  /* hover/open states */
+  .phase-card:hover, .phase-card.open { background: rgba(232,160,32,0.08); }
+  .pillar:hover, .pillar.open { background: rgba(232,160,32,0.08); }
+
+  /* note boxes */
+  .intro-note { background: rgba(46,134,193,0.1); border-color: rgba(46,134,193,0.35); color: #93c5fd; }
+  .screening-note { background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.3); color: #5eead4; }
+  .screening-note strong { color: #2dd4bf; }
+  .why-note { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); color: #fbbf24; }
+
+  /* badges */
+  .rev-badge.weak { background: rgba(220,38,38,0.18); color: #f87171; }
+  .rev-badge.fix  { background: rgba(22,163,74,0.18); color: #4ade80; }
+  .fw-badge-green { background: rgba(22,163,74,0.15); color: #4ade80; }
+
+  /* final tagline */
+  .final-tagline {
+    background: linear-gradient(135deg, #1a2744, #0d1b3e);
+    border-color: rgba(232,160,32,0.35);
+    color: #fff;
+  }
+
+  /* glossary filter buttons */
+  .glossary-cat { background: var(--light); }
+
+  /* mobile header wrap */
+  @media (max-width: 420px) {
+    #header { flex-wrap: wrap; row-gap: 6px; }
+    #header h1 { order: 3; flex-basis: 100%; font-size: 11px; padding-top: 0; }
+  }
 </style>
 </head>
 <body>

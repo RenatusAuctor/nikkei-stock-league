@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>닛케이 스톡리그 기획안</title>
+<style>
+  :root {
+    --primary: #102A37;
+    --accent: #E0A340;
+    --accent2: #2DD4BF;
+    --light: #0E2330;
+    --card: #102A37;
+    --text: #EAF2F4;
+    --muted: #9FB3BD;
+    --green: #5EEAD4;
+    --red: #F0826B;
+    --border: #21404E;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    background: #0B1C28;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ── Header ── */
+  #header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(11,28,40,0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #header h1 {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  #header a.home-link {
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+    padding: 5px 10px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.06);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  #header a.home-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+  /* version toggle */
+  #version-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50px;
+    padding: 3px;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  #version-toggle button {
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #version-toggle button.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(224,163,64,0.4);
+  }
+
+  /* slide counter */
+  #slide-counter {
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* language switch */
+  #lang-switch {
+    display: flex;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50px;
+    padding: 3px;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  #lang-switch a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    padding: 5px 11px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  #lang-switch a.active {
+    background: var(--accent2);
+    color: #06231f;
+  }
+
+  /* ── Main ── */
+  #main {
+    padding-top: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Slide deck ── */
+  #deck {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px 12px 100px;
+    position: relative;
+  }
+
+  @media (min-width: 600px) {
+    #header { padding: 12px 24px; gap: 16px; }
+    #header h1 { font-size: 15px; }
+    #version-toggle button { padding: 6px 16px; font-size: 13px; }
+    #slide-counter { font-size: 13px; }
+    #main { padding-top: 72px; }
+    #deck { padding: 32px 28px 120px; }
+  }
+
+  @media (min-width: 1024px) {
+    #deck { padding: 40px 48px 120px; }
+  }
+
+  .slide {
+    display: none;
+    animation: fadeSlide 0.4s ease;
+  }
+  .slide.active { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Slide card ── */
+  .slide-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  /* slide header */
+  .slide-header {
+    background: var(--primary);
+    padding: 20px 18px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 600px) {
+    .slide-header { padding: 28px 36px 22px; }
+  }
+  .slide-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(45,212,191,0.07);
+  }
+  .slide-tag {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .slide-title {
+    color: #fff;
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.3;
+    position: relative;
+  }
+  .slide-subtitle {
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  .slide-num {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 32px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+
+  /* slide body */
+  .slide-body {
+    padding: 18px 16px;
+  }
+
+  @media (min-width: 600px) {
+    .slide-title { font-size: 26px; }
+    .slide-subtitle { font-size: 13px; margin-top: 6px; }
+    .slide-num { top: 24px; right: 32px; font-size: 42px; }
+    .slide-body { padding: 32px 36px; }
+  }
+
+  /* ── Navigation ── */
+  #nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(11,28,40,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 10px 12px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    z-index: 100;
+  }
+  #nav button {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #nav button:hover { background: rgba(255,255,255,0.15); }
+  #nav button:disabled { opacity: 0.3; cursor: default; }
+  #nav button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 2px 12px rgba(224,163,64,0.35);
+  }
+  #nav button.primary:hover { background: #c8922e; }
+  @media (min-width: 600px) {
+    #nav { padding: 12px 24px; gap: 16px; }
+    #nav button { padding: 10px 28px; font-size: 14px; }
+  }
+
+  /* progress dots */
+  #progress-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 400px;
+  }
+  .dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .dot.active {
+    background: var(--accent);
+    width: 20px;
+    border-radius: 4px;
+  }
+  .dot:hover { background: rgba(255,255,255,0.5); }
+
+  /* ── Components ── */
+
+  /* hero slide */
+  .hero-card {
+    background: linear-gradient(135deg, #13303D 0%, #0E2330 100%);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 600px) {
+    .hero-card { padding: 52px 48px; }
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 400px;
+    background: radial-gradient(ellipse, rgba(45,212,191,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(224,163,64,0.15);
+    border: 1px solid rgba(224,163,64,0.4);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+  }
+  .hero-main {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  @media (min-width: 600px) {
+    .hero-main { font-size: 32px; }
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+  .theme-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  .theme-box label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .theme-box p {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .hero-tagline {
+    margin-top: 28px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* revision list */
+  .revision-list { display: flex; flex-direction: column; gap: 12px; }
+  .revision-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 0 16px;
+    background: var(--light);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  .revision-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .revision-num {
+    background: var(--primary);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    grid-row: span 2;
+  }
+  .revision-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    padding: 12px 16px 2px;
+  }
+  .revision-detail {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 16px 12px;
+  }
+  .revision-item.open .revision-detail { display: flex; }
+  .rev-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .rev-badge {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 1px;
+    height: fit-content;
+  }
+  .rev-badge.weak { background: #fee2e2; color: #dc2626; }
+  .rev-badge.fix  { background: #dcfce7; color: #16a34a; }
+
+  /* two-column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  .info-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .info-card h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-card h4 .icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: rgba(45,212,191,0.14);
+    border: 1px solid rgba(45,212,191,0.28);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .info-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .info-card li {
+    font-size: 13px;
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+    color: #374151;
+  }
+  .info-card li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 10px;
+    top: 3px;
+  }
+
+  /* flow chain */
+  .flow-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0 16px;
+    cursor: pointer;
+  }
+  .flow-step:not(:last-child) .flow-line-wrap::after {
+    content: '';
+    display: block;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    flex: 1;
+    margin: 0 auto;
+  }
+  .flow-line-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .flow-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 900;
+    flex-shrink: 0;
+    border: 3px solid var(--accent);
+    transition: transform 0.2s;
+  }
+  .flow-step:hover .flow-circle { transform: scale(1.1); }
+  .flow-connector {
+    width: 2px;
+    flex: 1;
+    min-height: 16px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    margin: 0 auto;
+  }
+  .flow-content {
+    padding: 0 0 20px;
+  }
+  .flow-content h4 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 4px;
+    padding-top: 8px;
+  }
+  .flow-content p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .flow-detail {
+    background: var(--light);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #374151;
+    display: none;
+    line-height: 1.6;
+  }
+  .flow-step.open .flow-detail { display: block; }
+
+  /* key highlight */
+  .key-highlight {
+    background: linear-gradient(135deg, #13303D, #0E2330);
+    border-radius: 12px;
+    padding: 20px 24px;
+    color: #fff;
+    margin-top: 16px;
+  }
+  .key-highlight h4 {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .key-highlight p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* timeline phases */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  @media (min-width: 600px) { .phase-grid { grid-template-columns: 1fr 1fr; gap: 12px; } }
+  .phase-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .phase-card:hover, .phase-card.open {
+    border-color: var(--accent);
+    background: #fffbf0;
+  }
+  .phase-num {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .phase-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .phase-result {
+    font-size: 12px;
+    color: var(--accent2);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .phase-detail {
+    display: none;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.7;
+  }
+  .phase-card.open .phase-detail { display: block; }
+
+  /* screening 3-axis */
+  .axis-tab {
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid transparent;
+    background: var(--light);
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: inherit;
+    min-height: 40px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .axis-tab.active {
+    background: var(--primary);
+    color: var(--accent);
+    border-color: var(--primary);
+  }
+  @media (min-width: 600px) {
+    .axis-tab { font-size: 13px; padding: 8px 18px; }
+  }
+  .axis-content { display: none; }
+  .axis-content.active { display: block; }
+  .axis-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .axis-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--light);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .axis-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .axis-item-text h5 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 2px;
+  }
+  .axis-item-text p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* fieldwork */
+  .fw-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 600px) { .fw-grid { grid-template-columns: 1fr 1fr; gap: 16px; } }
+  .fw-section h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  .fw-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .fw-step {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(45,212,191,0.14);
+    border: 1px solid rgba(45,212,191,0.35);
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .fw-item p { font-size: 13px; color: #374151; line-height: 1.6; }
+  .fw-badge-green {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #dcfce7;
+    color: #16a34a;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+
+  /* risk cards */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 480px) { .risk-grid { grid-template-columns: 1fr; } }
+  .risk-card {
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .risk-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220,38,38,0.1); }
+  .risk-card h5 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #dc2626;
+    margin-bottom: 4px;
+  }
+  .risk-card p { font-size: 12px; color: #7f1d1d; line-height: 1.5; }
+
+  .mpt-warn {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .mpt-warn h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #92400e;
+    margin-bottom: 8px;
+  }
+  .mpt-warn ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .mpt-warn li {
+    font-size: 12px;
+    color: #78350f;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .mpt-warn li::before { content: '⚠️'; position: absolute; left: -2px; font-size: 10px; }
+
+  /* 3 pillars */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  @media (min-width: 500px) { .pillars { grid-template-columns: 1fr 1fr 1fr; gap: 12px; } }
+  .pillar {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 2px solid transparent;
+  }
+  .pillar:hover { border-color: var(--accent); background: #fffbf0; }
+  .pillar-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  .pillar h4 {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .pillar-detail {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    display: none;
+  }
+  .pillar:hover .pillar-detail,
+  .pillar.open .pillar-detail { display: block; }
+  .final-tagline {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--primary);
+    padding: 20px;
+    background: linear-gradient(135deg, #fff9ed, #fef3c7);
+    border-radius: 12px;
+    border: 1px solid #fcd34d;
+  }
+
+  /* axis tabs — horizontal scroll on mobile */
+  .axis-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .axis-tabs::-webkit-scrollbar { display: none; }
+  .axis-tab { flex-shrink: 0; }
+
+  /* glossary */
+  .glossary-cats {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .glossary-cat {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    color: var(--muted);
+    background: #fff;
+    font-family: inherit;
+    transition: all 0.2s;
+    min-height: 36px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .glossary-cat.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  @media (min-width: 500px) { .glossary-grid { grid-template-columns: 1fr 1fr; } }
+  .gloss-item {
+    background: var(--light);
+    border-radius: 10px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--accent2);
+  }
+  .gloss-item.cat-market { border-left-color: #8b5cf6; }
+  .gloss-item.cat-semi { border-left-color: #2DD4BF; }
+  .gloss-item.cat-invest { border-left-color: #5EEAD4; }
+  .gloss-item h5 { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+  .gloss-item p { font-size: 12px; color: #374151; line-height: 1.5; }
+  .gloss-item[data-cat="market"] { display: block; }
+  .gloss-item[data-cat="semi"] { display: block; }
+  .gloss-item[data-cat="invest"] { display: block; }
+
+  /* differentiation NG/OK */
+  .diff-list { display: flex; flex-direction: column; gap: 10px; }
+  .diff-row {
+    display: flex;
+    gap: 12px;
+    background: var(--light);
+    border-radius: 10px;
+    padding: 14px 16px;
+    align-items: flex-start;
+  }
+  .diff-mark {
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+  .diff-text h5 { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+  .diff-text p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .diff-row.ok { background: #f0fdf4; border: 1px solid #86efac; }
+  .diff-row.ng { background: #fff5f5; border: 1px solid #fecaca; }
+
+  /* overview three-col */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  @media (min-width: 500px) { .overview-grid { grid-template-columns: 1fr 1fr 1fr; gap: 12px; } }
+  .ov-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .ov-icon { font-size: 24px; margin-bottom: 8px; }
+  .ov-title { font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+  .ov-items { font-size: 12px; color: #374151; line-height: 1.8; }
+
+  /* summary tagline in body */
+  .summary-box {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 12px;
+    padding: 18px 22px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .summary-box strong { color: var(--accent); }
+
+  /* intro note */
+  .intro-note {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #1e40af;
+    line-height: 1.6;
+  }
+
+  /* screening note */
+  .screening-note {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #166534;
+    line-height: 1.6;
+  }
+  .screening-note strong { color: #15803d; }
+
+  /* why note */
+  .why-note {
+    background: #fefce8;
+    border: 1px solid #fde047;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #854d0e;
+    line-height: 1.6;
+  }
+
+  /* top progress bar */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    z-index: 200;
+    box-shadow: 0 0 8px rgba(45,212,191,0.6);
+  }
+
+  /* direction-aware slide transitions */
+  @keyframes slideInRight  { from { opacity:0; transform:translateX(48px);  } to { opacity:1; transform:none; } }
+  @keyframes slideInLeft   { from { opacity:0; transform:translateX(-48px); } to { opacity:1; transform:none; } }
+  @keyframes slideOutLeft  { from { opacity:1; transform:none; } to { opacity:0; transform:translateX(-48px); } }
+  @keyframes slideOutRight { from { opacity:1; transform:none; } to { opacity:0; transform:translateX(48px);  } }
+  .slide { position: relative; }
+  .slide.anim-in-right  { animation: slideInRight  0.35s cubic-bezier(0.4,0,0.2,1) both; }
+  .slide.anim-in-left   { animation: slideInLeft   0.35s cubic-bezier(0.4,0,0.2,1) both; }
+
+  /* smooth accordion */
+  .revision-detail,
+  .flow-detail,
+  .phase-detail,
+  .pillar-detail {
+    display: block !important;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .revision-item.open .revision-detail { max-height: 300px; opacity: 1; padding-bottom: 12px !important; }
+  .flow-step.open .flow-detail         { max-height: 200px; opacity: 1; padding: 10px 14px !important; }
+  .phase-card.open .phase-detail       { max-height: 200px; opacity: 1; }
+  .pillar.open .pillar-detail,
+  .pillar:hover .pillar-detail         { max-height: 200px; opacity: 1; }
+
+  /* nav button press */
+  #nav button:active { transform: scale(0.94); }
+  #nav button { transition: all 0.15s; }
+
+  /* smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* hover hint */
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  /* ── Dark Theme Overrides ── */
+
+  /* elements using --primary as text color → use --text */
+  .ov-title, .info-card h4, .flow-content h4, .phase-title, .axis-item-text h5,
+  .fw-section h4, .diff-text h5, .gloss-item h5, .revision-label, .pillar h4 { color: var(--text); }
+
+  /* hardcoded dark text */
+  .info-card li, .fw-item p, .ov-items, .flow-detail,
+  .phase-detail, .gloss-item p { color: var(--muted); }
+
+  /* diff rows */
+  .diff-row.ok { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.3); }
+  .diff-row.ng { background: rgba(220,38,38,0.1); border-color: rgba(220,38,38,0.3); }
+
+  /* risk cards */
+  .risk-detail { display: none; }
+  .risk-card.open .risk-detail { display: block; margin-top: 6px; font-style: italic; }
+  .risk-card { background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.25); }
+  .risk-card:hover { box-shadow: 0 4px 12px rgba(220,38,38,0.15); }
+  .risk-card h5 { color: #f87171; }
+  .risk-card p { color: var(--muted); }
+
+  /* MPT warning */
+  .mpt-warn { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); }
+  .mpt-warn h4 { color: #fbbf24; }
+  .mpt-warn li { color: var(--muted); }
+
+  /* hover/open states */
+  .phase-card:hover, .phase-card.open { background: rgba(224,163,64,0.08); }
+  .pillar:hover, .pillar.open { background: rgba(224,163,64,0.08); }
+
+  /* note boxes */
+  .intro-note { background: rgba(46,134,193,0.1); border-color: rgba(46,134,193,0.35); color: #93c5fd; }
+  .screening-note { background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.3); color: #5eead4; }
+  .screening-note strong { color: #2dd4bf; }
+  .why-note { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); color: #fbbf24; }
+
+  /* badges */
+  .rev-badge.weak { background: rgba(220,38,38,0.18); color: #f87171; }
+  .rev-badge.fix  { background: rgba(22,163,74,0.18); color: #4ade80; }
+  .fw-badge-green { background: rgba(22,163,74,0.15); color: #4ade80; }
+
+  /* final tagline */
+  .final-tagline {
+    background: linear-gradient(135deg, #13303D, #0E2330);
+    border-color: rgba(224,163,64,0.35);
+    color: #fff;
+  }
+
+  /* glossary filter buttons */
+  .glossary-cat { background: var(--light); }
+
+  /* mobile header wrap */
+  @media (max-width: 420px) {
+    #header { flex-wrap: wrap; row-gap: 6px; }
+    #header h1 { order: 3; flex-basis: 100%; font-size: 11px; padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:0%"></div>
+<div id="header">
+  <a href="index.ko.html" class="home-link">← 홈</a>
+  <div id="lang-switch">
+    <a href="planning.html">JP</a>
+    <a href="planning.ko.html" class="active">KR</a>
+  </div>
+  <h1>닛케이 스톡리그 ― 기획안</h1>
+  <div id="version-toggle">
+    <button id="btn-kaiteiban" class="active" onclick="switchVersion('kaiteiban')">개정판</button>
+    <button id="btn-yasashii" onclick="switchVersion('yasashii')">쉬운 버전</button>
+  </div>
+  <div id="slide-counter">1 / 9</div>
+</div>
+
+<div id="main">
+  <div id="deck">
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--  개정판 Slides                             -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <!-- K-1 -->
+    <div class="slide active" data-version="kaiteiban" data-idx="0">
+      <div class="hero-card">
+        <div class="hero-badge">TEAM MEETING ｜ 기획안【개정판】</div>
+        <div class="hero-main">닛케이 스톡리그<br>프로젝트 기획안<br><span style="color:var(--accent);">약점 보강판</span></div>
+        <div class="hero-sub">후공정 니치 × 지방 클러스터의 경쟁우위</div>
+        <div class="theme-box">
+          <label>메인 테마</label>
+          <p>초미세화의 한계와 차세대 패키징(후공정)</p>
+        </div>
+        <div class="theme-box">
+          <label>서브 테마</label>
+          <p>후공정 니치를 '과점'하는 일본 소재·장비 기업의 경쟁우위 ＋ 지방 클러스터의 경제 파급효과</p>
+        </div>
+        <div class="hero-tagline">'지배'가 아니라 '과점'을 말한다.<br>AI 시대의 진정한 병목＝후공정 니치에서 세계 점유율을 쥔 일본 기업을,<br>과장 없이·검증으로 제시한다.</div>
+      </div>
+    </div>
+
+    <!-- K-2 -->
+    <div class="slide" data-version="kaiteiban" data-idx="1">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">02</div>
+          <div class="slide-tag">Revision Summary</div>
+          <div class="slide-title">개정의 요점 ― 5가지 약점을 보강한다</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 항목을 클릭하면 상세가 펼쳐집니다</p>
+          <div class="revision-list">
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">1</div>
+              <div class="revision-label">독자성</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>'니치 톱／전문 기업' 테마는 제25회 최우수(EXPERTNER)와 중복</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>'후공정 니치 × 지방 클러스터'로의 일점 돌파로 차별화한다</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">2</div>
+              <div class="revision-label">테마의 일원화</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>'글로벌 경쟁우위'와 '지방 경제'의 두 축이 분리되어 있었다</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>'세계 점유율 과점 ⇄ 지방 집적'을 하나의 인과 가설로 통합한다</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">3</div>
+              <div class="revision-label">표현의 정교화</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>'후공정을 지배'는 과장으로, 전문가에게는 신뢰성이 부족하다</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>공정·영역별로 '과점 니치'를 특정하고, 점유율로 구체적으로 말한다</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">4</div>
+              <div class="revision-label">필드워크</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>IR의 독점 데이터에 의존(공정공시로 입수 곤란·거부 리스크)</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>공정공시를 전제로 '대화＋공개 정보의 재해석', 대체 수단도 준비</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">5</div>
+              <div class="revision-label">정량 검증</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>'TOPIX 우위의 "증명"'은 과잉 주장(인샘플 최적화)</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>MPT의 한계를 명시하고, 기간 분할＋리스크 시나리오로 견고성을 검증</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-3 -->
+    <div class="slide" data-version="kaiteiban" data-idx="2">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">03</div>
+          <div class="slide-tag">Originality</div>
+          <div class="slide-title">투자 테마의 재정의 ― 왜 '후공정 니치'인가</div>
+        </div>
+        <div class="slide-body">
+          <div class="two-col" style="margin-bottom:16px;">
+            <div class="info-card">
+              <h4><span class="icon">💡</span> 논점: 가치는 '후공정'으로 이동한다</h4>
+              <ul>
+                <li>미세화(전공정)는 물리적 한계＋거액 투자</li>
+                <li>수조 엔 규모의 경쟁에서는 일본이 이길 가능성이 낮다</li>
+                <li>성능 향상의 주역은 패키징(후공정)으로</li>
+                <li>칩렛／3D 실장이 다음 주 전장</li>
+                <li>일본은 소재·일부 장비에서 세계 점유율을 과점</li>
+                <li>'전 영역 지배'가 아니라 영역별 강점을 특정</li>
+              </ul>
+            </div>
+            <div>
+              <div class="diff-list">
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>흔한 'AI·반도체주'</h5>
+                    <p>클라우드／GPU 등은 혼잡. 화제성만으로는 묻힌다</p>
+                  </div>
+                </div>
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>'전문 기업' 일반론</h5>
+                    <p>제25회 최우수 테마와 중복. 신선함이 부족</p>
+                  </div>
+                </div>
+                <div class="diff-row ok">
+                  <span class="diff-mark">◎</span>
+                  <div class="diff-text">
+                    <h5>우리의 압축</h5>
+                    <p>'공정 최하류의 니치 과점' × '지방 집적의 인과'에 일점 집중</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-4 -->
+    <div class="slide" data-version="kaiteiban" data-idx="3">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">04</div>
+          <div class="slide-tag">Investment Logic</div>
+          <div class="slide-title">투자 가설의 일원화 ― 두 축을 하나의 인과로 연결</div>
+          <div class="slide-subtitle">'글로벌 과점'과 '지방 공헌'은 별개가 아니다</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 단계를 클릭하면 보충 설명이 표시됩니다</p>
+          <div class="flow-chain">
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">①</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>국내 집적의 가속</h4>
+                <p>TSMC 구마모토·Rapidus 홋카이도 등의 거점 투자</p>
+                <div class="flow-detail">대형 반도체 거점이 국내에 속속 설립. 지방 투자가 활발해지고 주변 산업으로의 파급이 시작된다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">②</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>근접 니치 기업으로 파급</h4>
+                <p>소재·장비의 수주／설비투자가 증가</p>
+                <div class="flow-detail">거점 근처에 위치한 니치 기업이 수주 증가. 높은 스위칭 코스트가 안정 공급을 담보한다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">③</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>지방 경제로의 파급</h4>
+                <p>고용·세수·관련 산업의 확대</p>
+                <div class="flow-detail">지역의 고용·세수가 증가하고, 관련 중소기업도 활성화. 지방 창생의 선순환이 생긴다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">④</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>기업의 중장기 성장</h4>
+                <p>수요 근접 → 안정 수주 → 수익 확대</p>
+                <div class="flow-detail">'수요가 옆에 있는' 상태는 경쟁우위 그 자체. 수주의 안정성이 장기적 수익 성장으로 이어진다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">⑤</div>
+              </div>
+              <div class="flow-content">
+                <h4>주주가치의 향상</h4>
+                <p>투자 타당성으로서 정량 검증으로</p>
+                <div class="flow-detail">위 연쇄가 주주가치 향상에 직결. 정량 검증으로 그 타당성을 성실히 제시한다.</div>
+              </div>
+            </div>
+          </div>
+          <div class="key-highlight">
+            <h4>가설의 핵심: '지방 공헌도'를 가점하는 이유</h4>
+            <p>지방에 대한 공헌은 '사회적 의의'인 동시에, 집적지에 대한 근접성＝'수요가 옆에 있다'는 경쟁우위의 대리지표. 그래서 단순한 사회공헌이 아니라, <strong style="color:var(--accent);">투자 타당성 그 자체에 직결된다.</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-5 -->
+    <div class="slide" data-version="kaiteiban" data-idx="4">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">05</div>
+          <div class="slide-tag">Timeline</div>
+          <div class="slide-title">4단계 로드맵(개정판)</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 페이즈를 클릭하면 상세가 펼쳐집니다</p>
+          <div class="phase-grid">
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">01 PHASE 1</div>
+              <div class="phase-title">가설 & 스터디</div>
+              <div class="phase-result">→ 분석 대상 20개사 선정</div>
+              <div class="phase-detail">
+                ・후공정(패키징) 기술 학습<br>
+                ・영역별 니치 기업 20개사 리스트화<br>
+                ・국내 집적 맵 작성
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">02 PHASE 2</div>
+              <div class="phase-title">스크리닝</div>
+              <div class="phase-result">→ 투자 종목 10개사 확정</div>
+              <div class="phase-detail">
+                ・재무×기술×지방 '근접성'의 3축 기준<br>
+                ・공헌도를 공개 수치로 객관 점수화<br>
+                ・최종 10종목으로 압축
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">03 PHASE 3</div>
+              <div class="phase-title">필드워크(대화)</div>
+              <div class="phase-result">→ 검증의 깊이로 차별화</div>
+              <div class="phase-detail">
+                ・공개 IR을 정독해 검증 질문을 설계<br>
+                ・IR·지자체에 서면／온라인 대화<br>
+                ・대체: 전문가·증권 리포트 활용
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">04 PHASE 4</div>
+              <div class="phase-title">포트폴리오 & 검증</div>
+              <div class="phase-result">→ 과장 없는 리포트 제출</div>
+              <div class="phase-detail">
+                ・MPT로 구축(한계 명시)<br>
+                ・기간 분할로 견고성 확인<br>
+                ・리스크 시나리오 포함 30p 리포트
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-6 -->
+    <div class="slide" data-version="kaiteiban" data-idx="5">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">06</div>
+          <div class="slide-tag">Screening</div>
+          <div class="slide-title">스크리닝 설계 ― 3축으로 객관화</div>
+          <div class="slide-subtitle">주관 평가를 피하고, 모두 공개 데이터로 점수화한다</div>
+        </div>
+        <div class="slide-body">
+          <div class="axis-tabs">
+            <button class="axis-tab active" onclick="switchAxis(this,'ax-fin')">💰 재무(정량)</button>
+            <button class="axis-tab" onclick="switchAxis(this,'ax-tech')">🔬 기술(정량×정성)</button>
+            <button class="axis-tab" onclick="switchAxis(this,'ax-local')">📍 지방 근접성(신설)</button>
+          </div>
+          <div class="axis-content active" id="ax-fin">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📈</div><div class="axis-item-text"><h5>성장률</h5><p>매출·영업이익의 성장률</p></div></div>
+              <div class="axis-item"><div class="axis-icon">💹</div><div class="axis-item-text"><h5>ROIC／자기자본비율</h5><p>자본 효율과 재무 건전성</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🖥️</div><div class="axis-item-text"><h5>반도체 매출 구성비</h5><p>반도체 사업 의존도·전문성</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-tech">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">🌍</div><div class="axis-item-text"><h5>세계 점유율</h5><p>영역별 세계 시장 점유율</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔒</div><div class="axis-item-text"><h5>특허·대체 곤란성</h5><p>특허 수·타사 진입장벽의 높이</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔗</div><div class="axis-item-text"><h5>스위칭 코스트</h5><p>고객이 타사로 갈아탈 때의 부담</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-local">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📏</div><div class="axis-item-text"><h5>집적지와의 거리</h5><p>구마모토／홋카이도 거점과의 지리적 거리</p></div></div>
+              <div class="axis-item"><div class="axis-icon">👷</div><div class="axis-item-text"><h5>현지 고용 비율</h5><p>현지 채용·고용 비율</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🏗️</div><div class="axis-item-text"><h5>설비투자 소재지</h5><p>신규 투자처가 집적지에 가까운가</p></div></div>
+            </div>
+          </div>
+          <div class="screening-note">
+            '공헌도'를 거리·고용 비율·투자액 등 공개 수치로 점수화 →
+            <strong>심사에서 요구되는 객관성·재현성을 충족한다.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-7 -->
+    <div class="slide" data-version="kaiteiban" data-idx="6">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">07</div>
+          <div class="slide-tag">Fieldwork</div>
+          <div class="slide-title">필드워크 전략 ― 대화와 대체책</div>
+          <div class="slide-subtitle">원칙: 공정공시(페어 디스클로저)를 준수</div>
+        </div>
+        <div class="slide-body">
+          <div class="fw-grid">
+            <div class="fw-section">
+              <h4>📋 할 일</h4>
+              <div class="fw-item">
+                <div class="fw-step">1</div>
+                <p>공개 IR 자료를 정독해 '가설의 검증 질문'을 설계</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">2</div>
+                <p>IR·지자체에 서면＋온라인으로 대화</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">3</div>
+                <p>답변을 1차 데이터로 재해석·분석</p>
+              </div>
+            </div>
+            <div class="fw-section">
+              <h4>🔄 대체책(단일 의존 회피)</h4>
+              <div class="fw-item">
+                <div class="fw-step">A</div>
+                <p>업계 전문가·대학 연구자에게 질문</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">B</div>
+                <p>증권사 리포트·IR 설명회 자료</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">C</div>
+                <p>경제산업성·지자체의 공표 통계</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="fw-badge-green">✓ 왜 효과적인가</div>
+            <div class="info-card">
+              <ul>
+                <li>과거 입상에서도 '기업과의 대화'는 높은 평가</li>
+                <li>거부되어도 대체책으로 확실히 데이터 확보</li>
+                <li>투자자와 기업의 대화를 실천하는 자세</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-8 -->
+    <div class="slide" data-version="kaiteiban" data-idx="7">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">08</div>
+          <div class="slide-tag">Logic & Risk</div>
+          <div class="slide-title">정량 검증과 리스크 ― 성실하게 말한다</div>
+        </div>
+        <div class="slide-body">
+          <div class="mpt-warn">
+            <h4>⚠️ 정량 검증을 '증명'으로 삼지 않는다</h4>
+            <ul>
+              <li>소형주 10종목은 동일 사이클에서 상관이 높아 분산 효과는 제한적</li>
+              <li>인샘플의 함정을 회피(과거 최적화가 지수를 이기는 것은 당연)</li>
+              <li>기간 분할로 아웃오브샘플 검증, 대 TOPIX는 '참고 비교'로 제시</li>
+            </ul>
+          </div>
+          <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">리스크 시나리오(클릭하면 상세)</p>
+          <div class="risk-grid">
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🌏 지정학</h5>
+              <p>대중 수출 규제·미중 마찰<br><span class="risk-detail">수출 규제 강화로 제조 장비·소재의 수출이 제한되는 시나리오. 대체 고객의 유무를 확인한다.</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>📉 시황 시클리컬리티</h5>
+              <p>반도체 수요의 급감 국면<br><span class="risk-detail">반도체 재고 조정 국면에서는 매출이 급감한다. 과거 사이클의 재무 내성을 확인한다.</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🏭 고객 집중</h5>
+              <p>TSMC·특정 거래처에 대한 의존<br><span class="risk-detail">특정 고객에 대한 매출 의존도가 높은 경우, 고객의 설비투자 축소가 직접적으로 영향을 준다.</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>💱 환율·금리</h5>
+              <p>엔고·조달 비용 변동<br><span class="risk-detail">수출 의존 기업은 엔고로 수익이 압박받는다. 소재 조달 비용 변동도 주시 필요.</span></p>
+            </div>
+          </div>
+          <div class="why-note">※ 리스크를 명시할수록 심사의 신뢰성은 올라간다(과거 강평도 특화 리스크를 지적).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-9 -->
+    <div class="slide" data-version="kaiteiban" data-idx="8">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">09</div>
+          <div class="slide-tag">Why We Win</div>
+          <div class="slide-title">심사 기준에 대한 대응 ― 보강 후 3대 기둥</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 기둥을 클릭하면 상세가 표시됩니다</p>
+          <div class="pillars">
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🎯</div>
+              <h4>독창성</h4>
+              <div class="pillar-detail">혼잡한 AI주／전문 기업 테마와 선을 긋는다. '후공정 니치×지방 인과'의 일점 돌파로 신선함을 확보.</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🤝</div>
+              <h4>열의(대화)</h4>
+              <div class="pillar-detail">공정공시를 지키면서 기업·지자체·전문가와 대화로 검증. 대체책으로 확실성도 담보.</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">📐</div>
+              <h4>논리성</h4>
+              <div class="pillar-detail">기술×재무×근접성의 객관 기준＋MPT의 한계 명시＋리스크 시나리오로, 과잉 주장 없이 타당성을 제시.</div>
+            </div>
+          </div>
+          <div class="final-tagline">'과장하지 않고, 검증으로 말한다.'<br><span style="font-size:14px;font-weight:600;color:var(--muted);">심사위원에게 '진짜다'라고 확신시키는 리포트로</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--  쉬운 버전 Slides                          -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <!-- Y-1 -->
+    <div class="slide" data-version="yasashii" data-idx="0" style="display:none;">
+      <div class="hero-card">
+        <div class="hero-badge">TEAM MEETING ｜ 기획안【개정판】쉬운 버전</div>
+        <div class="hero-main">닛케이 스톡리그<br>프로젝트 기획안<br><span style="color:var(--accent);">약점 보강판</span></div>
+        <div class="hero-sub">후공정의 틈새시장 × 지방에 대한 경제효과</div>
+        <div class="theme-box">
+          <label>메인 테마</label>
+          <p>미세화의 한계와, 차세대 패키징(후공정＝칩 조립)</p>
+        </div>
+        <div class="theme-box">
+          <label>서브 테마</label>
+          <p>후공정의 '틈새시장'에서 세계 점유율을 쥔 일본 소재·장비 메이커의 강점 ＋ 지방에 대한 경제효과</p>
+        </div>
+        <div class="hero-tagline">'일본이 모든 것을 지배'라고는 말하지 않는다.<br>AI 시대의 진짜 병목＝후공정의 틈새시장에서<br>세계 점유율의 대부분을 가진 일본 기업을, 과장 없이 데이터로 제시한다.</div>
+      </div>
+    </div>
+
+    <!-- Y-2 Overview -->
+    <div class="slide" data-version="yasashii" data-idx="1" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">02</div>
+          <div class="slide-tag">Overview</div>
+          <div class="slide-title">한마디로 말하면 ― 이 기획의 전체상</div>
+          <div class="slide-subtitle">세부적인 이야기에 들어가기 전에, '무엇을·왜·어떻게'를 먼저 짚어두자</div>
+        </div>
+        <div class="slide-body">
+          <div class="overview-grid">
+            <div class="ov-card">
+              <div class="ov-icon">🔍</div>
+              <div class="ov-title">무엇을 조사하나?</div>
+              <div class="ov-items">
+                반도체의 '후공정'이 대상<br>＝칩을 조립하는 공정<br>거기서 세계 점유율 상위인 일본 메이커
+              </div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-icon">💡</div>
+              <div class="ov-title">왜 흥미로운가?</div>
+              <div class="ov-items">
+                미세화(전공정)는 한계·거액 투자<br>앞으로의 주역은 후공정으로<br>강한 기업은 지방 집적지 근처에 모인다
+              </div>
+            </div>
+            <div class="ov-card">
+              <div class="ov-icon">📊</div>
+              <div class="ov-title">어떻게 선택하나?</div>
+              <div class="ov-items">
+                재무×기술×지방 근접성을 점수화<br>공개 데이터로 10종목으로 압축<br>기업과 대화로 확인＋리스크도 검증
+              </div>
+            </div>
+          </div>
+          <div class="summary-box">
+            즉 '후공정의 틈새시장에서 <strong>세계 대부분을 쥔 일본 기업</strong>'을, 지방과의 연결에 주목해 선택하고, <strong>과장 없이 데이터로 검증하는</strong> 기획.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-3 Glossary -->
+    <div class="slide" data-version="yasashii" data-idx="2" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">03</div>
+          <div class="slide-tag">Glossary</div>
+          <div class="slide-title">용어 미니 사전 ― 이 기획에서 자주 나오는 말</div>
+          <div class="slide-subtitle">모르는 말이 나오면, 먼저 이 페이지로</div>
+        </div>
+        <div class="slide-body">
+          <div class="intro-note">전문 용어가 많으니, 먼저 여기서 의미를 짚어두자. 읽다가 헷갈리면 이 페이지로 돌아오면 OK.</div>
+          <div class="glossary-cats">
+            <button class="glossary-cat active" onclick="filterGloss(this,'all')">전체</button>
+            <button class="glossary-cat" onclick="filterGloss(this,'market')">시장·경쟁</button>
+            <button class="glossary-cat" onclick="filterGloss(this,'semi')">반도체 공정</button>
+            <button class="glossary-cat" onclick="filterGloss(this,'invest')">투자·검증</button>
+          </div>
+          <div class="glossary-grid" id="gloss-grid">
+            <div class="gloss-item cat-market" data-cat="market">
+              <h5>니치(틈새시장)</h5>
+              <p>규모는 작지만 전문성이 높은 시장</p>
+            </div>
+            <div class="gloss-item cat-market" data-cat="market">
+              <h5>과점</h5>
+              <p>소수 기업이 시장의 대부분을 쥔 상태</p>
+            </div>
+            <div class="gloss-item cat-market" data-cat="market">
+              <h5>스위칭 코스트</h5>
+              <p>타사로 갈아탈 때의 부담 크기</p>
+            </div>
+            <div class="gloss-item cat-semi" data-cat="semi">
+              <h5>전공정／후공정</h5>
+              <p>회로를 만드는 공정／조립·봉지하는 공정</p>
+            </div>
+            <div class="gloss-item cat-semi" data-cat="semi">
+              <h5>패키징</h5>
+              <p>칩을 보호하고 외부와 연결하는 후공정</p>
+            </div>
+            <div class="gloss-item cat-semi" data-cat="semi">
+              <h5>칩렛·3D 실장</h5>
+              <p>작은 칩을 연결·적층해 고성능화</p>
+            </div>
+            <div class="gloss-item cat-invest" data-cat="invest">
+              <h5>공정공시</h5>
+              <p>일부 사람에게만 미공개 정보를 주는 것을 금지하는 규칙</p>
+            </div>
+            <div class="gloss-item cat-invest" data-cat="invest">
+              <h5>MPT</h5>
+              <p>현대 포트폴리오 이론. 리스크를 억제한 구성법</p>
+            </div>
+            <div class="gloss-item cat-invest" data-cat="invest">
+              <h5>시클리컬리티</h5>
+              <p>실적이 경기 흐름에 따라 크게 오르내리는 성질</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-4 Revision -->
+    <div class="slide" data-version="yasashii" data-idx="3" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">04</div>
+          <div class="slide-tag">Revision Summary</div>
+          <div class="slide-title">개정 포인트 ― 5가지 약점을 이렇게 고쳤다</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 항목을 클릭하면 상세가 펼쳐집니다</p>
+          <div class="revision-list">
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">1</div>
+              <div class="revision-label">독자성</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>이전 안은 제25회 최우수상(EXPERTNER)과 비슷해 새로움이 없다</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>'후공정의 틈새시장 × 지방의 산업 집적'의 한 점에 집중해 차이를 둔다</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">2</div>
+              <div class="revision-label">테마의 일원화</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>'세계에서의 경쟁력'과 '지방 경제'가 따로 노는 이야기였다</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>'세계 점유율 ⇄ 지방의 집적'을 하나의 스토리로 정리한다</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">3</div>
+              <div class="revision-label">표현을 정확하게</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>'후공정을 지배'는 과장이라, 전문가에게 신뢰받지 못한다</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>공정·분야별로 강한 부분을 특정하고, 구체적인 점유율 숫자로 말한다</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">4</div>
+              <div class="revision-label">현지 조사(대화)</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>기업의 IR 정보에만 의존 → 규칙상 받을 수 없거나·거절당할 우려</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>공개 정보를 읽어들여 '대화＋재분석'. 거절당했을 때의 대체 수단도 준비</div>
+              </div>
+            </div>
+            <div class="revision-item" onclick="toggleRevision(this)">
+              <div class="revision-num">5</div>
+              <div class="revision-label">숫자로 하는 검증</div>
+              <div class="revision-detail">
+                <div class="rev-row"><span class="rev-badge weak">약점</span>'TOPIX를 이긴다고 "증명"'은 과한 말(과거에 맞췄을 뿐)</div>
+                <div class="rev-row"><span class="rev-badge fix">개정</span>이론(MPT)의 한계를 솔직히 적고, 기간을 나눠 검증＋리스크 상정으로 보강</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-5 Originality -->
+    <div class="slide" data-version="yasashii" data-idx="4" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">05</div>
+          <div class="slide-tag">Originality</div>
+          <div class="slide-title">투자 테마 ― 왜 '후공정의 틈새시장'인가</div>
+        </div>
+        <div class="slide-body">
+          <div class="two-col" style="margin-bottom:16px;">
+            <div class="info-card">
+              <h4><span class="icon">💡</span> 포인트: 가치는 '후공정'으로 옮겨간다</h4>
+              <ul>
+                <li>미세화(전공정)는 물리적 한계＋거액의 투자</li>
+                <li>수조 엔 규모의 승부에서는 일본이 불리</li>
+                <li>성능 향상의 주역은 조립(후공정)으로 옮겨간다</li>
+                <li>칩렛/3D 실장이 다음 주 전장</li>
+                <li>일본은 소재나 일부 장비에서 세계 점유율의 대부분을 가진다</li>
+                <li>'전부 강하다'가 아니라 '특정 분야가 강하다'를 찾는다</li>
+              </ul>
+            </div>
+            <div>
+              <div class="diff-list">
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>흔한 'AI·반도체주'</h5>
+                    <p>클라우드나 GPU는 모두가 주목. 화제성만으로는 묻힌다</p>
+                  </div>
+                </div>
+                <div class="diff-row ng">
+                  <span class="diff-mark">✕</span>
+                  <div class="diff-text">
+                    <h5>흔한 '전문 기업'론</h5>
+                    <p>과거 최우수 테마와 겹쳐 새로움이 부족</p>
+                  </div>
+                </div>
+                <div class="diff-row ok">
+                  <span class="diff-mark">◎</span>
+                  <div class="diff-text">
+                    <h5>우리의 압축</h5>
+                    <p>'공정의 가장 하류 틈새시장' × '지방의 집적 효과'에 집중</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-6 Story -->
+    <div class="slide" data-version="yasashii" data-idx="5" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">06</div>
+          <div class="slide-tag">Investment Logic</div>
+          <div class="slide-title">전체 스토리 ― '세계에서의 강점'과 '지방'을 하나로 연결</div>
+          <div class="slide-subtitle">'세계에서의 강점'과 '지방에 대한 공헌'은 따로 노는 이야기가 아니다</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 단계를 클릭하면 보충 설명이 표시됩니다</p>
+          <div class="flow-chain">
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">①</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>국내에 공장이 모인다</h4>
+                <p>TSMC 구마모토·Rapidus 홋카이도 등의 대형 투자</p>
+                <div class="flow-detail">대형 반도체 거점이 국내에 속속 설립. 지방 투자가 활발해지고 주변 산업으로의 파급이 시작된다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">②</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>가까운 틈새 기업에 일이 돌아간다</h4>
+                <p>소재·장비의 수주나 설비투자가 늘어난다</p>
+                <div class="flow-detail">거점 근처에 위치한 니치 기업이 수주 증가. 높은 스위칭 코스트가 안정 공급을 담보한다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">③</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>지방 경제가 윤택해진다</h4>
+                <p>고용·세수·관련 산업이 확대</p>
+                <div class="flow-detail">지역의 고용·세수가 증가하고, 관련 중소기업도 활성화. 지방 창생의 선순환이 생긴다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">④</div>
+                <div class="flow-connector"></div>
+              </div>
+              <div class="flow-content">
+                <h4>기업이 중장기로 성장</h4>
+                <p>수요가 가깝다 → 안정 수주 → 수익이 늘어난다</p>
+                <div class="flow-detail">'수요가 옆에 있는' 상태는 경쟁우위 그 자체. 수주의 안정성이 장기적 수익 성장으로 이어진다.</div>
+              </div>
+            </div>
+            <div class="flow-step" onclick="toggleFlow(this)">
+              <div class="flow-line-wrap">
+                <div class="flow-circle">⑤</div>
+              </div>
+              <div class="flow-content">
+                <h4>주주가치가 올라간다</h4>
+                <p>투자처로서 검증할 가치 있음</p>
+                <div class="flow-detail">위 연쇄가 주주가치 향상에 직결. 정량 검증으로 그 타당성을 성실히 제시한다.</div>
+              </div>
+            </div>
+          </div>
+          <div class="key-highlight">
+            <h4>왜 '지방에 대한 공헌도'를 평가 점수에 더하는가</h4>
+            <p>지방에 대한 공헌은 '사회적으로 좋은 일'인 동시에, '수요(＝공장)가 바로 옆에 있다'는 경쟁상의 강점을 나타내는 신호(대리지표). 그래서 단순한 사회공헌이 아니라, <strong style="color:var(--accent);">투자처로서 유망한지에 직결된다.</strong> 이것이 이 기획의 중심이 되는 사고방식이다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-7 Timeline -->
+    <div class="slide" data-version="yasashii" data-idx="6" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">07</div>
+          <div class="slide-tag">Timeline</div>
+          <div class="slide-title">4스텝 진행 방식(개정판)</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 페이즈를 클릭하면 상세가 펼쳐집니다</p>
+          <div class="phase-grid">
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">01 PHASE 1</div>
+              <div class="phase-title">가설과 학습</div>
+              <div class="phase-result">→ 분석 대상 20개사를 선택</div>
+              <div class="phase-detail">
+                ・후공정(패키징) 기술을 학습<br>
+                ・분야별 틈새 기업을 20개사 리스트화<br>
+                ・국내 집적 맵을 만든다
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">02 PHASE 2</div>
+              <div class="phase-title">스크리닝(선별)</div>
+              <div class="phase-result">→ 투자할 10개사를 결정</div>
+              <div class="phase-detail">
+                ・재무×기술×지방 근접성의 3가지 기준<br>
+                ・공헌도를 공개 데이터로 점수화<br>
+                ・10종목으로 압축
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">03 PHASE 3</div>
+              <div class="phase-title">현지 조사(대화)</div>
+              <div class="phase-result">→ 검증의 깊이로 차이를 둔다</div>
+              <div class="phase-detail">
+                ・공개 IR을 읽어 검증용 질문을 만든다<br>
+                ・기업·지자체에 서면이나 온라인으로 대화<br>
+                ・대신 전문가·증권 리포트도 활용
+              </div>
+            </div>
+            <div class="phase-card" onclick="togglePhase(this)">
+              <div class="phase-num">04 PHASE 4</div>
+              <div class="phase-title">포트폴리오 작성과 검증</div>
+              <div class="phase-result">→ 과장 없는 리포트 제출</div>
+              <div class="phase-detail">
+                ・MPT로 구성(한계도 명기)<br>
+                ・기간을 나눠 견고성 확인<br>
+                ・리스크 상정 포함 30페이지 리포트
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-8 Screening -->
+    <div class="slide" data-version="yasashii" data-idx="7" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">08</div>
+          <div class="slide-tag">Screening</div>
+          <div class="slide-title">종목 선택 방법 ― 3가지 기준으로 객관적으로</div>
+          <div class="slide-subtitle">호불호(주관)로 선택하지 않고, 모두 공개 데이터로 점수화한다</div>
+        </div>
+        <div class="slide-body">
+          <div class="axis-tabs">
+            <button class="axis-tab active" onclick="switchAxis(this,'fin2')">💰 재무(숫자로 본다)</button>
+            <button class="axis-tab" onclick="switchAxis(this,'tech2')">🔬 기술(숫자＋내용)</button>
+            <button class="axis-tab" onclick="switchAxis(this,'local2')">📍 지방 근접성(신기준)</button>
+          </div>
+          <div class="axis-content active" id="ax-fin2">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📈</div><div class="axis-item-text"><h5>매출·영업이익의 성장률</h5><p>사업이 얼마나 성장하고 있는가</p></div></div>
+              <div class="axis-item"><div class="axis-icon">💹</div><div class="axis-item-text"><h5>ROIC·자기자본비율</h5><p>버는 힘과 안전성의 균형</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🖥️</div><div class="axis-item-text"><h5>매출에서 차지하는 반도체 비중</h5><p>반도체 사업에 대한 집중도</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-tech2">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">🌍</div><div class="axis-item-text"><h5>분야별 세계 점유율</h5><p>그 분야에서 세계의 얼마를 차지하는가</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔒</div><div class="axis-item-text"><h5>특허·대체 곤란성</h5><p>타사가 쉽게 따라오지 못하는가</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🔗</div><div class="axis-item-text"><h5>갈아타기 비용의 높이</h5><p>고객이 타사로 바꾸기 어려운 이유</p></div></div>
+            </div>
+          </div>
+          <div class="axis-content" id="ax-local2">
+            <div class="axis-items">
+              <div class="axis-item"><div class="axis-icon">📏</div><div class="axis-item-text"><h5>공장과 집적지의 거리</h5><p>구마모토／홋카이도 거점과의 근접성</p></div></div>
+              <div class="axis-item"><div class="axis-icon">👷</div><div class="axis-item-text"><h5>현지에서의 고용 비율</h5><p>현지 사람을 몇 명 채용하는가</p></div></div>
+              <div class="axis-item"><div class="axis-icon">🏗️</div><div class="axis-item-text"><h5>설비투자를 하는 장소</h5><p>새 투자처가 집적지에 가까운가</p></div></div>
+            </div>
+          </div>
+          <div class="screening-note">
+            '지방에 대한 공헌도'를 거리·고용 비율·투자액 등 공개 수치로 점수화 →
+            <strong>심사에서 요구되는 '객관성·재현성'을 충족할 수 있다.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-9 Fieldwork -->
+    <div class="slide" data-version="yasashii" data-idx="8" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">09</div>
+          <div class="slide-tag">Fieldwork</div>
+          <div class="slide-title">현지 조사 진행 방식 ― 대화와 대체 수단</div>
+          <div class="slide-subtitle">원칙: 공정공시 규칙을 지킨다. 아직 공표되지 않은 중요 정보는 요구하지 않는다.</div>
+        </div>
+        <div class="slide-body">
+          <div class="fw-grid">
+            <div class="fw-section">
+              <h4>📋 할 일</h4>
+              <div class="fw-item">
+                <div class="fw-step">1</div>
+                <p>공개 IR 자료를 읽어 '가설을 확인하는 질문'을 만든다</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">2</div>
+                <p>기업·지자체에 서면＋온라인으로 대화</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">3</div>
+                <p>받은 답변을 우리 데이터로 재분석</p>
+              </div>
+            </div>
+            <div class="fw-section">
+              <h4>🔄 대체 수단(하나에 의존하지 않는다)</h4>
+              <div class="fw-item">
+                <div class="fw-step">A</div>
+                <p>업계 전문가·대학 연구자에게 질문</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">B</div>
+                <p>증권사 리포트·IR 설명회 자료</p>
+              </div>
+              <div class="fw-item">
+                <div class="fw-step">C</div>
+                <p>경제산업성·지자체가 공표하는 통계</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="fw-badge-green">✓ 왜 효과적인가</div>
+            <div class="info-card">
+              <ul>
+                <li>과거 입상에서도 '기업과의 대화'는 높은 평가</li>
+                <li>거절당해도 대체 수단으로 확실히 데이터를 확보</li>
+                <li>투자자로서 기업과 대화하는 자세를 실천할 수 있다</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-10 Risk -->
+    <div class="slide" data-version="yasashii" data-idx="9" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">10</div>
+          <div class="slide-tag">Logic & Risk</div>
+          <div class="slide-title">숫자로 하는 검증과 리스크 ― 솔직하게 말한다</div>
+        </div>
+        <div class="slide-body">
+          <div class="mpt-warn">
+            <h4>⚠️ 숫자로 하는 검증을 '증명'으로 삼지 않는다(과하게 말하지 않는다)</h4>
+            <ul>
+              <li>소형주 10종목은 같은 경기 흐름에서 함께 움직이기 쉬워 분산 효과는 작다</li>
+              <li>'과거에 맞췄을 뿐'의 함정을 피한다(과거 데이터에 맞추면 지수를 이기는 것은 당연)</li>
+              <li>기간을 나눠 확인한다(다른 기간으로 아웃오브샘플 검증)</li>
+            </ul>
+          </div>
+          <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">리스크 상정(클릭하면 상세)</p>
+          <div class="risk-grid">
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🌏 지정학 리스크</h5>
+              <p>대중 수출 규제·미중 마찰<br><span class="risk-detail">수출 규제 강화로 제조 장비·소재의 수출이 제한되는 시나리오. 대체 고객의 유무를 확인한다.</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>📉 경기 흐름(시클리컬리티)</h5>
+              <p>반도체 수요가 급락하는 국면<br><span class="risk-detail">반도체 재고 조정 국면에서는 매출이 급감한다. 과거 사이클의 재무 내성을 확인한다.</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>🏭 고객 집중</h5>
+              <p>TSMC 등 특정 거래처에 대한 의존<br><span class="risk-detail">특정 고객에 대한 매출 의존도가 높은 경우, 고객의 설비투자 축소가 직접적으로 영향을 준다.</span></p>
+            </div>
+            <div class="risk-card" onclick="toggleRisk(this)">
+              <h5>💱 환율·금리</h5>
+              <p>엔고·조달 비용 변동<br><span class="risk-detail">수출 의존 기업은 엔고로 수익이 압박받는다. 소재 조달 비용 변동도 주시 필요.</span></p>
+            </div>
+          </div>
+          <div class="why-note">※ 리스크를 솔직하게 적을수록 심사에서의 신뢰성은 올라간다(과거 강평도 특정 리스크를 지적).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Y-11 Why We Win -->
+    <div class="slide" data-version="yasashii" data-idx="10" style="display:none;">
+      <div class="slide-card">
+        <div class="slide-header">
+          <div class="slide-num">11</div>
+          <div class="slide-tag">Why We Win</div>
+          <div class="slide-title">심사 기준에 대한 대응 ― 강화한 3가지 기둥</div>
+        </div>
+        <div class="slide-body">
+          <p class="hint">각 기둥을 클릭하면 상세가 표시됩니다</p>
+          <div class="pillars">
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🎯</div>
+              <h4>독창성</h4>
+              <div class="pillar-detail">지나치게 붐비는 AI주나 전문 기업 테마와 선을 긋는다. '후공정의 틈새시장×지방의 인과'의 일점 돌파로 새로움을 낸다.</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">🤝</div>
+              <h4>열의(대화)</h4>
+              <div class="pillar-detail">공정공시 규칙을 지키면서 기업·지자체·전문가와 대화해 검증. 대체 수단으로 확실성도 확보.</div>
+            </div>
+            <div class="pillar" onclick="togglePillar(this)">
+              <div class="pillar-icon">📐</div>
+              <h4>논리성</h4>
+              <div class="pillar-detail">기술×재무×지방 근접성이라는 객관 기준＋MPT의 한계 명시＋리스크 상정으로, 과하게 말하지 않고 타당성을 제시.</div>
+            </div>
+          </div>
+          <div class="final-tagline">'과장하지 않고, 데이터로 말한다.'<br><span style="font-size:14px;font-weight:600;color:var(--muted);">심사위원에게 '진짜다'라고 생각하게 만드는 리포트가 된다</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /deck -->
+</div><!-- /main -->
+
+<!-- Navigation -->
+<div id="nav">
+  <button id="btn-prev" onclick="changeSlideDelta(-1)" disabled>← 이전</button>
+  <div id="progress-dots"></div>
+  <button id="btn-next" onclick="changeSlideDelta(1)" class="primary">다음 →</button>
+</div>
+
+<script>
+  // State
+  let version = 'kaiteiban';
+  let currentIdx = 0;
+
+  function getSlides(v) {
+    return document.querySelectorAll(`.slide[data-version="${v}"]`);
+  }
+
+  let _prevIdx = 0;
+
+  function showSlide(v, idx, direction) {
+    const slides = getSlides(v);
+    if (idx < 0) idx = 0;
+    if (idx >= slides.length) idx = slides.length - 1;
+
+    // determine direction if not given
+    if (direction === undefined) direction = idx >= currentIdx ? 1 : -1;
+
+    document.querySelectorAll('.slide').forEach(s => {
+      s.classList.remove('active', 'anim-in-right', 'anim-in-left');
+      s.style.display = 'none';
+    });
+
+    currentIdx = idx;
+
+    const slide = slides[currentIdx];
+    slide.style.display = 'block';
+    slide.classList.add('active');
+    slide.classList.add(direction >= 0 ? 'anim-in-right' : 'anim-in-left');
+
+    document.getElementById('slide-counter').textContent =
+      `${currentIdx + 1} / ${slides.length}`;
+
+    document.getElementById('btn-prev').disabled = currentIdx === 0;
+    const nextBtn = document.getElementById('btn-next');
+    nextBtn.disabled = currentIdx === slides.length - 1;
+
+    // progress bar
+    const pct = slides.length <= 1 ? 100 : (currentIdx / (slides.length - 1)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+
+    renderDots(v, slides.length, currentIdx);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderDots(v, total, active) {
+    const wrap = document.getElementById('progress-dots');
+    wrap.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === active ? ' active' : '');
+      d.onclick = () => { currentIdx = i; showSlide(version, i); };
+      wrap.appendChild(d);
+    }
+  }
+
+  function changeSlideDelta(delta) {
+    showSlide(version, currentIdx + delta, delta > 0 ? 1 : -1);
+  }
+
+  function switchVersion(v) {
+    version = v;
+    currentIdx = 0;
+    document.getElementById('btn-kaiteiban').classList.toggle('active', v === 'kaiteiban');
+    document.getElementById('btn-yasashii').classList.toggle('active', v === 'yasashii');
+    showSlide(v, 0, 1);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlideDelta(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlideDelta(-1);
+  });
+
+  let touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) changeSlideDelta(1);
+      else changeSlideDelta(-1);
+    }
+  }, { passive: true });
+
+  function toggleRevision(el) { el.classList.toggle('open'); }
+  function toggleFlow(el) { el.classList.toggle('open'); }
+  function togglePhase(el) {
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.phase-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  }
+  function switchAxis(btn, contentId) {
+    const tabGroup = btn.closest('.axis-tabs');
+    tabGroup.querySelectorAll('.axis-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const bodyParent = btn.closest('.slide-body') || btn.closest('.slide-card');
+    bodyParent.querySelectorAll('.axis-content').forEach(c => c.classList.remove('active'));
+    document.getElementById(contentId).classList.add('active');
+  }
+  function toggleRisk(el) { el.classList.toggle('open'); }
+  function togglePillar(el) { el.classList.toggle('open'); }
+  function filterGloss(btn, cat) {
+    document.querySelectorAll('.glossary-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.gloss-item').forEach(item => {
+      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }
+
+  showSlide('kaiteiban', 0);
+</script>
+</body>
+</html>

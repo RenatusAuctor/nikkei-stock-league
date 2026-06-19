@@ -255,12 +255,33 @@ function drawChart(){
       .filter(d=>chartCats.has(d.cat))
       .sort((a,b)=>b.sales-a.sales);
 
-  // Pass 1: draw circles
-  bubData.forEach(d=>{
+  // Pass 1: draw circles with pop-in animation
+  bubData.forEach((d,i)=>{
     const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
-    const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
+    const c=el("circle",{cx,cy,r:0,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
       stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],"stroke-width":d.cluster!=="—"?2:1,
       "stroke-opacity":d.cluster!=="—"?.9:.5});
+    // animate r from 0 to target
+    const anim=document.createElementNS(NS,"animate");
+    anim.setAttribute("attributeName","r");
+    anim.setAttribute("from","0");
+    anim.setAttribute("to",r);
+    anim.setAttribute("dur","0.4s");
+    anim.setAttribute("begin", (i*0.04).toFixed(2)+"s");
+    anim.setAttribute("fill","freeze");
+    anim.setAttribute("calcMode","spline");
+    anim.setAttribute("keySplines","0.34 1.56 0.64 1");
+    anim.setAttribute("keyTimes","0;1");
+    c.appendChild(anim);
+    // fade in
+    const animO=document.createElementNS(NS,"animate");
+    animO.setAttribute("attributeName","fill-opacity");
+    animO.setAttribute("from","0");
+    animO.setAttribute("to",".62");
+    animO.setAttribute("dur","0.3s");
+    animO.setAttribute("begin",(i*0.04).toFixed(2)+"s");
+    animO.setAttribute("fill","freeze");
+    c.appendChild(animO);
     c.addEventListener("mousemove",e=>showTip(e,d));
     c.addEventListener("mouseleave",()=>tip.style.opacity=0);
     svg.appendChild(c);

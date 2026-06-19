@@ -376,10 +376,11 @@ function render(){
     if(va<vb)return -sortDir;if(va>vb)return sortDir;return 0;
   });
   const body=document.getElementById('body');body.innerHTML="";
-  rows.forEach(d=>{
+  rows.forEach((d,i)=>{
     const tr=document.createElement('tr');
     if(d.rec)tr.classList.add('rec');
     if(d.delisted)tr.classList.add('delisted');
+    tr.style.animationDelay = Math.min(i * 0.03, 0.4) + 's';
     COLS.forEach(c=>{
       const td=document.createElement('td');
       if(c.num)td.classList.add('num');

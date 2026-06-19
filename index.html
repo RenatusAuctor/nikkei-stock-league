@@ -153,6 +153,48 @@
     line-height: 1.7;
     opacity: 0.6;
   }
+
+  /* entrance animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .eyebrow { animation: fadeUp 0.5s ease both; }
+  h1       { animation: fadeUp 0.6s 0.08s ease both; }
+  .sub     { animation: fadeUp 0.6s 0.16s ease both; }
+  .card:nth-child(1) { animation: fadeUp 0.6s 0.28s ease both; }
+  .card:nth-child(2) { animation: fadeUp 0.6s 0.38s ease both; }
+  .footer  { animation: fadeUp 0.5s 0.5s ease both; }
+
+  /* cursor-glow: injected by JS via CSS custom properties */
+  .card { --mx: 50%; --my: 50%; }
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: radial-gradient(180px circle at var(--mx) var(--my), rgba(255,255,255,0.06), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .card:hover::after { opacity: 1; }
+
+  /* ripple on click */
+  @keyframes ripple {
+    from { transform: scale(0); opacity: 0.4; }
+    to   { transform: scale(4); opacity: 0; }
+  }
+  .ripple-circle {
+    position: absolute;
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.15);
+    pointer-events: none;
+    animation: ripple 0.5s ease-out forwards;
+    transform-origin: center;
+    margin: -20px;
+  }
 </style>
 </head>
 <body>

@@ -226,5 +226,33 @@
     半導体後工程ニッチ ― 日経ストックリーグ 2025 チームプロジェクト
   </div>
 </div>
+
+<script>
+/* 3D tilt + cursor glow on cards */
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    const cx = r.width / 2, cy = r.height / 2;
+    const rotX = ((y - cy) / cy) * -6;
+    const rotY = ((x - cx) / cx) * 6;
+    card.style.transform = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+    card.style.setProperty('--mx', x + 'px');
+    card.style.setProperty('--my', y + 'px');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+  card.addEventListener('click', e => {
+    const r = card.getBoundingClientRect();
+    const rip = document.createElement('span');
+    rip.className = 'ripple-circle';
+    rip.style.left = (e.clientX - r.left) + 'px';
+    rip.style.top  = (e.clientY - r.top)  + 'px';
+    card.appendChild(rip);
+    rip.addEventListener('animationend', () => rip.remove());
+  });
+});
+</script>
 </body>
 </html>

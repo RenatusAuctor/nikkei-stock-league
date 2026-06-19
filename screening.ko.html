@@ -197,6 +197,20 @@ const DATA = [
   {name:"도레이",code:"3402",mkt:"PRM",cat:"소재·부품",niche:"빌드업재/폴리이미드",opm:5.1,growth:8.6,sales:24474,cluster:"—",purity:"하",conf:"중",rec:false,note:"다각화. 후공정 순도 낮음. 연결 전체"},
   {name:"일본 제온",code:"4205",mkt:"PRM",cat:"소재·부품",niche:"도포형 절연막 소재",opm:10.3,growth:5.8,sales:4012,cluster:"—",purity:"하",conf:"중",rec:false,note:"첨단 패키지의 평탄화·절연"},
   {name:"아사히카세이",code:"3407",mkt:"PRM",cat:"소재·부품",niche:"빌드업재 소재",opm:6.2,growth:35.4,sales:28494,cluster:"—",purity:"하",conf:"중",rec:false,note:"다각화. 기초 소재 공급. 연결 전체"},
+
+  /* ── Phase 1 확장: Gemini Deep Research 2차 리서치(2026-06) — 신규 12개사(추천 9·요검증 2·제외 1) ── */
+  {name:"메크",code:"4971",mkt:"PRM",cat:"소재·부품",niche:"패키지 기판용 동표면 조화제 거의 100%",opm:27.4,growth:26.0,sales:209,cluster:"규슈(기타큐슈 신공장)",purity:"상",conf:"상",rec:true,note:"FC-BGA 동/수지 박리 방지 독점. 자기자본 83.7%·실질 무차입. JASM 규슈 에코시스템 직접 관여"},
+  {name:"JCU",code:"4975",mkt:"PRM",cat:"소재·부품",niche:"패키지 기판용 비아필 도금액 세계 톱클래스",opm:41.0,growth:15.6,sales:296,cluster:"규슈(구마모토 공장)",purity:"상",conf:"중",rec:true,note:"마이크로비아 충전 도금. 과거 최고익·자기자본 87.1%. 반도체 비율 추측(약 90%)→1차정보 대조 필요"},
+  {name:"야마이치전기",code:"6941",mkt:"PRM",cat:"인프라",niche:"번인 소켓 약 40% 세계 1위",opm:21.9,growth:40.5,sales:526,cluster:"—",purity:"중",conf:"상",rec:true,note:"AI/차재 SoC 테스트 소켓. 중기계획 1년 조기달성·자기자본 73.6%·반도체 47.6%. 클러스터는 후쿠오카 영업거점 수준"},
+  {name:"엔플라스",code:"6961",mkt:"PRM",cat:"인프라",niche:"AI/차재 테스트 소켓·광통신 렌즈",opm:14.5,growth:16.6,sales:425,cluster:"—",purity:"중",conf:"중",rec:true,note:"테스트 소켓+800G 광렌즈. 자기자본 87.8%·무차입. 반도체 비율 추측(50%+). 후쿠오카 영업소·환율 민감"},
+  {name:"린텍",code:"7966",mkt:"PRM",cat:"소재·부품",niche:"다이싱/백그라인드 특수 점착테이프 세계 톱",opm:7.9,growth:2.4,sales:3193,cluster:"—",purity:"하",conf:"중",rec:true,note:"HBM 초박형 웨이퍼 점착테이프. 대규모 연결매출로 반도체 비율 ~31% 추측. 자기자본 75.1%·이익률 낮음"},
+  {name:"페로텍HD",code:"6890",mkt:"STD",cat:"소재·부품",niche:"진공씰·석영·파인세라믹스(장치 부재)",opm:9.5,growth:14.4,sales:2889,cluster:"—",purity:"중",conf:"중",rec:true,note:"진공씰 압도적 점유. 반도체등 장치관련 30% 증익 견인. 자기자본 46.6%(다소 레버리지). STD 시장이나 매출 2889억"},
+  {name:"히라타기공",code:"6258",mkt:"PRM",cat:"인프라",niche:"웨이퍼 반송설비(EFEM)·진공반송로봇",opm:8.8,growth:20.5,sales:949,cluster:"규슈(구마모토 본사·주력공장)",purity:"중",conf:"상",rec:true,note:"★구마모토 클러스터 직접 수혜(JASM 입지). 6기 연속 증수·자기자본 약 77%·반도체 38%. 지방 근접성 핵심 종목"},
+  {name:"RS Technologies",code:"3445",mkt:"PRM",cat:"소재·부품",niche:"반도체 테스트 웨이퍼 재생 가공 세계 톱",opm:30,growth:12.1,sales:500,cluster:"도호쿠(미야기·산본기 공장)",purity:"상",conf:"중",rec:true,note:"재생 웨이퍼 구조적 성장. OPM·매출은 3Q 누계 기반 추측→통기 결산단신 대조 필요. Rapidus(홋카이도)·도호쿠 근접 잠재력"},
+  {name:"스텔라케미파",code:"4109",mkt:"PRM",cat:"소재·부품",niche:"초고순도 불화수소산(웨이퍼 세정)",opm:12.6,growth:7.1,sales:367,cluster:"—",purity:"중",conf:"상",rec:true,note:"세정용 고순도 HF. 전공정 인접 소재. 반도체 67%·자기자본 74.6%. 3년 총환원성향 100%+ 목표"},
+  {name:"로체",code:"6323",mkt:"PRM",cat:"인프라",niche:"웨이퍼·글라스 기판 비접촉 반송로봇 세계 톱",opm:24.2,growth:-2.7,sales:1287,cluster:"—",purity:"상",conf:"중",rec:false,note:"요검증: OPM 24.2% 고수익이나 소송충당금 등으로 소폭 감익. 자기자본 66%(개선). 장기 AI 자동화 수혜"},
+  {name:"타츠모",code:"6266",mkt:"PRM",cat:"인프라",niche:"도포현상(코터·디벨로퍼)·세정장치",opm:16.3,growth:-3.9,sales:271,cluster:"—",purity:"중",conf:"중",rec:false,note:"요검증: 수치는 3Q 누계, 통기 영업이익 15.5% 감익 예상. 자기자본 54.1%. 수주 회복 시 재부상 여지"},
+  {name:"노무라마이크로",code:"6254",mkt:"PRM",cat:"인프라",niche:"초순수 장치(반도체 제조 인프라)",opm:11.9,growth:-56.6,sales:562,cluster:"—",purity:"상",conf:"상",rec:false,excluded:true,note:"제외: 영업이익 -56.6%·자기자본 35.6%로 재무·성장 기준 미달"},
 ];
 
 const CATCOLOR = {"인프라":"#2DD4BF","패키징":"#E0A340","소재·부품":"#7DA7FF"};

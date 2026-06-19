@@ -307,8 +307,19 @@ function showTip(e,d){
   tip.style.top=(e.clientY-wrap.top+12)+"px";
   tip.style.opacity=1;
 }
+function addRipple(ch, e) {
+  const r = ch.getBoundingClientRect();
+  const rip = document.createElement('span');
+  rip.className = 'chip-rip';
+  rip.style.left = (e.clientX - r.left) + 'px';
+  rip.style.top  = (e.clientY - r.top)  + 'px';
+  ch.appendChild(rip);
+  rip.addEventListener('animationend', () => rip.remove());
+}
+
 document.querySelectorAll('#chartControls .chip').forEach(ch=>{
-  ch.addEventListener('click',()=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch, e);
     const cat=ch.dataset.cat;
     if(cat==="all"){
       const turnOn=!ch.classList.contains('active');

@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>후공정 니치 톱 종목 스크리닝</title>
+<style>
+  :root{
+    --bg:#0B1C28; --panel:#102A37; --panel2:#0E2330; --edge:#21404E;
+    --ink:#EAF2F4; --mute:#9FB3BD; --mute2:#7C95A1;
+    --teal:#2DD4BF; --teal2:#14B8A6; --amber:#E0A340; --blue:#7DA7FF;
+    --red:#F0826B; --good:#5EEAD4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
+  /* navigation */
+  .top-nav{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--edge);}
+  .top-nav a{color:var(--teal);font-size:13px;text-decoration:none;display:flex;align-items:center;gap:5px;}
+  .top-nav a:hover{color:var(--good);}
+  .top-nav .sep{color:var(--mute2);font-size:12px;}
+  .top-nav .current{color:var(--ink);font-size:13px;font-weight:700;}
+  .eyebrow{color:var(--teal);font-size:12px;font-weight:700;letter-spacing:.14em;}
+  h1{font-size:26px;margin:6px 0 4px;font-weight:800;}
+  .sub{color:var(--mute);font-size:13.5px;margin-bottom:18px;line-height:1.6;}
+  .alert{background:rgba(240,130,107,.10);border:1px solid rgba(240,130,107,.5);
+    border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;line-height:1.7;}
+  .alert b{color:var(--red);}
+  .alert .tag{display:inline-block;background:var(--red);color:#1a0f0c;font-weight:700;
+    font-size:10.5px;padding:2px 7px;border-radius:5px;margin-right:6px;}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:14px;
+    padding:18px;margin-bottom:20px;}
+  .panel h2{font-size:16px;margin:0 0 2px;font-weight:700;}
+  .panel .hint{color:var(--mute);font-size:12px;margin-bottom:12px;}
+  /* controls */
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
+  .chip{background:var(--panel2);border:1px solid var(--edge);color:var(--mute);
+    border-radius:999px;padding:6px 13px;font-size:12.5px;cursor:pointer;user-select:none;
+    position:relative;overflow:hidden;}
+  .chip.active{background:var(--teal2);border-color:var(--teal2);color:#06231f;font-weight:700;}
+  .chip.amber.active{background:var(--amber);border-color:var(--amber);}
+  .chip.blue.active{background:var(--blue);border-color:var(--blue);}
+  .toggle{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+  input[type=search]{background:var(--panel2);border:1px solid var(--edge);color:var(--ink);
+    border-radius:8px;padding:7px 11px;font-size:13px;min-width:170px;}
+  input[type=search]::placeholder{color:var(--mute2);}
+  /* chart */
+  .chartwrap{position:relative;width:100%;overflow:visible;}
+  svg{width:100%;height:auto;display:block;}
+  .axis-label{fill:var(--mute);font-size:11px;}
+  .tick{fill:var(--mute2);font-size:10px;}
+  .grid{stroke:var(--edge);stroke-width:1;}
+  .bub{cursor:pointer;transition:opacity .15s;}
+  .bub:hover{opacity:1!important;}
+  .bub-lab{fill:var(--ink);font-size:9.5px;pointer-events:none;}
+  .tooltip{position:absolute;pointer-events:none;background:#06161f;border:1px solid var(--teal2);
+    border-radius:8px;padding:8px 10px;font-size:11.5px;line-height:1.55;color:var(--ink);
+    opacity:0;transition:opacity .15s,transform .15s;transform:translateY(4px);
+    max-width:230px;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .tooltip.show{opacity:1;transform:translateY(0);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:8px;}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top;}
+  th{color:var(--mute);font-weight:700;font-size:11.5px;cursor:pointer;white-space:nowrap;
+    position:sticky;top:0;background:var(--panel);z-index:2;}
+  th:hover{color:var(--teal);}
+  th .arr{opacity:.5;font-size:9px;}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  tr.rec td:first-child{color:var(--amber);font-weight:700;}
+  tr.delisted{opacity:.5;}
+  tr.delisted td:nth-child(2){text-decoration:line-through;}
+  .badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;white-space:nowrap;}
+  .b-infra{background:rgba(45,212,191,.16);color:var(--teal);}
+  .b-pkg{background:rgba(224,163,64,.16);color:var(--amber);}
+  .b-mat{background:rgba(125,167,255,.16);color:var(--blue);}
+  .b-del{background:var(--red);color:#1a0f0c;}
+  .b-clu{background:rgba(94,234,212,.14);color:var(--good);}
+  .pur-high{color:var(--good);}.pur-mid{color:var(--mute);}.pur-low{color:var(--red);}
+  .conf-상{color:var(--good);}.conf-중{color:var(--amber);}
+  .pos{color:var(--good);}.neg{color:var(--red);}
+  .foot{color:var(--mute2);font-size:11px;line-height:1.7;margin-top:6px;}
+  .count{color:var(--teal);font-weight:700;}
+  /* chip ripple */
+  @keyframes chipRipple{from{transform:scale(0);opacity:.35;}to{transform:scale(5);opacity:0;}}
+  .chip-rip{position:absolute;border-radius:50%;width:30px;height:30px;margin:-15px;
+    background:rgba(255,255,255,.3);pointer-events:none;animation:chipRipple .45s ease-out forwards;}
+  /* table row animation */
+  @keyframes rowIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  #body tr{animation:rowIn .25s ease both;}
+  /* language switch */
+  .lang-switch{position:fixed;top:14px;right:16px;display:flex;gap:2px;
+    background:rgba(255,255,255,0.07);border:1px solid var(--edge);border-radius:50px;
+    padding:3px;z-index:200;backdrop-filter:blur(8px);}
+  .lang-switch a{color:var(--mute);text-decoration:none;font-size:12px;font-weight:700;
+    letter-spacing:.04em;padding:5px 13px;border-radius:50px;transition:all .2s;}
+  .lang-switch a.active{background:var(--teal);color:#06231f;}
+  .lang-switch a:not(.active):hover{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="lang-switch">
+  <a href="screening.html">JP</a>
+  <a href="screening.ko.html" class="active">KR</a>
+</div>
+<div class="wrap">
+  <nav class="top-nav">
+    <a href="index.ko.html">← 홈</a>
+    <span class="sep">›</span>
+    <span class="current">Phase 1 스크리닝</span>
+    <a href="planning.ko.html" style="margin-left:auto">기획안 보기 →</a>
+  </nav>
+
+  <div class="eyebrow">PHASE 1 ｜ 스크리닝 작업대</div>
+  <h1>후공정 니치 톱 종목 스크리닝</h1>
+  <p class="sub">Gemini Deep Research의 롱리스트(25개사)를 검증·정리한 작업용 대시보드. 수치는 각사 결산·IR 등의 '보고값'으로, Phase 2 확정 전에 1차 정보(유가증권보고서·결산단신)와의 대조가 필요. 가로축＝영업이익률(진입장벽·가격 지배력의 대리지표), 세로축＝최근 영업이익 성장률.</p>
+
+  <div class="alert">
+    <div><span class="tag">수정 필요</span><b>신코전기공업(6967)은 2025년 6월 6일 상장폐지</b>(JIC에 의한 TOB·비상장화). 투자 대상 외이므로 제외 → 추천은 실질 19개사. 기판 영역의 대체 후보는 톳판(7911)／일본특수도업(5334).</div>
+    <div style="margin-top:7px"><span class="tag">확인 필요</span>일본 마이크로닉스(6871)의 세계 점유율이 표 내 '약 33%·1위'와 본문 '3위'로 모순 → 1차 정보로 확정이 필요.</div>
+  </div>
+
+  <div class="panel">
+    <h2>분석 매트릭스: 진입장벽 × 이익 성장</h2>
+    <div class="hint">우상단＝고수익이면서 고성장인 '유망 존'. 버블 크기＝매출 규모, 색＝카테고리, 흰색 링＝반도체 클러스터 근접. 점에 커서를 올리면 상세 표시.</div>
+    <div class="controls" id="chartControls">
+      <span class="chip active" data-cat="all">전체</span>
+      <span class="chip active" data-cat="인프라">인프라</span>
+      <span class="chip amber active" data-cat="패키징">패키징</span>
+      <span class="chip blue active" data-cat="소재·부품">소재·부품</span>
+    </div>
+    <div class="chartwrap">
+      <svg id="chart" viewBox="0 0 820 470" role="img" aria-label="버블 차트"></svg>
+      <div class="tooltip" id="tip"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--teal)"></i>인프라(장비·검사·실장)</span>
+      <span><i style="background:var(--amber)"></i>패키징(기판·리드프레임)</span>
+      <span><i style="background:var(--blue)"></i>소재·부품</span>
+      <span><i style="background:transparent;border:2px solid #fff"></i>클러스터 근접</span>
+    </div>
+    <p class="foot">※ 어드밴테스트는 이익 성장 +118.8%의 이상치.</p>
+  </div>
+
+  <div class="panel">
+    <h2>종목 테이블(정렬·필터 가능)</h2>
+    <div class="hint">열 머리글 클릭으로 정렬. <span class="count" id="shownCount"></span> 개사 표시 중.</div>
+    <div class="controls" id="tableControls">
+      <span class="chip active" data-cat="all">전체 카테고리</span>
+      <span class="chip" data-cat="인프라">인프라</span>
+      <span class="chip" data-cat="패키징">패키징</span>
+      <span class="chip" data-cat="소재·부품">소재·부품</span>
+      <span class="chip" data-flag="rec">추천만</span>
+      <span class="chip" data-flag="cluster">클러스터 근접만</span>
+      <div class="toggle">
+        <input type="search" id="search" placeholder="기업명·코드로 검색">
+      </div>
+    </div>
+    <div style="overflow-x:auto;overflow-y:auto;max-height:540px;">
+      <table id="tbl">
+        <thead><tr id="head"></tr></thead>
+        <tbody id="body"></tbody>
+      </table>
+    </div>
+    <p class="foot">추천★＝Deep Research의 추천 20개사(신코전기 제외 19개사). 신뢰성은 출처의 질(상＝결산단신/IR, 중＝2차 정보). 반도체 순도＝후공정 매출의 집중도에 대한 잠정 평가.</p>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {name:"디스코",code:"6146",mkt:"PRM",cat:"인프라",niche:"다이싱 소 약 80%",opm:42.3,growth:10.9,sales:4368,cluster:"규슈(지원)",purity:"상",conf:"상",rec:true,note:"HBM 초박형 웨이퍼 절단. 장비+소모품으로 대체 불가"},
+  {name:"어드밴테스트",code:"6857",mkt:"PRM",cat:"인프라",niche:"SoC 테스터 세계 톱클래스",opm:44.2,growth:118.8,sales:11286,cluster:"—",purity:"상",conf:"상",rec:true,note:"고객 집중(Nvidia/TSMC) 리스크. 성장은 이상치"},
+  {name:"TOWA",code:"6315",mkt:"PRM",cat:"인프라",niche:"컴프레션 몰드 No.1",opm:12.7,growth:-22.1,sales:543,cluster:"규슈(도스)",purity:"상",conf:"상",rec:true,note:"대형 봉지의 휨 제어. 이번 기는 감익"},
+  {name:"도쿄정밀",code:"7729",mkt:"PRM",cat:"인프라",niche:"프로버/다이싱 높은 점유율",opm:20.2,growth:14,sales:1668,cluster:"—",purity:"상",conf:"상",rec:true,note:"테스터 연동 프로버"},
+  {name:"일본 마이크로닉스",code:"6871",mkt:"PRM",cat:"인프라",niche:"프로브 카드 세계 상위(확인 필요)",opm:23.5,growth:31.6,sales:701,cluster:"도호쿠",purity:"상",conf:"중",rec:true,note:"점유율 순위를 1차 정보로 확인 필요"},
+  {name:"시바우라 메카트로닉스",code:"6590",mkt:"PRM",cat:"인프라",niche:"플립칩 본더 높은 점유율",opm:13.5,growth:22.4,sales:1048,cluster:"—",purity:"중",conf:"중",rec:true,note:"열압착 접합. FY2024 결산 기준"},
+  {name:"타카토리",code:"6338",mkt:"STD",cat:"인프라",niche:"SiC 슬라이서",opm:11.2,growth:15.3,sales:73,cluster:"—",purity:"중",conf:"중",rec:true,note:"SiC 파워반도체용"},
+  {name:"테라프로브",code:"6627",mkt:"STD",cat:"인프라",niche:"웨이퍼 테스트 수탁 국내 톱클래스",opm:21.3,growth:28.0,sales:417,cluster:"규슈(JASM 인접)",purity:"상",conf:"상",rec:true,note:"반도체 100%. JASM 인근으로 시너지 큼"},
+
+  {name:"이비덴",code:"4062",mkt:"PRM",cat:"패키징",niche:"IC 패키지 기판 세계 톱클래스",opm:14.8,growth:30.3,sales:4162,cluster:"—",purity:"상",conf:"상",rec:true,note:"대면적 FC-BGA. 고객 집중(Intel/Nvidia)"},
+  {name:"신코전기공업",code:"6967",mkt:"폐지",cat:"패키징",niche:"플립칩 기판 세계 톱클래스",opm:null,growth:null,sales:3800,cluster:"—",purity:"상",conf:"상",rec:false,delisted:true,note:"2025/6/6 상장폐지(JIC·TOB). 투자 불가"},
+  {name:"미쓰이 하이테크",code:"6966",mkt:"PRM",cat:"패키징",niche:"IC 리드프레임 선두급",opm:5.7,growth:-18.2,sales:2183,cluster:"규슈(기타큐슈)",purity:"하",conf:"상",rec:true,note:"EV 모터 코어 비중이 높아 후공정 순도 낮음"},
+  {name:"다이니혼 인쇄",code:"7912",mkt:"PRM",cat:"패키징",niche:"차세대 글라스 코어 기판 개발",opm:7.8,growth:12.5,sales:14125,cluster:"—",purity:"하",conf:"중",rec:true,note:"유기 기판의 한계 돌파 후보. 연결 전체 수치"},
+  {name:"톳판",code:"7911",mkt:"PRM",cat:"패키징",niche:"FC-BGA 기판",opm:5.9,growth:-8.3,sales:16344,cluster:"—",purity:"하",conf:"중",rec:false,note:"신코의 대체 후보. 이번 기는 감익 추세. 연결 전체"},
+  {name:"일본특수도업",code:"5334",mkt:"PRM",cat:"패키징",niche:"세라믹 패키지 기판",opm:16.2,growth:9.7,sales:5765,cluster:"—",purity:"하",conf:"중",rec:false,note:"특수 환경용. 기판 대체 후보. 연결 전체"},
+
+  {name:"레조낙",code:"4004",mkt:"PRM",cat:"소재·부품",niche:"후공정 소재 세계 No.1(5개 소재 1위)",opm:8.0,growth:18.4,sales:13471,cluster:"—",purity:"중",conf:"상",rec:true,note:"언더필 등. 코어 영업이익 기준"},
+  {name:"스미토모 베이클라이트",code:"4203",mkt:"PRM",cat:"소재·부품",niche:"봉지재(에폭시) 약 40%",opm:11.0,growth:43.1,sales:3199,cluster:"규슈(노가타)",purity:"중",conf:"상",rec:true,note:"AI용 대형 봉지로 사상 최고익"},
+  {name:"미쓰이금속",code:"5706",mkt:"PRM",cat:"소재·부품",niche:"극박 동박 MicroThin 95%+",opm:17.2,growth:75.1,sales:7585,cluster:"—",purity:"중",conf:"상",rec:true,note:"FC-BGA 미세 배선에 직결. 압도적 장벽"},
+  {name:"다이요 홀딩스",code:"4626",mkt:"PRM",cat:"소재·부품",niche:"솔더 레지스트 세계 No.1",opm:23.5,growth:47.4,sales:1378,cluster:"규슈(기타큐슈)",purity:"중",conf:"상",rec:true,note:"기판 보호·절연의 패자"},
+  {name:"도쿄오카공업",code:"4186",mkt:"PRM",cat:"소재·부품",niche:"첨단 포토레지스트 세계 톱클래스",opm:16.9,growth:43.2,sales:2370,cluster:"규슈/홋카이도(공급)",purity:"중",conf:"중",rec:true,note:"TSMC/Rapidus에 공급. FOWLP 대응"},
+  {name:"우에무라공업",code:"4966",mkt:"STD",cat:"소재·부품",niche:"무전해 도금액 높은 점유율",opm:23.2,growth:13.3,sales:917,cluster:"—",purity:"중",conf:"상",rec:true,note:"비아필·배선 형성. 고수익"},
+  {name:"닛토덴코",code:"6988",mkt:"PRM",cat:"소재·부품",niche:"반도체 제조용 테이프",opm:17.8,growth:-1.1,sales:10281,cluster:"—",purity:"하",conf:"중",rec:true,note:"다각화 대기업으로 반도체 순도는 낮음"},
+  {name:"신에쓰화학공업",code:"4063",mkt:"PRM",cat:"소재·부품",niche:"실리콘 웨이퍼/층간 절연재",opm:33.8,growth:-5.2,sales:22823,cluster:"—",purity:"하",conf:"중",rec:true,note:"실질적으로 전공정 쪽. 논지와의 거리에 주의"},
+  {name:"도레이",code:"3402",mkt:"PRM",cat:"소재·부품",niche:"빌드업재/폴리이미드",opm:5.1,growth:8.6,sales:24474,cluster:"—",purity:"하",conf:"중",rec:false,note:"다각화. 후공정 순도 낮음. 연결 전체"},
+  {name:"일본 제온",code:"4205",mkt:"PRM",cat:"소재·부품",niche:"도포형 절연막 소재",opm:10.3,growth:5.8,sales:4012,cluster:"—",purity:"하",conf:"중",rec:false,note:"첨단 패키지의 평탄화·절연"},
+  {name:"아사히카세이",code:"3407",mkt:"PRM",cat:"소재·부품",niche:"빌드업재 소재",opm:6.2,growth:35.4,sales:28494,cluster:"—",purity:"하",conf:"중",rec:false,note:"다각화. 기초 소재 공급. 연결 전체"},
+];
+
+const CATCOLOR = {"인프라":"#2DD4BF","패키징":"#E0A340","소재·부품":"#7DA7FF"};
+const CATBADGE  = {"인프라":"b-infra","패키징":"b-pkg","소재·부품":"b-mat"};
+
+/* ── BUBBLE CHART ── */
+const svg = document.getElementById('chart');
+const tip = document.getElementById('tip');
+const NS  = "http://www.w3.org/2000/svg";
+const M   = {l:54,r:24,t:20,b:46}, W=820, H=470;
+const PW  = W-M.l-M.r, PH = H-M.t-M.b;
+const X   = {min:0,max:50}, Y = {min:-30,max:130};
+const xpix = v => M.l+(v-X.min)/(X.max-X.min)*PW;
+const ypix = v => M.t+PH-(v-Y.min)/(Y.max-Y.min)*PH;
+const rpix = s => Math.max(7,Math.sqrt(s/Math.PI)/4.2);
+let chartCats = new Set(["인프라","패키징","소재·부품"]);
+
+function el(tag,attrs){
+  const e=document.createElementNS(NS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
+
+function drawChart(){
+  svg.innerHTML="";
+
+  svg.appendChild(el("rect",{x:xpix(25),y:M.t,width:xpix(X.max)-xpix(25),
+    height:ypix(20)-M.t,fill:"#2DD4BF","fill-opacity":.09,stroke:"#2DD4BF",
+    "stroke-opacity":.3,"stroke-width":1,"stroke-dasharray":"4,3"}));
+  const zl=el("text",{x:xpix(X.max)-6,y:M.t+14,class:"axis-label",
+    "text-anchor":"end","font-size":"9.5","fill-opacity":".7"});
+  zl.textContent="유망 존"; svg.appendChild(zl);
+
+  for(let v=0;v<=50;v+=10){
+    svg.appendChild(el("line",{x1:xpix(v),y1:M.t,x2:xpix(v),y2:M.t+PH,
+      class:"grid","stroke-opacity":.5}));
+    const t=el("text",{x:xpix(v),y:M.t+PH+16,class:"tick","text-anchor":"middle"});
+    t.textContent=v+"%"; svg.appendChild(t);
+  }
+  for(let v=-30;v<=130;v+=40){
+    svg.appendChild(el("line",{x1:M.l,y1:ypix(v),x2:M.l+PW,y2:ypix(v),
+      class:"grid","stroke-opacity":v===0?.9:.4}));
+    const t=el("text",{x:M.l-8,y:ypix(v)+3,class:"tick","text-anchor":"end"});
+    t.textContent=v+"%"; svg.appendChild(t);
+  }
+  const xl=el("text",{x:M.l+PW/2,y:H-6,class:"axis-label","text-anchor":"middle"});
+  xl.textContent="영업이익률(진입장벽·가격 지배력의 대리지표) →"; svg.appendChild(xl);
+  const yl=el("text",{x:16,y:M.t+PH/2,class:"axis-label","text-anchor":"middle",
+    transform:`rotate(-90 16 ${M.t+PH/2})`});
+  yl.textContent="최근 영업이익 성장률 →"; svg.appendChild(yl);
+
+  const bubData = DATA
+    .filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted)
+    .filter(d=>chartCats.has(d.cat))
+    .sort((a,b)=>b.sales-a.sales);
+
+  bubData.forEach((d,i)=>{
+    const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
+    const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
+      stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],
+      "stroke-width":d.cluster!=="—"?2:1,
+      "stroke-opacity":d.cluster!=="—"?.9:.5,
+      style:`animation-delay:${(i*0.04).toFixed(2)}s`});
+    c.addEventListener("mousemove",e=>showTip(e,d));
+    c.addEventListener("mouseleave",()=>{ tip.style.opacity=0; tip.classList.remove('show'); });
+    svg.appendChild(c);
+  });
+
+  const bpos = bubData.map(d=>({cx:xpix(d.opm),cy:ypix(d.growth),r:rpix(d.sales)}));
+  bubData.forEach((d,i)=>{
+    const {cx,cy,r} = bpos[i];
+    const name = d.name.length>6 ? d.name.slice(0,6) : d.name;
+    const dirs = [
+      {dx:0,      dy:-(r+5), anchor:'middle'},
+      {dx:r+5,    dy:4,      anchor:'start'},
+      {dx:0,      dy:r+12,   anchor:'middle'},
+      {dx:-(r+5), dy:4,      anchor:'end'},
+      {dx:r+4,    dy:-(r+3), anchor:'start'},
+      {dx:r+4,    dy:r+9,    anchor:'start'},
+      {dx:-(r+4), dy:-(r+3), anchor:'end'},
+      {dx:-(r+4), dy:r+9,    anchor:'end'},
+    ];
+    let best=dirs[0], bestScore=-Infinity;
+    for(const dir of dirs){
+      const lx=cx+dir.dx, ly=cy+dir.dy;
+      if(lx<M.l+2||lx>M.l+PW-2||ly<M.t+8||ly>M.t+PH-2) continue;
+      let score=0;
+      for(let j=0;j<bpos.length;j++){
+        if(j===i) continue;
+        const dist=Math.sqrt((lx-bpos[j].cx)**2+(ly-bpos[j].cy)**2);
+        score+=Math.min(dist,160);
+      }
+      if(score>bestScore){bestScore=score;best=dir;}
+    }
+    const lab=el("text",{x:cx+best.dx,y:cy+best.dy,class:"bub-lab","text-anchor":best.anchor});
+    lab.textContent=name; svg.appendChild(lab);
+  });
+}
+
+function showTip(e,d){
+  const wrap=svg.parentElement.getBoundingClientRect();
+  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code})<br>`+
+    `${d.niche}<br>OPM ${d.opm}%·이익성장 ${d.growth>0?'+':''}${d.growth}%<br>`+
+    `매출 ${d.sales.toLocaleString()}억엔${d.cluster!=="—"?'<br>클러스터: '+d.cluster:''}`;
+  tip.style.left=(e.clientX-wrap.left+12)+"px";
+  tip.style.top=(e.clientY-wrap.top+12)+"px";
+  tip.style.opacity=1;
+  tip.classList.add('show');
+}
+
+function addRipple(ch,e){
+  const r=ch.getBoundingClientRect();
+  const rip=document.createElement('span');
+  rip.className='chip-rip';
+  rip.style.left=(e.clientX-r.left)+'px';
+  rip.style.top=(e.clientY-r.top)+'px';
+  ch.appendChild(rip);
+  rip.addEventListener('animationend',()=>rip.remove());
+}
+
+document.querySelectorAll('#chartControls .chip').forEach(ch=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch,e);
+    const cat=ch.dataset.cat;
+    if(cat==="all"){
+      const on=!ch.classList.contains('active');
+      document.querySelectorAll('#chartControls .chip').forEach(c=>c.classList.toggle('active',on));
+      chartCats=on?new Set(["인프라","패키징","소재·부품"]):new Set();
+    }else{
+      ch.classList.toggle('active');
+      ch.classList.contains('active')?chartCats.add(cat):chartCats.delete(cat);
+      document.querySelector('#chartControls .chip[data-cat=all]')
+        .classList.toggle('active',chartCats.size===3);
+    }
+    drawChart();
+  });
+});
+
+/* ── TABLE ── */
+const COLS=[
+  {k:"rec",   label:"",                 get:d=>d.delisted?'제외':(d.rec?'★':''), sort:d=>d.delisted?-1:(d.rec?1:0)},
+  {k:"name",  label:"기업명",            get:d=>d.name,                           sort:d=>d.name},
+  {k:"code",  label:"코드",              get:d=>d.code,                           sort:d=>d.code,  num:true},
+  {k:"cat",   label:"카테고리",          html:d=>`<span class="badge ${CATBADGE[d.cat]}">${d.cat}</span>`, sort:d=>d.cat},
+  {k:"niche", label:"니치·세계 점유율",  get:d=>d.niche,                          sort:d=>d.niche},
+  {k:"opm",   label:"OPM%",             get:d=>d.opm==null?'—':d.opm,            sort:d=>d.opm==null?-999:d.opm,    num:true},
+  {k:"growth",label:"영업익 성장%",       html:d=>d.growth==null?'—':`<span class="${d.growth>=0?'pos':'neg'}">${d.growth>0?'+':''}${d.growth}</span>`, sort:d=>d.growth==null?-999:d.growth, num:true},
+  {k:"sales", label:"매출(억엔)",        get:d=>d.sales==null?'—':d.sales.toLocaleString(), sort:d=>d.sales==null?-1:d.sales, num:true},
+  {k:"cluster",label:"클러스터",          html:d=>d.cluster==="—"?`<span style="color:var(--mute2)">—</span>`:`<span class="badge b-clu">${d.cluster}</span>`, sort:d=>d.cluster},
+  {k:"purity",label:"반도체 순도",        html:d=>`<span class="pur-${d.purity==='상'?'high':d.purity==='중'?'mid':'low'}">${d.purity}</span>`, sort:d=>({상:3,중:2,하:1}[d.purity])},
+  {k:"conf",  label:"신뢰성",            html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`, sort:d=>({상:2,중:1}[d.conf])},
+];
+let sortKey="rec", sortDir=-1, filterCat="all", flags=new Set(), query="";
+
+function buildHead(){
+  const h=document.getElementById('head'); h.innerHTML="";
+  COLS.forEach(c=>{
+    const th=document.createElement('th');
+    th.innerHTML=c.label+(sortKey===c.k?` <span class="arr">${sortDir>0?'▲':'▼'}</span>`:'');
+    if(c.num) th.style.textAlign='right';
+    th.onclick=()=>{if(sortKey===c.k)sortDir*=-1;else{sortKey=c.k;sortDir=1;}render();};
+    h.appendChild(th);
+  });
+}
+function passFilter(d){
+  if(filterCat!=="all"&&d.cat!==filterCat) return false;
+  if(flags.has('rec')&&!d.rec) return false;
+  if(flags.has('cluster')&&d.cluster==="—") return false;
+  if(query){const q=query.toLowerCase();if(!(d.name.toLowerCase().includes(q)||d.code.includes(q)))return false;}
+  return true;
+}
+function render(){
+  buildHead();
+  const col=COLS.find(c=>c.k===sortKey);
+  const rows=DATA.filter(passFilter).sort((a,b)=>{
+    const va=col.sort(a), vb=col.sort(b);
+    if(va<vb)return -sortDir; if(va>vb)return sortDir; return 0;
+  });
+  const body=document.getElementById('body'); body.innerHTML="";
+  rows.forEach((d,i)=>{
+    const tr=document.createElement('tr');
+    if(d.rec)     tr.classList.add('rec');
+    if(d.delisted)tr.classList.add('delisted');
+    tr.style.animationDelay=Math.min(i*0.03,0.4)+'s';
+    COLS.forEach(c=>{
+      const td=document.createElement('td');
+      if(c.num) td.classList.add('num');
+      if(c.k==="rec"&&d.delisted) td.innerHTML=`<span class="badge b-del">제외</span>`;
+      else td.innerHTML=c.html?c.html(d):c.get(d);
+      tr.appendChild(td);
+    });
+    tr.title=d.note||"";
+    body.appendChild(tr);
+  });
+  document.getElementById('shownCount').textContent=rows.length;
+}
+document.querySelectorAll('#tableControls .chip').forEach(ch=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch,e);
+    if(ch.dataset.flag){
+      ch.classList.toggle('active');
+      ch.classList.contains('active')?flags.add(ch.dataset.flag):flags.delete(ch.dataset.flag);
+    }else{
+      document.querySelectorAll('#tableControls .chip[data-cat]').forEach(c=>c.classList.remove('active'));
+      ch.classList.add('active'); filterCat=ch.dataset.cat;
+    }
+    render();
+  });
+});
+document.getElementById('search').addEventListener('input',e=>{query=e.target.value;render();});
+
+drawChart();
+render();
+</script>
+</body>
+</html>

@@ -91,7 +91,7 @@
   }
   .card.teal::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,0.1) 0%, transparent 60%); }
   .card.amber::before { background: radial-gradient(ellipse at top left, rgba(224,163,64,0.1) 0%, transparent 60%); }
-  .card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+  .card:hover { box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
   .card:hover::before { opacity: 1; }
   .card:hover.teal { border-color: var(--teal); }
   .card:hover.amber { border-color: var(--amber); }
@@ -99,7 +99,9 @@
   .card-icon {
     font-size: 36px;
     line-height: 1;
+    transition: transform 0.3s ease;
   }
+  .card:hover .card-icon { transform: scale(1.15) rotate(-5deg); }
   .card-phase {
     font-size: 10px;
     font-weight: 800;

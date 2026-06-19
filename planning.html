@@ -2121,7 +2121,7 @@
   }
 
   function changeSlideDelta(delta) {
-    showSlide(version, currentIdx + delta);
+    showSlide(version, currentIdx + delta, delta > 0 ? 1 : -1);
   }
 
   function switchVersion(v) {
@@ -2129,7 +2129,7 @@
     currentIdx = 0;
     document.getElementById('btn-kaiteiban').classList.toggle('active', v === 'kaiteiban');
     document.getElementById('btn-yasashii').classList.toggle('active', v === 'yasashii');
-    showSlide(v, 0);
+    showSlide(v, 0, 1);
   }
 
   document.addEventListener('keydown', e => {

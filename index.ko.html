@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>닛케이 스톡리그 프로젝트</title>
+<style>
+  :root {
+    --bg: #0B1C28;
+    --panel: #102A37;
+    --edge: #21404E;
+    --ink: #EAF2F4;
+    --mute: #9FB3BD;
+    --teal: #2DD4BF;
+    --amber: #E0A340;
+    --blue: #7DA7FF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  }
+  .wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .eyebrow {
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 40%, var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  @media (max-width: 480px) { h1 { font-size: 24px; } }
+  .sub {
+    color: var(--mute);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+    max-width: 480px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+  }
+  @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--edge);
+    border-radius: 20px;
+    padding: 32px 28px;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .card.teal::before { background: radial-gradient(ellipse at top left, rgba(45,212,191,0.1) 0%, transparent 60%); }
+  .card.amber::before { background: radial-gradient(ellipse at top left, rgba(224,163,64,0.1) 0%, transparent 60%); }
+  .card:hover { box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+  .card:hover::before { opacity: 1; }
+  .card:hover.teal { border-color: var(--teal); }
+  .card:hover.amber { border-color: var(--amber); }
+
+  .card-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  .card.teal .card-icon { color: var(--teal); }
+  .card.amber .card-icon { color: var(--amber); }
+  .card:hover .card-icon { transform: scale(1.15) rotate(-5deg); }
+  .card-phase {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .card.teal .card-phase { color: var(--teal); }
+  .card.amber .card-phase { color: var(--amber); }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--mute);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .card-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .card-meta span {
+    font-size: 11px;
+    color: var(--mute);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--edge);
+    border-radius: 5px;
+    padding: 2px 8px;
+  }
+  .card-arrow {
+    align-self: flex-end;
+    font-size: 18px;
+    opacity: 0.4;
+    transition: all 0.2s;
+  }
+  .card:hover .card-arrow { opacity: 1; transform: translateX(4px); }
+  .card.teal:hover .card-arrow { color: var(--teal); }
+  .card.amber:hover .card-arrow { color: var(--amber); }
+
+  .footer {
+    margin-top: 56px;
+    color: var(--mute);
+    font-size: 12px;
+    line-height: 1.7;
+    opacity: 0.6;
+  }
+
+  /* entrance animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .eyebrow { animation: fadeUp 0.5s ease both; }
+  h1       { animation: fadeUp 0.6s 0.08s ease both; }
+  .sub     { animation: fadeUp 0.6s 0.16s ease both; }
+  .card:nth-child(1) { animation: fadeUp 0.6s 0.28s ease both; }
+  .card:nth-child(2) { animation: fadeUp 0.6s 0.38s ease both; }
+  .footer  { animation: fadeUp 0.5s 0.5s ease both; }
+
+  /* cursor-glow: injected by JS via CSS custom properties */
+  .card { --mx: 50%; --my: 50%; }
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: radial-gradient(180px circle at var(--mx) var(--my), rgba(255,255,255,0.06), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .card:hover::after { opacity: 1; }
+
+  /* ripple on click */
+  @keyframes ripple {
+    from { transform: scale(0); opacity: 0.4; }
+    to   { transform: scale(4); opacity: 0; }
+  }
+  .ripple-circle {
+    position: absolute;
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.15);
+    pointer-events: none;
+    animation: ripple 0.5s ease-out forwards;
+    transform-origin: center;
+    margin: -20px;
+  }
+
+  /* language switch */
+  .lang-switch {
+    position: fixed;
+    top: 16px; right: 16px;
+    display: flex;
+    gap: 2px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--edge);
+    border-radius: 50px;
+    padding: 3px;
+    z-index: 200;
+    backdrop-filter: blur(8px);
+  }
+  .lang-switch a {
+    color: var(--mute);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 5px 13px;
+    border-radius: 50px;
+    transition: all 0.2s;
+  }
+  .lang-switch a.active { background: var(--teal); color: #06231f; }
+  .lang-switch a:not(.active):hover { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="lang-switch">
+  <a href="index.html">JP</a>
+  <a href="index.ko.html" class="active">KR</a>
+</div>
+<div class="wrap">
+  <div class="eyebrow">닛케이 스톡리그 2025</div>
+  <h1>후공정 니치 × 지방 클러스터</h1>
+  <p class="sub">초미세화의 한계와 차세대 패키징(후공정)에 주목. 세계 점유율을 과점한 일본의 소재·장비 기업을, 지방 집적과의 인과관계로 선정·검증하는 프로젝트.</p>
+
+  <div class="cards">
+    <a href="screening.ko.html" class="card teal">
+      <div class="card-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="5" y="18" width="6" height="14" rx="1.5" fill="currentColor" opacity=".5"/><rect x="15" y="11" width="6" height="21" rx="1.5" fill="currentColor" opacity=".75"/><rect x="25" y="4" width="6" height="28" rx="1.5" fill="currentColor"/></svg></div>
+      <div class="card-phase">Phase 1</div>
+      <div class="card-title">종목 스크리닝<br>대시보드</div>
+      <div class="card-desc">25개사 롱리스트를 버블 차트와 필터링 테이블로 분석. 영업이익률·이익 성장·클러스터 근접을 시각화.</div>
+      <div class="card-meta"><span>25개사</span><span>추천 19개사</span><span>3개 카테고리</span></div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a href="planning.ko.html" class="card amber">
+      <div class="card-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="7" y="4" width="22" height="28" rx="2.5" stroke="currentColor" stroke-width="2"/><line x1="13" y1="13" x2="23" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="19" x2="23" y2="19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="25" x2="19" y2="25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div class="card-phase">기획안</div>
+      <div class="card-title">프로젝트 기획안<br>（개정판）</div>
+      <div class="card-desc">개정판·쉬운 버전의 2가지 버전을 전환하며 열람. 투자 가설·로드맵·리스크를 인터랙티브하게 확인.</div>
+      <div class="card-meta"><span>개정판 9슬라이드</span><span>쉬운 버전 11슬라이드</span></div>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+
+  <div class="footer">
+    반도체 후공정 니치 ― 닛케이 스톡리그 2025 팀 프로젝트
+  </div>
+</div>
+
+<script>
+/* 3D tilt + cursor glow on cards */
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    const cx = r.width / 2, cy = r.height / 2;
+    const rotX = ((y - cy) / cy) * -6;
+    const rotY = ((x - cx) / cx) * 6;
+    card.style.transform = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+    card.style.setProperty('--mx', x + 'px');
+    card.style.setProperty('--my', y + 'px');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+  card.addEventListener('click', e => {
+    const r = card.getBoundingClientRect();
+    const rip = document.createElement('span');
+    rip.className = 'ripple-circle';
+    rip.style.left = (e.clientX - r.left) + 'px';
+    rip.style.top  = (e.clientY - r.top)  + 'px';
+    card.appendChild(rip);
+    rip.addEventListener('animationend', () => rip.remove());
+  });
+});
+</script>
+</body>
+</html>

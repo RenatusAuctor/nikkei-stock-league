@@ -394,7 +394,8 @@ function render(){
   document.getElementById('shownCount').textContent=rows.length;
 }
 document.querySelectorAll('#tableControls .chip').forEach(ch=>{
-  ch.addEventListener('click',()=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch, e);
     if(ch.dataset.flag){
       ch.classList.toggle('active');
       ch.classList.contains('active')?flags.add(ch.dataset.flag):flags.delete(ch.dataset.flag);

@@ -978,27 +978,24 @@
   .slide.anim-in-right  { animation: slideInRight  0.35s cubic-bezier(0.4,0,0.2,1) both; }
   .slide.anim-in-left   { animation: slideInLeft   0.35s cubic-bezier(0.4,0,0.2,1) both; }
 
-  /* smooth accordion (revision, flow, phase, risk, pillar) */
+  /* smooth accordion */
   .revision-detail,
   .flow-detail,
   .phase-detail,
-  .risk-detail,
   .pillar-detail {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s ease;
+    display: block !important;
+    max-height: 0;
     overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
-  .revision-detail > *, .flow-detail > *, .phase-detail > *,
-  .risk-detail > *, .pillar-detail > * { min-height: 0; overflow: hidden; }
-
-  /* when open, expand */
-  .revision-item.open .revision-detail,
-  .flow-step.open .flow-detail,
-  .phase-card.open .phase-detail,
-  .risk-card.open .risk-detail,
+  .revision-item.open .revision-detail { max-height: 300px; opacity: 1; padding-bottom: 12px !important; }
+  .flow-step.open .flow-detail         { max-height: 200px; opacity: 1; padding: 10px 14px !important; }
+  .phase-card.open .phase-detail       { max-height: 200px; opacity: 1; }
   .pillar.open .pillar-detail,
-  .pillar:hover .pillar-detail { grid-template-rows: 1fr; }
+  .pillar:hover .pillar-detail         { max-height: 200px; opacity: 1; }
 
   /* nav button press */
   #nav button:active { transform: scale(0.94); }

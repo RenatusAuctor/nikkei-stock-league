@@ -80,6 +80,37 @@
   .pos{color:var(--good);} .neg{color:var(--red);}
   .foot{color:var(--mute2);font-size:11px;line-height:1.7;margin-top:6px;}
   .count{color:var(--teal);font-weight:700;}
+
+  /* chip ripple */
+  .chip { position: relative; overflow: hidden; }
+  @keyframes chipRipple {
+    from { transform: scale(0); opacity: 0.35; }
+    to   { transform: scale(5); opacity: 0; }
+  }
+  .chip-rip {
+    position: absolute; border-radius: 50%;
+    width: 30px; height: 30px; margin: -15px;
+    background: rgba(255,255,255,0.3);
+    pointer-events: none;
+    animation: chipRipple 0.45s ease-out forwards;
+  }
+
+  /* bubble entrance */
+  @keyframes bubPop {
+    from { opacity: 0; r: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* table row fade-in */
+  @keyframes rowIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+  }
+  #body tr { animation: rowIn 0.25s ease both; }
+
+  /* tooltip smooth */
+  .tooltip { transition: opacity 0.15s, transform 0.15s; transform: translateY(4px); }
+  .tooltip[style*="opacity: 1"], .tooltip[style*="opacity:1"] { transform: translateY(0); }
 </style>
 </head>
 <body>

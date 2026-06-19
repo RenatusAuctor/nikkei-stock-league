@@ -108,6 +108,31 @@
     flex-shrink: 0;
   }
 
+  /* language switch */
+  #lang-switch {
+    display: flex;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50px;
+    padding: 3px;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  #lang-switch a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    padding: 5px 11px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  #lang-switch a.active {
+    background: var(--accent2);
+    color: #06231f;
+  }
+
   /* ── Main ── */
   #main {
     padding-top: 60px;

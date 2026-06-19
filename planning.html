@@ -958,6 +958,52 @@
     line-height: 1.6;
   }
 
+  /* top progress bar */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    z-index: 200;
+    box-shadow: 0 0 8px rgba(45,212,191,0.6);
+  }
+
+  /* direction-aware slide transitions */
+  @keyframes slideInRight  { from { opacity:0; transform:translateX(48px);  } to { opacity:1; transform:none; } }
+  @keyframes slideInLeft   { from { opacity:0; transform:translateX(-48px); } to { opacity:1; transform:none; } }
+  @keyframes slideOutLeft  { from { opacity:1; transform:none; } to { opacity:0; transform:translateX(-48px); } }
+  @keyframes slideOutRight { from { opacity:1; transform:none; } to { opacity:0; transform:translateX(48px);  } }
+  .slide { position: relative; }
+  .slide.anim-in-right  { animation: slideInRight  0.35s cubic-bezier(0.4,0,0.2,1) both; }
+  .slide.anim-in-left   { animation: slideInLeft   0.35s cubic-bezier(0.4,0,0.2,1) both; }
+
+  /* smooth accordion (revision, flow, phase, risk, pillar) */
+  .revision-detail,
+  .flow-detail,
+  .phase-detail,
+  .risk-detail,
+  .pillar-detail {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+    overflow: hidden;
+  }
+  .revision-detail > *, .flow-detail > *, .phase-detail > *,
+  .risk-detail > *, .pillar-detail > * { min-height: 0; overflow: hidden; }
+
+  /* when open, expand */
+  .revision-item.open .revision-detail,
+  .flow-step.open .flow-detail,
+  .phase-card.open .phase-detail,
+  .risk-card.open .risk-detail,
+  .pillar.open .pillar-detail,
+  .pillar:hover .pillar-detail { grid-template-rows: 1fr; }
+
+  /* nav button press */
+  #nav button:active { transform: scale(0.94); }
+  #nav button { transition: all 0.15s; }
+
   /* smooth scroll */
   html { scroll-behavior: smooth; }
 

@@ -398,7 +398,7 @@ function render(){
     COLS.forEach(c=>{
       const td=document.createElement('td');
       if(c.num) td.classList.add('num');
-      if(c.k==="rec"&&d.delisted) td.innerHTML=`<span class="badge b-del">제외</span>`;
+      if(c.k==="rec"&&(d.delisted||d.excluded)) td.innerHTML=`<span class="badge b-del">제외</span>`;
       else td.innerHTML=c.html?c.html(d):c.get(d);
       tr.appendChild(td);
     });

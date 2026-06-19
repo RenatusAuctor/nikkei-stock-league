@@ -351,7 +351,7 @@ document.querySelectorAll('#chartControls .chip').forEach(ch=>{
 
 /* ── TABLE ── */
 const COLS=[
-  {k:"rec",   label:"",                 get:d=>d.delisted?'제외':(d.rec?'★':''), sort:d=>d.delisted?-1:(d.rec?1:0)},
+  {k:"rec",   label:"",                 get:d=>(d.delisted||d.excluded)?'제외':(d.rec?'★':''), sort:d=>(d.delisted||d.excluded)?-1:(d.rec?1:0)},
   {k:"name",  label:"기업명",            get:d=>d.name,                           sort:d=>d.name},
   {k:"code",  label:"코드",              get:d=>d.code,                           sort:d=>d.code,  num:true},
   {k:"cat",   label:"카테고리",          html:d=>`<span class="badge ${CATBADGE[d.cat]}">${d.cat}</span>`, sort:d=>d.cat},

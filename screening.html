@@ -197,6 +197,20 @@ const DATA = [
   {name:"東レ",code:"3402",mkt:"PRM",cat:"素材・部品",niche:"ビルドアップ材/ポリイミド",opm:5.1,growth:8.6,sales:24474,cluster:"—",purity:"低",conf:"中",rec:false,note:"多角化。後工程純度低。連結全体"},
   {name:"日本ゼオン",code:"4205",mkt:"PRM",cat:"素材・部品",niche:"塗布型絶縁膜材料",opm:10.3,growth:5.8,sales:4012,cluster:"—",purity:"低",conf:"中",rec:false,note:"先端パッケージの平坦化・絶縁"},
   {name:"旭化成",code:"3407",mkt:"PRM",cat:"素材・部品",niche:"ビルドアップ材 素材",opm:6.2,growth:35.4,sales:28494,cluster:"—",purity:"低",conf:"中",rec:false,note:"多角化。基礎素材供給。連結全体"},
+
+  /* ── Phase 1 拡張: Gemini Deep Research 二次リサーチ(2026-06) — 新規12社(推奨9・要検証2・除外1) ── */
+  {name:"メック",code:"4971",mkt:"PRM",cat:"素材・部品",niche:"パッケージ基板向け銅表面粗化剤 ほぼ100%",opm:27.4,growth:26.0,sales:209,cluster:"九州(北九州新工場)",purity:"高",conf:"高",rec:true,note:"FC-BGAの銅/樹脂剥離を防止し独占。自己資本83.7%・実質無借金。JASM九州エコシステムに直接関与"},
+  {name:"JCU",code:"4975",mkt:"PRM",cat:"素材・部品",niche:"パッケージ基板向けビアフィルめっき薬品 世界トップ級",opm:41.0,growth:15.6,sales:296,cluster:"九州(熊本工場)",purity:"高",conf:"中",rec:true,note:"マイクロビア充填めっき。過去最高益・自己資本87.1%。半導体比率は推測(約90%)→一次情報照合が必要"},
+  {name:"山一電機",code:"6941",mkt:"PRM",cat:"インフラ",niche:"バーンインソケット 約40% 世界1位",opm:21.9,growth:40.5,sales:526,cluster:"—",purity:"中",conf:"高",rec:true,note:"AI/車載SoCテストソケット。中計1年前倒し達成・自己資本73.6%・半導体47.6%。クラスターは福岡営業拠点レベル"},
+  {name:"エンプラス",code:"6961",mkt:"PRM",cat:"インフラ",niche:"AI/車載テストソケット・光通信レンズ",opm:14.5,growth:16.6,sales:425,cluster:"—",purity:"中",conf:"中",rec:true,note:"テストソケット+800G光レンズ。自己資本87.8%・無借金。半導体比率は推測(50%+)。福岡営業所・為替感応度高"},
+  {name:"リンテック",code:"7966",mkt:"PRM",cat:"素材・部品",niche:"ダイシング/バックグラインド特殊粘着テープ 世界トップ",opm:7.9,growth:2.4,sales:3193,cluster:"—",purity:"低",conf:"中",rec:true,note:"HBM極薄ウェハ粘着テープ。巨大連結売上で半導体比率~31%推測。自己資本75.1%・利益率は低い"},
+  {name:"フェローテックHD",code:"6890",mkt:"STD",cat:"素材・部品",niche:"真空シール・石英・ファインセラミックス(装置部材)",opm:9.5,growth:14.4,sales:2889,cluster:"—",purity:"中",conf:"中",rec:true,note:"真空シール圧倒的シェア。半導体等装置関連が30%増益を牽引。自己資本46.6%(ややレバレッジ)。STD市場だが売上2889億"},
+  {name:"平田機工",code:"6258",mkt:"PRM",cat:"インフラ",niche:"ウェハ搬送設備(EFEM)・真空搬送ロボット",opm:8.8,growth:20.5,sales:949,cluster:"九州(熊本本社・主力工場)",purity:"中",conf:"高",rec:true,note:"★熊本クラスター直接享受(JASM立地)。6期連続増収・自己資本約77%・半導体38%。地方近接性の核"},
+  {name:"RS Technologies",code:"3445",mkt:"PRM",cat:"素材・部品",niche:"半導体テストウェハ再生加工 世界トップ",opm:30,growth:12.1,sales:500,cluster:"東北(宮城・三本木工場)",purity:"高",conf:"中",rec:true,note:"再生ウェハの構造的成長。OPM・売上は3Q累計ベースの推測→通期決算短信で照合が必要。Rapidus(北海道)・東北近接の潜在力"},
+  {name:"ステラケミファ",code:"4109",mkt:"PRM",cat:"素材・部品",niche:"超高純度フッ化水素酸(ウェハ洗浄)",opm:12.6,growth:7.1,sales:367,cluster:"—",purity:"中",conf:"高",rec:true,note:"洗浄用高純度HF。前工程寄りの隣接材料。半導体67%・自己資本74.6%。3年累計総還元性向100%+目標"},
+  {name:"ローツェ",code:"6323",mkt:"PRM",cat:"インフラ",niche:"ウェハ・ガラス基板の非接触搬送ロボット 世界トップ",opm:24.2,growth:-2.7,sales:1287,cluster:"—",purity:"高",conf:"中",rec:false,note:"要検証: OPM24.2%と高収益だが訴訟引当等で小幅減益。自己資本66%(改善)。長期はAI自動化の恩恵"},
+  {name:"タツモ",code:"6266",mkt:"PRM",cat:"インフラ",niche:"塗布現像(コータ・デベロッパ)・洗浄装置",opm:16.3,growth:-3.9,sales:271,cluster:"—",purity:"中",conf:"中",rec:false,note:"要検証: 数値は3Q累計、通期営業利益15.5%減益予想。自己資本54.1%。受注回復で再浮上余地"},
+  {name:"野村マイクロ",code:"6254",mkt:"PRM",cat:"インフラ",niche:"超純水装置(半導体製造インフラ)",opm:11.9,growth:-56.6,sales:562,cluster:"—",purity:"高",conf:"高",rec:false,excluded:true,note:"除外: 営業利益-56.6%・自己資本35.6%で財務・成長基準未達"},
 ];
 
 const CATCOLOR = {"インフラ":"#2DD4BF","パッケージング":"#E0A340","素材・部品":"#7DA7FF"};

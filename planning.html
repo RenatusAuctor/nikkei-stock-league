@@ -2072,19 +2072,27 @@
     return document.querySelectorAll(`.slide[data-version="${v}"]`);
   }
 
-  function showSlide(v, idx) {
-    document.querySelectorAll('.slide').forEach(s => {
-      s.classList.remove('active');
-      s.style.display = 'none';
-    });
+  let _prevIdx = 0;
 
+  function showSlide(v, idx, direction) {
     const slides = getSlides(v);
     if (idx < 0) idx = 0;
     if (idx >= slides.length) idx = slides.length - 1;
+
+    // determine direction if not given
+    if (direction === undefined) direction = idx >= currentIdx ? 1 : -1;
+
+    document.querySelectorAll('.slide').forEach(s => {
+      s.classList.remove('active', 'anim-in-right', 'anim-in-left');
+      s.style.display = 'none';
+    });
+
     currentIdx = idx;
 
-    slides[currentIdx].style.display = 'block';
-    slides[currentIdx].classList.add('active');
+    const slide = slides[currentIdx];
+    slide.style.display = 'block';
+    slide.classList.add('active');
+    slide.classList.add(direction >= 0 ? 'anim-in-right' : 'anim-in-left');
 
     document.getElementById('slide-counter').textContent =
       `${currentIdx + 1} / ${slides.length}`;
@@ -2092,6 +2100,10 @@
     document.getElementById('btn-prev').disabled = currentIdx === 0;
     const nextBtn = document.getElementById('btn-next');
     nextBtn.disabled = currentIdx === slides.length - 1;
+
+    // progress bar
+    const pct = slides.length <= 1 ? 100 : (currentIdx / (slides.length - 1)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
 
     renderDots(v, slides.length, currentIdx);
     window.scrollTo({ top: 0, behavior: 'smooth' });

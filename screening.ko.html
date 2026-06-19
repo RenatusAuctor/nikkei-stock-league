@@ -263,7 +263,7 @@ function drawChart(){
   yl.textContent="최근 영업이익 성장률 →"; svg.appendChild(yl);
 
   const bubData = DATA
-    .filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted)
+    .filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted&&!d.excluded)
     .filter(d=>chartCats.has(d.cat))
     .sort((a,b)=>b.sales-a.sales);
 

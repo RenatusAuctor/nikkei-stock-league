@@ -4,6 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>後工程ニッチトップ 銘柄スクリーニング</title>
+<template id="__bundler_thumbnail" data-bg-color="#0B1C28">
+  <svg viewBox="0 0 820 470" xmlns="http://www.w3.org/2000/svg">
+    <!-- grid lines -->
+    <line x1="54" y1="20" x2="54" y2="424" stroke="#21404E" stroke-width="1"/>
+    <line x1="54" y1="424" x2="796" y2="424" stroke="#21404E" stroke-width="1"/>
+    <line x1="214" y1="20" x2="214" y2="424" stroke="#21404E" stroke-width="0.5" opacity=".5"/>
+    <line x1="374" y1="20" x2="374" y2="424" stroke="#21404E" stroke-width="0.5" opacity=".5"/>
+    <line x1="534" y1="20" x2="534" y2="424" stroke="#21404E" stroke-width="0.5" opacity=".5"/>
+    <line x1="694" y1="20" x2="694" y2="424" stroke="#21404E" stroke-width="0.5" opacity=".5"/>
+    <!-- best zone -->
+    <rect x="534" y="20" width="262" height="150" fill="#2DD4BF" fill-opacity=".09" stroke="#2DD4BF" stroke-opacity=".3" stroke-width="1" stroke-dasharray="4,3"/>
+    <!-- bubbles -->
+    <circle cx="720" cy="180" r="42" fill="#2DD4BF" fill-opacity=".62"/>
+    <circle cx="700" cy="290" r="52" fill="#7DA7FF" fill-opacity=".62"/>
+    <circle cx="560" cy="110" r="26" fill="#2DD4BF" fill-opacity=".62" stroke="#fff" stroke-width="2"/>
+    <circle cx="580" cy="200" r="32" fill="#7DA7FF" fill-opacity=".62"/>
+    <circle cx="390" cy="150" r="20" fill="#2DD4BF" fill-opacity=".62"/>
+    <circle cx="360" cy="300" r="22" fill="#E0A340" fill-opacity=".62" stroke="#fff" stroke-width="2"/>
+    <circle cx="200" cy="250" r="15" fill="#E0A340" fill-opacity=".62"/>
+    <circle cx="250" cy="360" r="18" fill="#7DA7FF" fill-opacity=".62"/>
+  </svg>
+</template>
 <style>
   :root{
     --bg:#0B1C28; --panel:#102A37; --panel2:#0E2330; --edge:#21404E;
@@ -116,7 +138,7 @@
 <body>
 <div class="wrap">
   <nav class="top-nav">
-    <a href="index.html">🏠 ホーム</a>
+    <a href="index.html">← ホーム</a>
     <span class="sep">›</span>
     <span class="current">Phase 1 スクリーニング</span>
     <a href="planning.html" style="margin-left:auto">企画案を見る →</a>
@@ -255,33 +277,13 @@ function drawChart(){
       .filter(d=>chartCats.has(d.cat))
       .sort((a,b)=>b.sales-a.sales);
 
-  // Pass 1: draw circles with pop-in animation
+  // Pass 1: draw circles (CSS animation handles entrance)
   bubData.forEach((d,i)=>{
     const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
-    const c=el("circle",{cx,cy,r:0,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
+    const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
       stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],"stroke-width":d.cluster!=="—"?2:1,
-      "stroke-opacity":d.cluster!=="—"?.9:.5});
-    // animate r from 0 to target
-    const anim=document.createElementNS(NS,"animate");
-    anim.setAttribute("attributeName","r");
-    anim.setAttribute("from","0");
-    anim.setAttribute("to",r);
-    anim.setAttribute("dur","0.4s");
-    anim.setAttribute("begin", (i*0.04).toFixed(2)+"s");
-    anim.setAttribute("fill","freeze");
-    anim.setAttribute("calcMode","spline");
-    anim.setAttribute("keySplines","0.34 1.56 0.64 1");
-    anim.setAttribute("keyTimes","0;1");
-    c.appendChild(anim);
-    // fade in
-    const animO=document.createElementNS(NS,"animate");
-    animO.setAttribute("attributeName","fill-opacity");
-    animO.setAttribute("from","0");
-    animO.setAttribute("to",".62");
-    animO.setAttribute("dur","0.3s");
-    animO.setAttribute("begin",(i*0.04).toFixed(2)+"s");
-    animO.setAttribute("fill","freeze");
-    c.appendChild(animO);
+      "stroke-opacity":d.cluster!=="—"?.9:.5,
+      style:`animation-delay:${(i*0.04).toFixed(2)}s`});
     c.addEventListener("mousemove",e=>showTip(e,d));
     c.addEventListener("mouseleave",()=>tip.style.opacity=0);
     svg.appendChild(c);

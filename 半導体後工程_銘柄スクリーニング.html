@@ -15,6 +15,12 @@
   html,body{margin:0;background:var(--bg);color:var(--ink);
     font-family:"Noto Sans CJK JP","Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;}
   .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
+  /* navigation */
+  .top-nav{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--edge);}
+  .top-nav a{color:var(--teal);font-size:13px;text-decoration:none;display:flex;align-items:center;gap:5px;}
+  .top-nav a:hover{color:var(--good);}
+  .top-nav .sep{color:var(--mute2);font-size:12px;}
+  .top-nav .current{color:var(--ink);font-size:13px;font-weight:700;}
   .eyebrow{color:var(--teal);font-size:12px;font-weight:700;letter-spacing:.14em;}
   h1{font-size:26px;margin:6px 0 4px;font-weight:800;}
   .sub{color:var(--mute);font-size:13.5px;margin-bottom:18px;line-height:1.6;}
@@ -30,7 +36,8 @@
   /* controls */
   .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
   .chip{background:var(--panel2);border:1px solid var(--edge);color:var(--mute);
-    border-radius:999px;padding:6px 13px;font-size:12.5px;cursor:pointer;user-select:none;}
+    border-radius:999px;padding:6px 13px;font-size:12.5px;cursor:pointer;user-select:none;
+    position:relative;overflow:hidden;}
   .chip.active{background:var(--teal2);border-color:var(--teal2);color:#06231f;font-weight:700;}
   .chip.amber.active{background:var(--amber);border-color:var(--amber);}
   .chip.blue.active{background:var(--blue);border-color:var(--blue);}
@@ -47,17 +54,18 @@
   .bub{cursor:pointer;transition:opacity .15s;}
   .bub:hover{opacity:1!important;}
   .bub-lab{fill:var(--ink);font-size:9.5px;pointer-events:none;}
-  .quad{fill:var(--mint);}
   .tooltip{position:absolute;pointer-events:none;background:#06161f;border:1px solid var(--teal2);
     border-radius:8px;padding:8px 10px;font-size:11.5px;line-height:1.55;color:var(--ink);
-    opacity:0;transition:opacity .12s;max-width:230px;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+    opacity:0;transition:opacity .15s,transform .15s;transform:translateY(4px);
+    max-width:230px;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .tooltip.show{opacity:1;transform:translateY(0);}
   .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:8px;}
   .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
   /* table */
   table{width:100%;border-collapse:collapse;font-size:12.5px;}
   th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top;}
   th{color:var(--mute);font-weight:700;font-size:11.5px;cursor:pointer;white-space:nowrap;
-    position:sticky;top:0;background:var(--panel);}
+    position:sticky;top:0;background:var(--panel);z-index:2;}
   th:hover{color:var(--teal);}
   th .arr{opacity:.5;font-size:9px;}
   td.num{text-align:right;font-variant-numeric:tabular-nums;}
@@ -70,15 +78,29 @@
   .b-mat{background:rgba(125,167,255,.16);color:var(--blue);}
   .b-del{background:var(--red);color:#1a0f0c;}
   .b-clu{background:rgba(94,234,212,.14);color:var(--good);}
-  .pur-high{color:var(--good);} .pur-mid{color:var(--mute);} .pur-low{color:var(--red);}
-  .conf-高{color:var(--good);} .conf-中{color:var(--amber);}
-  .pos{color:var(--good);} .neg{color:var(--red);}
+  .pur-high{color:var(--good);}.pur-mid{color:var(--mute);}.pur-low{color:var(--red);}
+  .conf-高{color:var(--good);}.conf-中{color:var(--amber);}
+  .pos{color:var(--good);}.neg{color:var(--red);}
   .foot{color:var(--mute2);font-size:11px;line-height:1.7;margin-top:6px;}
   .count{color:var(--teal);font-weight:700;}
+  /* chip ripple */
+  @keyframes chipRipple{from{transform:scale(0);opacity:.35;}to{transform:scale(5);opacity:0;}}
+  .chip-rip{position:absolute;border-radius:50%;width:30px;height:30px;margin:-15px;
+    background:rgba(255,255,255,.3);pointer-events:none;animation:chipRipple .45s ease-out forwards;}
+  /* table row animation */
+  @keyframes rowIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  #body tr{animation:rowIn .25s ease both;}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <nav class="top-nav">
+    <a href="index.html">← ホーム</a>
+    <span class="sep">›</span>
+    <span class="current">Phase 1 スクリーニング</span>
+    <a href="screening.html" style="margin-left:auto">詳細版を見る →</a>
+  </nav>
+
   <div class="eyebrow">PHASE 1 ｜ スクリーニング作業台</div>
   <h1>後工程ニッチトップ 銘柄スクリーニング</h1>
   <p class="sub">Gemini Deep Research のロングリスト（25社）を検証・整理した作業用ダッシュボード。数値は各社決算・IR等の「報告値」で、Phase 2 確定前に一次情報（有報・決算短信）での照合が必要。横軸＝営業利益率（参入障壁・価格支配力の代理）、縦軸＝直近営業利益成長率。</p>
@@ -125,7 +147,7 @@
         <input type="search" id="search" placeholder="企業名・コードで検索">
       </div>
     </div>
-    <div style="overflow-x:auto">
+    <div style="overflow-x:auto;overflow-y:auto;max-height:540px;">
       <table id="tbl">
         <thead><tr id="head"></tr></thead>
         <tbody id="body"></tbody>
@@ -137,7 +159,6 @@
 
 <script>
 const DATA = [
-  // cat: インフラ / パッケージング / 素材・部品
   {name:"ディスコ",code:"6146",mkt:"PRM",cat:"インフラ",niche:"ダイシングソー 約80%",opm:42.3,growth:10.9,sales:4368,cluster:"九州(支援)",purity:"高",conf:"高",rec:true,note:"HBM極薄ウェハ切断。装置+消耗品で代替不可"},
   {name:"アドバンテスト",code:"6857",mkt:"PRM",cat:"インフラ",niche:"SoCテスタ 世界トップ級",opm:44.2,growth:118.8,sales:11286,cluster:"—",purity:"高",conf:"高",rec:true,note:"顧客集中(Nvidia/TSMC)リスク。成長は外れ値"},
   {name:"TOWA",code:"6315",mkt:"PRM",cat:"インフラ",niche:"コンプレッションモールド No.1",opm:12.7,growth:-22.1,sales:543,cluster:"九州(鳥栖)",purity:"高",conf:"高",rec:true,note:"大型封止の反り制御。今期は減益"},
@@ -146,14 +167,12 @@ const DATA = [
   {name:"芝浦メカトロニクス",code:"6590",mkt:"PRM",cat:"インフラ",niche:"フリップチップボンダー 高シェア",opm:null,growth:null,sales:null,cluster:"—",purity:"中",conf:"中",rec:true,note:"熱圧着接合。業績データ未取得"},
   {name:"タカトリ",code:"6338",mkt:"STD",cat:"インフラ",niche:"SiCスライサー",opm:11.2,growth:null,sales:73,cluster:"—",purity:"中",conf:"中",rec:true,note:"SiCパワー半導体向け。成長率unknown"},
   {name:"テラプローブ",code:"6627",mkt:"STD",cat:"インフラ",niche:"ウェハテスト受託 国内トップ級",opm:21.3,growth:28.0,sales:417,cluster:"九州(JASM隣接)",purity:"高",conf:"高",rec:true,note:"半導体100%。JASM至近でシナジー大"},
-
   {name:"イビデン",code:"4062",mkt:"PRM",cat:"パッケージング",niche:"ICパッケージ基板 世界トップ級",opm:14.8,growth:30.3,sales:4162,cluster:"—",purity:"高",conf:"高",rec:true,note:"大面積FC-BGA。顧客集中(Intel/Nvidia)"},
   {name:"新光電気工業",code:"6967",mkt:"廃止",cat:"パッケージング",niche:"フリップチップ基板 世界トップ級",opm:null,growth:null,sales:3800,cluster:"—",purity:"高",conf:"高",rec:false,delisted:true,note:"2025/6/6 上場廃止(JIC・TOB)。投資不可"},
   {name:"三井ハイテック",code:"6966",mkt:"PRM",cat:"パッケージング",niche:"ICリードフレーム 首位級",opm:5.7,growth:null,sales:2183,cluster:"九州(北九州)",purity:"低",conf:"高",rec:true,note:"EVモーターコア比率が高く後工程純度低"},
   {name:"大日本印刷",code:"7912",mkt:"PRM",cat:"パッケージング",niche:"次世代ガラスコア基板 開発",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:true,note:"有機基板の限界突破候補。業績未取得"},
   {name:"TOPPAN",code:"7911",mkt:"PRM",cat:"パッケージング",niche:"FC-BGA基板",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"新光の代替候補。今期は減益推移"},
   {name:"日本特殊陶業",code:"5334",mkt:"PRM",cat:"パッケージング",niche:"セラミックパッケージ基板",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"特殊環境向け。基板代替候補"},
-
   {name:"レゾナック",code:"4004",mkt:"PRM",cat:"素材・部品",niche:"後工程材料 世界No.1(5材料1位)",opm:8.0,growth:18.4,sales:13471,cluster:"—",purity:"中",conf:"高",rec:true,note:"アンダーフィル等。コア営業利益ベース"},
   {name:"住友ベークライト",code:"4203",mkt:"PRM",cat:"素材・部品",niche:"封止材(エポキシ) 約40%",opm:11.0,growth:43.1,sales:3199,cluster:"九州(直方)",purity:"中",conf:"高",rec:true,note:"AI向け大型封止で過去最高益"},
   {name:"三井金属",code:"5706",mkt:"PRM",cat:"素材・部品",niche:"極薄銅箔 MicroThin 95%+",opm:17.2,growth:75.1,sales:7585,cluster:"—",purity:"中",conf:"高",rec:true,note:"FC-BGA微細配線に直結。圧倒的障壁"},
@@ -167,117 +186,178 @@ const DATA = [
   {name:"旭化成",code:"3407",mkt:"PRM",cat:"素材・部品",niche:"ビルドアップ材 素材",opm:null,growth:null,sales:null,cluster:"—",purity:"低",conf:"中",rec:false,note:"多角化。基礎素材供給"},
 ];
 
-const CATCOLOR = {"インфラ":"#2DD4BF","パッケージング":"#E0A340","素材・部品":"#7DA7FF"};
-const CATBADGE = {"インフラ":"b-infra","パッケージング":"b-pkg","素材・部品":"b-mat"};
+const CATCOLOR = {"インフラ":"#2DD4BF","パッケージング":"#E0A340","素材・部品":"#7DA7FF"};
+const CATBADGE  = {"インフラ":"b-infra","パッケージング":"b-pkg","素材・部品":"b-mat"};
 
-/* ---------- BUBBLE CHART ---------- */
+/* ── BUBBLE CHART ── */
 const svg = document.getElementById('chart');
 const tip = document.getElementById('tip');
-const NS="http://www.w3.org/2000/svg";
-const M={l:54,r:24,t:20,b:46}, W=820, H=470;
-const PW=W-M.l-M.r, PH=H-M.t-M.b;
-const X={min:0,max:50}, Y={min:-30,max:130};
-const xpix=v=>M.l+(v-X.min)/(X.max-X.min)*PW;
-const ypix=v=>M.t+PH-(v-Y.min)/(Y.max-Y.min)*PH;
-const rpix=s=>Math.max(7,Math.sqrt(s/Math.PI)/4.2);
-let chartCats=new Set(["インフラ","パッケージング","素材・部品"]);
+const NS  = "http://www.w3.org/2000/svg";
+const M   = {l:54,r:24,t:20,b:46}, W=820, H=470;
+const PW  = W-M.l-M.r, PH = H-M.t-M.b;
+const X   = {min:0,max:50}, Y = {min:-30,max:130};
+const xpix = v => M.l+(v-X.min)/(X.max-X.min)*PW;
+const ypix = v => M.t+PH-(v-Y.min)/(Y.max-Y.min)*PH;
+const rpix = s => Math.max(7,Math.sqrt(s/Math.PI)/4.2);
+let chartCats = new Set(["インフラ","パッケージング","素材・部品"]);
 
-function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+function el(tag,attrs){
+  const e=document.createElementNS(NS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
 
 function drawChart(){
   svg.innerHTML="";
-  // best-zone tint (top-right)
-  svg.appendChild(el("rect",{x:xpix(25),y:M.t,width:xpix(X.max)-xpix(25),height:ypix(20)-M.t,
-    fill:"#2DD4BF","fill-opacity":.05}));
-  // gridlines + ticks X
+
+  /* best-zone highlight with border + label */
+  svg.appendChild(el("rect",{x:xpix(25),y:M.t,width:xpix(X.max)-xpix(25),
+    height:ypix(20)-M.t,fill:"#2DD4BF","fill-opacity":.09,stroke:"#2DD4BF",
+    "stroke-opacity":.3,"stroke-width":1,"stroke-dasharray":"4,3"}));
+  const zl=el("text",{x:xpix(X.max)-6,y:M.t+14,class:"axis-label",
+    "text-anchor":"end","font-size":"9.5","fill-opacity":".7"});
+  zl.textContent="本命ゾーン"; svg.appendChild(zl);
+
+  /* grid X */
   for(let v=0;v<=50;v+=10){
-    svg.appendChild(el("line",{x1:xpix(v),y1:M.t,x2:xpix(v),y2:M.t+PH,class:"grid","stroke-opacity":.5}));
-    const t=el("text",{x:xpix(v),y:M.t+PH+16,class:"tick","text-anchor":"middle"});t.textContent=v+"%";svg.appendChild(t);
+    svg.appendChild(el("line",{x1:xpix(v),y1:M.t,x2:xpix(v),y2:M.t+PH,
+      class:"grid","stroke-opacity":.5}));
+    const t=el("text",{x:xpix(v),y:M.t+PH+16,class:"tick","text-anchor":"middle"});
+    t.textContent=v+"%"; svg.appendChild(t);
   }
-  // gridlines + ticks Y
+  /* grid Y */
   for(let v=-30;v<=130;v+=40){
-    svg.appendChild(el("line",{x1:M.l,y1:ypix(v),x2:M.l+PW,y2:ypix(v),class:"grid","stroke-opacity":v===0?.9:.4}));
-    const t=el("text",{x:M.l-8,y:ypix(v)+3,class:"tick","text-anchor":"end"});t.textContent=v+"%";svg.appendChild(t);
+    svg.appendChild(el("line",{x1:M.l,y1:ypix(v),x2:M.l+PW,y2:ypix(v),
+      class:"grid","stroke-opacity":v===0?.9:.4}));
+    const t=el("text",{x:M.l-8,y:ypix(v)+3,class:"tick","text-anchor":"end"});
+    t.textContent=v+"%"; svg.appendChild(t);
   }
-  // axis labels
+  /* axis labels */
   const xl=el("text",{x:M.l+PW/2,y:H-6,class:"axis-label","text-anchor":"middle"});
-  xl.textContent="営業利益率（参入障壁・価格支配力の代理）→";svg.appendChild(xl);
+  xl.textContent="営業利益率（参入障壁・価格支配力の代理）→"; svg.appendChild(xl);
   const yl=el("text",{x:16,y:M.t+PH/2,class:"axis-label","text-anchor":"middle",
     transform:`rotate(-90 16 ${M.t+PH/2})`});
-  yl.textContent="直近 営業利益成長率 →";svg.appendChild(yl);
+  yl.textContent="直近 営業利益成長率 →"; svg.appendChild(yl);
 
-  DATA.filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted)
-      .filter(d=>chartCats.has(d.cat))
-      .sort((a,b)=>b.sales-a.sales)
-      .forEach(d=>{
+  const bubData = DATA
+    .filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted)
+    .filter(d=>chartCats.has(d.cat))
+    .sort((a,b)=>b.sales-a.sales);
+
+  /* Pass 1: draw circles (CSS animation handles entrance) */
+  bubData.forEach((d,i)=>{
     const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
     const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
-      stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],"stroke-width":d.cluster!=="—"?2:1,
-      "stroke-opacity":d.cluster!=="—"?.9:.5});
+      stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],
+      "stroke-width":d.cluster!=="—"?2:1,
+      "stroke-opacity":d.cluster!=="—"?.9:.5,
+      style:`animation-delay:${(i*0.04).toFixed(2)}s`});
     c.addEventListener("mousemove",e=>showTip(e,d));
-    c.addEventListener("mouseleave",()=>tip.style.opacity=0);
+    c.addEventListener("mouseleave",()=>{ tip.style.opacity=0; tip.classList.remove('show'); });
     svg.appendChild(c);
-    const lab=el("text",{x:cx,y:cy-r-4,class:"bub-lab","text-anchor":"middle"});
-    lab.textContent=d.name.length>6?d.name.slice(0,6):d.name;svg.appendChild(lab);
+  });
+
+  /* Pass 2: labels with collision avoidance */
+  const bpos = bubData.map(d=>({cx:xpix(d.opm),cy:ypix(d.growth),r:rpix(d.sales)}));
+  bubData.forEach((d,i)=>{
+    const {cx,cy,r} = bpos[i];
+    const name = d.name.length>5 ? d.name.slice(0,5) : d.name;
+    const dirs = [
+      {dx:0,      dy:-(r+5), anchor:'middle'},
+      {dx:r+5,    dy:4,      anchor:'start'},
+      {dx:0,      dy:r+12,   anchor:'middle'},
+      {dx:-(r+5), dy:4,      anchor:'end'},
+      {dx:r+4,    dy:-(r+3), anchor:'start'},
+      {dx:r+4,    dy:r+9,    anchor:'start'},
+      {dx:-(r+4), dy:-(r+3), anchor:'end'},
+      {dx:-(r+4), dy:r+9,    anchor:'end'},
+    ];
+    let best=dirs[0], bestScore=-Infinity;
+    for(const dir of dirs){
+      const lx=cx+dir.dx, ly=cy+dir.dy;
+      if(lx<M.l+2||lx>M.l+PW-2||ly<M.t+8||ly>M.t+PH-2) continue;
+      let score=0;
+      for(let j=0;j<bpos.length;j++){
+        if(j===i) continue;
+        const dist=Math.sqrt((lx-bpos[j].cx)**2+(ly-bpos[j].cy)**2);
+        score+=Math.min(dist,160);
+      }
+      if(score>bestScore){bestScore=score;best=dir;}
+    }
+    const lab=el("text",{x:cx+best.dx,y:cy+best.dy,class:"bub-lab","text-anchor":best.anchor});
+    lab.textContent=name; svg.appendChild(lab);
   });
 }
+
 function showTip(e,d){
-  const rect=svg.getBoundingClientRect();
+  const wrap=svg.parentElement.getBoundingClientRect();
   tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code})<br>`+
     `${d.niche}<br>OPM ${d.opm}%・利益成長 ${d.growth>0?'+':''}${d.growth}%<br>`+
     `売上 ${d.sales.toLocaleString()}億円${d.cluster!=="—"?'<br>クラスター: '+d.cluster:''}`;
-  const wrap=svg.parentElement.getBoundingClientRect();
   tip.style.left=(e.clientX-wrap.left+12)+"px";
   tip.style.top=(e.clientY-wrap.top+12)+"px";
   tip.style.opacity=1;
+  tip.classList.add('show');
 }
+
+function addRipple(ch,e){
+  const r=ch.getBoundingClientRect();
+  const rip=document.createElement('span');
+  rip.className='chip-rip';
+  rip.style.left=(e.clientX-r.left)+'px';
+  rip.style.top=(e.clientY-r.top)+'px';
+  ch.appendChild(rip);
+  rip.addEventListener('animationend',()=>rip.remove());
+}
+
 document.querySelectorAll('#chartControls .chip').forEach(ch=>{
-  ch.addEventListener('click',()=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch,e);
     const cat=ch.dataset.cat;
     if(cat==="all"){
-      const turnOn=!ch.classList.contains('active');
-      document.querySelectorAll('#chartControls .chip').forEach(c=>c.classList.toggle('active',turnOn));
-      chartCats=turnOn?new Set(["インフラ","パッケージング","素材・部品"]):new Set();
+      const on=!ch.classList.contains('active');
+      document.querySelectorAll('#chartControls .chip').forEach(c=>c.classList.toggle('active',on));
+      chartCats=on?new Set(["インフラ","パッケージング","素材・部品"]):new Set();
     }else{
       ch.classList.toggle('active');
       ch.classList.contains('active')?chartCats.add(cat):chartCats.delete(cat);
-      const allOn=chartCats.size===3;
-      document.querySelector('#chartControls .chip[data-cat=all]').classList.toggle('active',allOn);
+      document.querySelector('#chartControls .chip[data-cat=all]')
+        .classList.toggle('active',chartCats.size===3);
     }
     drawChart();
   });
 });
 
-/* ---------- TABLE ---------- */
+/* ── TABLE ── */
 const COLS=[
-  {k:"rec",label:"",get:d=>d.delisted?'除外':(d.rec?'★':''),sort:d=>d.delisted?-1:(d.rec?1:0)},
-  {k:"name",label:"企業名",get:d=>d.name,sort:d=>d.name},
-  {k:"code",label:"コード",get:d=>d.code,sort:d=>d.code,num:true},
-  {k:"cat",label:"カテゴリ",html:d=>`<span class="badge ${CATBADGE[d.cat]}">${d.cat}</span>`,sort:d=>d.cat},
-  {k:"niche",label:"ニッチ・世界シェア",get:d=>d.niche,sort:d=>d.niche},
-  {k:"opm",label:"OPM%",get:d=>d.opm==null?'—':d.opm,sort:d=>d.opm==null?-999:d.opm,num:true},
-  {k:"growth",label:"営利成長%",html:d=>d.growth==null?'—':`<span class="${d.growth>=0?'pos':'neg'}">${d.growth>0?'+':''}${d.growth}</span>`,sort:d=>d.growth==null?-999:d.growth,num:true},
-  {k:"sales",label:"売上(億円)",get:d=>d.sales==null?'—':d.sales.toLocaleString(),sort:d=>d.sales==null?-1:d.sales,num:true},
-  {k:"cluster",label:"クラスター",html:d=>d.cluster==="—"?'<span style="color:var(--mute2)">—</span>':`<span class="badge b-clu">${d.cluster}</span>`,sort:d=>d.cluster},
-  {k:"purity",label:"半導体ピュア度",html:d=>`<span class="pur-${d.purity==='高'?'high':d.purity==='中'?'mid':'low'}">${d.purity}</span>`,sort:d=>({高:3,中:2,低:1}[d.purity])},
-  {k:"conf",label:"信頼性",html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`,sort:d=>({高:2,中:1}[d.conf])},
+  {k:"rec",   label:"",                 get:d=>d.delisted?'除外':(d.rec?'★':''), sort:d=>d.delisted?-1:(d.rec?1:0)},
+  {k:"name",  label:"企業名",            get:d=>d.name,                           sort:d=>d.name},
+  {k:"code",  label:"コード",            get:d=>d.code,                           sort:d=>d.code,  num:true},
+  {k:"cat",   label:"カテゴリ",           html:d=>`<span class="badge ${CATBADGE[d.cat]}">${d.cat}</span>`, sort:d=>d.cat},
+  {k:"niche", label:"ニッチ・世界シェア", get:d=>d.niche,                          sort:d=>d.niche},
+  {k:"opm",   label:"OPM%",             get:d=>d.opm==null?'—':d.opm,            sort:d=>d.opm==null?-999:d.opm,    num:true},
+  {k:"growth",label:"営利成長%",          html:d=>d.growth==null?'—':`<span class="${d.growth>=0?'pos':'neg'}">${d.growth>0?'+':''}${d.growth}</span>`, sort:d=>d.growth==null?-999:d.growth, num:true},
+  {k:"sales", label:"売上(億円)",         get:d=>d.sales==null?'—':d.sales.toLocaleString(), sort:d=>d.sales==null?-1:d.sales, num:true},
+  {k:"cluster",label:"クラスター",         html:d=>d.cluster==="—"?`<span style="color:var(--mute2)">—</span>`:`<span class="badge b-clu">${d.cluster}</span>`, sort:d=>d.cluster},
+  {k:"purity",label:"半導体ピュア度",      html:d=>`<span class="pur-${d.purity==='高'?'high':d.purity==='中'?'mid':'low'}">${d.purity}</span>`, sort:d=>({高:3,中:2,低:1}[d.purity])},
+  {k:"conf",  label:"信頼性",             html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`, sort:d=>({高:2,中:1}[d.conf])},
 ];
-let sortKey="rec",sortDir=-1,filterCat="all",flags=new Set(),query="";
+let sortKey="rec", sortDir=-1, filterCat="all", flags=new Set(), query="";
 
 function buildHead(){
-  const h=document.getElementById('head');h.innerHTML="";
+  const h=document.getElementById('head'); h.innerHTML="";
   COLS.forEach(c=>{
     const th=document.createElement('th');
     th.innerHTML=c.label+(sortKey===c.k?` <span class="arr">${sortDir>0?'▲':'▼'}</span>`:'');
-    if(c.num)th.style.textAlign='right';
+    if(c.num) th.style.textAlign='right';
     th.onclick=()=>{if(sortKey===c.k)sortDir*=-1;else{sortKey=c.k;sortDir=1;}render();};
     h.appendChild(th);
   });
 }
 function passFilter(d){
-  if(filterCat!=="all"&&d.cat!==filterCat)return false;
-  if(flags.has('rec')&&!d.rec)return false;
-  if(flags.has('cluster')&&d.cluster==="—")return false;
+  if(filterCat!=="all"&&d.cat!==filterCat) return false;
+  if(flags.has('rec')&&!d.rec) return false;
+  if(flags.has('cluster')&&d.cluster==="—") return false;
   if(query){const q=query.toLowerCase();if(!(d.name.toLowerCase().includes(q)||d.code.includes(q)))return false;}
   return true;
 }
@@ -285,18 +365,19 @@ function render(){
   buildHead();
   const col=COLS.find(c=>c.k===sortKey);
   const rows=DATA.filter(passFilter).sort((a,b)=>{
-    const va=col.sort(a),vb=col.sort(b);
-    if(va<vb)return -sortDir;if(va>vb)return sortDir;return 0;
+    const va=col.sort(a), vb=col.sort(b);
+    if(va<vb)return -sortDir; if(va>vb)return sortDir; return 0;
   });
-  const body=document.getElementById('body');body.innerHTML="";
-  rows.forEach(d=>{
+  const body=document.getElementById('body'); body.innerHTML="";
+  rows.forEach((d,i)=>{
     const tr=document.createElement('tr');
-    if(d.rec)tr.classList.add('rec');
+    if(d.rec)     tr.classList.add('rec');
     if(d.delisted)tr.classList.add('delisted');
+    tr.style.animationDelay=Math.min(i*0.03,0.4)+'s';
     COLS.forEach(c=>{
       const td=document.createElement('td');
-      if(c.num)td.classList.add('num');
-      if(c.k==="rec"&&d.delisted)td.innerHTML=`<span class="badge b-del">除外</span>`;
+      if(c.num) td.classList.add('num');
+      if(c.k==="rec"&&d.delisted) td.innerHTML=`<span class="badge b-del">除外</span>`;
       else td.innerHTML=c.html?c.html(d):c.get(d);
       tr.appendChild(td);
     });
@@ -306,13 +387,14 @@ function render(){
   document.getElementById('shownCount').textContent=rows.length;
 }
 document.querySelectorAll('#tableControls .chip').forEach(ch=>{
-  ch.addEventListener('click',()=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch,e);
     if(ch.dataset.flag){
       ch.classList.toggle('active');
       ch.classList.contains('active')?flags.add(ch.dataset.flag):flags.delete(ch.dataset.flag);
     }else{
       document.querySelectorAll('#tableControls .chip[data-cat]').forEach(c=>c.classList.remove('active'));
-      ch.classList.add('active');filterCat=ch.dataset.cat;
+      ch.classList.add('active'); filterCat=ch.dataset.cat;
     }
     render();
   });

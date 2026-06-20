@@ -223,6 +223,16 @@
   }
   .lang-switch a.active { background: var(--teal); color: #06231f; }
   .lang-switch a:not(.active):hover { color: var(--ink); }
+
+  /* respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 </style>
 </head>
 <body>

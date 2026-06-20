@@ -78,13 +78,31 @@
   .bub{cursor:pointer;transition:opacity .15s;}
   .bub:hover{opacity:1!important;}
   .bub-lab{fill:var(--ink);font-size:9.5px;pointer-events:none;}
-  .tooltip{position:absolute;pointer-events:none;background:#06161f;border:1px solid var(--teal2);
+  .tooltip{position:fixed;pointer-events:none;background:#06161f;border:1px solid var(--teal2);
     border-radius:8px;padding:8px 10px;font-size:11.5px;line-height:1.55;color:var(--ink);
     opacity:0;transition:opacity .15s,transform .15s;transform:translateY(4px);
-    max-width:230px;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+    max-width:260px;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.4);}
   .tooltip.show{opacity:1;transform:translateY(0);}
   .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:8px;}
   .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
+  .legend i.j-dot{border-radius:3px;}
+  /* matrix */
+  .matrix{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:10px;}
+  .mx-cell{background:var(--panel2);border:1px solid var(--edge);border-radius:12px;padding:12px;
+    display:flex;flex-direction:column;min-height:140px;}
+  .mx-cell.hot{border-color:var(--teal2);box-shadow:inset 0 0 0 1px var(--teal2),0 6px 22px rgba(45,212,191,.12);}
+  .mx-h{font-size:12.5px;font-weight:700;color:var(--mute);margin-bottom:9px;display:flex;align-items:center;gap:6px;}
+  .mx-h .hot-tag{color:var(--teal);}
+  .mx-h .cnt{margin-left:auto;font-size:11px;color:var(--mute2);background:var(--panel);
+    border:1px solid var(--edge);border-radius:20px;padding:1px 8px;}
+  .mx-chips{display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start;overflow-y:auto;max-height:215px;}
+  .mx-chip{font-size:11px;padding:3px 8px;border-radius:6px;white-space:nowrap;cursor:default;
+    background:var(--panel);border:1px solid var(--edge);border-left:3px solid var(--edge);color:var(--mute);
+    transition:transform .1s;}
+  .mx-chip:hover{transform:translateY(-1px);border-color:var(--teal2);}
+  .mx-chip.jc-rec{background:rgba(224,163,64,.16);border-color:rgba(224,163,64,.45);color:var(--ink);font-weight:600;}
+  .mx-chip.jc-chk{color:var(--mute);}
+  .mx-chip.jc-exc{opacity:.4;}
   /* table */
   table{width:100%;border-collapse:collapse;font-size:12.5px;}
   th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top;}

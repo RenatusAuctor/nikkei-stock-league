@@ -427,33 +427,42 @@ function drawChart(){
     svg.appendChild(c);
   });
 
+  // ラベルは目立つ銘柄（外縁・高収益・高成長・大型）のみ表示 — 他はカーソルで確認
   const bpos = bubData.map(d=>({cx:xpix(d.opm),cy:ypix(d.growth),r:rpix(d.sales)}));
+  const notable = d => d.opm>=20 || d.growth>=35 || d.growth<=-15 || d.sales>=9000 || d.judge==='推薦'&&d.opm>=15;
+  const placed=[];
   bubData.forEach((d,i)=>{
+    if(!notable(d)) return;
     const {cx,cy,r} = bpos[i];
-    const name = d.name.length>5 ? d.name.slice(0,5) : d.name;
+    const name = d.name.length>6 ? d.name.slice(0,6) : d.name;
     const dirs = [
-      {dx:0,      dy:-(r+5), anchor:'middle'},
+      {dx:0,      dy:-(r+6), anchor:'middle'},
       {dx:r+5,    dy:4,      anchor:'start'},
-      {dx:0,      dy:r+12,   anchor:'middle'},
+      {dx:0,      dy:r+13,   anchor:'middle'},
       {dx:-(r+5), dy:4,      anchor:'end'},
       {dx:r+4,    dy:-(r+3), anchor:'start'},
-      {dx:r+4,    dy:r+9,    anchor:'start'},
+      {dx:r+4,    dy:r+11,   anchor:'start'},
       {dx:-(r+4), dy:-(r+3), anchor:'end'},
-      {dx:-(r+4), dy:r+9,    anchor:'end'},
+      {dx:-(r+4), dy:r+11,   anchor:'end'},
     ];
-    let best=dirs[0], bestScore=-Infinity;
+    let best=null, bestScore=-Infinity;
     for(const dir of dirs){
       const lx=cx+dir.dx, ly=cy+dir.dy;
       if(lx<M.l+2||lx>M.l+PW-2||ly<M.t+8||ly>M.t+PH-2) continue;
       let score=0;
       for(let j=0;j<bpos.length;j++){
         if(j===i) continue;
-        const dist=Math.sqrt((lx-bpos[j].cx)**2+(ly-bpos[j].cy)**2);
-        score+=Math.min(dist,160);
+        score+=Math.min(Math.hypot(lx-bpos[j].cx,ly-bpos[j].cy),130);
       }
-      if(score>bestScore){bestScore=score;best=dir;}
+      for(const p of placed){
+        const dd=Math.hypot(lx-p.x,ly-p.y);
+        score += dd<18 ? -600 : Math.min(dd,130);
+      }
+      if(score>bestScore){bestScore=score;best={lx,ly,anchor:dir.anchor};}
     }
-    const lab=el("text",{x:cx+best.dx,y:cy+best.dy,class:"bub-lab","text-anchor":best.anchor});
+    if(!best) return;
+    placed.push({x:best.lx,y:best.ly});
+    const lab=el("text",{x:best.lx,y:best.ly,class:"bub-lab","text-anchor":best.anchor});
     lab.textContent=name; svg.appendChild(lab);
   });
 }

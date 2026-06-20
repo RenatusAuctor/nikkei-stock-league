@@ -233,8 +233,8 @@
   </div>
 
   <div class="panel">
-    <h2>유망 존 매트릭스: 진입장벽 × 이익 성장</h2>
-    <div class="hint">가로＝영업이익률(15% 경계), 세로＝영업이익 성장률(10% 경계). <b>우상단 = 고수익·고성장 '유망 존'</b>이 최우선 후보. 칩 색＝판정, 왼쪽 색띠＝카테고리. 칩에 커서를 올리면 상세, 필터로 좁혀 볼 수 있다.</div>
+    <h2>유망 존 버블맵: 진입장벽 × 이익 성장</h2>
+    <div class="hint">100개사를 한 화면에. <b>가로＝영업이익률(OPM), 세로＝영업이익 성장률</b>, <b>버블 크기＝시가총액</b>, <b>색＝카테고리</b>. 점선 교차로 4분면을 나누고 <b>우상단 = 고수익·고성장 '유망 존'</b>이 최우선 후보. 채움＝추천, 반투명＝요검증, 빈 원＝제외. 버블에 커서를 올리면 상세, 필터로 좁혀 볼 수 있다.</div>
     <div class="controls" id="mxControls">
       <span class="chip active" data-mxcat="all">전체</span>
       <span class="chip" data-mxcat="인프라">인프라</span>
@@ -244,15 +244,16 @@
       <span class="chip" data-mxjudge="추천">추천만</span>
       <span class="chip" data-mxjudge="요검증">요검증만</span>
     </div>
-    <div class="matrix" id="matrix"></div>
+    <div class="scatter" id="scatter"></div>
     <div class="tooltip" id="tip"></div>
     <div class="legend">
-      <span><i class="j-dot" style="background:var(--amber)"></i>추천</span>
-      <span><i class="j-dot" style="background:var(--mute)"></i>요검증</span>
-      <span><i class="j-dot" style="background:var(--mute2)"></i>제외</span>
-      <span>칩 왼쪽 색띠 = 카테고리(인프라/패키징/소재·부품/장치부재)</span>
+      <span><i style="background:var(--teal)"></i>인프라</span>
+      <span><i style="background:var(--amber)"></i>패키징</span>
+      <span><i style="background:var(--blue)"></i>소재·부품</span>
+      <span><i style="background:#B794F6"></i>장치부재</span>
+      <span style="color:var(--mute2)">채움=추천 · 반투명=요검증 · 빈 원=제외 · 크기=시총</span>
     </div>
-    <p class="foot">※ 비수치 성장·상장폐지 종목은 매트릭스 대상 외(테이블에는 표시).</p>
+    <p class="foot">※ 비수치 성장·상장폐지 종목은 버블맵 대상 외(테이블에는 표시). 영업익 성장률 −30~+75% 범위로 클리핑 표시.</p>
   </div>
 
   <div class="panel">

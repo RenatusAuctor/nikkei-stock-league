@@ -513,7 +513,7 @@ const COLS=[
   {k:"purity",label:"半導体ピュア度",      html:d=>`<span class="pur-${d.purity==='高'?'high':d.purity==='中'?'mid':'low'}">${d.purity}</span>`, sort:d=>({高:3,中:2,低:1}[d.purity])},
   {k:"conf",  label:"信頼性",             html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`, sort:d=>({高:2,中:1}[d.conf])},
 ];
-let sortKey="rec", sortDir=-1, filterCat="all", flags=new Set(), query="";
+let sortKey="rec", sortDir=-1, filterCat="all", judgeFilter="all", flags=new Set(), query="";
 
 function buildHead(){
   const h=document.getElementById('head'); h.innerHTML="";

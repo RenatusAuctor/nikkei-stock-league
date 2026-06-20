@@ -500,7 +500,7 @@ document.querySelectorAll('#chartControls .chip').forEach(ch=>{
 
 /* ── TABLE ── */
 const COLS=[
-  {k:"rec",   label:"",                 get:d=>(d.delisted||d.excluded)?'제외':(d.rec?'★':''), sort:d=>(d.delisted||d.excluded)?-1:(d.rec?1:0)},
+  {k:"rec",   label:"판정",             html:d=>(d.delisted||d.judge==='제외')?'<span class="badge b-del">제외</span>':(d.judge==='추천'?'<span class="j-rec">★추천</span>':'<span class="j-chk">△요검증</span>'), sort:d=>({"추천":2,"요검증":1,"제외":0}[d.judge])},
   {k:"name",  label:"기업명",            get:d=>d.name,                           sort:d=>d.name},
   {k:"code",  label:"코드",              get:d=>d.code,                           sort:d=>d.code,  num:true},
   {k:"cat",   label:"카테고리",          html:d=>`<span class="badge ${CATBADGE[d.cat]}">${d.cat}</span>`, sort:d=>d.cat},

@@ -460,9 +460,10 @@ function drawChart(){
 
 function showTip(e,d){
   const wrap=svg.parentElement.getBoundingClientRect();
-  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code})<br>`+
+  const judgeTag=d.judge==='추천'?'<span style="color:var(--amber)">★추천</span>':'<span style="color:var(--mute)">△요검증</span>';
+  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code}) ${judgeTag}<br>`+
     `${d.niche}<br>OPM ${d.opm}%·이익성장 ${d.growth>0?'+':''}${d.growth}%<br>`+
-    `매출 ${d.sales.toLocaleString()}억엔${d.cluster!=="—"?'<br>클러스터: '+d.cluster:''}`;
+    `매출 ${d.sales.toLocaleString()}억엔·자기자본 ${d.equity}%·시총 ${d.mktcap.toLocaleString()}억${d.cluster!=="—"?'<br>클러스터: '+d.cluster:''}`;
   tip.style.left=(e.clientX-wrap.left+12)+"px";
   tip.style.top=(e.clientY-wrap.top+12)+"px";
   tip.style.opacity=1;

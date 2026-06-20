@@ -548,8 +548,7 @@ function render(){
     COLS.forEach(c=>{
       const td=document.createElement('td');
       if(c.num) td.classList.add('num');
-      if(c.k==="rec"&&(d.delisted||d.excluded)) td.innerHTML=`<span class="badge b-del">除外</span>`;
-      else td.innerHTML=c.html?c.html(d):c.get(d);
+      td.innerHTML=c.html?c.html(d):c.get(d);
       tr.appendChild(td);
     });
     tr.title=d.note||"";

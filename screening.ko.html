@@ -455,7 +455,7 @@ function buildScatter(){
   const pool=DATA.filter(d=>d.opm!=null&&d.growth!=null&&!d.delisted);
   const lnMin=Math.log(Math.min(...pool.map(d=>d.mktcap)));
   const lnMax=Math.log(Math.max(...pool.map(d=>d.mktcap)));
-  const rad=d=>5+(Math.log(d.mktcap)-lnMin)/(lnMax-lnMin)*17; // 5~22px
+  const rad=d=>4.5+(Math.log(d.mktcap)-lnMin)/(lnMax-lnMin)*12.5; // 4.5~17px
   const el=(n,a)=>{const e=document.createElementNS(SVGNS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
 
   const svg=el('svg',{viewBox:`0 0 ${SC.W} ${SC.H}`,role:'img'});

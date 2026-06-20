@@ -408,7 +408,7 @@ function drawChart(){
   yl.textContent="直近 営業利益成長率 →"; svg.appendChild(yl);
 
   const bubData = DATA
-    .filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&!d.delisted&&!d.excluded)
+    .filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&d.opm>0&&!d.delisted&&!d.excluded)
     .filter(d=>chartCats.has(d.cat))
     .sort((a,b)=>b.sales-a.sales);
 

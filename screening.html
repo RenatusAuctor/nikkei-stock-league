@@ -507,6 +507,8 @@ const COLS=[
   {k:"opm",   label:"OPM%",             get:d=>d.opm==null?'—':d.opm,            sort:d=>d.opm==null?-999:d.opm,    num:true},
   {k:"growth",label:"営利成長%",          html:d=>d.growth==null?'—':`<span class="${d.growth>=0?'pos':'neg'}">${d.growth>0?'+':''}${d.growth}</span>`, sort:d=>d.growth==null?-999:d.growth, num:true},
   {k:"sales", label:"売上(億円)",         get:d=>d.sales==null?'—':d.sales.toLocaleString(), sort:d=>d.sales==null?-1:d.sales, num:true},
+  {k:"equity",label:"自己資本%",          get:d=>d.equity==null?'—':d.equity, sort:d=>d.equity==null?-1:d.equity, num:true},
+  {k:"mktcap",label:"時価総額(億)",        get:d=>d.mktcap==null?'—':d.mktcap.toLocaleString(), sort:d=>d.mktcap==null?-1:d.mktcap, num:true},
   {k:"cluster",label:"クラスター",         html:d=>d.cluster==="—"?`<span style="color:var(--mute2)">—</span>`:`<span class="badge b-clu">${d.cluster}</span>`, sort:d=>d.cluster},
   {k:"purity",label:"半導体ピュア度",      html:d=>`<span class="pur-${d.purity==='高'?'high':d.purity==='中'?'mid':'low'}">${d.purity}</span>`, sort:d=>({高:3,中:2,低:1}[d.purity])},
   {k:"conf",  label:"信頼性",             html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`, sort:d=>({高:2,中:1}[d.conf])},

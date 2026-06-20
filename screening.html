@@ -485,11 +485,13 @@ function buildScatter(){
   const xt=el('text',{class:'sc-axtitle',x:SC.ML+plotW,y:SC.MT+plotH+34,'text-anchor':'end'});xt.textContent='営業利益率（OPM）→';svg.appendChild(xt);
   const yt=el('text',{class:'sc-axtitle',x:SC.ML-4,y:SC.MT-8,'text-anchor':'start'});yt.textContent='↑ 営業利益成長率';svg.appendChild(yt);
 
-  // バブル — 大きい順に描き、小さいものを上へ（ホバー可）
-  const sorted=[...pool].sort((a,b)=>b.mktcap-a.mktcap);
+  // バブル — 実位置から出発し、重なれば押し離す
+  const nodes=pool.map(d=>{const x=sx(d.opm),y=sy(d.growth);return{d,r:rad(d),x,y,tx:x,ty:y};});
+  relax(nodes);
+  nodes.sort((a,b)=>b.r-a.r); // 大きい順に描き、小さいものを上へ（ホバー可）
   const labels=[];
-  sorted.forEach(d=>{
-    const r=rad(d), cx=sx(d.opm), cy=sy(d.growth), col=CATCOLOR[d.cat];
+  nodes.forEach(({d,r,x,y})=>{
+    const cx=x, cy=y, col=CATCOLOR[d.cat];
     const on=mxPass(d);
     const a={class:'sc-dot'+(on?'':' dim'),cx,cy,r,'data-code':d.code,fill:col,stroke:col};
     if(d.judge==='推薦'){a['fill-opacity']=.82;a['stroke-width']=1.4;}

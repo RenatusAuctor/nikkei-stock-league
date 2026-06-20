@@ -460,9 +460,10 @@ function drawChart(){
 
 function showTip(e,d){
   const wrap=svg.parentElement.getBoundingClientRect();
-  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code})<br>`+
-    `${d.niche}<br>OPM ${d.opm}%・利益成長 ${d.growth>0?'+':''}${d.growth}%<br>`+
-    `売上 ${d.sales.toLocaleString()}億円${d.cluster!=="—"?'<br>クラスター: '+d.cluster:''}`;
+  const judgeTag=d.judge==='推薦'?'<span style="color:var(--amber)">★推薦</span>':'<span style="color:var(--mute)">△要検証</span>';
+  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code}) ${judgeTag}<br>`+
+    `${d.share||d.niche}<br>OPM ${d.opm}%・利益成長 ${d.growth>0?'+':''}${d.growth}%<br>`+
+    `売上 ${d.sales.toLocaleString()}億円・自己資本 ${d.equity}%・時価総額 ${d.mktcap.toLocaleString()}億${d.cluster!=="—"?'<br>クラスター: '+d.cluster:''}`;
   tip.style.left=(e.clientX-wrap.left+12)+"px";
   tip.style.top=(e.clientY-wrap.top+12)+"px";
   tip.style.opacity=1;

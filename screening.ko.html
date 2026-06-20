@@ -508,6 +508,8 @@ const COLS=[
   {k:"opm",   label:"OPM%",             get:d=>d.opm==null?'—':d.opm,            sort:d=>d.opm==null?-999:d.opm,    num:true},
   {k:"growth",label:"영업익 성장%",       html:d=>d.growth==null?'—':`<span class="${d.growth>=0?'pos':'neg'}">${d.growth>0?'+':''}${d.growth}</span>`, sort:d=>d.growth==null?-999:d.growth, num:true},
   {k:"sales", label:"매출(억엔)",        get:d=>d.sales==null?'—':d.sales.toLocaleString(), sort:d=>d.sales==null?-1:d.sales, num:true},
+  {k:"equity",label:"자기자본%",         get:d=>d.equity==null?'—':d.equity, sort:d=>d.equity==null?-1:d.equity, num:true},
+  {k:"mktcap",label:"시총(억엔)",        get:d=>d.mktcap==null?'—':d.mktcap.toLocaleString(), sort:d=>d.mktcap==null?-1:d.mktcap, num:true},
   {k:"cluster",label:"클러스터",          html:d=>d.cluster==="—"?`<span style="color:var(--mute2)">—</span>`:`<span class="badge b-clu">${d.cluster}</span>`, sort:d=>d.cluster},
   {k:"purity",label:"반도체 순도",        html:d=>`<span class="pur-${d.purity==='상'?'high':d.purity==='중'?'mid':'low'}">${d.purity}</span>`, sort:d=>({상:3,중:2,하:1}[d.purity])},
   {k:"conf",  label:"신뢰성",            html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`, sort:d=>({상:2,중:1}[d.conf])},

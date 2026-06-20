@@ -424,11 +424,13 @@ const SC_Y=[-30,75];      // 영업익 성장률 도메인
 const plotW=SC.W-SC.ML-SC.MR, plotH=SC.H-SC.MT-SC.MB;
 const sx=v=>SC.ML+(Math.max(SC_X[0],Math.min(SC_X[1],v))-SC_X[0])/(SC_X[1]-SC_X[0])*plotW;
 const sy=v=>SC.MT+(SC_Y[1]-Math.max(SC_Y[0],Math.min(SC_Y[1],v)))/(SC_Y[1]-SC_Y[0])*plotH;
-// 겹침 회피: 실제 위치(tx,ty)에서 출발해 충돌하면 밀어내고, 약한 스프링으로 원위치 복원
+// 겹침 회피: 실제 위치(tx,ty)로 끌되, 충돌하면 밀어냄. 후반부는 분리에만 집중해 겹침을 0으로.
 function relax(nodes){
-  const pad=1.4, x0=SC.ML, x1=SC.ML+plotW, y0=SC.MT, y1=SC.MT+plotH, spring=0.035;
-  for(let it=0;it<420;it++){
-    for(let i=0;i<nodes.length;i++){
+  const pad=1.1, x0=SC.ML, x1=SC.ML+plotW, y0=SC.MT, y1=SC.MT+plotH;
+  for(let it=0;it<600;it++){
+    const spring = it<450 ? 0.012 : 0;       // 끌어당김(먼저)
+    for(const n of nodes){ n.x+=(n.tx-n.x)*spring; n.y+=(n.ty-n.y)*spring; }
+    for(let i=0;i<nodes.length;i++){          // 충돌 분리(나중)
       const a=nodes[i];
       for(let j=i+1;j<nodes.length;j++){
         const b=nodes[j];
@@ -437,8 +439,7 @@ function relax(nodes){
           a.x-=ux*push; a.y-=uy*push; b.x+=ux*push; b.y+=uy*push;}
       }
     }
-    for(const n of nodes){
-      n.x+=(n.tx-n.x)*spring; n.y+=(n.ty-n.y)*spring;
+    for(const n of nodes){                    // 경계 클램프
       n.x=Math.max(x0+n.r,Math.min(x1-n.r,n.x));
       n.y=Math.max(y0+n.r,Math.min(y1-n.r,n.y));
     }

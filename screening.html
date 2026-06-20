@@ -562,6 +562,10 @@ document.querySelectorAll('#tableControls .chip').forEach(ch=>{
     if(ch.dataset.flag){
       ch.classList.toggle('active');
       ch.classList.contains('active')?flags.add(ch.dataset.flag):flags.delete(ch.dataset.flag);
+    }else if(ch.dataset.judge){
+      const on=!ch.classList.contains('active');
+      document.querySelectorAll('#tableControls .chip[data-judge]').forEach(c=>c.classList.remove('active'));
+      if(on){ch.classList.add('active');judgeFilter=ch.dataset.judge;}else{judgeFilter="all";}
     }else{
       document.querySelectorAll('#tableControls .chip[data-cat]').forEach(c=>c.classList.remove('active'));
       ch.classList.add('active'); filterCat=ch.dataset.cat;

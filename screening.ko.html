@@ -486,7 +486,7 @@ document.querySelectorAll('#chartControls .chip').forEach(ch=>{
       ch.classList.toggle('active');
       ch.classList.contains('active')?chartCats.add(cat):chartCats.delete(cat);
       document.querySelector('#chartControls .chip[data-cat=all]')
-        .classList.toggle('active',chartCats.size===3);
+        .classList.toggle('active',chartCats.size===4);
     }
     drawChart();
   });

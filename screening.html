@@ -424,6 +424,27 @@ const SC_Y=[-30,75];      // 営業利益成長率 ドメイン
 const plotW=SC.W-SC.ML-SC.MR, plotH=SC.H-SC.MT-SC.MB;
 const sx=v=>SC.ML+(Math.max(SC_X[0],Math.min(SC_X[1],v))-SC_X[0])/(SC_X[1]-SC_X[0])*plotW;
 const sy=v=>SC.MT+(SC_Y[1]-Math.max(SC_Y[0],Math.min(SC_Y[1],v)))/(SC_Y[1]-SC_Y[0])*plotH;
+// 重なり回避: 実位置(tx,ty)へ引きつつ、衝突したら押し離す。後半は分離に専念し重なりを0に。
+function relax(nodes){
+  const pad=1.1, x0=SC.ML, x1=SC.ML+plotW, y0=SC.MT, y1=SC.MT+plotH;
+  for(let it=0;it<600;it++){
+    const spring = it<450 ? 0.012 : 0;       // 引きつけ(先)
+    for(const n of nodes){ n.x+=(n.tx-n.x)*spring; n.y+=(n.ty-n.y)*spring; }
+    for(let i=0;i<nodes.length;i++){          // 衝突分離(後)
+      const a=nodes[i];
+      for(let j=i+1;j<nodes.length;j++){
+        const b=nodes[j];
+        let dx=b.x-a.x, dy=b.y-a.y, dist=Math.hypot(dx,dy)||0.01, min=a.r+b.r+pad;
+        if(dist<min){const push=(min-dist)/2, ux=dx/dist, uy=dy/dist;
+          a.x-=ux*push; a.y-=uy*push; b.x+=ux*push; b.y+=uy*push;}
+      }
+    }
+    for(const n of nodes){                    // 境界クランプ
+      n.x=Math.max(x0+n.r,Math.min(x1-n.r,n.x));
+      n.y=Math.max(y0+n.r,Math.min(y1-n.r,n.y));
+    }
+  }
+}
 function mxPass(d){
   if(mxCat!=="all"&&d.cat!==mxCat) return false;
   if(mxJudge!=="all"&&d.judge!==mxJudge) return false;

@@ -417,7 +417,7 @@ function drawChart(){
 
   bubData.forEach((d,i)=>{
     const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
-    const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.62,
+    const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.5,
       stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],
       "stroke-width":d.cluster!=="—"?2:1,
       "stroke-opacity":d.cluster!=="—"?.9:.5,

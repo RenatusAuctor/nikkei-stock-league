@@ -528,7 +528,7 @@ function buildHead(){
 }
 function passFilter(d){
   if(filterCat!=="all"&&d.cat!==filterCat) return false;
-  if(flags.has('rec')&&!d.rec) return false;
+  if(judgeFilter!=="all"&&d.judge!==judgeFilter) return false;
   if(flags.has('cluster')&&d.cluster==="—") return false;
   if(query){const q=query.toLowerCase();if(!(d.name.toLowerCase().includes(q)||d.code.includes(q)))return false;}
   return true;

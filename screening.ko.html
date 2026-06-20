@@ -381,120 +381,11 @@ const DATA = [
 const CATCOLOR = {"인프라":"#2DD4BF","패키징":"#E0A340","소재·부품":"#7DA7FF","장치부재":"#B794F6"};
 const CATBADGE  = {"인프라":"b-infra","패키징":"b-pkg","소재·부품":"b-mat","장치부재":"b-dev"};
 
-/* ── BUBBLE CHART ── */
-const svg = document.getElementById('chart');
+/* ── 유망 존 매트릭스 ── */
 const tip = document.getElementById('tip');
-const NS  = "http://www.w3.org/2000/svg";
-const M   = {l:54,r:24,t:20,b:46}, W=820, H=560;
-const PW  = W-M.l-M.r, PH = H-M.t-M.b;
-const X   = {min:0,max:50}, Y = {min:-30,max:130};
-const xpix = v => M.l+(v-X.min)/(X.max-X.min)*PW;
-const ypix = v => M.t+PH-(v-Y.min)/(Y.max-Y.min)*PH;
-const rpix = s => Math.max(5,Math.sqrt(s/Math.PI)/5.6);
-let chartCats = new Set(["인프라","패키징","소재·부품","장치부재"]);
-
-function el(tag,attrs){
-  const e=document.createElementNS(NS,tag);
-  for(const k in attrs) e.setAttribute(k,attrs[k]);
-  return e;
-}
-
-function drawChart(){
-  svg.innerHTML="";
-
-  svg.appendChild(el("rect",{x:xpix(25),y:M.t,width:xpix(X.max)-xpix(25),
-    height:ypix(20)-M.t,fill:"#2DD4BF","fill-opacity":.09,stroke:"#2DD4BF",
-    "stroke-opacity":.3,"stroke-width":1,"stroke-dasharray":"4,3"}));
-  const zl=el("text",{x:xpix(X.max)-6,y:M.t+14,class:"axis-label",
-    "text-anchor":"end","font-size":"9.5","fill-opacity":".7"});
-  zl.textContent="유망 존"; svg.appendChild(zl);
-
-  for(let v=0;v<=50;v+=10){
-    svg.appendChild(el("line",{x1:xpix(v),y1:M.t,x2:xpix(v),y2:M.t+PH,
-      class:"grid","stroke-opacity":.5}));
-    const t=el("text",{x:xpix(v),y:M.t+PH+16,class:"tick","text-anchor":"middle"});
-    t.textContent=v+"%"; svg.appendChild(t);
-  }
-  for(let v=-30;v<=130;v+=40){
-    svg.appendChild(el("line",{x1:M.l,y1:ypix(v),x2:M.l+PW,y2:ypix(v),
-      class:"grid","stroke-opacity":v===0?.9:.4}));
-    const t=el("text",{x:M.l-8,y:ypix(v)+3,class:"tick","text-anchor":"end"});
-    t.textContent=v+"%"; svg.appendChild(t);
-  }
-  const xl=el("text",{x:M.l+PW/2,y:H-6,class:"axis-label","text-anchor":"middle"});
-  xl.textContent="영업이익률(진입장벽·가격 지배력의 대리지표) →"; svg.appendChild(xl);
-  const yl=el("text",{x:16,y:M.t+PH/2,class:"axis-label","text-anchor":"middle",
-    transform:`rotate(-90 16 ${M.t+PH/2})`});
-  yl.textContent="최근 영업이익 성장률 →"; svg.appendChild(yl);
-
-  const bubData = DATA
-    .filter(d=>d.opm!=null&&d.growth!=null&&d.sales!=null&&d.opm>0&&!d.delisted&&!d.excluded)
-    .filter(d=>chartCats.has(d.cat))
-    .sort((a,b)=>b.sales-a.sales);
-
-  bubData.forEach((d,i)=>{
-    const cx=xpix(d.opm), cy=ypix(d.growth), r=rpix(d.sales);
-    const c=el("circle",{cx,cy,r,class:"bub",fill:CATCOLOR[d.cat],"fill-opacity":.5,
-      stroke:d.cluster!=="—"?"#FFFFFF":CATCOLOR[d.cat],
-      "stroke-width":d.cluster!=="—"?2:1,
-      "stroke-opacity":d.cluster!=="—"?.9:.5,
-      style:`animation-delay:${(i*0.04).toFixed(2)}s`});
-    c.addEventListener("mousemove",e=>showTip(e,d));
-    c.addEventListener("mouseleave",()=>{ tip.style.opacity=0; tip.classList.remove('show'); });
-    svg.appendChild(c);
-  });
-
-  // 라벨은 눈에 띄는 종목(외곽·고수익·고성장·대형)만 표시 — 나머지는 커서로 확인
-  const bpos = bubData.map(d=>({cx:xpix(d.opm),cy:ypix(d.growth),r:rpix(d.sales)}));
-  const notable = d => d.opm>=20 || d.growth>=35 || d.growth<=-15 || d.sales>=9000 || d.judge==='추천'&&d.opm>=15;
-  const placed=[];
-  bubData.forEach((d,i)=>{
-    if(!notable(d)) return;
-    const {cx,cy,r} = bpos[i];
-    const name = d.name.length>7 ? d.name.slice(0,7) : d.name;
-    const dirs = [
-      {dx:0,      dy:-(r+6), anchor:'middle'},
-      {dx:r+5,    dy:4,      anchor:'start'},
-      {dx:0,      dy:r+13,   anchor:'middle'},
-      {dx:-(r+5), dy:4,      anchor:'end'},
-      {dx:r+4,    dy:-(r+3), anchor:'start'},
-      {dx:r+4,    dy:r+11,   anchor:'start'},
-      {dx:-(r+4), dy:-(r+3), anchor:'end'},
-      {dx:-(r+4), dy:r+11,   anchor:'end'},
-    ];
-    let best=null, bestScore=-Infinity;
-    for(const dir of dirs){
-      const lx=cx+dir.dx, ly=cy+dir.dy;
-      if(lx<M.l+2||lx>M.l+PW-2||ly<M.t+8||ly>M.t+PH-2) continue;
-      let score=0;
-      for(let j=0;j<bpos.length;j++){
-        if(j===i) continue;
-        score+=Math.min(Math.hypot(lx-bpos[j].cx,ly-bpos[j].cy),130);
-      }
-      for(const p of placed){
-        const dd=Math.hypot(lx-p.x,ly-p.y);
-        score += dd<18 ? -600 : Math.min(dd,130);
-      }
-      if(score>bestScore){bestScore=score;best={lx,ly,anchor:dir.anchor};}
-    }
-    if(!best) return;
-    placed.push({x:best.lx,y:best.ly});
-    const lab=el("text",{x:best.lx,y:best.ly,class:"bub-lab","text-anchor":best.anchor});
-    lab.textContent=name; svg.appendChild(lab);
-  });
-}
-
-function showTip(e,d){
-  const wrap=svg.parentElement.getBoundingClientRect();
-  const judgeTag=d.judge==='추천'?'<span style="color:var(--amber)">★추천</span>':'<span style="color:var(--mute)">△요검증</span>';
-  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code}) ${judgeTag}<br>`+
-    `${d.niche}<br>OPM ${d.opm}%·이익성장 ${d.growth>0?'+':''}${d.growth}%<br>`+
-    `매출 ${d.sales.toLocaleString()}억엔·자기자본 ${d.equity}%·시총 ${d.mktcap.toLocaleString()}억${d.cluster!=="—"?'<br>클러스터: '+d.cluster:''}`;
-  tip.style.left=(e.clientX-wrap.left+12)+"px";
-  tip.style.top=(e.clientY-wrap.top+12)+"px";
-  tip.style.opacity=1;
-  tip.classList.add('show');
-}
+const MX_OPM = 15, MX_G = 10;
+const JC = {"추천":"rec","요검증":"chk","제외":"exc"};
+let mxCat = "all", mxJudge = "all";
 
 function addRipple(ch,e){
   const r=ch.getBoundingClientRect();
@@ -505,22 +396,61 @@ function addRipple(ch,e){
   ch.appendChild(rip);
   rip.addEventListener('animationend',()=>rip.remove());
 }
+function showTip(e,d){
+  const jt=d.judge==='추천'?'<span style="color:var(--amber)">★추천</span>':d.judge==='제외'?'<span style="color:var(--mute2)">제외</span>':'<span style="color:var(--mute)">△요검증</span>';
+  tip.innerHTML=`<b style="color:${CATCOLOR[d.cat]}">${d.name}</b> (${d.code}) ${jt}<br>`+
+    `${d.niche}<br>OPM ${d.opm}%·이익성장 ${d.growth>0?'+':''}${d.growth}%<br>`+
+    `매출 ${d.sales.toLocaleString()}억엔·자기자본 ${d.equity}%·시총 ${d.mktcap.toLocaleString()}억${d.cluster!=="—"?'<br>클러스터: '+d.cluster:''}`;
+  tip.style.left=Math.min(e.clientX+14, innerWidth-270)+"px";
+  tip.style.top=(e.clientY+14)+"px";
+  tip.style.opacity=1; tip.classList.add('show');
+}
+function hideTip(){ tip.style.opacity=0; tip.classList.remove('show'); }
 
-document.querySelectorAll('#chartControls .chip').forEach(ch=>{
+const MX_CELLS=[
+  {i:0,title:"저수익 · 고성장",hot:false},
+  {i:1,title:"고수익 · 고성장",hot:true},
+  {i:2,title:"저수익 · 저성장",hot:false},
+  {i:3,title:"고수익 · 저성장",hot:false},
+];
+const quadIndex = d => (d.growth>=MX_G?0:1)*2 + (d.opm>=MX_OPM?1:0);
+function mxPass(d){
+  if(mxCat!=="all"&&d.cat!==mxCat) return false;
+  if(mxJudge!=="all"&&d.judge!==mxJudge) return false;
+  return true;
+}
+function buildMatrix(){
+  const box=document.getElementById('matrix'); box.innerHTML="";
+  const pool=DATA.filter(d=>d.opm!=null&&d.growth!=null&&!d.delisted).filter(mxPass);
+  MX_CELLS.forEach(cell=>{
+    const items=pool.filter(d=>quadIndex(d)===cell.i).sort((a,b)=>b.opm-a.opm);
+    const div=document.createElement('div');
+    div.className='mx-cell'+(cell.hot?' hot':'');
+    const label=cell.hot?'<span class="hot-tag">★ 유망 존</span> '+cell.title:cell.title;
+    const head=`<div class="mx-h">${label}<span class="cnt">${items.length}</span></div>`;
+    const chips=items.map(d=>`<span class="mx-chip jc-${JC[d.judge]}" style="border-left-color:${CATCOLOR[d.cat]}" data-code="${d.code}">${d.name}</span>`).join('')||'<span style="color:var(--mute2);font-size:11px">해당 종목 없음</span>';
+    div.innerHTML=head+`<div class="mx-chips">${chips}</div>`;
+    box.appendChild(div);
+  });
+  box.querySelectorAll('.mx-chip').forEach(ch=>{
+    const d=DATA.find(x=>x.code===ch.dataset.code);
+    ch.addEventListener('mousemove',e=>showTip(e,d));
+    ch.addEventListener('mouseleave',hideTip);
+  });
+}
+document.querySelectorAll('#mxControls .chip').forEach(ch=>{
   ch.addEventListener('click',(e)=>{
     addRipple(ch,e);
-    const cat=ch.dataset.cat;
-    if(cat==="all"){
+    if(ch.dataset.mxjudge){
       const on=!ch.classList.contains('active');
-      document.querySelectorAll('#chartControls .chip').forEach(c=>c.classList.toggle('active',on));
-      chartCats=on?new Set(["인프라","패키징","소재·부품","장치부재"]):new Set();
+      document.querySelectorAll('#mxControls .chip[data-mxjudge]').forEach(c=>c.classList.remove('active'));
+      mxJudge = on?ch.dataset.mxjudge:"all";
+      if(on)ch.classList.add('active');
     }else{
-      ch.classList.toggle('active');
-      ch.classList.contains('active')?chartCats.add(cat):chartCats.delete(cat);
-      document.querySelector('#chartControls .chip[data-cat=all]')
-        .classList.toggle('active',chartCats.size===4);
+      document.querySelectorAll('#mxControls .chip[data-mxcat]').forEach(c=>c.classList.remove('active'));
+      ch.classList.add('active'); mxCat=ch.dataset.mxcat;
     }
-    drawChart();
+    buildMatrix();
   });
 });
 
@@ -602,7 +532,7 @@ document.querySelectorAll('#tableControls .chip').forEach(ch=>{
 });
 document.getElementById('search').addEventListener('input',e=>{query=e.target.value;render();});
 
-drawChart();
+buildMatrix();
 render();
 </script>
 </body>

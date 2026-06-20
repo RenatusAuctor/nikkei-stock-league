@@ -483,7 +483,7 @@ document.querySelectorAll('#chartControls .chip').forEach(ch=>{
     if(cat==="all"){
       const on=!ch.classList.contains('active');
       document.querySelectorAll('#chartControls .chip').forEach(c=>c.classList.toggle('active',on));
-      chartCats=on?new Set(["インフラ","パッケージング","素材・部品"]):new Set();
+      chartCats=on?new Set(["インフラ","パッケージング","素材・部品","装置部材"]):new Set();
     }else{
       ch.classList.toggle('active');
       ch.classList.contains('active')?chartCats.add(cat):chartCats.delete(cat);

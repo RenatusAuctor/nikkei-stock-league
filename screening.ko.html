@@ -514,7 +514,7 @@ const COLS=[
   {k:"purity",label:"반도체 순도",        html:d=>`<span class="pur-${d.purity==='상'?'high':d.purity==='중'?'mid':'low'}">${d.purity}</span>`, sort:d=>({상:3,중:2,하:1}[d.purity])},
   {k:"conf",  label:"신뢰성",            html:d=>`<span class="conf-${d.conf}">${d.conf}</span>`, sort:d=>({상:2,중:1}[d.conf])},
 ];
-let sortKey="rec", sortDir=-1, filterCat="all", flags=new Set(), query="";
+let sortKey="rec", sortDir=-1, filterCat="all", judgeFilter="all", flags=new Set(), query="";
 
 function buildHead(){
   const h=document.getElementById('head'); h.innerHTML="";

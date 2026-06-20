@@ -481,7 +481,7 @@ document.querySelectorAll('#chartControls .chip').forEach(ch=>{
     if(cat==="all"){
       const on=!ch.classList.contains('active');
       document.querySelectorAll('#chartControls .chip').forEach(c=>c.classList.toggle('active',on));
-      chartCats=on?new Set(["인프라","패키징","소재·부품"]):new Set();
+      chartCats=on?new Set(["인프라","패키징","소재·부품","장치부재"]):new Set();
     }else{
       ch.classList.toggle('active');
       ch.classList.contains('active')?chartCats.add(cat):chartCats.delete(cat);

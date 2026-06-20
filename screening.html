@@ -137,6 +137,21 @@
     letter-spacing:.04em;padding:5px 13px;border-radius:50px;transition:all .2s;}
   .lang-switch a.active{background:var(--teal);color:#06231f;}
   .lang-switch a:not(.active):hover{color:var(--ink);}
+  /* mobile: hide secondary columns to cut horizontal scroll */
+  @media (max-width:760px){
+    #tbl th:nth-child(3),#tbl td:nth-child(3),     /* コード */
+    #tbl th:nth-child(5),#tbl td:nth-child(5),     /* ニッチ・世界シェア */
+    #tbl th:nth-child(8),#tbl td:nth-child(8),     /* 売上 */
+    #tbl th:nth-child(9),#tbl td:nth-child(9),     /* 自己資本 */
+    #tbl th:nth-child(12),#tbl td:nth-child(12),   /* 半導体ピュア度 */
+    #tbl th:nth-child(13),#tbl td:nth-child(13){display:none;} /* 信頼性 */
+  }
+  /* respect reduced-motion preference */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms !important;animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;scroll-behavior:auto !important;}
+  }
 </style>
 </head>
 <body>

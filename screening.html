@@ -449,7 +449,7 @@ document.querySelectorAll('#mxControls .chip').forEach(ch=>{
 /* ── TABLE ── */
 const COLS=[
   {k:"rec",   label:"判定",             html:d=>(d.delisted||d.judge==='除外')?'<span class="badge b-del">除外</span>':(d.judge==='推薦'?'<span class="j-rec">★推薦</span>':'<span class="j-chk">△要検証</span>'), sort:d=>({"推薦":2,"要検証":1,"除外":0}[d.judge])},
-  {k:"name",  label:"企業名",            get:d=>d.name,                           sort:d=>d.name},
+  {k:"name",  label:"企業名",            html:d=>d.name+(d.note?` <span class="warn-flag" title="${d.note.replace(/"/g,'&quot;')}">⚠️</span>`:''), sort:d=>d.name},
   {k:"code",  label:"コード",            get:d=>d.code,                           sort:d=>d.code,  num:true},
   {k:"cat",   label:"カテゴリ",           html:d=>`<span class="badge ${CATBADGE[d.cat]}">${d.cat}</span>`, sort:d=>d.cat},
   {k:"niche", label:"ニッチ・世界シェア", get:d=>d.niche,                          sort:d=>d.niche},

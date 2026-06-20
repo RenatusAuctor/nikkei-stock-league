@@ -225,27 +225,26 @@
   </div>
 
   <div class="panel">
-    <h2>解析マトリクス：参入障壁 × 利益成長</h2>
-    <div class="hint">右上＝高収益かつ高成長の「本命ゾーン」。バブル径＝売上規模、色＝カテゴリ、白いリング＝半導体クラスター近接。<b>ラベルは主要銘柄のみ表示</b> — 他は点にカーソルを乗せると詳細が出る。カテゴリチップで絞ると更に見やすい。</div>
-    <div class="controls" id="chartControls">
-      <span class="chip active" data-cat="all">全て</span>
-      <span class="chip active" data-cat="インフラ">インフラ</span>
-      <span class="chip amber active" data-cat="パッケージング">パッケージング</span>
-      <span class="chip blue active" data-cat="素材・部品">素材・部品</span>
-      <span class="chip purple active" data-cat="装置部材">装置部材</span>
+    <h2>本命ゾーン・マトリクス：参入障壁 × 利益成長</h2>
+    <div class="hint">横＝営業利益率（15%境界）、縦＝営業利益成長率（10%境界）。<b>右上 = 高収益・高成長の「本命ゾーン」</b>が最優先候補。チップ色＝判定、左の色帯＝カテゴリ。チップにカーソルで詳細、フィルターで絞れる。</div>
+    <div class="controls" id="mxControls">
+      <span class="chip active" data-mxcat="all">全て</span>
+      <span class="chip" data-mxcat="インフラ">インフラ</span>
+      <span class="chip" data-mxcat="パッケージング">パッケージング</span>
+      <span class="chip" data-mxcat="素材・部品">素材・部品</span>
+      <span class="chip" data-mxcat="装置部材">装置部材</span>
+      <span class="chip" data-mxjudge="推薦">推薦のみ</span>
+      <span class="chip" data-mxjudge="要検証">要検証のみ</span>
     </div>
-    <div class="chartwrap">
-      <svg id="chart" viewBox="0 0 820 560" role="img" aria-label="バブルチャート"></svg>
-      <div class="tooltip" id="tip"></div>
-    </div>
+    <div class="matrix" id="matrix"></div>
+    <div class="tooltip" id="tip"></div>
     <div class="legend">
-      <span><i style="background:var(--teal)"></i>インフラ（装置・検査・実装）</span>
-      <span><i style="background:var(--amber)"></i>パッケージング（基板・リードフレーム）</span>
-      <span><i style="background:var(--blue)"></i>素材・部品</span>
-      <span><i style="background:#B794F6"></i>装置部材（部材・インフラ）</span>
-      <span><i style="background:transparent;border:2px solid #fff"></i>クラスター近接</span>
+      <span><i class="j-dot" style="background:var(--amber)"></i>推薦</span>
+      <span><i class="j-dot" style="background:var(--mute)"></i>要検証</span>
+      <span><i class="j-dot" style="background:var(--mute2)"></i>除外</span>
+      <span>チップ左の色帯 = カテゴリ（インフラ/パッケージング/素材・部品/装置部材）</span>
     </div>
-    <p class="foot">※ バブル径＝売上規模。営業赤字・非数値成長の銘柄はチャート対象外（テーブルには掲載）。</p>
+    <p class="foot">※ 非数値成長・上場廃止の銘柄はマトリクス対象外（テーブルには掲載）。</p>
   </div>
 
   <div class="panel">

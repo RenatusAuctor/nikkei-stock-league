@@ -369,7 +369,7 @@ const X   = {min:0,max:50}, Y = {min:-30,max:130};
 const xpix = v => M.l+(v-X.min)/(X.max-X.min)*PW;
 const ypix = v => M.t+PH-(v-Y.min)/(Y.max-Y.min)*PH;
 const rpix = s => Math.max(7,Math.sqrt(s/Math.PI)/4.2);
-let chartCats = new Set(["인프라","패키징","소재·부품"]);
+let chartCats = new Set(["인프라","패키징","소재·부품","장치부재"]);
 
 function el(tag,attrs){
   const e=document.createElementNS(NS,tag);

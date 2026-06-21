@@ -418,103 +418,97 @@ function showTip(e,d){
 }
 function hideTip(){ tip.style.opacity=0; tip.classList.remove('show'); }
 
-/* ── バブルマップ（散布図） ── */
+/* ── 分布ビースウォーム ── */
 const SVGNS="http://www.w3.org/2000/svg";
-const SC={W:920,H:540,ML:54,MR:20,MT:22,MB:42};
-const SC_X=[-15,40];      // OPM ドメイン
-const SC_Y=[-30,75];      // 営業利益成長率 ドメイン
-const plotW=SC.W-SC.ML-SC.MR, plotH=SC.H-SC.MT-SC.MB;
-const sx=v=>SC.ML+(Math.max(SC_X[0],Math.min(SC_X[1],v))-SC_X[0])/(SC_X[1]-SC_X[0])*plotW;
-const sy=v=>SC.MT+(SC_Y[1]-Math.max(SC_Y[0],Math.min(SC_Y[1],v)))/(SC_Y[1]-SC_Y[0])*plotH;
-// 重なり回避: 実位置(tx,ty)へ引きつつ、衝突したら押し離す。後半は分離に専念し重なりを0に。
-function relax(nodes){
-  const pad=1.1, x0=SC.ML, x1=SC.ML+plotW, y0=SC.MT, y1=SC.MT+plotH;
-  for(let it=0;it<600;it++){
-    const spring = it<450 ? 0.012 : 0;       // 引きつけ(先)
-    for(const n of nodes){ n.x+=(n.tx-n.x)*spring; n.y+=(n.ty-n.y)*spring; }
-    for(let i=0;i<nodes.length;i++){          // 衝突分離(後)
-      const a=nodes[i];
-      for(let j=i+1;j<nodes.length;j++){
-        const b=nodes[j];
-        let dx=b.x-a.x, dy=b.y-a.y, dist=Math.hypot(dx,dy)||0.01, min=a.r+b.r+pad;
-        if(dist<min){const push=(min-dist)/2, ux=dx/dist, uy=dy/dist;
-          a.x-=ux*push; a.y-=uy*push; b.x+=ux*push; b.y+=uy*push;}
-      }
-    }
-    for(const n of nodes){                    // 境界クランプ
-      n.x=Math.max(x0+n.r,Math.min(x1-n.r,n.x));
-      n.y=Math.max(y0+n.r,Math.min(y1-n.r,n.y));
-    }
-  }
-}
+const BW={W:920,H:440,ML:24,MR:24,MT:26,MB:46};
+const bwPlotW=BW.W-BW.ML-BW.MR;
+const bwCY=(BW.MT+(BW.H-BW.MB))/2;
+let bwAxis="opm";
+const BW_AX={
+  opm:   {title:"営業利益率（OPM）→", get:d=>d.opm,    dom:[-15,40],   ticks:[-10,0,10,20,30,40],        fmt:v=>v+"%",                       ref:{v:15,lbl:"OPM 15%"}, log:false},
+  growth:{title:"営業利益成長率 →",   get:d=>d.growth, dom:[-30,75],   ticks:[-20,0,10,30,50,70],        fmt:v=>(v>0?"+":"")+v+"%",          ref:{v:10,lbl:"成長率 10%"},log:false},
+  mktcap:{title:"時価総額（億円・対数）→",get:d=>d.mktcap,dom:[45,91000],ticks:[100,500,2000,10000,50000], fmt:v=>v>=10000?(v/10000)+"万":v.toLocaleString(), ref:null, log:true},
+  equity:{title:"自己資本比率 →",     get:d=>d.equity, dom:[20,90],    ticks:[20,40,60,80],              fmt:v=>v+"%",                       ref:null, log:false},
+};
 function mxPass(d){
   if(mxCat!=="all"&&d.cat!==mxCat) return false;
   if(mxJudge!=="all"&&d.judge!==mxJudge) return false;
   return true;
 }
-function buildScatter(){
-  const box=document.getElementById('scatter'); box.innerHTML="";
-  const pool=DATA.filter(d=>d.opm!=null&&d.growth!=null&&!d.delisted);
+// ビースウォーム衝突配置: x 固定、y オフセットを最小に離す
+function beeswarmLayout(pts){
+  pts.sort((a,b)=>a.x-b.x);
+  const placed=[];
+  pts.forEach(p=>{
+    const nb=placed.filter(q=>Math.abs(q.x-p.x)<(p.r+q.r));
+    const cands=[0];
+    nb.forEach(q=>{const dx=p.x-q.x,sep=p.r+q.r,root=sep*sep-dx*dx;
+      if(root>0){const dy=Math.sqrt(root);cands.push(q.y+dy,q.y-dy);}});
+    cands.sort((a,b)=>Math.abs(a)-Math.abs(b));
+    let y=0;
+    for(const c of cands){
+      if(nb.every(q=>{const dx=p.x-q.x,dy=c-q.y;return dx*dx+dy*dy>=(p.r+q.r)*(p.r+q.r)-0.05;})){y=c;break;}
+    }
+    p.y=y; placed.push(p);
+  });
+}
+function buildBeeswarm(){
+  const box=document.getElementById('beeswarm'); box.innerHTML="";
+  const el=(n,a)=>{const e=document.createElementNS(SVGNS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const ax=BW_AX[bwAxis];
+  const pool=DATA.filter(d=>!d.delisted&&ax.get(d)!=null);
+  const [a,b]=ax.dom;
+  const sc=ax.log
+    ?(v=>{const la=Math.log(a),lb=Math.log(b);return BW.ML+(Math.log(Math.max(a,Math.min(b,v)))-la)/(lb-la)*bwPlotW;})
+    :(v=>BW.ML+(Math.max(a,Math.min(b,v))-a)/(b-a)*bwPlotW);
   const lnMin=Math.log(Math.min(...pool.map(d=>d.mktcap)));
   const lnMax=Math.log(Math.max(...pool.map(d=>d.mktcap)));
-  const rad=d=>4.5+(Math.log(d.mktcap)-lnMin)/(lnMax-lnMin)*12.5; // 4.5〜17px
-  const el=(n,a)=>{const e=document.createElementNS(SVGNS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const rad=d=>3.5+(Math.log(d.mktcap)-lnMin)/(lnMax-lnMin)*9; // 3.5〜12.5px
 
-  const svg=el('svg',{viewBox:`0 0 ${SC.W} ${SC.H}`,role:'img'});
-  const xd=sx(MX_OPM), yd=sy(MX_G);
-
-  // 本命ゾーン（右上）の網掛け
-  svg.appendChild(el('rect',{class:'sc-hot',x:xd,y:SC.MT,width:SC.ML+plotW-xd,height:yd-SC.MT,rx:6}));
-  // 4象限ラベル
-  const quad=(t,x,y,anchor)=>{const e=el('text',{class:'sc-quad',x,y,'text-anchor':anchor});e.textContent=t;svg.appendChild(e);};
-  quad('低収益・高成長',SC.ML+8,SC.MT+15,'start');
-  const hl=el('text',{class:'sc-hotlabel',x:SC.ML+plotW-8,y:SC.MT+15,'text-anchor':'end'});hl.textContent='★ 本命ゾーン（高収益・高成長）';svg.appendChild(hl);
-  quad('低収益・低成長',SC.ML+8,SC.MT+plotH-8,'start');
-  quad('高収益・低成長',SC.ML+plotW-8,SC.MT+plotH-8,'end');
+  const svg=el('svg',{viewBox:`0 0 ${BW.W} ${BW.H}`,role:'img'});
+  const yTop=BW.MT, yBot=BW.H-BW.MB;
 
   // グリッド + 目盛
-  [0,15,30].forEach(v=>{const x=sx(v);svg.appendChild(el('line',{class:'sc-grid',x1:x,y1:SC.MT,x2:x,y2:SC.MT+plotH}));
-    const t=el('text',{class:'sc-tick',x,y:SC.MT+plotH+15,'text-anchor':'middle'});t.textContent=v+'%';svg.appendChild(t);});
-  [0,10,30,50,70].forEach(v=>{const y=sy(v);svg.appendChild(el('line',{class:'sc-grid',x1:SC.ML,y1:y,x2:SC.ML+plotW,y2:y}));
-    const t=el('text',{class:'sc-tick',x:SC.ML-7,y:y+3,'text-anchor':'end'});t.textContent=(v>0?'+':'')+v;svg.appendChild(t);});
+  ax.ticks.forEach(v=>{const x=sc(v);
+    svg.appendChild(el('line',{class:'bw-grid',x1:x,y1:yTop,x2:x,y2:yBot}));
+    const t=el('text',{class:'bw-tick',x,y:yBot+15,'text-anchor':'middle'});t.textContent=ax.fmt(v);svg.appendChild(t);});
+  // 軸線
+  svg.appendChild(el('line',{class:'bw-axis',x1:BW.ML,y1:yBot,x2:BW.ML+bwPlotW,y2:yBot}));
+  const xt=el('text',{class:'bw-axtitle',x:BW.ML+bwPlotW,y:yBot+34,'text-anchor':'end'});xt.textContent=ax.title;svg.appendChild(xt);
+  // 基準線
+  if(ax.ref){const rx=sc(ax.ref.v);
+    svg.appendChild(el('line',{class:'bw-ref',x1:rx,y1:yTop,x2:rx,y2:yBot}));
+    const rl=el('text',{class:'bw-reflbl',x:rx+4,y:yTop+10});rl.textContent=ax.ref.lbl;svg.appendChild(rl);}
 
-  // 境界線（OPM 15 / 成長 10）
-  svg.appendChild(el('line',{class:'sc-div',x1:xd,y1:SC.MT,x2:xd,y2:SC.MT+plotH}));
-  svg.appendChild(el('line',{class:'sc-div',x1:SC.ML,y1:yd,x2:SC.ML+plotW,y2:yd}));
-  // 軸
-  svg.appendChild(el('line',{class:'sc-axis',x1:SC.ML,y1:SC.MT+plotH,x2:SC.ML+plotW,y2:SC.MT+plotH}));
-  svg.appendChild(el('line',{class:'sc-axis',x1:SC.ML,y1:SC.MT,x2:SC.ML,y2:SC.MT+plotH}));
-  const xt=el('text',{class:'sc-axtitle',x:SC.ML+plotW,y:SC.MT+plotH+34,'text-anchor':'end'});xt.textContent='営業利益率（OPM）→';svg.appendChild(xt);
-  const yt=el('text',{class:'sc-axtitle',x:SC.ML-4,y:SC.MT-8,'text-anchor':'start'});yt.textContent='↑ 営業利益成長率';svg.appendChild(yt);
-
-  // バブル — 実位置から出発し、重なれば押し離す
-  const nodes=pool.map(d=>{const x=sx(d.opm),y=sy(d.growth);return{d,r:rad(d),x,y,tx:x,ty:y};});
-  relax(nodes);
-  nodes.sort((a,b)=>b.r-a.r); // 大きい順に描き、小さいものを上へ（ホバー可）
-  const labels=[];
-  nodes.forEach(({d,r,x,y})=>{
-    const cx=x, cy=y, col=CATCOLOR[d.cat];
-    const on=mxPass(d);
-    const a={class:'sc-dot'+(on?'':' dim'),cx,cy,r,'data-code':d.code,fill:col,stroke:col};
-    if(d.judge==='推薦'){a['fill-opacity']=.82;a['stroke-width']=1.4;}
-    else if(d.judge==='要検証'){a['fill-opacity']=.34;a['stroke-width']=1.4;}
-    else{a['fill-opacity']=.04;a['stroke-opacity']=.55;a['stroke-width']=1.2;a['stroke-dasharray']='2 2';}
-    svg.appendChild(el('circle',a));
-    // 大型株のみラベル（時価総額 ≥ 5000億円）
-    if(d.mktcap>=5000) labels.push({d,cx,cy,r,on});
-  });
-  labels.forEach(({d,cx,cy,r,on})=>{
-    const t=el('text',{class:'sc-lbl'+(on?'':' dim'),x:cx,y:cy-r-3,'text-anchor':'middle'});
-    t.textContent=d.name;svg.appendChild(t);
+  // 衝突配置
+  const pts=pool.map(d=>({d,x:sc(ax.get(d)),r:rad(d)+0.6}));
+  beeswarmLayout(pts);
+  // 大きいバブルを先に(背面)、小さいものを上へ
+  pts.sort((p,q)=>q.r-p.r);
+  pts.forEach(p=>{
+    const d=p.d, col=CATCOLOR[d.cat], on=mxPass(d), cy=bwCY+p.y, r=p.r-0.6;
+    const at={class:'bw-dot'+(on?'':' dim'),cx:p.x,cy,r,'data-code':d.code,fill:col,stroke:col};
+    if(d.judge==='推薦'){at['fill-opacity']=.82;at['stroke-width']=1.3;}
+    else if(d.judge==='要検証'){at['fill-opacity']=.34;at['stroke-width']=1.3;}
+    else{at['fill-opacity']=.04;at['stroke-opacity']=.55;at['stroke-width']=1.1;at['stroke-dasharray']='2 2';}
+    svg.appendChild(el('circle',at));
   });
 
   box.appendChild(svg);
-  svg.querySelectorAll('.sc-dot').forEach(c=>{
+  svg.querySelectorAll('.bw-dot').forEach(c=>{
     const d=DATA.find(x=>x.code===c.dataset.code);
     c.addEventListener('mousemove',e=>showTip(e,d));
     c.addEventListener('mouseleave',hideTip);
   });
 }
+document.querySelectorAll('#mxAxis .chip').forEach(ch=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch,e);
+    document.querySelectorAll('#mxAxis .chip').forEach(c=>c.classList.remove('active'));
+    ch.classList.add('active'); bwAxis=ch.dataset.axis;
+    buildBeeswarm();
+  });
+});
 document.querySelectorAll('#mxControls .chip').forEach(ch=>{
   ch.addEventListener('click',(e)=>{
     addRipple(ch,e);
@@ -527,7 +521,7 @@ document.querySelectorAll('#mxControls .chip').forEach(ch=>{
       document.querySelectorAll('#mxControls .chip[data-mxcat]').forEach(c=>c.classList.remove('active'));
       ch.classList.add('active'); mxCat=ch.dataset.mxcat;
     }
-    buildScatter();
+    buildBeeswarm();
   });
 });
 

@@ -416,98 +416,79 @@ function showTip(e,d){
 }
 function hideTip(){ tip.style.opacity=0; tip.classList.remove('show'); }
 
-/* ── 버블맵(산점도) ── */
+/* ── 규모 트리맵 ── */
 const SVGNS="http://www.w3.org/2000/svg";
-const SC={W:920,H:540,ML:54,MR:20,MT:22,MB:42};
-const SC_X=[-15,40];      // OPM 도메인
-const SC_Y=[-30,75];      // 영업익 성장률 도메인
-const plotW=SC.W-SC.ML-SC.MR, plotH=SC.H-SC.MT-SC.MB;
-const sx=v=>SC.ML+(Math.max(SC_X[0],Math.min(SC_X[1],v))-SC_X[0])/(SC_X[1]-SC_X[0])*plotW;
-const sy=v=>SC.MT+(SC_Y[1]-Math.max(SC_Y[0],Math.min(SC_Y[1],v)))/(SC_Y[1]-SC_Y[0])*plotH;
-// 겹침 회피: 실제 위치(tx,ty)로 끌되, 충돌하면 밀어냄. 후반부는 분리에만 집중해 겹침을 0으로.
-function relax(nodes){
-  const pad=1.1, x0=SC.ML, x1=SC.ML+plotW, y0=SC.MT, y1=SC.MT+plotH;
-  for(let it=0;it<600;it++){
-    const spring = it<450 ? 0.012 : 0;       // 끌어당김(먼저)
-    for(const n of nodes){ n.x+=(n.tx-n.x)*spring; n.y+=(n.ty-n.y)*spring; }
-    for(let i=0;i<nodes.length;i++){          // 충돌 분리(나중)
-      const a=nodes[i];
-      for(let j=i+1;j<nodes.length;j++){
-        const b=nodes[j];
-        let dx=b.x-a.x, dy=b.y-a.y, dist=Math.hypot(dx,dy)||0.01, min=a.r+b.r+pad;
-        if(dist<min){const push=(min-dist)/2, ux=dx/dist, uy=dy/dist;
-          a.x-=ux*push; a.y-=uy*push; b.x+=ux*push; b.y+=uy*push;}
-      }
-    }
-    for(const n of nodes){                    // 경계 클램프
-      n.x=Math.max(x0+n.r,Math.min(x1-n.r,n.x));
-      n.y=Math.max(y0+n.r,Math.min(y1-n.r,n.y));
-    }
-  }
-}
+const TM={W:920,H:560,GAP:4,HEAD:20};
+const CATS_ORDER=["인프라","패키징","소재·부품","장치부재"];
 function mxPass(d){
   if(mxCat!=="all"&&d.cat!==mxCat) return false;
   if(mxJudge!=="all"&&d.judge!==mxJudge) return false;
   return true;
 }
-function buildScatter(){
-  const box=document.getElementById('scatter'); box.innerHTML="";
-  const pool=DATA.filter(d=>d.opm!=null&&d.growth!=null&&!d.delisted);
-  const lnMin=Math.log(Math.min(...pool.map(d=>d.mktcap)));
-  const lnMax=Math.log(Math.max(...pool.map(d=>d.mktcap)));
-  const rad=d=>4.5+(Math.log(d.mktcap)-lnMin)/(lnMax-lnMin)*12.5; // 4.5~17px
+// 정사각화 트리맵(Bruls squarify): 면적 = value
+function tmWorst(areas,len){
+  const sum=areas.reduce((a,b)=>a+b,0),mx=Math.max(...areas),mn=Math.min(...areas);
+  return Math.max((len*len*mx)/(sum*sum),(sum*sum)/(len*len*mn));
+}
+function tmSquarify(children,x,y,w,h){
+  const items=children.slice().sort((a,b)=>b.value-a.value);
+  const total=items.reduce((s,c)=>s+c.value,0);
+  if(total<=0||w<=0||h<=0) return [];
+  const scale=(w*h)/total, arr=items.map(c=>({c,area:c.value*scale})), out=[];
+  let rx=x,ry=y,rw=w,rh=h,i=0;
+  while(i<arr.length){
+    let row=[arr[i]],i2=i+1,len=Math.min(rw,rh);
+    while(i2<arr.length){
+      const cur=row.map(r=>r.area);
+      if(tmWorst(cur.concat(arr[i2].area),len)<=tmWorst(cur,len)){row.push(arr[i2]);i2++;}else break;
+    }
+    const rowArea=row.reduce((s,r)=>s+r.area,0);
+    if(rw>=rh){const cw=rowArea/rh;let cy=ry;row.forEach(r=>{const ch=r.area/cw;out.push(Object.assign({},r.c,{x:rx,y:cy,w:cw,h:ch}));cy+=ch;});rx+=cw;rw-=cw;}
+    else{const chh=rowArea/rw;let cx=rx;row.forEach(r=>{const cwi=r.area/chh;out.push(Object.assign({},r.c,{x:cx,y:ry,w:cwi,h:chh}));cx+=cwi;});ry+=chh;rh-=chh;}
+    i=i2;
+  }
+  return out;
+}
+function buildTreemap(){
+  const box=document.getElementById('treemap'); box.innerHTML="";
   const el=(n,a)=>{const e=document.createElementNS(SVGNS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const svg=el('svg',{viewBox:`0 0 ${TM.W} ${TM.H}`,role:'img'});
 
-  const svg=el('svg',{viewBox:`0 0 ${SC.W} ${SC.H}`,role:'img'});
-  const xd=sx(MX_OPM), yd=sy(MX_G);
+  // 전 100개사를 카테고리로 묶음(시총 기준)
+  const groups=CATS_ORDER.map(cat=>{const members=DATA.filter(d=>d.cat===cat);
+    return{cat,members,value:members.reduce((s,d)=>s+d.mktcap,0)};});
+  const grand=groups.reduce((s,g)=>s+g.value,0);
+  const gRects=tmSquarify(groups,TM.GAP,TM.GAP,TM.W-2*TM.GAP,TM.H-2*TM.GAP);
 
-  // 유망 존(우상단) 음영
-  svg.appendChild(el('rect',{class:'sc-hot',x:xd,y:SC.MT,width:SC.ML+plotW-xd,height:yd-SC.MT,rx:6}));
-  // 4분면 라벨
-  const quad=(t,x,y,anchor)=>{const e=el('text',{class:'sc-quad',x,y,'text-anchor':anchor});e.textContent=t;svg.appendChild(e);};
-  quad('저수익·고성장',SC.ML+8,SC.MT+15,'start');
-  const hl=el('text',{class:'sc-hotlabel',x:SC.ML+plotW-8,y:SC.MT+15,'text-anchor':'end'});hl.textContent='★ 유망 존 (고수익·고성장)';svg.appendChild(hl);
-  quad('저수익·저성장',SC.ML+8,SC.MT+plotH-8,'start');
-  quad('고수익·저성장',SC.ML+plotW-8,SC.MT+plotH-8,'end');
+  gRects.forEach(g=>{
+    const col=CATCOLOR[g.cat];
+    // 그룹 테두리 + 헤더
+    svg.appendChild(el('rect',{class:'tm-grp',x:g.x,y:g.y,width:g.w,height:g.h,rx:5,stroke:col,'stroke-opacity':.55}));
+    const gl=el('text',{class:'tm-glabel',x:g.x+7,y:g.y+14,fill:col});gl.textContent=g.cat;svg.appendChild(gl);
+    const gc=el('text',{class:'tm-gcnt',x:g.x+g.w-7,y:g.y+14,'text-anchor':'end'});
+    gc.textContent=`${g.members.length}개사 · ${Math.round(g.value/grand*100)}%`;svg.appendChild(gc);
 
-  // 그리드 + 눈금
-  [0,15,30].forEach(v=>{const x=sx(v);svg.appendChild(el('line',{class:'sc-grid',x1:x,y1:SC.MT,x2:x,y2:SC.MT+plotH}));
-    const t=el('text',{class:'sc-tick',x,y:SC.MT+plotH+15,'text-anchor':'middle'});t.textContent=v+'%';svg.appendChild(t);});
-  [0,10,30,50,70].forEach(v=>{const y=sy(v);svg.appendChild(el('line',{class:'sc-grid',x1:SC.ML,y1:y,x2:SC.ML+plotW,y2:y}));
-    const t=el('text',{class:'sc-tick',x:SC.ML-7,y:y+3,'text-anchor':'end'});t.textContent=(v>0?'+':'')+v;svg.appendChild(t);});
-
-  // 경계선(OPM 15 / 성장 10)
-  svg.appendChild(el('line',{class:'sc-div',x1:xd,y1:SC.MT,x2:xd,y2:SC.MT+plotH}));
-  svg.appendChild(el('line',{class:'sc-div',x1:SC.ML,y1:yd,x2:SC.ML+plotW,y2:yd}));
-  // 축
-  svg.appendChild(el('line',{class:'sc-axis',x1:SC.ML,y1:SC.MT+plotH,x2:SC.ML+plotW,y2:SC.MT+plotH}));
-  svg.appendChild(el('line',{class:'sc-axis',x1:SC.ML,y1:SC.MT,x2:SC.ML,y2:SC.MT+plotH}));
-  const xt=el('text',{class:'sc-axtitle',x:SC.ML+plotW,y:SC.MT+plotH+34,'text-anchor':'end'});xt.textContent='영업이익률(OPM) →';svg.appendChild(xt);
-  const yt=el('text',{class:'sc-axtitle',x:SC.ML-4,y:SC.MT-8,'text-anchor':'start'});yt.textContent='↑ 영업익 성장률';svg.appendChild(yt);
-
-  // 버블 — 실제 위치에서 출발해 겹치면 밀어냄
-  const nodes=pool.map(d=>{const x=sx(d.opm),y=sy(d.growth);return{d,r:rad(d),x,y,tx:x,ty:y};});
-  relax(nodes);
-  nodes.sort((a,b)=>b.r-a.r); // 큰 것부터 그려 작은 것이 위로(호버 가능)
-  const labels=[];
-  nodes.forEach(({d,r,x,y})=>{
-    const cx=x, cy=y, col=CATCOLOR[d.cat];
-    const on=mxPass(d);
-    const a={class:'sc-dot'+(on?'':' dim'),cx,cy,r,'data-code':d.code,fill:col,stroke:col};
-    if(d.judge==='추천'){a['fill-opacity']=.82;a['stroke-width']=1.4;}
-    else if(d.judge==='요검증'){a['fill-opacity']=.34;a['stroke-width']=1.4;}
-    else{a['fill-opacity']=.04;a['stroke-opacity']=.55;a['stroke-width']=1.2;a['stroke-dasharray']='2 2';}
-    svg.appendChild(el('circle',a));
-    // 대형주만 라벨(시총 ≥ 5000억엔)
-    if(d.mktcap>=5000) labels.push({d,cx,cy,r,on});
-  });
-  labels.forEach(({d,cx,cy,r,on})=>{
-    const t=el('text',{class:'sc-lbl'+(on?'':' dim'),x:cx,y:cy-r-3,'text-anchor':'middle'});
-    t.textContent=d.name;svg.appendChild(t);
+    // 그룹 내부에 회사 타일 배치
+    const ix=g.x+TM.GAP, iy=g.y+TM.HEAD, iw=g.w-2*TM.GAP, ih=g.h-TM.HEAD-TM.GAP;
+    const tiles=tmSquarify(g.members.map(d=>({d,value:d.mktcap})),ix,iy,iw,ih);
+    tiles.forEach(t=>{
+      const d=t.d, on=mxPass(d);
+      const op=d.judge==='추천'?.9:d.judge==='요검증'?.5:.18;
+      svg.appendChild(el('rect',{class:'tm-tile'+(on?'':' dim'),x:t.x+.5,y:t.y+.5,
+        width:Math.max(0,t.w-1),height:Math.max(0,t.h-1),rx:2,fill:col,'fill-opacity':op,'data-code':d.code}));
+      if(t.w>=46&&t.h>=19){
+        const maxc=Math.max(2,Math.floor(t.w/6.2));
+        const nm=d.name.length>maxc?d.name.slice(0,maxc-1)+'…':d.name;
+        const lb=el('text',{class:'tm-lbl'+(t.w<62?' sm':'')+(on?'':' dim'),x:t.x+4,y:t.y+13});
+        lb.textContent=nm;svg.appendChild(lb);
+        if(t.h>=33){const sb=el('text',{class:'tm-sub'+(on?'':' dim'),x:t.x+4,y:t.y+24});
+          sb.textContent=d.mktcap.toLocaleString()+'억';svg.appendChild(sb);}
+      }
+    });
   });
 
   box.appendChild(svg);
-  svg.querySelectorAll('.sc-dot').forEach(c=>{
+  svg.querySelectorAll('.tm-tile').forEach(c=>{
     const d=DATA.find(x=>x.code===c.dataset.code);
     c.addEventListener('mousemove',e=>showTip(e,d));
     c.addEventListener('mouseleave',hideTip);
@@ -525,7 +506,7 @@ document.querySelectorAll('#mxControls .chip').forEach(ch=>{
       document.querySelectorAll('#mxControls .chip[data-mxcat]').forEach(c=>c.classList.remove('active'));
       ch.classList.add('active'); mxCat=ch.dataset.mxcat;
     }
-    buildScatter();
+    buildTreemap();
   });
 });
 

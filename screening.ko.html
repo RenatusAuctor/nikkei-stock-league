@@ -78,23 +78,23 @@
   .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:8px;}
   .legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
   .legend i.j-dot{border-radius:3px;}
-  /* scatter plot */
-  .scatter{position:relative;width:100%;background:var(--panel2);border:1px solid var(--edge);
+  /* treemap */
+  .treemap{position:relative;width:100%;background:var(--panel2);border:1px solid var(--edge);
     border-radius:12px;padding:4px;}
-  .scatter svg{width:100%;height:auto;display:block;overflow:visible;}
-  .sc-axis{stroke:var(--edge);stroke-width:1;}
-  .sc-grid{stroke:var(--edge);stroke-width:1;stroke-dasharray:2 4;opacity:.45;}
-  .sc-div{stroke:var(--teal2);stroke-width:1.2;stroke-dasharray:5 4;opacity:.65;}
-  .sc-hot{fill:rgba(45,212,191,.07);stroke:var(--teal2);stroke-width:1;stroke-dasharray:4 4;opacity:.5;}
-  .sc-hotlabel{fill:var(--teal);font-size:11.5px;font-weight:700;letter-spacing:.04em;}
-  .sc-quad{fill:var(--mute2);font-size:10.5px;opacity:.5;}
-  .sc-tick{fill:var(--mute2);font-size:10px;}
-  .sc-axtitle{fill:var(--mute);font-size:11.5px;font-weight:700;}
-  .sc-dot{cursor:pointer;transition:opacity .18s;}
-  .sc-dot:hover{stroke:var(--ink);stroke-width:2.2;}
-  .sc-dot.dim{opacity:.05;pointer-events:none;}
-  .sc-lbl{fill:var(--mute);font-size:9px;pointer-events:none;font-weight:600;}
-  .sc-lbl.dim{opacity:.05;}
+  .treemap svg{width:100%;height:auto;display:block;}
+  .tm-grp{fill:none;stroke-width:1.5;}
+  .tm-glabel{font-size:12px;font-weight:800;letter-spacing:.02em;}
+  .tm-gcnt{fill:var(--mute2);font-size:10.5px;}
+  .tm-tile{cursor:pointer;transition:opacity .18s;stroke:var(--bg);stroke-width:1;}
+  .tm-tile:hover{stroke:var(--ink);stroke-width:2;}
+  .tm-tile.dim{opacity:.07;pointer-events:none;}
+  .tm-lbl{pointer-events:none;font-size:9.5px;font-weight:700;fill:#fff;
+    paint-order:stroke;stroke:rgba(0,0,0,.55);stroke-width:.7px;}
+  .tm-lbl.sm{font-size:8.5px;}
+  .tm-lbl.dim{opacity:.07;}
+  .tm-sub{pointer-events:none;font-size:8px;fill:rgba(255,255,255,.82);
+    paint-order:stroke;stroke:rgba(0,0,0,.5);stroke-width:.6px;}
+  .tm-sub.dim{opacity:.07;}
   /* table */
   table{width:100%;border-collapse:collapse;font-size:12.5px;}
   th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top;}

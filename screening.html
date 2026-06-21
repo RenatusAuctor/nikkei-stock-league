@@ -489,7 +489,7 @@ function buildBeeswarm(){
   const lnMax=Math.log(Math.max(...pool.map(d=>d.mktcap)));
   const rad=d=>3.5+(Math.log(d.mktcap)-lnMin)/(lnMax-lnMin)*9; // 3.5〜12.5px
 
-  const svg=el('svg',{viewBox:`0 0 ${BW.W} ${BW.H}`,role:'img'});
+  const svg=el('svg',{viewBox:`0 0 ${BW.W} ${BW.H}`,role:'img','aria-label':`分布図（ビースウォーム）― 横軸：${ax.title}、縦軸：直近営業利益成長率。${pool.length}社を推薦・要検証・除外の判定別に配色し、バブルの大きさは時価総額を表す。詳細は下の表で確認できます。`});
   const yTop=BW.MT, yBot=BW.H-BW.MB;
 
   // グリッド + 目盛

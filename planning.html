@@ -1143,8 +1143,8 @@
   </div>
   <h1>日経ストックリーグ ― 企画案</h1>
   <div id="version-toggle">
-    <button id="btn-kaiteiban" class="active" onclick="switchVersion('kaiteiban')">改訂版</button>
-    <button id="btn-yasashii" onclick="switchVersion('yasashii')">やさしい版</button>
+    <button type="button" id="btn-kaiteiban" class="active" onclick="switchVersion('kaiteiban')">改訂版</button>
+    <button type="button" id="btn-yasashii" onclick="switchVersion('yasashii')">やさしい版</button>
   </div>
   <div id="slide-counter">1 / 9</div>
 </div>
@@ -1185,7 +1185,7 @@
         <div class="slide-body">
           <p class="hint">各項目をクリックで詳細を展開</p>
           <div class="revision-list">
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">1</div>
               <div class="revision-label">独自性</div>
               <div class="revision-detail">
@@ -1193,7 +1193,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>"後工程ニッチ × 地方クラスター"への一点突破で差別化する</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">2</div>
               <div class="revision-label">テーマの一本化</div>
               <div class="revision-detail">
@@ -1201,7 +1201,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>「世界シェア寡占 ⇄ 地方集積」を1つの因果仮説に統合する</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">3</div>
               <div class="revision-label">表現の精緻化</div>
               <div class="revision-detail">
@@ -1209,7 +1209,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>工程・領域別に"寡占ニッチ"を特定し、シェアで具体的に語る</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">4</div>
               <div class="revision-label">フィールドワーク</div>
               <div class="revision-detail">
@@ -1217,7 +1217,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>公平開示を前提に「対話＋公開情報の再解釈」、代替手段も用意</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">5</div>
               <div class="revision-label">定量検証</div>
               <div class="revision-detail">
@@ -1293,7 +1293,7 @@
         <div class="slide-body">
           <p class="hint">各ステップをクリックで補足を表示</p>
           <div class="flow-chain">
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">①</div>
                 <div class="flow-connector"></div>
@@ -1304,7 +1304,7 @@
                 <div class="flow-detail">大型半導体拠点が国内に続々設立。地方への投資が活発化し、周辺産業への波及が始まる。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">②</div>
                 <div class="flow-connector"></div>
@@ -1315,7 +1315,7 @@
                 <div class="flow-detail">拠点の近くに位置するニッチ企業が受注増。スイッチングコストの高さが安定供給を担保する。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">③</div>
                 <div class="flow-connector"></div>
@@ -1326,7 +1326,7 @@
                 <div class="flow-detail">地域の雇用・税収が増加し、関連する中小企業も活性化。地方創生の好循環が生まれる。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">④</div>
                 <div class="flow-connector"></div>
@@ -1337,7 +1337,7 @@
                 <div class="flow-detail">「需要が隣にある」状態は競争優位そのもの。受注の安定性が長期的な収益成長につながる。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">⑤</div>
               </div>
@@ -1367,7 +1367,7 @@
         <div class="slide-body">
           <p class="hint">各フェーズをクリックで詳細を展開</p>
           <div class="phase-grid">
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">01 PHASE 1</div>
               <div class="phase-title">仮説 ＆ スタディ</div>
               <div class="phase-result">→ 候補ロングリスト 100社の選定</div>
@@ -1377,7 +1377,7 @@
                 ・国内集積マップの作成
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">02 PHASE 2</div>
               <div class="phase-title">スクリーニング</div>
               <div class="phase-result">→ 投資銘柄 10社の確定</div>
@@ -1387,7 +1387,7 @@
                 ・最終10銘柄へ絞り込み
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">03 PHASE 3</div>
               <div class="phase-title">フィールドワーク（対話）</div>
               <div class="phase-result">→ 検証の深さで差別化</div>
@@ -1397,7 +1397,7 @@
                 ・代替：専門家・証券リポート活用
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">04 PHASE 4</div>
               <div class="phase-title">ポートフォリオ＆検証</div>
               <div class="phase-result">→ 誇張なきレポート提出</div>
@@ -1423,9 +1423,9 @@
         </div>
         <div class="slide-body">
           <div class="axis-tabs">
-            <button class="axis-tab active" onclick="switchAxis(this,'ax-fin')">💰 財務（定量）</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-tech')">🔬 技術（定量×定性）</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-local')">📍 地方近接性（新設）</button>
+            <button type="button" class="axis-tab active" onclick="switchAxis(this,'ax-fin')">💰 財務（定量）</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-tech')">🔬 技術（定量×定性）</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-local')">📍 地方近接性（新設）</button>
           </div>
           <div class="axis-content active" id="ax-fin">
             <div class="axis-items">
@@ -1531,19 +1531,19 @@
           </div>
           <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">リスクシナリオ（クリックで詳細）</p>
           <div class="risk-grid">
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🌏 地政学</h5>
               <p>対中輸出規制・米中摩擦<br><span class="risk-detail">輸出規制強化により製造装置・素材の輸出が制限されるシナリオ。代替顧客の有無を確認する。</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>📉 市況シクリカリティ</h5>
               <p>半導体需要の急減局面<br><span class="risk-detail">半導体の在庫調整局面では売上が急減する。過去サイクルの財務耐性を確認する。</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🏭 顧客集中</h5>
               <p>TSMC・特定客先への依存<br><span class="risk-detail">特定顧客への売上依存度が高い場合、顧客の設備投資縮小がダイレクトに影響する。</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>💱 為替・金利</h5>
               <p>円高・調達コスト変動<br><span class="risk-detail">輸出依存の企業は円高で収益が圧迫される。材料調達コストの変動も要注視。</span></p>
             </div>
@@ -1564,17 +1564,17 @@
         <div class="slide-body">
           <p class="hint">各柱をクリックで詳細を表示</p>
           <div class="pillars">
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🎯</div>
               <h4>独創性</h4>
               <div class="pillar-detail">混雑するAI株／専業企業テーマと一線。"後工程ニッチ×地方因果"の一点突破で新鮮さを確保。</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🤝</div>
               <h4>熱意（対話）</h4>
               <div class="pillar-detail">公平開示を守りつつ企業・自治体・専門家と対話で検証。代替策で確実性も担保。</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">📐</div>
               <h4>論理性</h4>
               <div class="pillar-detail">技術×財務×近接性の客観基準＋MPTの限界明示＋リスクシナリオで、過剰主張なく妥当性を示す。</div>
@@ -1659,10 +1659,10 @@
         <div class="slide-body">
           <div class="intro-note">専門用語が多いので、まずここで意味を押さえておこう。読みながら迷ったら、このページに戻ってくればOK。</div>
           <div class="glossary-cats">
-            <button class="glossary-cat active" onclick="filterGloss(this,'all')">すべて</button>
-            <button class="glossary-cat" onclick="filterGloss(this,'market')">市場・競争</button>
-            <button class="glossary-cat" onclick="filterGloss(this,'semi')">半導体工程</button>
-            <button class="glossary-cat" onclick="filterGloss(this,'invest')">投資・検証</button>
+            <button type="button" class="glossary-cat active" onclick="filterGloss(this,'all')">すべて</button>
+            <button type="button" class="glossary-cat" onclick="filterGloss(this,'market')">市場・競争</button>
+            <button type="button" class="glossary-cat" onclick="filterGloss(this,'semi')">半導体工程</button>
+            <button type="button" class="glossary-cat" onclick="filterGloss(this,'invest')">投資・検証</button>
           </div>
           <div class="glossary-grid" id="gloss-grid">
             <div class="gloss-item cat-market" data-cat="market">
@@ -1717,7 +1717,7 @@
         <div class="slide-body">
           <p class="hint">各項目をクリックで詳細を展開</p>
           <div class="revision-list">
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">1</div>
               <div class="revision-label">独自性</div>
               <div class="revision-detail">
@@ -1725,7 +1725,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>「後工程のすきま市場 × 地方の産業集積」の1点に絞って差をつける</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">2</div>
               <div class="revision-label">テーマの一本化</div>
               <div class="revision-detail">
@@ -1733,7 +1733,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>「世界シェア ⇄ 地方の集積」を1本のストーリーにまとめる</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">3</div>
               <div class="revision-label">表現を正確に</div>
               <div class="revision-detail">
@@ -1741,7 +1741,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>工程・分野ごとに強い部分を特定し、具体的なシェアの数字で語る</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">4</div>
               <div class="revision-label">現地調査（対話）</div>
               <div class="revision-detail">
@@ -1749,7 +1749,7 @@
                 <div class="rev-row"><span class="rev-badge fix">改訂</span>公開情報を読み込み「対話＋再分析」。断られた時の代わりの手段も準備</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">5</div>
               <div class="revision-label">数字での検証</div>
               <div class="revision-detail">
@@ -1825,7 +1825,7 @@
         <div class="slide-body">
           <p class="hint">各ステップをクリックで補足を表示</p>
           <div class="flow-chain">
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">①</div>
                 <div class="flow-connector"></div>
@@ -1836,7 +1836,7 @@
                 <div class="flow-detail">大型半導体拠点が国内に続々設立。地方への投資が活発化し、周辺産業への波及が始まる。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">②</div>
                 <div class="flow-connector"></div>
@@ -1847,7 +1847,7 @@
                 <div class="flow-detail">拠点の近くに位置するニッチ企業が受注増。スイッチングコストの高さが安定供給を担保する。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">③</div>
                 <div class="flow-connector"></div>
@@ -1858,7 +1858,7 @@
                 <div class="flow-detail">地域の雇用・税収が増加し、関連する中小企業も活性化。地方創生の好循環が生まれる。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">④</div>
                 <div class="flow-connector"></div>
@@ -1869,7 +1869,7 @@
                 <div class="flow-detail">「需要が隣にある」状態は競争優位そのもの。受注の安定性が長期的な収益成長につながる。</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">⑤</div>
               </div>
@@ -1899,7 +1899,7 @@
         <div class="slide-body">
           <p class="hint">各フェーズをクリックで詳細を展開</p>
           <div class="phase-grid">
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">01 PHASE 1</div>
               <div class="phase-title">仮説と勉強</div>
               <div class="phase-result">→ 候補ロングリスト 100社を選ぶ</div>
@@ -1909,7 +1909,7 @@
                 ・国内の集積マップを作る
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">02 PHASE 2</div>
               <div class="phase-title">スクリーニング（ふるい分け）</div>
               <div class="phase-result">→ 投資する10社を決定</div>
@@ -1919,7 +1919,7 @@
                 ・10銘柄へ絞り込む
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">03 PHASE 3</div>
               <div class="phase-title">現地調査（対話）</div>
               <div class="phase-result">→ 検証の深さで差をつける</div>
@@ -1929,7 +1929,7 @@
                 ・代わりに専門家・証券レポートも活用
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">04 PHASE 4</div>
               <div class="phase-title">ポートフォリオ作成と検証</div>
               <div class="phase-result">→ 誇張のないレポート提出</div>
@@ -1955,9 +1955,9 @@
         </div>
         <div class="slide-body">
           <div class="axis-tabs">
-            <button class="axis-tab active" onclick="switchAxis(this,'ax-fin2')">💰 財務（数字で見る）</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-tech2')">🔬 技術（数字＋中身）</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-local2')">📍 地方の近さ（新基準）</button>
+            <button type="button" class="axis-tab active" onclick="switchAxis(this,'ax-fin2')">💰 財務（数字で見る）</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-tech2')">🔬 技術（数字＋中身）</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-local2')">📍 地方の近さ（新基準）</button>
           </div>
           <div class="axis-content active" id="ax-fin2">
             <div class="axis-items">
@@ -2063,19 +2063,19 @@
           </div>
           <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">リスクの想定（クリックで詳細）</p>
           <div class="risk-grid">
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🌏 地政学リスク</h5>
               <p>対中輸出規制・米中の摩擦<br><span class="risk-detail">輸出規制強化により製造装置・素材の輸出が制限されるシナリオ。代替顧客の有無を確認する。</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>📉 景気の波（シクリカリティ）</h5>
               <p>半導体需要が急に落ちる局面<br><span class="risk-detail">半導体の在庫調整局面では売上が急減する。過去サイクルの財務耐性を確認する。</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🏭 顧客の集中</h5>
               <p>TSMCなど特定の取引先への依存<br><span class="risk-detail">特定顧客への売上依存度が高い場合、顧客の設備投資縮小がダイレクトに影響する。</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>💱 為替・金利</h5>
               <p>円高・調達コストの変動<br><span class="risk-detail">輸出依存の企業は円高で収益が圧迫される。材料調達コストの変動も要注視。</span></p>
             </div>
@@ -2096,17 +2096,17 @@
         <div class="slide-body">
           <p class="hint">各柱をクリックで詳細を表示</p>
           <div class="pillars">
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🎯</div>
               <h4>独創性</h4>
               <div class="pillar-detail">混みすぎたAI株や専業企業テーマと一線を画す。"後工程のすきま市場×地方の因果"の1点突破で新しさを出す。</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🤝</div>
               <h4>熱意（対話）</h4>
               <div class="pillar-detail">公平開示のルールを守りつつ企業・自治体・専門家と対話して検証。代わりの手段で確実性も確保。</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">📐</div>
               <h4>論理性</h4>
               <div class="pillar-detail">技術×財務×地方の近さという客観基準＋MPTの限界明示＋リスク想定で、言い過ぎずに妥当性を示す。</div>
@@ -2122,9 +2122,9 @@
 
 <!-- Navigation -->
 <div id="nav">
-  <button id="btn-prev" onclick="changeSlideDelta(-1)" disabled>← 前へ</button>
+  <button type="button" id="btn-prev" onclick="changeSlideDelta(-1)" disabled>← 前へ</button>
   <div id="progress-dots"></div>
-  <button id="btn-next" onclick="changeSlideDelta(1)" class="primary">次へ →</button>
+  <button type="button" id="btn-next" onclick="changeSlideDelta(1)" class="primary">次へ →</button>
 </div>
 
 <script>

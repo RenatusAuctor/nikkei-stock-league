@@ -1143,8 +1143,8 @@
   </div>
   <h1>닛케이 스톡리그 ― 기획안</h1>
   <div id="version-toggle">
-    <button id="btn-kaiteiban" class="active" onclick="switchVersion('kaiteiban')">개정판</button>
-    <button id="btn-yasashii" onclick="switchVersion('yasashii')">쉬운 버전</button>
+    <button type="button" id="btn-kaiteiban" class="active" onclick="switchVersion('kaiteiban')">개정판</button>
+    <button type="button" id="btn-yasashii" onclick="switchVersion('yasashii')">쉬운 버전</button>
   </div>
   <div id="slide-counter">1 / 9</div>
 </div>
@@ -1185,7 +1185,7 @@
         <div class="slide-body">
           <p class="hint">각 항목을 클릭하면 상세가 펼쳐집니다</p>
           <div class="revision-list">
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">1</div>
               <div class="revision-label">독자성</div>
               <div class="revision-detail">
@@ -1193,7 +1193,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>'후공정 니치 × 지방 클러스터'로의 일점 돌파로 차별화한다</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">2</div>
               <div class="revision-label">테마의 일원화</div>
               <div class="revision-detail">
@@ -1201,7 +1201,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>'세계 점유율 과점 ⇄ 지방 집적'을 하나의 인과 가설로 통합한다</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">3</div>
               <div class="revision-label">표현의 정교화</div>
               <div class="revision-detail">
@@ -1209,7 +1209,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>공정·영역별로 '과점 니치'를 특정하고, 점유율로 구체적으로 말한다</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">4</div>
               <div class="revision-label">필드워크</div>
               <div class="revision-detail">
@@ -1217,7 +1217,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>공정공시를 전제로 '대화＋공개 정보의 재해석', 대체 수단도 준비</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">5</div>
               <div class="revision-label">정량 검증</div>
               <div class="revision-detail">
@@ -1293,7 +1293,7 @@
         <div class="slide-body">
           <p class="hint">각 단계를 클릭하면 보충 설명이 표시됩니다</p>
           <div class="flow-chain">
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">①</div>
                 <div class="flow-connector"></div>
@@ -1304,7 +1304,7 @@
                 <div class="flow-detail">대형 반도체 거점이 국내에 속속 설립. 지방 투자가 활발해지고 주변 산업으로의 파급이 시작된다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">②</div>
                 <div class="flow-connector"></div>
@@ -1315,7 +1315,7 @@
                 <div class="flow-detail">거점 근처에 위치한 니치 기업이 수주 증가. 높은 스위칭 코스트가 안정 공급을 담보한다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">③</div>
                 <div class="flow-connector"></div>
@@ -1326,7 +1326,7 @@
                 <div class="flow-detail">지역의 고용·세수가 증가하고, 관련 중소기업도 활성화. 지방 창생의 선순환이 생긴다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">④</div>
                 <div class="flow-connector"></div>
@@ -1337,7 +1337,7 @@
                 <div class="flow-detail">'수요가 옆에 있는' 상태는 경쟁우위 그 자체. 수주의 안정성이 장기적 수익 성장으로 이어진다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">⑤</div>
               </div>
@@ -1367,7 +1367,7 @@
         <div class="slide-body">
           <p class="hint">각 페이즈를 클릭하면 상세가 펼쳐집니다</p>
           <div class="phase-grid">
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">01 PHASE 1</div>
               <div class="phase-title">가설 & 스터디</div>
               <div class="phase-result">→ 후보 롱리스트 100개사 선정</div>
@@ -1377,7 +1377,7 @@
                 ・국내 집적 맵 작성
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">02 PHASE 2</div>
               <div class="phase-title">스크리닝</div>
               <div class="phase-result">→ 투자 종목 10개사 확정</div>
@@ -1387,7 +1387,7 @@
                 ・최종 10종목으로 압축
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">03 PHASE 3</div>
               <div class="phase-title">필드워크(대화)</div>
               <div class="phase-result">→ 검증의 깊이로 차별화</div>
@@ -1397,7 +1397,7 @@
                 ・대체: 전문가·증권 리포트 활용
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">04 PHASE 4</div>
               <div class="phase-title">포트폴리오 & 검증</div>
               <div class="phase-result">→ 과장 없는 리포트 제출</div>
@@ -1423,9 +1423,9 @@
         </div>
         <div class="slide-body">
           <div class="axis-tabs">
-            <button class="axis-tab active" onclick="switchAxis(this,'ax-fin')">💰 재무(정량)</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-tech')">🔬 기술(정량×정성)</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-local')">📍 지방 근접성(신설)</button>
+            <button type="button" class="axis-tab active" onclick="switchAxis(this,'ax-fin')">💰 재무(정량)</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-tech')">🔬 기술(정량×정성)</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-local')">📍 지방 근접성(신설)</button>
           </div>
           <div class="axis-content active" id="ax-fin">
             <div class="axis-items">
@@ -1531,19 +1531,19 @@
           </div>
           <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">리스크 시나리오(클릭하면 상세)</p>
           <div class="risk-grid">
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🌏 지정학</h5>
               <p>대중 수출 규제·미중 마찰<br><span class="risk-detail">수출 규제 강화로 제조 장비·소재의 수출이 제한되는 시나리오. 대체 고객의 유무를 확인한다.</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>📉 시황 시클리컬리티</h5>
               <p>반도체 수요의 급감 국면<br><span class="risk-detail">반도체 재고 조정 국면에서는 매출이 급감한다. 과거 사이클의 재무 내성을 확인한다.</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🏭 고객 집중</h5>
               <p>TSMC·특정 거래처에 대한 의존<br><span class="risk-detail">특정 고객에 대한 매출 의존도가 높은 경우, 고객의 설비투자 축소가 직접적으로 영향을 준다.</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>💱 환율·금리</h5>
               <p>엔고·조달 비용 변동<br><span class="risk-detail">수출 의존 기업은 엔고로 수익이 압박받는다. 소재 조달 비용 변동도 주시 필요.</span></p>
             </div>
@@ -1564,17 +1564,17 @@
         <div class="slide-body">
           <p class="hint">각 기둥을 클릭하면 상세가 표시됩니다</p>
           <div class="pillars">
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🎯</div>
               <h4>독창성</h4>
               <div class="pillar-detail">혼잡한 AI주／전문 기업 테마와 선을 긋는다. '후공정 니치×지방 인과'의 일점 돌파로 신선함을 확보.</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🤝</div>
               <h4>열의(대화)</h4>
               <div class="pillar-detail">공정공시를 지키면서 기업·지자체·전문가와 대화로 검증. 대체책으로 확실성도 담보.</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">📐</div>
               <h4>논리성</h4>
               <div class="pillar-detail">기술×재무×근접성의 객관 기준＋MPT의 한계 명시＋리스크 시나리오로, 과잉 주장 없이 타당성을 제시.</div>
@@ -1659,10 +1659,10 @@
         <div class="slide-body">
           <div class="intro-note">전문 용어가 많으니, 먼저 여기서 의미를 짚어두자. 읽다가 헷갈리면 이 페이지로 돌아오면 OK.</div>
           <div class="glossary-cats">
-            <button class="glossary-cat active" onclick="filterGloss(this,'all')">전체</button>
-            <button class="glossary-cat" onclick="filterGloss(this,'market')">시장·경쟁</button>
-            <button class="glossary-cat" onclick="filterGloss(this,'semi')">반도체 공정</button>
-            <button class="glossary-cat" onclick="filterGloss(this,'invest')">투자·검증</button>
+            <button type="button" class="glossary-cat active" onclick="filterGloss(this,'all')">전체</button>
+            <button type="button" class="glossary-cat" onclick="filterGloss(this,'market')">시장·경쟁</button>
+            <button type="button" class="glossary-cat" onclick="filterGloss(this,'semi')">반도체 공정</button>
+            <button type="button" class="glossary-cat" onclick="filterGloss(this,'invest')">투자·검증</button>
           </div>
           <div class="glossary-grid" id="gloss-grid">
             <div class="gloss-item cat-market" data-cat="market">
@@ -1717,7 +1717,7 @@
         <div class="slide-body">
           <p class="hint">각 항목을 클릭하면 상세가 펼쳐집니다</p>
           <div class="revision-list">
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">1</div>
               <div class="revision-label">독자성</div>
               <div class="revision-detail">
@@ -1725,7 +1725,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>'후공정의 틈새시장 × 지방의 산업 집적'의 한 점에 집중해 차이를 둔다</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">2</div>
               <div class="revision-label">테마의 일원화</div>
               <div class="revision-detail">
@@ -1733,7 +1733,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>'세계 점유율 ⇄ 지방의 집적'을 하나의 스토리로 정리한다</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">3</div>
               <div class="revision-label">표현을 정확하게</div>
               <div class="revision-detail">
@@ -1741,7 +1741,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>공정·분야별로 강한 부분을 특정하고, 구체적인 점유율 숫자로 말한다</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">4</div>
               <div class="revision-label">현지 조사(대화)</div>
               <div class="revision-detail">
@@ -1749,7 +1749,7 @@
                 <div class="rev-row"><span class="rev-badge fix">개정</span>공개 정보를 읽어들여 '대화＋재분석'. 거절당했을 때의 대체 수단도 준비</div>
               </div>
             </div>
-            <div class="revision-item" onclick="toggleRevision(this)">
+            <div role="button" tabindex="0" class="revision-item" onclick="toggleRevision(this)">
               <div class="revision-num">5</div>
               <div class="revision-label">숫자로 하는 검증</div>
               <div class="revision-detail">
@@ -1825,7 +1825,7 @@
         <div class="slide-body">
           <p class="hint">각 단계를 클릭하면 보충 설명이 표시됩니다</p>
           <div class="flow-chain">
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">①</div>
                 <div class="flow-connector"></div>
@@ -1836,7 +1836,7 @@
                 <div class="flow-detail">대형 반도체 거점이 국내에 속속 설립. 지방 투자가 활발해지고 주변 산업으로의 파급이 시작된다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">②</div>
                 <div class="flow-connector"></div>
@@ -1847,7 +1847,7 @@
                 <div class="flow-detail">거점 근처에 위치한 니치 기업이 수주 증가. 높은 스위칭 코스트가 안정 공급을 담보한다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">③</div>
                 <div class="flow-connector"></div>
@@ -1858,7 +1858,7 @@
                 <div class="flow-detail">지역의 고용·세수가 증가하고, 관련 중소기업도 활성화. 지방 창생의 선순환이 생긴다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">④</div>
                 <div class="flow-connector"></div>
@@ -1869,7 +1869,7 @@
                 <div class="flow-detail">'수요가 옆에 있는' 상태는 경쟁우위 그 자체. 수주의 안정성이 장기적 수익 성장으로 이어진다.</div>
               </div>
             </div>
-            <div class="flow-step" onclick="toggleFlow(this)">
+            <div role="button" tabindex="0" class="flow-step" onclick="toggleFlow(this)">
               <div class="flow-line-wrap">
                 <div class="flow-circle">⑤</div>
               </div>
@@ -1899,7 +1899,7 @@
         <div class="slide-body">
           <p class="hint">각 페이즈를 클릭하면 상세가 펼쳐집니다</p>
           <div class="phase-grid">
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">01 PHASE 1</div>
               <div class="phase-title">가설과 학습</div>
               <div class="phase-result">→ 후보 롱리스트 100개사를 선정</div>
@@ -1909,7 +1909,7 @@
                 ・국내 집적 맵을 만든다
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">02 PHASE 2</div>
               <div class="phase-title">스크리닝(선별)</div>
               <div class="phase-result">→ 투자할 10개사를 결정</div>
@@ -1919,7 +1919,7 @@
                 ・10종목으로 압축
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">03 PHASE 3</div>
               <div class="phase-title">현지 조사(대화)</div>
               <div class="phase-result">→ 검증의 깊이로 차이를 둔다</div>
@@ -1929,7 +1929,7 @@
                 ・대신 전문가·증권 리포트도 활용
               </div>
             </div>
-            <div class="phase-card" onclick="togglePhase(this)">
+            <div role="button" tabindex="0" class="phase-card" onclick="togglePhase(this)">
               <div class="phase-num">04 PHASE 4</div>
               <div class="phase-title">포트폴리오 작성과 검증</div>
               <div class="phase-result">→ 과장 없는 리포트 제출</div>
@@ -1955,9 +1955,9 @@
         </div>
         <div class="slide-body">
           <div class="axis-tabs">
-            <button class="axis-tab active" onclick="switchAxis(this,'ax-fin2')">💰 재무(숫자로 본다)</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-tech2')">🔬 기술(숫자＋내용)</button>
-            <button class="axis-tab" onclick="switchAxis(this,'ax-local2')">📍 지방 근접성(신기준)</button>
+            <button type="button" class="axis-tab active" onclick="switchAxis(this,'ax-fin2')">💰 재무(숫자로 본다)</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-tech2')">🔬 기술(숫자＋내용)</button>
+            <button type="button" class="axis-tab" onclick="switchAxis(this,'ax-local2')">📍 지방 근접성(신기준)</button>
           </div>
           <div class="axis-content active" id="ax-fin2">
             <div class="axis-items">
@@ -2063,19 +2063,19 @@
           </div>
           <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">리스크 상정(클릭하면 상세)</p>
           <div class="risk-grid">
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🌏 지정학 리스크</h5>
               <p>대중 수출 규제·미중 마찰<br><span class="risk-detail">수출 규제 강화로 제조 장비·소재의 수출이 제한되는 시나리오. 대체 고객의 유무를 확인한다.</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>📉 경기 흐름(시클리컬리티)</h5>
               <p>반도체 수요가 급락하는 국면<br><span class="risk-detail">반도체 재고 조정 국면에서는 매출이 급감한다. 과거 사이클의 재무 내성을 확인한다.</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>🏭 고객 집중</h5>
               <p>TSMC 등 특정 거래처에 대한 의존<br><span class="risk-detail">특정 고객에 대한 매출 의존도가 높은 경우, 고객의 설비투자 축소가 직접적으로 영향을 준다.</span></p>
             </div>
-            <div class="risk-card" onclick="toggleRisk(this)">
+            <div role="button" tabindex="0" class="risk-card" onclick="toggleRisk(this)">
               <h5>💱 환율·금리</h5>
               <p>엔고·조달 비용 변동<br><span class="risk-detail">수출 의존 기업은 엔고로 수익이 압박받는다. 소재 조달 비용 변동도 주시 필요.</span></p>
             </div>
@@ -2096,17 +2096,17 @@
         <div class="slide-body">
           <p class="hint">각 기둥을 클릭하면 상세가 표시됩니다</p>
           <div class="pillars">
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🎯</div>
               <h4>독창성</h4>
               <div class="pillar-detail">지나치게 붐비는 AI주나 전문 기업 테마와 선을 긋는다. '후공정의 틈새시장×지방의 인과'의 일점 돌파로 새로움을 낸다.</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">🤝</div>
               <h4>열의(대화)</h4>
               <div class="pillar-detail">공정공시 규칙을 지키면서 기업·지자체·전문가와 대화해 검증. 대체 수단으로 확실성도 확보.</div>
             </div>
-            <div class="pillar" onclick="togglePillar(this)">
+            <div role="button" tabindex="0" class="pillar" onclick="togglePillar(this)">
               <div class="pillar-icon">📐</div>
               <h4>논리성</h4>
               <div class="pillar-detail">기술×재무×지방 근접성이라는 객관 기준＋MPT의 한계 명시＋리스크 상정으로, 과하게 말하지 않고 타당성을 제시.</div>
@@ -2122,9 +2122,9 @@
 
 <!-- Navigation -->
 <div id="nav">
-  <button id="btn-prev" onclick="changeSlideDelta(-1)" disabled>← 이전</button>
+  <button type="button" id="btn-prev" onclick="changeSlideDelta(-1)" disabled>← 이전</button>
   <div id="progress-dots"></div>
-  <button id="btn-next" onclick="changeSlideDelta(1)" class="primary">다음 →</button>
+  <button type="button" id="btn-next" onclick="changeSlideDelta(1)" class="primary">다음 →</button>
 </div>
 
 <script>

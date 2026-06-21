@@ -229,8 +229,14 @@
   </div>
 
   <div class="panel">
-    <h2>규모 트리맵: 카테고리 × 시가총액</h2>
-    <div class="hint">100개사를 한 화면에. <b>타일 면적＝시가총액</b>, <b>4개 카테고리로 그룹핑</b>, <b>색＝카테고리·진하기＝판정</b>(진함=추천·중간=요검증·옅음=제외). 면적이 곧 규모라 대형주가 한눈에 들어온다. 타일에 커서를 올리면 상세, 필터로 좁혀 볼 수 있다.</div>
+    <h2>분포 비스웜: 지표별 100개사 분포</h2>
+    <div class="hint">100개사를 한 축에 겹치지 않게 흩뿌려 <b>분포·밀집 구간</b>을 본다. 아래 토글로 <b>축 지표를 전환</b>(영업이익률/성장률/시총/자기자본). <b>버블 크기＝시총</b>, <b>색＝카테고리</b>, 채움＝추천·반투명＝요검증·빈 원＝제외. teal 점선＝기준선. 버블에 커서를 올리면 상세, 필터로 좁혀 볼 수 있다.</div>
+    <div class="controls" id="mxAxis">
+      <span class="chip blue active" data-axis="opm">영업이익률</span>
+      <span class="chip blue" data-axis="growth">영업익 성장률</span>
+      <span class="chip blue" data-axis="mktcap">시가총액</span>
+      <span class="chip blue" data-axis="equity">자기자본비율</span>
+    </div>
     <div class="controls" id="mxControls">
       <span class="chip active" data-mxcat="all">전체</span>
       <span class="chip" data-mxcat="인프라">인프라</span>
@@ -240,16 +246,16 @@
       <span class="chip" data-mxjudge="추천">추천만</span>
       <span class="chip" data-mxjudge="요검증">요검증만</span>
     </div>
-    <div class="treemap" id="treemap"></div>
+    <div class="beeswarm" id="beeswarm"></div>
     <div class="tooltip" id="tip"></div>
     <div class="legend">
       <span><i style="background:var(--teal)"></i>인프라</span>
       <span><i style="background:var(--amber)"></i>패키징</span>
       <span><i style="background:var(--blue)"></i>소재·부품</span>
       <span><i style="background:#B794F6"></i>장치부재</span>
-      <span style="color:var(--mute2)">진함=추천 · 중간=요검증 · 옅음=제외 · 면적=시총</span>
+      <span style="color:var(--mute2)">채움=추천 · 반투명=요검증 · 빈 원=제외 · 크기=시총</span>
     </div>
-    <p class="foot">※ 면적은 시가총액에 비례(전 100개사 포함, 상장폐지 종목도 표시). 타일이 작아 라벨이 생략된 종목은 커서를 올리거나 아래 테이블에서 확인.</p>
+    <p class="foot">※ 성장률 축은 비수치 성장·상장폐지 종목 제외(−30~+75% 클리핑). 그 외 축은 상장폐지만 제외. 라벨이 생략된 종목은 커서를 올리거나 아래 테이블에서 확인.</p>
   </div>
 
   <div class="panel">

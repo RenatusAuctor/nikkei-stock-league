@@ -571,9 +571,14 @@ function buildHead(){
   const h=document.getElementById('head'); h.innerHTML="";
   COLS.forEach(c=>{
     const th=document.createElement('th');
+    th.scope='col';
+    th.tabIndex=0;
+    th.setAttribute('aria-sort', sortKey===c.k?(sortDir>0?'ascending':'descending'):'none');
     th.innerHTML=c.label+(sortKey===c.k?` <span class="arr">${sortDir>0?'▲':'▼'}</span>`:'');
     if(c.num) th.style.textAlign='right';
-    th.onclick=()=>{if(sortKey===c.k)sortDir*=-1;else{sortKey=c.k;sortDir=1;}render();};
+    const doSort=()=>{if(sortKey===c.k)sortDir*=-1;else{sortKey=c.k;sortDir=1;}render();};
+    th.onclick=doSort;
+    th.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();doSort();}};
     h.appendChild(th);
   });
 }

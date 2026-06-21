@@ -313,5 +313,26 @@ document.querySelectorAll('.card').forEach(card => {
   });
 });
 </script>
+<script>
+/* a11y + UX shared helpers */
+(function(){
+  /* make click-only elements keyboard-operable */
+  document.querySelectorAll('[onclick]').forEach(function(el){
+    if(el.tagName==='BUTTON'||el.tagName==='A') return;
+    if(!el.hasAttribute('tabindex')) el.tabIndex=0;
+    if(!el.hasAttribute('role')) el.setAttribute('role','button');
+    el.addEventListener('keydown',function(ev){
+      if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); el.click(); }
+    });
+  });
+  /* preserve scroll position across JP/KR language switch */
+  var key='nsl-scroll:'+location.pathname.replace(/\.(ko\.)?html$/,'');
+  document.querySelectorAll('#lang-switch a, .lang-switch a').forEach(function(a){
+    a.addEventListener('click',function(){ sessionStorage.setItem(key, String(window.scrollY)); });
+  });
+  var saved=sessionStorage.getItem(key);
+  if(saved!==null){ window.scrollTo(0, parseInt(saved,10)||0); sessionStorage.removeItem(key); }
+})();
+</script>
 </body>
 </html>

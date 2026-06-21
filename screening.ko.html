@@ -38,7 +38,13 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--bg);color:var(--ink);
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
     font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;}
+  body{background:
+      radial-gradient(1100px 520px at 50% -6%, rgba(45,212,191,0.09), transparent 60%),
+      radial-gradient(900px 480px at 98% 2%, rgba(125,167,255,0.05), transparent 58%),
+      var(--bg);
+    background-attachment:fixed;}
   .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
   /* navigation */
   .top-nav{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--edge);}

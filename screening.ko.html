@@ -418,84 +418,97 @@ function showTip(e,d){
 }
 function hideTip(){ tip.style.opacity=0; tip.classList.remove('show'); }
 
-/* ── 규모 트리맵 ── */
+/* ── 분포 비스웜 ── */
 const SVGNS="http://www.w3.org/2000/svg";
-const TM={W:920,H:560,GAP:4,HEAD:20};
-const CATS_ORDER=["인프라","패키징","소재·부품","장치부재"];
+const BW={W:920,H:440,ML:24,MR:24,MT:26,MB:46};
+const bwPlotW=BW.W-BW.ML-BW.MR;
+const bwCY=(BW.MT+(BW.H-BW.MB))/2;
+let bwAxis="opm";
+const BW_AX={
+  opm:   {title:"영업이익률(OPM) →", get:d=>d.opm,    dom:[-15,40],   ticks:[-10,0,10,20,30,40],        fmt:v=>v+"%",                       ref:{v:15,lbl:"OPM 15%"}, log:false},
+  growth:{title:"영업익 성장률 →",   get:d=>d.growth, dom:[-30,75],   ticks:[-20,0,10,30,50,70],        fmt:v=>(v>0?"+":"")+v+"%",          ref:{v:10,lbl:"성장 10%"},log:false},
+  mktcap:{title:"시가총액(억엔·로그) →",get:d=>d.mktcap,dom:[45,91000], ticks:[100,500,2000,10000,50000], fmt:v=>v>=10000?(v/10000)+"만":v.toLocaleString(), ref:null, log:true},
+  equity:{title:"자기자본비율 →",     get:d=>d.equity, dom:[20,90],    ticks:[20,40,60,80],              fmt:v=>v+"%",                       ref:null, log:false},
+};
 function mxPass(d){
   if(mxCat!=="all"&&d.cat!==mxCat) return false;
   if(mxJudge!=="all"&&d.judge!==mxJudge) return false;
   return true;
 }
-// 정사각화 트리맵(Bruls squarify): 면적 = value
-function tmWorst(areas,len){
-  const sum=areas.reduce((a,b)=>a+b,0),mx=Math.max(...areas),mn=Math.min(...areas);
-  return Math.max((len*len*mx)/(sum*sum),(sum*sum)/(len*len*mn));
-}
-function tmSquarify(children,x,y,w,h){
-  const items=children.slice().sort((a,b)=>b.value-a.value);
-  const total=items.reduce((s,c)=>s+c.value,0);
-  if(total<=0||w<=0||h<=0) return [];
-  const scale=(w*h)/total, arr=items.map(c=>({c,area:c.value*scale})), out=[];
-  let rx=x,ry=y,rw=w,rh=h,i=0;
-  while(i<arr.length){
-    let row=[arr[i]],i2=i+1,len=Math.min(rw,rh);
-    while(i2<arr.length){
-      const cur=row.map(r=>r.area);
-      if(tmWorst(cur.concat(arr[i2].area),len)<=tmWorst(cur,len)){row.push(arr[i2]);i2++;}else break;
+// 비스웜 충돌 배치: x 고정, y 오프셋을 최소로 띄움
+function beeswarmLayout(pts){
+  pts.sort((a,b)=>a.x-b.x);
+  const placed=[];
+  pts.forEach(p=>{
+    const nb=placed.filter(q=>Math.abs(q.x-p.x)<(p.r+q.r));
+    const cands=[0];
+    nb.forEach(q=>{const dx=p.x-q.x,sep=p.r+q.r,root=sep*sep-dx*dx;
+      if(root>0){const dy=Math.sqrt(root);cands.push(q.y+dy,q.y-dy);}});
+    cands.sort((a,b)=>Math.abs(a)-Math.abs(b));
+    let y=0;
+    for(const c of cands){
+      if(nb.every(q=>{const dx=p.x-q.x,dy=c-q.y;return dx*dx+dy*dy>=(p.r+q.r)*(p.r+q.r)-0.05;})){y=c;break;}
     }
-    const rowArea=row.reduce((s,r)=>s+r.area,0);
-    if(rw>=rh){const cw=rowArea/rh;let cy=ry;row.forEach(r=>{const ch=r.area/cw;out.push(Object.assign({},r.c,{x:rx,y:cy,w:cw,h:ch}));cy+=ch;});rx+=cw;rw-=cw;}
-    else{const chh=rowArea/rw;let cx=rx;row.forEach(r=>{const cwi=r.area/chh;out.push(Object.assign({},r.c,{x:cx,y:ry,w:cwi,h:chh}));cx+=cwi;});ry+=chh;rh-=chh;}
-    i=i2;
-  }
-  return out;
+    p.y=y; placed.push(p);
+  });
 }
-function buildTreemap(){
-  const box=document.getElementById('treemap'); box.innerHTML="";
+function buildBeeswarm(){
+  const box=document.getElementById('beeswarm'); box.innerHTML="";
   const el=(n,a)=>{const e=document.createElementNS(SVGNS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
-  const svg=el('svg',{viewBox:`0 0 ${TM.W} ${TM.H}`,role:'img'});
+  const ax=BW_AX[bwAxis];
+  const pool=DATA.filter(d=>!d.delisted&&ax.get(d)!=null);
+  const [a,b]=ax.dom;
+  const sc=ax.log
+    ?(v=>{const la=Math.log(a),lb=Math.log(b);return BW.ML+(Math.log(Math.max(a,Math.min(b,v)))-la)/(lb-la)*bwPlotW;})
+    :(v=>BW.ML+(Math.max(a,Math.min(b,v))-a)/(b-a)*bwPlotW);
+  const lnMin=Math.log(Math.min(...pool.map(d=>d.mktcap)));
+  const lnMax=Math.log(Math.max(...pool.map(d=>d.mktcap)));
+  const rad=d=>3.5+(Math.log(d.mktcap)-lnMin)/(lnMax-lnMin)*9; // 3.5~12.5px
 
-  // 전 100개사를 카테고리로 묶음(시총 기준)
-  const groups=CATS_ORDER.map(cat=>{const members=DATA.filter(d=>d.cat===cat);
-    return{cat,members,value:members.reduce((s,d)=>s+d.mktcap,0)};});
-  const grand=groups.reduce((s,g)=>s+g.value,0);
-  const gRects=tmSquarify(groups,TM.GAP,TM.GAP,TM.W-2*TM.GAP,TM.H-2*TM.GAP);
+  const svg=el('svg',{viewBox:`0 0 ${BW.W} ${BW.H}`,role:'img'});
+  const yTop=BW.MT, yBot=BW.H-BW.MB;
 
-  gRects.forEach(g=>{
-    const col=CATCOLOR[g.cat];
-    // 그룹 테두리 + 헤더
-    svg.appendChild(el('rect',{class:'tm-grp',x:g.x,y:g.y,width:g.w,height:g.h,rx:5,stroke:col,'stroke-opacity':.55}));
-    const gl=el('text',{class:'tm-glabel',x:g.x+7,y:g.y+14,fill:col});gl.textContent=g.cat;svg.appendChild(gl);
-    const gc=el('text',{class:'tm-gcnt',x:g.x+g.w-7,y:g.y+14,'text-anchor':'end'});
-    gc.textContent=`${g.members.length}개사 · ${Math.round(g.value/grand*100)}%`;svg.appendChild(gc);
+  // 그리드 + 눈금
+  ax.ticks.forEach(v=>{const x=sc(v);
+    svg.appendChild(el('line',{class:'bw-grid',x1:x,y1:yTop,x2:x,y2:yBot}));
+    const t=el('text',{class:'bw-tick',x,y:yBot+15,'text-anchor':'middle'});t.textContent=ax.fmt(v);svg.appendChild(t);});
+  // 축선
+  svg.appendChild(el('line',{class:'bw-axis',x1:BW.ML,y1:yBot,x2:BW.ML+bwPlotW,y2:yBot}));
+  const xt=el('text',{class:'bw-axtitle',x:BW.ML+bwPlotW,y:yBot+34,'text-anchor':'end'});xt.textContent=ax.title;svg.appendChild(xt);
+  // 기준선
+  if(ax.ref){const rx=sc(ax.ref.v);
+    svg.appendChild(el('line',{class:'bw-ref',x1:rx,y1:yTop,x2:rx,y2:yBot}));
+    const rl=el('text',{class:'bw-reflbl',x:rx+4,y:yTop+10});rl.textContent=ax.ref.lbl;svg.appendChild(rl);}
 
-    // 그룹 내부에 회사 타일 배치
-    const ix=g.x+TM.GAP, iy=g.y+TM.HEAD, iw=g.w-2*TM.GAP, ih=g.h-TM.HEAD-TM.GAP;
-    const tiles=tmSquarify(g.members.map(d=>({d,value:d.mktcap})),ix,iy,iw,ih);
-    tiles.forEach(t=>{
-      const d=t.d, on=mxPass(d);
-      const op=d.judge==='추천'?.9:d.judge==='요검증'?.5:.18;
-      svg.appendChild(el('rect',{class:'tm-tile'+(on?'':' dim'),x:t.x+.5,y:t.y+.5,
-        width:Math.max(0,t.w-1),height:Math.max(0,t.h-1),rx:2,fill:col,'fill-opacity':op,'data-code':d.code}));
-      if(t.w>=46&&t.h>=19){
-        const maxc=Math.max(2,Math.floor(t.w/6.2));
-        const nm=d.name.length>maxc?d.name.slice(0,maxc-1)+'…':d.name;
-        const lb=el('text',{class:'tm-lbl'+(t.w<62?' sm':'')+(on?'':' dim'),x:t.x+4,y:t.y+13});
-        lb.textContent=nm;svg.appendChild(lb);
-        if(t.h>=33){const sb=el('text',{class:'tm-sub'+(on?'':' dim'),x:t.x+4,y:t.y+24});
-          sb.textContent=d.mktcap.toLocaleString()+'억';svg.appendChild(sb);}
-      }
-    });
+  // 충돌 배치
+  const pts=pool.map(d=>({d,x:sc(ax.get(d)),r:rad(d)+0.6}));
+  beeswarmLayout(pts);
+  // 큰 버블을 먼저(뒤로), 작은 것을 위로
+  pts.sort((p,q)=>q.r-p.r);
+  pts.forEach(p=>{
+    const d=p.d, col=CATCOLOR[d.cat], on=mxPass(d), cy=bwCY+p.y, r=p.r-0.6;
+    const at={class:'bw-dot'+(on?'':' dim'),cx:p.x,cy,r,'data-code':d.code,fill:col,stroke:col};
+    if(d.judge==='추천'){at['fill-opacity']=.82;at['stroke-width']=1.3;}
+    else if(d.judge==='요검증'){at['fill-opacity']=.34;at['stroke-width']=1.3;}
+    else{at['fill-opacity']=.04;at['stroke-opacity']=.55;at['stroke-width']=1.1;at['stroke-dasharray']='2 2';}
+    svg.appendChild(el('circle',at));
   });
 
   box.appendChild(svg);
-  svg.querySelectorAll('.tm-tile').forEach(c=>{
+  svg.querySelectorAll('.bw-dot').forEach(c=>{
     const d=DATA.find(x=>x.code===c.dataset.code);
     c.addEventListener('mousemove',e=>showTip(e,d));
     c.addEventListener('mouseleave',hideTip);
   });
 }
+document.querySelectorAll('#mxAxis .chip').forEach(ch=>{
+  ch.addEventListener('click',(e)=>{
+    addRipple(ch,e);
+    document.querySelectorAll('#mxAxis .chip').forEach(c=>c.classList.remove('active'));
+    ch.classList.add('active'); bwAxis=ch.dataset.axis;
+    buildBeeswarm();
+  });
+});
 document.querySelectorAll('#mxControls .chip').forEach(ch=>{
   ch.addEventListener('click',(e)=>{
     addRipple(ch,e);
@@ -508,7 +521,7 @@ document.querySelectorAll('#mxControls .chip').forEach(ch=>{
       document.querySelectorAll('#mxControls .chip[data-mxcat]').forEach(c=>c.classList.remove('active'));
       ch.classList.add('active'); mxCat=ch.dataset.mxcat;
     }
-    buildTreemap();
+    buildBeeswarm();
   });
 });
 

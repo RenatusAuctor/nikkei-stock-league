@@ -229,8 +229,14 @@
   </div>
 
   <div class="panel">
-    <h2>本命ゾーン・バブルマップ：参入障壁 × 利益成長</h2>
-    <div class="hint">100銘柄を一画面に。<b>横＝営業利益率（OPM）、縦＝営業利益成長率</b>、<b>バブルの大きさ＝時価総額</b>、<b>色＝カテゴリ</b>。破線の交差で4象限に分け、<b>右上 = 高収益・高成長の「本命ゾーン」</b>が最優先候補。塗り＝推薦、半透明＝要検証、中抜き＝除外。重なるバブルは自動でわずかに押し離して分離（正確な数値はカーソルで確認）、フィルターで絞れる。</div>
+    <h2>分布ビースウォーム：指標別 100銘柄の分布</h2>
+    <div class="hint">100銘柄を一つの軸に重ならないように散らして<b>分布・密集帯</b>を見る。下のトグルで<b>軸の指標を切替</b>（営業利益率/成長率/時価総額/自己資本）。<b>バブルの大きさ＝時価総額</b>、<b>色＝カテゴリ</b>、塗り＝推薦・半透明＝要検証・中抜き＝除外。teal破線＝基準線。バブルにカーソルで詳細、フィルターで絞れる。</div>
+    <div class="controls" id="mxAxis">
+      <span class="chip blue active" data-axis="opm">営業利益率</span>
+      <span class="chip blue" data-axis="growth">営業利益成長率</span>
+      <span class="chip blue" data-axis="mktcap">時価総額</span>
+      <span class="chip blue" data-axis="equity">自己資本比率</span>
+    </div>
     <div class="controls" id="mxControls">
       <span class="chip active" data-mxcat="all">全て</span>
       <span class="chip" data-mxcat="インフラ">インフラ</span>
@@ -240,7 +246,7 @@
       <span class="chip" data-mxjudge="推薦">推薦のみ</span>
       <span class="chip" data-mxjudge="要検証">要検証のみ</span>
     </div>
-    <div class="scatter" id="scatter"></div>
+    <div class="beeswarm" id="beeswarm"></div>
     <div class="tooltip" id="tip"></div>
     <div class="legend">
       <span><i style="background:var(--teal)"></i>インフラ</span>
@@ -249,7 +255,7 @@
       <span><i style="background:#B794F6"></i>装置部材</span>
       <span style="color:var(--mute2)">塗り=推薦 · 半透明=要検証 · 中抜き=除外 · 大きさ=時価総額</span>
     </div>
-    <p class="foot">※ 非数値成長・上場廃止の銘柄はバブルマップ対象外（テーブルには掲載）。営業利益成長率は −30〜+75% の範囲でクリップ表示。</p>
+    <p class="foot">※ 成長率の軸は非数値成長・上場廃止の銘柄を除外（−30〜+75% でクリップ）。他の軸は上場廃止のみ除外。ラベル省略の銘柄はカーソル、または下のテーブルで確認。</p>
   </div>
 
   <div class="panel">

@@ -362,5 +362,17 @@ document.querySelectorAll('.card').forEach(card => {
   if(saved!==null){ window.scrollTo(0, parseInt(saved,10)||0); sessionStorage.removeItem(key); }
 })();
 </script>
+<script src="screening-data.js"></script>
+<script>
+/* 추천 종목 수를 단일 소스(FIGURES)에서 자동 반영 ― 수치 드리프트 방지 */
+(function(){
+  if(typeof FIGURES==="undefined") return;
+  var ks=Object.keys(FIGURES), rec=0;
+  ks.forEach(function(k){ if(FIGURES[k].judge==="rec") rec++; });
+  var t=document.getElementById("metaTotal"), r=document.getElementById("metaRec");
+  if(t) t.textContent=ks.length+"개사";
+  if(r) r.textContent="추천 "+rec+"개사";
+})();
+</script>
 </body>
 </html>

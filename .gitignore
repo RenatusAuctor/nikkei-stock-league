@@ -1,0 +1,9 @@
+# scratch / derived exports (UTF-16 HTML fragments, not referenced by the site)
+phase1_ja.txt
+phase1_ko.txt
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+*.tmp
+*~

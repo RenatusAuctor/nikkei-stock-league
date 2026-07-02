@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 2 · 종목 압축 대시보드 — 닛케이 스톡리그</title>
+<meta name="description" content="후공정 니치 100사를 게이트→Quality×Value→가설앵커 오버레이로 19사로 압축. TSMC 구마모토 앵커 링크로 인과를 검증한 Phase 2 대시보드.">
+<meta name="theme-color" content="#0B1C28">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%230B1C28'/%3E%3Crect x='8' y='20' width='5' height='9' rx='1.5' fill='%232DD4BF' opacity='.6'/%3E%3Crect x='15.5' y='14' width='5' height='15' rx='1.5' fill='%232DD4BF' opacity='.8'/%3E%3Crect x='23' y='8' width='5' height='21' rx='1.5' fill='%232DD4BF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800;900&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root{--bg:#0B1C28;--panel:#102A37;--edge:#21404E;--ink:#EAF2F4;--mute:#9FB3BD;--mute2:#6E8592;
+    --teal:#2DD4BF;--amber:#E0A340;--blue:#7DA7FF;--purple:#B794F6;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{min-height:100vh;background:var(--bg);color:var(--ink);
+    font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+  body{background:radial-gradient(1100px 560px at 50% -8%,rgba(45,212,191,.10),transparent 62%),
+    radial-gradient(900px 520px at 96% 4%,rgba(125,167,255,.06),transparent 58%),
+    radial-gradient(800px 480px at 4% 96%,rgba(224,163,64,.05),transparent 60%),var(--bg);background-attachment:fixed;}
+  .wrap{max-width:1000px;margin:0 auto;padding:54px 22px 90px;}
+  a.back{color:var(--mute);text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.04em;}
+  a.back:hover{color:var(--teal);}
+  .eyebrow{color:var(--teal);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:18px 0 12px;}
+  h1{font-size:30px;font-weight:900;line-height:1.2;margin-bottom:12px;
+    background:linear-gradient(135deg,#fff 42%,var(--teal));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  @media(max-width:480px){h1{font-size:23px;}}
+  .sub{color:var(--mute);font-size:14px;line-height:1.75;max-width:640px;margin-bottom:30px;}
+  .funnel{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .fstep{flex:1;min-width:130px;background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:16px 18px;}
+  .fstep .n{font-size:26px;font-weight:900;color:var(--ink);}
+  .fstep .l{font-size:12px;color:var(--mute);margin-top:2px;line-height:1.5;}
+  .fstep.hl .n{color:var(--teal);}
+  .method{font-size:12.5px;color:var(--mute);line-height:1.7;background:rgba(255,255,255,.03);border:1px solid var(--edge);
+    border-radius:12px;padding:14px 16px;margin-bottom:34px;}
+  .method b{color:var(--ink);}
+  .method .tag{color:var(--teal);font-weight:800;}
+  .sechead{display:flex;align-items:baseline;gap:10px;margin:6px 0 12px;}
+  .sechead h2{font-size:17px;font-weight:800;}
+  .sechead .hint{font-size:12px;color:var(--mute);}
+  .card{background:var(--panel);border:1px solid var(--edge);border-radius:18px;padding:20px;margin-bottom:30px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 24px rgba(0,0,0,.22);}
+  /* scatter */
+  #scatter{width:100%;height:auto;display:block;touch-action:none;}
+  .axlbl{fill:var(--mute);font-size:11px;}
+  .quad{fill:var(--mute2);font-size:10.5px;font-weight:700;opacity:.65;}
+  .grid{stroke:var(--edge);stroke-width:1;}
+  .grid.mid{stroke:#2f5162;stroke-dasharray:4 4;}
+  .dot{cursor:pointer;transition:r .12s;}
+  .dotlbl{font-size:9px;fill:var(--mute);pointer-events:none;}
+  .dotlbl.anchor{fill:var(--ink);font-weight:800;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11.5px;color:var(--mute);}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
+  .legend .ring{width:10px;height:10px;border:2px solid var(--ink);background:transparent;}
+  /* controls + table */
+  .controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;align-items:center;}
+  .chip{font-size:12px;color:var(--mute);background:rgba(255,255,255,.05);border:1px solid var(--edge);
+    border-radius:20px;padding:5px 13px;cursor:pointer;user-select:none;transition:all .15s;}
+  .chip:hover{color:var(--ink);}
+  .chip.active{background:var(--teal);color:#06231f;border-color:var(--teal);font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--edge);}
+  th{color:var(--mute);font-size:11px;font-weight:700;letter-spacing:.02em;position:sticky;top:0;background:var(--panel);}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+  tr.anchor td{background:rgba(224,163,64,.06);}
+  .badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;}
+  .b-infra{background:rgba(45,212,191,.16);color:var(--teal);}
+  .b-pkg{background:rgba(224,163,64,.16);color:var(--amber);}
+  .b-mat{background:rgba(125,167,255,.16);color:var(--blue);}
+  .b-dev{background:rgba(183,148,246,.16);color:var(--purple);}
+  .kind-a{color:var(--amber);font-weight:800;font-size:11px;}
+  .kind-b{color:var(--mute);font-size:11px;}
+  .anctext{font-size:11px;color:var(--mute);line-height:1.4;}
+  .bar{display:inline-block;height:7px;border-radius:4px;vertical-align:1px;margin-right:6px;}
+  .foot{font-size:11.5px;color:var(--mute2);line-height:1.7;margin-top:8px;}
+  /* tooltip */
+  #tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .12s;z-index:50;max-width:280px;
+    background:#0d2531;border:1px solid var(--edge);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.55;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);}
+  .lang-switch{position:fixed;top:16px;right:16px;display:flex;gap:2px;background:rgba(255,255,255,.07);
+    border:1px solid var(--edge);border-radius:50px;padding:3px;z-index:200;backdrop-filter:blur(8px);}
+  .lang-switch a{color:var(--mute);text-decoration:none;font-size:12px;font-weight:700;padding:5px 13px;border-radius:50px;}
+  .lang-switch a.active{background:var(--teal);color:#06231f;}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<noscript><div style="background:#E0A340;color:#0B1C28;padding:12px;text-align:center;font-weight:700;">JavaScript를 활성화해야 대시보드가 표시됩니다.</div></noscript>
+<div class="lang-switch"><a href="phase2.html">JP</a><a href="phase2.ko.html" class="active">KR</a></div>
+<div id="tip"></div>
+<div class="wrap">
+  <a class="back" href="index.ko.html">← 프로젝트 허브</a>
+  <div class="eyebrow">Phase 2 · 종목 압축</div>
+  <h1>100사 → 19사 압축</h1>
+  <p class="sub">Phase 1 스크리닝 100사를 <b>게이트 → Quality×Value 점수 → 가설앵커 오버레이</b>로 19사까지 압축. 좋고(품질) 싸게(밸류) 살 수 있는 종목을 뽑되, TSMC 구마모토와의 <b>확정 앵커 링크</b>로 "후공정 × 지방 클러스터" 인과를 검증했습니다.</p>
+
+  <div class="funnel">
+    <div class="fstep"><div class="n" id="f1">100</div><div class="l">Phase 1 후공정 니치 롱리스트</div></div>
+    <div class="fstep"><div class="n" id="f2">47</div><div class="l">레드라인 게이트 생존<br>(상폐·자기자본·OPM·클러스터·전공정)</div></div>
+    <div class="fstep hl"><div class="n" id="f3">19</div><div class="l">최종 포트폴리오<br>(백본 15 + 앵커 4)</div></div>
+  </div>
+  <div class="method">
+    <span class="tag">Quality</span> = 0.5·재무(수익성·안정·성장) + 0.5·기술(세계점유율·반도체순도) &nbsp;·&nbsp;
+    <span class="tag">Value</span> = 시총/영업익·PSR 백분위(쌀수록↑) &nbsp;·&nbsp;
+    <span class="tag">QARP</span> = 0.5·Quality + 0.5·Value. &nbsp;
+    <b>앵커 오버레이</b>: 밸류 프리미엄으로 밀렸지만 TSMC 구마모토에 확정 링크된 상징 종목(디스코·TOK 등)을 의도 편입.
+  </div>
+
+  <div class="sechead"><h2>Quality × Value 지형도</h2><span class="hint">우상단일수록 "좋고 싸다". ◎=확정 앵커 링크. 점 위에 커서.</span></div>
+  <div class="card">
+    <svg id="scatter" viewBox="0 0 760 500" role="img" aria-label="종목별 품질 대 밸류 산점도"></svg>
+    <div class="legend">
+      <span><i style="background:var(--teal)"></i>인프라</span>
+      <span><i style="background:var(--amber)"></i>패키징</span>
+      <span><i style="background:var(--blue)"></i>소재·부품</span>
+      <span><i style="background:var(--purple)"></i>장치부재</span>
+      <span><i class="ring"></i>◎ 확정 앵커 링크</span>
+    </div>
+  </div>
+
+  <div class="sechead"><h2>포트폴리오 19사</h2><span class="hint" id="shown"></span></div>
+  <div class="controls" id="ctl">
+    <span class="chip active" data-f="all">전체</span>
+    <span class="chip" data-f="anchor">앵커 링크만</span>
+    <span class="chip" data-cat="인프라">인프라</span>
+    <span class="chip" data-cat="패키징">패키징</span>
+    <span class="chip" data-cat="소재·부품">소재·부품</span>
+    <span class="chip" data-cat="장치부재">장치부재</span>
+  </div>
+  <div class="card" style="padding:6px 12px;">
+    <div style="overflow-x:auto;">
+      <table id="tbl">
+        <thead><tr>
+          <th class="num">#</th><th>회사</th><th>카테고리</th>
+          <th class="num">품질</th><th class="num">밸류</th><th class="num">QARP</th>
+          <th>구분</th><th>확정 앵커 근거</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <p class="foot">
+    ※ 점수는 공개 수치 기반 코호트 내 상대평가(Phase 1 수치). Value는 시총/영업익·PSR 백분위.<br>
+    ※ <b>정직한 경계</b>: JASM은 전공정 팹이라 확정 공급사는 전공정 인접이 다수 — 단 TSMC의 일본 <b>선단패키징(후공정) 확대</b>가 디스코·시바우라 등 후공정 니치사를 흡인(수상이 증거) → 클러스터는 <b>형성 진행형</b>. 라피더스(홋카이도)는 미래형 카탈리스트. 간토전화는 실적 OPM 6.8%로 게이트 미달 제외.<br>
+    ※ 상세 논거: <a class="back" href="phase2-report.md" style="color:var(--teal)">리포트 서사</a> · 방법론: <a class="back" href="phase2-plan.md" style="color:var(--teal)">작업 문서</a>
+  </p>
+</div>
+
+<script src="phase2-data.js"></script>
+<script>
+(function(){
+  if(typeof PHASE2==="undefined"){console.error("phase2-data.js 미로드");return;}
+  var H=PHASE2.holdings;
+  var COL={"인프라":"#2DD4BF","패키징":"#E0A340","소재·부품":"#7DA7FF","장치부재":"#B794F6"};
+  var BADGE={"인프라":"b-infra","패키징":"b-pkg","소재·부품":"b-mat","장치부재":"b-dev"};
+  document.getElementById("f1").textContent=PHASE2.meta.screened;
+  document.getElementById("f2").textContent=PHASE2.meta.survived;
+  document.getElementById("f3").textContent=PHASE2.meta.final;
+
+  /* ── 산점도 ── */
+  var NS="http://www.w3.org/2000/svg", svg=document.getElementById("scatter");
+  var W=760,Hh=500,ML=46,MR=24,MT=22,MB=48, pw=W-ML-MR, ph=Hh-MT-MB;
+  var X=function(q){return ML+q/100*pw;}, Y=function(v){return MT+(1-v/100)*ph;};
+  function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  // grid
+  [0,25,50,75,100].forEach(function(g){
+    svg.appendChild(el("line",{class:"grid"+(g===50?" mid":""),x1:X(g),y1:MT,x2:X(g),y2:MT+ph}));
+    svg.appendChild(el("line",{class:"grid"+(g===50?" mid":""),x1:ML,y1:Y(g),x2:ML+pw,y2:Y(g)}));
+    var tx=el("text",{class:"axlbl",x:X(g),y:MT+ph+16,"text-anchor":"middle"});tx.textContent=g;svg.appendChild(tx);
+    var ty=el("text",{class:"axlbl",x:ML-8,y:Y(g)+4,"text-anchor":"end"});ty.textContent=g;svg.appendChild(ty);
+  });
+  var axx=el("text",{class:"axlbl",x:ML+pw/2,y:Hh-6,"text-anchor":"middle","font-weight":800});axx.textContent="Quality (품질) →";svg.appendChild(axx);
+  var axy=el("text",{class:"axlbl",x:14,y:MT+ph/2,"text-anchor":"middle","font-weight":800,transform:"rotate(-90 14 "+(MT+ph/2)+")"});axy.textContent="Value (밸류) →";svg.appendChild(axy);
+  // quadrant labels
+  var quads=[["좋고 쌈 · 핵심",75,96],["싸지만 품질↓",25,96],["좋지만 비쌈",75,8],["약함",25,8]];
+  quads.forEach(function(q){var t=el("text",{class:"quad",x:X(q[1]),y:Y(q[2]),"text-anchor":"middle"});t.textContent=q[0];svg.appendChild(t);});
+  // dots
+  var tip=document.getElementById("tip");
+  function show(e,d){
+    tip.innerHTML='<b style="color:'+COL[d.cat]+'">'+d.name+'</b> <span style="color:var(--mute2)">('+d.code+')</span>'+
+      (d.anchor?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
+      '<span style="color:var(--mute)">'+d.niche+'</span><br>'+
+      '품질 '+d.q+' · 밸류 '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+')<br>'+
+      '시총/영업익 '+d.pop+'배 · '+(d.kind==="anchor"?'<span style="color:var(--amber)">앵커 오버레이</span>':'백본')+
+      (d.anchor?'<br><span style="color:var(--amber)">'+d.anchor+'</span>':'');
+    tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
+    tip.style.top=Math.min(e.clientY+14,innerHeight-140)+"px";tip.style.opacity=1;
+  }
+  function hide(){tip.style.opacity=0;}
+  H.forEach(function(d){
+    var g=el("g",{});
+    if(d.anchor) g.appendChild(el("circle",{cx:X(d.q),cy:Y(d.v),r:9,fill:"none",stroke:COL[d.cat],"stroke-width":1.6,opacity:.9}));
+    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:d.anchor?5.5:6,fill:COL[d.cat],opacity:.9});
+    c.addEventListener("mousemove",function(e){show(e,d);});
+    c.addEventListener("mouseleave",hide);
+    c.addEventListener("click",function(e){show(e,d);});
+    g.appendChild(c);
+    var lb=el("text",{class:"dotlbl"+(d.anchor?" anchor":""),x:X(d.q)+9,y:Y(d.v)+3});
+    lb.textContent=d.name.length>7?d.name.slice(0,6)+"…":d.name;
+    g.appendChild(lb);
+    svg.appendChild(g);
+  });
+
+  /* ── 테이블 ── */
+  var KMAP={"인프라":"인프라","패키징":"패키징","소재·부품":"소재","장치부재":"장치"};
+  var tbody=document.getElementById("tbody"), shown=document.getElementById("shown");
+  var fCat="all", fAnchor=false;
+  function render(){
+    tbody.innerHTML="";var n=0;
+    H.forEach(function(d){
+      if(fAnchor&&!d.anchor)return;
+      if(fCat!=="all"&&d.cat!==fCat)return;
+      n++;
+      var tr=document.createElement("tr");if(d.kind==="anchor")tr.className="anchor";
+      var qbar='<span class="bar" style="width:'+(d.q*0.5)+'px;background:'+COL[d.cat]+';opacity:.55"></span>';
+      var vbar='<span class="bar" style="width:'+(d.v*0.5)+'px;background:var(--teal);opacity:.45"></span>';
+      tr.innerHTML='<td class="num">'+n+'</td>'+
+        '<td><b>'+d.name+'</b> <span style="color:var(--mute2);font-size:11px">'+d.code+'</span></td>'+
+        '<td><span class="badge '+BADGE[d.cat]+'">'+KMAP[d.cat]+'</span></td>'+
+        '<td class="num">'+qbar+d.q+'</td>'+
+        '<td class="num">'+vbar+d.v+'</td>'+
+        '<td class="num"><b>'+d.qarp+'</b> <span style="color:var(--mute2);font-size:10px">#'+d.rank+'</span></td>'+
+        '<td>'+(d.kind==="anchor"?'<span class="kind-a">앵커</span>':'<span class="kind-b">백본</span>')+'</td>'+
+        '<td class="anctext">'+(d.anchor?'<span style="color:var(--amber)">◎</span> '+d.anchor:'—')+'</td>';
+      tbody.appendChild(tr);
+    });
+    shown.textContent=n+"사 표시";
+  }
+  document.getElementById("ctl").addEventListener("click",function(e){
+    var c=e.target.closest(".chip");if(!c)return;
+    if(c.dataset.f==="all"){fCat="all";fAnchor=false;}
+    else if(c.dataset.f==="anchor"){fAnchor=!fAnchor;}
+    else if(c.dataset.cat){fCat=(fCat===c.dataset.cat?"all":c.dataset.cat);}
+    // active states
+    document.querySelectorAll("#ctl .chip").forEach(function(x){
+      var on=false;
+      if(x.dataset.f==="all")on=(fCat==="all"&&!fAnchor);
+      else if(x.dataset.f==="anchor")on=fAnchor;
+      else if(x.dataset.cat)on=(fCat===x.dataset.cat);
+      x.classList.toggle("active",on);
+    });
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

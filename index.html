@@ -364,5 +364,17 @@ document.querySelectorAll('.card').forEach(card => {
   if(saved!==null){ window.scrollTo(0, parseInt(saved,10)||0); sessionStorage.removeItem(key); }
 })();
 </script>
+<script src="screening-data.js"></script>
+<script>
+/* 推薦社数を単一ソース（FIGURES）から自動反映 ― 数値のドリフトを防止 */
+(function(){
+  if(typeof FIGURES==="undefined") return;
+  var ks=Object.keys(FIGURES), rec=0;
+  ks.forEach(function(k){ if(FIGURES[k].judge==="rec") rec++; });
+  var t=document.getElementById("metaTotal"), r=document.getElementById("metaRec");
+  if(t) t.textContent=ks.length+"社";
+  if(r) r.textContent="推薦 "+rec+"社";
+})();
+</script>
 </body>
 </html>

@@ -430,10 +430,8 @@ const DATA = [
 const CATCOLOR = {"インフラ":"#2DD4BF","パッケージング":"#E0A340","素材・部品":"#7DA7FF","装置部材":"#B794F6"};
 const CATBADGE  = {"インフラ":"b-infra","パッケージング":"b-pkg","素材・部品":"b-mat","装置部材":"b-dev"};
 
-/* ── 本命ゾーン・マトリクス ── */
+/* ── ツールチップ・リップル ── */
 const tip = document.getElementById('tip');
-const MX_OPM = 15, MX_G = 10;
-const JC = {"推薦":"rec","要検証":"chk","除外":"exc"};
 let mxCat = "all", mxJudge = "all";
 
 function addRipple(ch,e){

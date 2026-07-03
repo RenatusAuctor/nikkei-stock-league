@@ -207,7 +207,7 @@
       '<span style="color:var(--mute)">'+d.nicheJa+'</span><br>'+
       '品質 '+d.q+' · バリュー '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+')<br>'+
       '時価総額/営業益 '+d.pop+'倍 · '+(d.kind==="anchor"?'<span style="color:var(--amber)">アンカーオーバーレイ</span>':'バックボーン')+
-      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">コア(閾値不変)</span>':d.tier==="conditional"?'条件付き(閾値依存)':'')+
+      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">コア(750通り中'+d.confidence+'%)</span>':d.tier==="moderate"?'<span style="color:var(--blue)">準堅牢('+d.confidence+'%)</span>':d.tier==="fragile"?'<span style="color:var(--mute2)">脆弱('+d.confidence+'%)</span>':'')+
       (d.anchorJa?'<br><span style="color:var(--amber)">'+d.anchorJa+'</span>':'');
     tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
     tip.style.top=Math.min(e.clientY+14,innerHeight-140)+"px";tip.style.opacity=1;

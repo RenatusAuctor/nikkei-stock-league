@@ -237,7 +237,7 @@
   var KMAP={"인프라":"인프라","패키징":"패키징","소재·부품":"소재","장치부재":"장치"};
   var tbody=document.getElementById("tbody"), shown=document.getElementById("shown");
   var fCat="all", fAnchor=false, fCore=false;
-  var TIERMAP={"core":"<span class=\"tier-core\">◆ 핵심</span>","conditional":"<span class=\"tier-cond\">조건부</span>","anchor":"—"};
+  var TIERMAP={"core":"<span class=\"tier-core\">◆ 핵심</span>","moderate":"<span class=\"tier-mod\">● 준견고</span>","fragile":"<span class=\"tier-frag\">○ 취약</span>","anchor":"—"};
   function render(){
     tbody.innerHTML="";var n=0;
     H.forEach(function(d){

@@ -210,6 +210,7 @@
       '<span style="color:var(--mute)">'+d.niche+'</span><br>'+
       '품질 '+d.q+' · 밸류 '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+')<br>'+
       '시총/영업익 '+d.pop+'배 · '+(d.kind==="anchor"?'<span style="color:var(--amber)">앵커 오버레이</span>':'백본')+
+      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">핵심(임계값 불변)</span>':d.tier==="conditional"?'조건부(임계값 의존)':'')+
       (d.anchor?'<br><span style="color:var(--amber)">'+d.anchor+'</span>':'');
     tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
     tip.style.top=Math.min(e.clientY+14,innerHeight-140)+"px";tip.style.opacity=1;
@@ -218,7 +219,8 @@
   H.forEach(function(d){
     var g=el("g",{});
     if(d.anchor) g.appendChild(el("circle",{cx:X(d.q),cy:Y(d.v),r:9,fill:"none",stroke:COL[d.cat],"stroke-width":1.6,opacity:.9}));
-    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:d.anchor?5.5:6,fill:COL[d.cat],opacity:.9});
+    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:d.anchor?5.5:6,fill:COL[d.cat],opacity:.9,
+      stroke:d.tier==="core"?"#fff":"none","stroke-width":d.tier==="core"?1.8:0});
     c.addEventListener("mousemove",function(e){show(e,d);});
     c.addEventListener("mouseleave",hide);
     c.addEventListener("click",function(e){show(e,d);});

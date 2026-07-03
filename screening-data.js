@@ -30,7 +30,7 @@ var FIGURES = {
   "6384": {opm:11.9, growth:40.4, sales:93, equity:80.2, mktcap:160, semi:40, judge:"exc"},
   "6728": {opm:10.6, growth:-10.9, sales:2512, equity:59.6, mktcap:3500, semi:45, judge:"chk"},
   "6381": {opm:10, growth:-5.8, sales:559, equity:68, mktcap:520, semi:15, judge:"exc"},
-  "6249": {opm:9.2, growth:0.5, sales:32, equity:78.5, mktcap:60, semi:22, judge:"exc"},
+  "6265": {opm:9.2, growth:0.5, sales:32, equity:78.5, mktcap:60, semi:22, judge:"exc"}, /* 旧6249表記を訂正(6249はゲームカードHD)。数値は再検証要 */
   "6383": {opm:15.3, growth:40.9, sales:6607, equity:59.9, mktcap:12500, semi:30, judge:"chk"},
   "6361": {opm:11.9, growth:16.2, sales:9583, equity:47, mktcap:11000, semi:35, judge:"rec"},
   "6337": {opm:5.4, growth:-30.7, sales:56, equity:89.3, mktcap:140, semi:95, judge:"chk"},
@@ -74,7 +74,7 @@ var FIGURES = {
   "5186": {opm:6.4, growth:13.7, sales:918, equity:85.6, mktcap:920, semi:18, judge:"chk"},
   "4109": {opm:12.6, growth:7.1, sales:368, equity:74.6, mktcap:450, semi:65, judge:"rec"},
   "4368": {opm:24.5, growth:16.1, sales:769, equity:77, mktcap:1600, semi:65, judge:"rec"},
-  "4047": {opm:8.4, growth:null, sales:654, equity:55.1, mktcap:420, semi:55, judge:"chk"},
+  "4047": {opm:8.4, growth:28.2, sales:654, equity:55.1, mktcap:420, semi:55, judge:"chk"}, /* growth 2026/3期実績+28.2%で確定(2026-07 irbank照合) */
   "4272": {opm:9.3, growth:10.1, sales:2419, equity:70, mktcap:2200, semi:16, judge:"chk"},
   "3878": {opm:4.6, growth:26.2, sales:356, equity:34.7, mktcap:160, semi:22, judge:"exc"},
   "4970": {opm:8.7, growth:-10.6, sales:420, equity:41, mktcap:750, semi:80, judge:"rec"},

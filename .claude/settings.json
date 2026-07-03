@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$f = ($input | ConvertFrom-Json).tool_input.file_path; if ($f -and $f -like '*nikkei stock league*' -and $f -like '*.html') { $env:PATH = $env:PATH + ';C:\\Program Files\\GitHub CLI'; git -C 'C:\\Users\\tjslw\\OneDrive\\바탕 화면\\nikkei stock league' add *.html; git -C 'C:\\Users\\tjslw\\OneDrive\\바탕 화면\\nikkei stock league' commit -m 'Auto-update'; git -C 'C:\\Users\\tjslw\\OneDrive\\바탕 화면\\nikkei stock league' push }",
+            "statusMessage": "GitHub에 자동 푸시 중...",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

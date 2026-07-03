@@ -205,6 +205,7 @@
       '<span style="color:var(--mute)">'+d.nicheJa+'</span><br>'+
       '品質 '+d.q+' · バリュー '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+')<br>'+
       '時価総額/営業益 '+d.pop+'倍 · '+(d.kind==="anchor"?'<span style="color:var(--amber)">アンカーオーバーレイ</span>':'バックボーン')+
+      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">コア(閾値不変)</span>':d.tier==="conditional"?'条件付き(閾値依存)':'')+
       (d.anchorJa?'<br><span style="color:var(--amber)">'+d.anchorJa+'</span>':'');
     tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
     tip.style.top=Math.min(e.clientY+14,innerHeight-140)+"px";tip.style.opacity=1;
@@ -213,7 +214,8 @@
   H.forEach(function(d){
     var g=el("g",{});
     if(d.anchorJa) g.appendChild(el("circle",{cx:X(d.q),cy:Y(d.v),r:9,fill:"none",stroke:COL[d.cat],"stroke-width":1.6,opacity:.9}));
-    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:d.anchorJa?5.5:6,fill:COL[d.cat],opacity:.9});
+    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:d.anchorJa?5.5:6,fill:COL[d.cat],opacity:.9,
+      stroke:d.tier==="core"?"#fff":"none","stroke-width":d.tier==="core"?1.8:0});
     c.addEventListener("mousemove",function(e){show(e,d);});
     c.addEventListener("mouseleave",hide);
     c.addEventListener("click",function(e){show(e,d);});

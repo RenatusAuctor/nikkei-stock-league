@@ -212,7 +212,7 @@
       '<span style="color:var(--mute)">'+d.niche+'</span><br>'+
       '품질 '+d.q+' · 밸류 '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+')<br>'+
       '시총/영업익 '+d.pop+'배 · '+(d.kind==="anchor"?'<span style="color:var(--amber)">앵커 오버레이</span>':'백본')+
-      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">핵심(임계값 불변)</span>':d.tier==="conditional"?'조건부(임계값 의존)':'')+
+      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">핵심(750조합 중 '+d.confidence+'%)</span>':d.tier==="moderate"?'<span style="color:var(--blue)">준견고('+d.confidence+'%)</span>':d.tier==="fragile"?'<span style="color:var(--mute2)">취약('+d.confidence+'%)</span>':'')+
       (d.anchor?'<br><span style="color:var(--amber)">'+d.anchor+'</span>':'');
     tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
     tip.style.top=Math.min(e.clientY+14,innerHeight-140)+"px";tip.style.opacity=1;

@@ -227,11 +227,13 @@
   });
 
   var tbody=document.getElementById("tbody"), shown=document.getElementById("shown");
-  var fCat="all", fAnchor=false;
+  var fCat="all", fAnchor=false, fCore=false;
+  var TIERMAP={"core":"<span class=\"tier-core\">◆ コア</span>","conditional":"<span class=\"tier-cond\">条件付き</span>","anchor":"—"};
   function render(){
     tbody.innerHTML="";var n=0;
     H.forEach(function(d){
       if(fAnchor&&!d.anchorJa)return;
+      if(fCore&&d.tier!=="core")return;
       if(fCat!=="all"&&d.cat!==fCat)return;
       n++;
       var tr=document.createElement("tr");if(d.kind==="anchor")tr.className="anchor";
@@ -244,6 +246,7 @@
         '<td class="num">'+vbar+d.v+'</td>'+
         '<td class="num"><b>'+d.qarp+'</b> <span style="color:var(--mute2);font-size:10px">#'+d.rank+'</span></td>'+
         '<td>'+(d.kind==="anchor"?'<span class="kind-a">アンカー</span>':'<span class="kind-b">バックボーン</span>')+'</td>'+
+        '<td>'+TIERMAP[d.tier]+'</td>'+
         '<td class="anctext">'+(d.anchorJa?'<span style="color:var(--amber)">◎</span> '+d.anchorJa:'—')+'</td>';
       tbody.appendChild(tr);
     });
@@ -251,13 +254,15 @@
   }
   document.getElementById("ctl").addEventListener("click",function(e){
     var c=e.target.closest(".chip");if(!c)return;
-    if(c.dataset.f==="all"){fCat="all";fAnchor=false;}
-    else if(c.dataset.f==="anchor"){fAnchor=!fAnchor;}
+    if(c.dataset.f==="all"){fCat="all";fAnchor=false;fCore=false;}
+    else if(c.dataset.f==="anchor"){fAnchor=!fAnchor;fCore=false;}
+    else if(c.dataset.f==="core"){fCore=!fCore;fAnchor=false;}
     else if(c.dataset.cat){fCat=(fCat===c.dataset.cat?"all":c.dataset.cat);}
     document.querySelectorAll("#ctl .chip").forEach(function(x){
       var on=false;
-      if(x.dataset.f==="all")on=(fCat==="all"&&!fAnchor);
+      if(x.dataset.f==="all")on=(fCat==="all"&&!fAnchor&&!fCore);
       else if(x.dataset.f==="anchor")on=fAnchor;
+      else if(x.dataset.f==="core")on=fCore;
       else if(x.dataset.cat)on=(fCat===x.dataset.cat);
       x.classList.toggle("active",on);
     });

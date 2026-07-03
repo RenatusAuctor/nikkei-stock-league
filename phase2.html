@@ -138,6 +138,7 @@
       <span><i style="background:var(--blue)"></i>素材・部品</span>
       <span><i style="background:var(--purple)"></i>装置部材</span>
       <span><i class="ring"></i>◎ 確定アンカーリンク</span>
+      <span>太い枠 = コア(core、ゲート閾値30組合せ全てで生存)</span>
     </div>
   </div>
 
@@ -145,6 +146,7 @@
   <div class="controls" id="ctl">
     <span class="chip active" data-f="all">全て</span>
     <span class="chip" data-f="anchor">アンカーリンクのみ</span>
+    <span class="chip" data-f="core">コア(閾値不変)のみ</span>
     <span class="chip" data-cat="인프라">インフラ</span>
     <span class="chip" data-cat="패키징">パッケージ</span>
     <span class="chip" data-cat="소재·부품">素材・部品</span>
@@ -156,7 +158,7 @@
         <thead><tr>
           <th class="num">#</th><th>会社</th><th>カテゴリ</th>
           <th class="num">品質</th><th class="num">バリュー</th><th class="num">QARP</th>
-          <th>区分</th><th>確定アンカー根拠</th>
+          <th>区分</th><th>信頼度</th><th>確定アンカー根拠</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>

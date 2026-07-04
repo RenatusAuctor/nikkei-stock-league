@@ -124,26 +124,33 @@
 <div id="tip"></div>
 <div class="wrap">
   <a class="back" href="index.html">← プロジェクトハブ</a>
-  <div class="eyebrow">Phase 2 · 銘柄の絞り込み</div>
-  <h1>100社 → 14社に圧縮</h1>
-  <p class="sub">Phase 1 スクリーニング100社を<b>レッドラインゲート → 確定アンカーゲート(立地・供給の一次検証) → QARP順位</b>で14社に圧縮。テーマ「後工程ニッチトップ × 地方クラスター」は<b>二軸のAND条件</b> — 全銘柄がその両方を同時に満たします(九州12 + 東北2)。</p>
+  <div class="eyebrow">Phase 2 · 会社選び</div>
+  <h1>候補100社 → 14社に絞り込み</h1>
+  <p class="sub">候補100社の中から、<b>テーマにぴったり合う14社</b>を選び出しました。テーマは<b>「半導体の後工程で世界トップ級 × 大きな工場(TSMC・キオクシア)のすぐそばにある会社」</b> — 両方の条件を<b>同時に</b>満たす必要があります。最終14社 = 九州12 + 東北2。<br><span style="color:var(--mute2);font-size:12.5px">※ 詳しい根拠・計算はリポジトリ内の phase2-report.md / phase2-plan.md を参照。このページはその要約を表とグラフで見る場所です。</span></p>
 
   <div class="funnel">
-    <div class="fstep"><div class="n" id="f1">100</div><div class="l">Phase 1 後工程ニッチ ロングリスト</div></div>
-    <div class="fstep"><div class="n" id="f2">47</div><div class="l">レッドラインゲート生存<br>(上場廃止・自己資本・OPM・クラスター・前工程)</div></div>
-    <div class="fstep hl"><div class="n" id="f3">14</div><div class="l">最終ポートフォリオ<br>(確定アンカーゲート → QARP順)</div></div>
+    <div class="fstep"><div class="n" id="f1">100</div><div class="l">候補の会社<br>(Phase 1で選んだ後工程ニッチ企業)</div></div>
+    <div class="fstep"><div class="n" id="f2">47</div><div class="l">1次通過<br>(買えない株・稼げない会社・財務が弱い・畑違いの業種を除外)</div></div>
+    <div class="fstep hl"><div class="n" id="f3">14</div><div class="l">最終選択<br>(本当に工場のそばか確認 → 良くて安い順)</div></div>
   </div>
   <div class="method">
-    <span class="tag">選定</span> = <b>確定アンカーゲート</b>(有報・IR・TSMC受賞・設備投資リリースの一次情報で立地/供給リンクを検証) → <span class="tag">QARP</span>順で採用。&nbsp;
-    Quality = 0.5·財務 + 0.5·技術 · Value = 時価総額/営業益・PSR百分位(安いほど↑) · QARP = 0.5·Q + 0.5·V。<br>
-    <b>2026-07-04 再選定</b>: 旧構成(バックボーン15+アンカー4)はクラスター証拠のない銘柄を9社含んでいた — テーマのAND条件に合わせ、<b>「スコア→テーマ」から「テーマ検証→スコア順」へ選定ロジックを反転</b>。
+    <div class="mrow"><span class="tag">どう選んだか</span> — 二回ふるいにかけて、順位をつけました。</div>
+    <div class="mrow"><b>① 本当に工場のそばか?</b> 会社が「九州の近くです」と言っていても、公式書類(有価証券報告書・IR・TSMC受賞発表・設備投資リリース)で<b>実際の立地と納入関係を一社ずつ確認</b>しました。本物だけ通過。</div>
+    <div class="mrow"><b>② 良くて安い順に並べる。</b> 通過した会社を下のスコア(品質 × 株価)で並べました。</div>
+    <div class="mrow"><b>なぜこの順番?</b> 以前はスコアから付けたら「世界トップだが工場のそばにはない」会社が9社も混ざりました。そこで<b>テーマ検証が先、スコアは順位付け用</b>に反転しました(2026-07-04)。</div>
+  </div>
+  <div class="scorebox">
+    <span class="tag">スコアの計算方法</span> — 生き残った47社の中での相対評価です。<b>1位なら100、最下位なら0</b>に近づきます。
+    <div class="srow"><span class="sname">品質</span><span><b>会社が丈夫か(財務)が半分 + 技術が唯一無二かが半分。</b> 利益率・成長・借金の少なさと、その分野での世界シェア・代替の難しさを見ます。</span></div>
+    <div class="srow"><span class="sname">株価</span><span><b>稼ぐ力に比べて株価が安いか。</b> 会社の値段(時価総額)を営業利益・売上と比べて、安いほど高スコア。</span></div>
+    <div class="srow"><span class="sname">総合</span><span><b>品質半分 + 株価半分。</b> = 「良い会社を安く買える順」。(詳細資料ではこのスコアを<span class="tag">QARP</span>と呼びます)</span></div>
   </div>
   <div class="sensbox">
-    <span class="tag">なぜこの選定が堅牢か — 数値閾値ではなく文書証拠</span><br>
-    生存47社を算出する財務ゲートは母集団分布に基づき(自己資本40%=<b>下位9パーセンタイル</b>、OPM8%=<b>下位38パーセンタイル</b>)、ゲート×重み<b>750通りの感度分析</b>で検証済み(phase2-plan.md §6.4)。最終の確定アンカーゲートは<b>二値の文書証拠</b>(TSMC受賞・直接受注・主力工場の立地・アンカー投資後の増設公示)による判定 — 閾値の恣意性が入り込む余地がない。証拠強度は<b>★★★(供給確定・立地+時系列) / ★★(主力拠点の立地) / ★(部分拠点)</b>で正直に区分。<b>時系列証拠(白枠)</b>=アンカー投資<b>後</b>の増設・受注公示 — 「なぜ地方か」への因果の答え。
+    <span class="tag">適当に選んだのではない、という証拠</span><br>
+    審査員に<i>「基準の数字を少し変えたら結果も変わるのでは?」</i>と聞かれるかもしれません。そこで<b>足切り基準とスコア配分を750通りに変えても同じ会社が生き残るか</b>を全部計算し、生き残りました。しかも最後の「本当に工場のそばか」の判定は数字ではなく<b>「ある / ない」の文書証拠</b>なので、そもそも都合よく調整する余地がありません。証拠の強さは正直に星で区分 — <b>★★★(TSMC納入確定、または工場そば+稼働後の増設) / ★★(主力工場がその地域) / ★(一部の拠点のみ)</b>。<b>白枠</b> = 工場ができた<b>後に</b>増設したという<b>時間順の証拠</b> — 「なぜわざわざ地方なのか」への答え。
   </div>
 
-  <div class="sechead"><h2>Quality × Value 地形図</h2><span class="hint">右上ほど「良くて安い」。◎=供給リンク確定。白枠=時系列証拠。点にカーソル。</span></div>
+  <div class="sechead"><h2>どの会社が良くて安いか — ひと目で見る</h2><span class="hint">右上ほど「良い会社なのに株価も安い」。◎ = TSMCへ直接納入を確認。白枠 = 工場ができた後に増設。点にカーソルを。</span></div>
   <div class="card">
     <svg id="scatter" viewBox="0 0 760 500" role="img" aria-label="銘柄ごとの品質×バリュー散布図"></svg>
     <div class="legend">

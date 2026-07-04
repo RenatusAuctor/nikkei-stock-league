@@ -301,6 +301,7 @@
       (isSupply(d)?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
       '<span style="color:var(--mute)">'+d.niche+'</span><br>'+
       '품질 '+d.q+' · 주가점수 '+d.v+' · <b>종합 '+d.qarp+'</b> (47개 중 '+d.rank+'위)<br>'+
+      '몸값÷이익 지금 '+d.popNow.toFixed(1)+'배(26.7.3 종가) · '+SMAP[d.scope]+'<br>'+
       d.cluster+' · '+stars(d.strength)+' '+LMAP[d.link]+(d.tseries?' · 공장 생긴 뒤 증설':'')+
       '<br><span style="color:var(--amber)">'+d.anchor+'</span>'+
       (d.verified?'':'<br><span style="color:var(--mute2)">※재무 재확인 전(Phase 1 수치)</span>');

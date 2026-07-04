@@ -115,26 +115,27 @@
 <div id="tip"></div>
 <div class="wrap">
   <a class="back" href="index.ko.html">← 프로젝트 허브</a>
-  <div class="eyebrow">Phase 2 · 종목 압축</div>
-  <h1>100사 → 14사 압축</h1>
-  <p class="sub">Phase 1 스크리닝 100사를 <b>레드라인 게이트 → 확정 앵커 게이트(입지·공급 1차 검증) → QARP 순위</b>로 14사까지 압축. 대회 주제 "후공정 니치 톱 × 지방 클러스터"는 <b>두 축의 AND 조건</b> — 전 종목이 두 축을 동시에 충족합니다(규슈 12 + 도호쿠 2).</p>
+  <div class="eyebrow">Phase 2 · 회사 고르기</div>
+  <h1>후보 100개 → 14개로 좁히기</h1>
+  <p class="sub">후보 회사 100개 중에서 <b>우리 주제에 딱 맞는 14개</b>를 골라냈습니다. 우리 주제는 <b>「반도체 뒷공정에서 세계 1등급 &nbsp;×&nbsp; 큰 공장(TSMC·키옥시아) 바로 옆에 있는 회사」</b> — 두 조건을 <b>모두</b> 만족해야 합니다. 최종 14개 = 규슈 12 + 도호쿠 2.<br><span style="color:var(--mute2);font-size:12.5px">※ 용어가 낯설면 <b>phase2-쉬운설명.md</b>를 먼저 읽어주세요. 이 페이지는 그 요약을 표·그래프로 보는 곳입니다.</span></p>
 
   <div class="funnel">
-    <div class="fstep"><div class="n" id="f1">100</div><div class="l">Phase 1 후공정 니치 롱리스트</div></div>
-    <div class="fstep"><div class="n" id="f2">47</div><div class="l">레드라인 게이트 생존<br>(상폐·자기자본·OPM·클러스터·전공정)</div></div>
-    <div class="fstep hl"><div class="n" id="f3">14</div><div class="l">최종 포트폴리오<br>(확정 앵커 게이트 → QARP 순)</div></div>
+    <div class="fstep"><div class="n" id="f1">100</div><div class="l">후보 회사<br>(Phase 1에서 추린 뒷공정 니치 기업)</div></div>
+    <div class="fstep"><div class="n" id="f2">47</div><div class="l">1차 통과<br>(못 사는 주식·돈 못 버는 회사·재무 약함·엉뚱한 업종 탈락)</div></div>
+    <div class="fstep hl"><div class="n" id="f3">14</div><div class="l">최종 선택<br>(진짜 공장 옆인지 확인 → 좋고 싼 순 정렬)</div></div>
   </div>
   <div class="method">
-    <span class="tag">선정</span> = <b>확정 앵커 게이트</b>(유보·IR·TSMC 수상·설비투자 릴리스의 1차 정보로 입지/공급 링크 검증) → <span class="tag">QARP</span> 순으로 채용. &nbsp;
-    Quality = 0.5·재무 + 0.5·기술 · Value = 시총/영업익·PSR 백분위(쌀수록↑) · QARP = 0.5·Q + 0.5·V.<br>
-    <b>2026-07-04 재선정</b>: 구 구성(백본15+앵커4)은 클러스터 증거 없는 종목을 9사 포함하고 있었다 — 주제의 AND 조건에 맞춰 <b>"점수→테마"에서 "테마 검증→점수 순"으로 선정 로직을 반전</b>.
+    <span class="tag">어떻게 골랐나</span> — 2번 거르고, 순위를 매겼습니다.<br>
+    <b>① 진짜 공장 옆인가?</b> &nbsp;회사가 말로만 "규슈 근처"라고 해도, 공식 서류(사업보고서·IR·TSMC 수상 발표·설비투자 공시)로 <b>실제 위치와 납품 관계를 하나씩 확인</b>. 진짜인 곳만 통과.<br>
+    <b>② 좋고 싼 순으로 정렬</b> &nbsp;통과한 회사를 <b>「튼튼하고 기술 좋은 회사(품질)」 × 「주가가 안 비싼 회사(밸류)」</b> 점수로 줄 세움(반반 50:50). 이 점수를 우리끼리 <span class="tag">QARP</span>라고 부릅니다.<br>
+    <b>왜 이 순서?</b> &nbsp;예전엔 점수부터 매기고 주제를 봤더니, "세계 1등이지만 공장 옆엔 없는" 회사가 9개나 섞였습니다. 그래서 <b>주제부터 검증하고 → 점수는 순위 매기는 용도</b>로 순서를 뒤집었습니다(2026-07-04).
   </div>
   <div class="sensbox">
-    <span class="tag">왜 이 선정이 견고한가 — 수치 임계값이 아니라 문서 증거</span><br>
-    생존 47사를 산출하는 재무 게이트는 모집단 분포에 근거하고(자기자본 40%=<b>하위 9퍼센타일</b>, OPM 8%=<b>하위 38퍼센타일</b>), 게이트×가중치 <b>750개 조합 민감도 분석</b>으로 검증 완료(phase2-plan.md §6.4). 최종 확정 앵커 게이트는 <b>이진 문서 증거</b>(TSMC 수상·직접 수주·주력공장 입지·앵커 투자 이후의 증설 공시)에 의한 판정 — 임계값의 자의성이 끼어들 여지가 없다. 증거 강도는 <b>★★★(공급 확정·입지+시계열) / ★★(주력 거점 입지) / ★(부분 거점)</b>으로 정직하게 구분. <b>시계열 증거(흰 테두리)</b>=앵커 투자 <b>이후</b>의 증설·수주 공시 — "왜 하필 지방인가"에 대한 인과의 답.
+    <span class="tag">우리가 대충 고른 게 아니라는 증거</span><br>
+    심사위원이 <i>"탈락 기준 숫자를 살짝 바꾸면 결과도 달라지는 거 아냐?"</i>라고 물을 수 있습니다. 그래서 <b>탈락 기준과 점수 배분을 750가지로 바꿔봐도 같은 회사들이 살아남는지</b> 전부 돌려봤고, 살아남았습니다. 게다가 마지막 "진짜 공장 옆인가" 판정은 숫자가 아니라 <b>「있다 / 없다」 문서 증거</b>라 애초에 마음대로 조절할 여지가 없습니다. 증거의 세기는 정직하게 별로 표시 — <b>★★★(TSMC 납품 확정, 또는 공장 옆 + 공장 생긴 뒤 증설) / ★★(주력공장이 그 지역) / ★(일부 거점만)</b>. <b>흰 테두리</b> = 공장이 생긴 <b>뒤에</b> 증설했다는 <b>시간 순서 증거</b> — "왜 하필 시골이냐"에 대한 답.
   </div>
 
-  <div class="sechead"><h2>Quality × Value 지형도</h2><span class="hint">우상단일수록 "좋고 싸다". ◎=공급 링크 확정. 흰 테두리=시계열 증거. 점 위에 커서.</span></div>
+  <div class="sechead"><h2>회사 위치 지도 — 품질 vs 주가</h2><span class="hint">오른쪽 위로 갈수록 "좋은 회사인데 주가도 싸다". ◎ = TSMC에 직접 납품 확인. 흰 테두리 = 공장 생긴 뒤 증설. 점에 마우스를 올려보세요.</span></div>
   <div class="card">
     <svg id="scatter" viewBox="0 0 760 500" role="img" aria-label="종목별 품질 대 밸류 산점도"></svg>
     <div class="legend">

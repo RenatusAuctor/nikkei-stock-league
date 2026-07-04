@@ -116,6 +116,8 @@
     border:1px solid var(--edge);border-radius:50px;padding:3px;z-index:200;backdrop-filter:blur(8px);}
   .lang-switch a{color:var(--mute);text-decoration:none;font-size:12px;font-weight:700;padding:5px 13px;border-radius:50px;}
   .lang-switch a.active{background:var(--teal);color:#06231f;}
+  @media(max-width:600px){.wrap{padding:46px 16px 64px;}.funnel{flex-direction:column;}.fstep{min-width:0;}
+    .fstep{display:flex;align-items:baseline;gap:14px;padding:13px 16px;}.fstep .n{min-width:44px;}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 </head>

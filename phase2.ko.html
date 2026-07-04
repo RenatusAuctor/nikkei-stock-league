@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phase 2 · 종목 압축 대시보드 — 닛케이 스톡리그</title>
-<meta name="description" content="후공정 니치 100사를 게이트→Quality×Value→가설앵커 오버레이로 19사로 압축. TSMC 구마모토 앵커 링크로 인과를 검증한 Phase 2 대시보드.">
+<meta name="description" content="후공정 니치 100사를 레드라인 게이트→확정 앵커 게이트(입지·공급 1차 검증)→QARP로 14사로 압축. '후공정 니치 톱 × 지방 클러스터' 두 축을 전 종목이 동시에 충족하는 Phase 2 대시보드.">
 <meta name="theme-color" content="#0B1C28">
 <link rel="canonical" href="https://renatusauctor.github.io/nikkei-stock-league/phase2.ko.html">
 <link rel="alternate" hreflang="ja" href="https://renatusauctor.github.io/nikkei-stock-league/phase2.html">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://renatusauctor.github.io/nikkei-stock-league/phase2.ko.html">
 <meta property="og:title" content="Phase 2 · 종목 압축 대시보드 — 닛케이 스톡리그">
-<meta property="og:description" content="후공정 니치 100사를 게이트→Quality×Value→가설앵커로 19사로 압축. TSMC 구마모토 앵커 링크로 인과 검증.">
+<meta property="og:description" content="후공정 니치 100사를 확정 앵커 게이트(입지·공급 1차 검증)로 14사로 압축. '후공정 × 지방 클러스터' 인과를 전 종목에서 검증.">
 <meta property="og:image" content="https://renatusauctor.github.io/nikkei-stock-league/og-image.png">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:locale:alternate" content="ja_JP">
@@ -66,7 +66,7 @@
   .dotlbl.anchor{fill:var(--ink);font-weight:800;}
   .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11.5px;color:var(--mute);}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
-  .legend .ring{width:10px;height:10px;border:2px solid var(--ink);background:transparent;}
+  .legend .ring{width:10px;height:10px;border:2px solid var(--amber);background:transparent;}
   /* controls + table */
   .controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;align-items:center;}
   .chip{font-size:12px;color:var(--mute);background:rgba(255,255,255,.05);border:1px solid var(--edge);
@@ -77,18 +77,17 @@
   th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--edge);}
   th{color:var(--mute);font-size:11px;font-weight:700;letter-spacing:.02em;position:sticky;top:0;background:var(--panel);}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
-  tr.anchor td{background:rgba(224,163,64,.06);}
   .badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;}
   .b-infra{background:rgba(45,212,191,.16);color:var(--teal);}
   .b-pkg{background:rgba(224,163,64,.16);color:var(--amber);}
   .b-mat{background:rgba(125,167,255,.16);color:var(--blue);}
   .b-dev{background:rgba(183,148,246,.16);color:var(--purple);}
-  .kind-a{color:var(--amber);font-weight:800;font-size:11px;}
-  .kind-b{color:var(--mute);font-size:11px;}
-  .tier-core{color:var(--teal);font-weight:800;font-size:11px;}
-  .tier-mod{color:var(--blue);font-size:11px;}
-  .tier-frag{color:var(--mute2);font-size:11px;}
-  .tier-cond{color:var(--mute);font-size:11px;}
+  .b-kyushu{background:rgba(45,212,191,.12);color:var(--teal);}
+  .b-tohoku{background:rgba(125,167,255,.14);color:var(--blue);}
+  .lk-supply{color:var(--amber);font-weight:800;font-size:11px;}
+  .lk-location{color:var(--teal);font-weight:700;font-size:11px;}
+  .lk-both{color:var(--blue);font-weight:800;font-size:11px;}
+  .ts{color:var(--mute2);font-size:10px;margin-left:4px;}
   .sensbox{font-size:12.5px;color:var(--mute);line-height:1.75;background:rgba(45,212,191,.05);border:1px solid var(--edge);
     border-radius:12px;padding:14px 16px;margin-bottom:26px;}
   .sensbox b{color:var(--ink);}
@@ -96,6 +95,9 @@
   .anctext{font-size:11px;color:var(--mute);line-height:1.4;}
   .bar{display:inline-block;height:7px;border-radius:4px;vertical-align:1px;margin-right:6px;}
   .foot{font-size:11.5px;color:var(--mute2);line-height:1.7;margin-top:8px;}
+  .exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px 14px;}
+  .exitem{font-size:12px;color:var(--mute);line-height:1.55;}
+  .exitem b{color:var(--ink);font-weight:700;}
   /* tooltip */
   #tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .12s;z-index:50;max-width:280px;
     background:#0d2531;border:1px solid var(--edge);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.55;
@@ -114,27 +116,25 @@
 <div class="wrap">
   <a class="back" href="index.ko.html">← 프로젝트 허브</a>
   <div class="eyebrow">Phase 2 · 종목 압축</div>
-  <h1>100사 → 19사 압축</h1>
-  <p class="sub">Phase 1 스크리닝 100사를 <b>게이트 → Quality×Value 점수 → 가설앵커 오버레이</b>로 19사까지 압축. 좋고(품질) 싸게(밸류) 살 수 있는 종목을 뽑되, TSMC 구마모토와의 <b>확정 앵커 링크</b>로 "후공정 × 지방 클러스터" 인과를 검증했습니다.</p>
+  <h1>100사 → 14사 압축</h1>
+  <p class="sub">Phase 1 스크리닝 100사를 <b>레드라인 게이트 → 확정 앵커 게이트(입지·공급 1차 검증) → QARP 순위</b>로 14사까지 압축. 대회 주제 "후공정 니치 톱 × 지방 클러스터"는 <b>두 축의 AND 조건</b> — 전 종목이 두 축을 동시에 충족합니다(규슈 12 + 도호쿠 2).</p>
 
   <div class="funnel">
     <div class="fstep"><div class="n" id="f1">100</div><div class="l">Phase 1 후공정 니치 롱리스트</div></div>
     <div class="fstep"><div class="n" id="f2">47</div><div class="l">레드라인 게이트 생존<br>(상폐·자기자본·OPM·클러스터·전공정)</div></div>
-    <div class="fstep hl"><div class="n" id="f3">19</div><div class="l">최종 포트폴리오<br>(백본 15 + 앵커 4)</div></div>
+    <div class="fstep hl"><div class="n" id="f3">14</div><div class="l">최종 포트폴리오<br>(확정 앵커 게이트 → QARP 순)</div></div>
   </div>
   <div class="method">
-    <span class="tag">Quality</span> = 0.5·재무(수익성·안정·성장) + 0.5·기술(세계점유율·반도체순도) &nbsp;·&nbsp;
-    <span class="tag">Value</span> = 시총/영업익·PSR 백분위(쌀수록↑) &nbsp;·&nbsp;
-    <span class="tag">QARP</span> = 0.5·Quality + 0.5·Value. &nbsp;
-    <b>앵커 오버레이</b>: 밸류 프리미엄으로 밀렸지만 TSMC 구마모토에 확정 링크된 상징 종목(디스코·TOK 등)을 의도 편입.
+    <span class="tag">선정</span> = <b>확정 앵커 게이트</b>(유보·IR·TSMC 수상·설비투자 릴리스의 1차 정보로 입지/공급 링크 검증) → <span class="tag">QARP</span> 순으로 채용. &nbsp;
+    Quality = 0.5·재무 + 0.5·기술 · Value = 시총/영업익·PSR 백분위(쌀수록↑) · QARP = 0.5·Q + 0.5·V.<br>
+    <b>2026-07-04 재선정</b>: 구 구성(백본15+앵커4)은 클러스터 증거 없는 종목을 9사 포함하고 있었다 — 주제의 AND 조건에 맞춰 <b>"점수→테마"에서 "테마 검증→점수 순"으로 선정 로직을 반전</b>.
   </div>
   <div class="sensbox">
-    <span class="tag">게이트·가중치 숫자는 왜 이 값인가 — 결합 민감도 750개 조합</span><br>
-    표본(상장 97사) 분포에서 자기자본 40%는 <b>하위 9퍼센타일</b>(관대한 컷), OPM 8%는 <b>하위 38퍼센타일</b>(선별적 컷) — 임의의 통념값이 아니라 모집단 분포에 근거.<br>
-    이걸로 끝내지 않고, <b>게이트(자기자본30~50%×OPM5~12%, 30가지) × 점수 가중치(F/T·Q/V 각 30~70%, 25가지) = 750개 조합</b>을 동시에 흔들어 백본15 생존율을 계산했다. <span class="tier-core">◆ 핵심(core, 90%↑) 7사</span>는 숫자를 어떻게 바꿔도 거의 항상 살아남고, <span class="tier-mod">● 준견고(moderate, 50~89%) 6사</span>는 채택한 값에 좌우되며, <span class="tier-frag">○ 취약(fragile, 50%↓) 1사</span>는 절반 미만 조합에서만 생존 — 정직하게 등급을 낮춰 표시. 앵커 4사는 수치 게이트와 무관(확정 인과 링크로 별도 선정).
+    <span class="tag">왜 이 선정이 견고한가 — 수치 임계값이 아니라 문서 증거</span><br>
+    생존 47사를 산출하는 재무 게이트는 모집단 분포에 근거하고(자기자본 40%=<b>하위 9퍼센타일</b>, OPM 8%=<b>하위 38퍼센타일</b>), 게이트×가중치 <b>750개 조합 민감도 분석</b>으로 검증 완료(phase2-plan.md §6.4). 최종 확정 앵커 게이트는 <b>이진 문서 증거</b>(TSMC 수상·직접 수주·주력공장 입지·앵커 투자 이후의 증설 공시)에 의한 판정 — 임계값의 자의성이 끼어들 여지가 없다. 증거 강도는 <b>★★★(공급 확정·입지+시계열) / ★★(주력 거점 입지) / ★(부분 거점)</b>으로 정직하게 구분. <b>시계열 증거(흰 테두리)</b>=앵커 투자 <b>이후</b>의 증설·수주 공시 — "왜 하필 지방인가"에 대한 인과의 답.
   </div>
 
-  <div class="sechead"><h2>Quality × Value 지형도</h2><span class="hint">우상단일수록 "좋고 싸다". ◎=확정 앵커 링크. 굵은 테두리=핵심(90%↑ 견고). 점 위에 커서.</span></div>
+  <div class="sechead"><h2>Quality × Value 지형도</h2><span class="hint">우상단일수록 "좋고 싸다". ◎=공급 링크 확정. 흰 테두리=시계열 증거. 점 위에 커서.</span></div>
   <div class="card">
     <svg id="scatter" viewBox="0 0 760 500" role="img" aria-label="종목별 품질 대 밸류 산점도"></svg>
     <div class="legend">
@@ -142,16 +142,18 @@
       <span><i style="background:var(--amber)"></i>패키징</span>
       <span><i style="background:var(--blue)"></i>소재·부품</span>
       <span><i style="background:var(--purple)"></i>장치부재</span>
-      <span><i class="ring"></i>◎ 확정 앵커 링크</span>
-      <span>굵은 테두리 = 핵심(core, 게이트 임계값 30조합 전부 생존)</span>
+      <span><i class="ring"></i>◎ 공급 링크 확정(TSMC 수상·직접 수주)</span>
+      <span>흰 테두리 = 시계열 증거(앵커 투자 이후 증설·수주)</span>
     </div>
   </div>
 
-  <div class="sechead"><h2>포트폴리오 19사</h2><span class="hint" id="shown"></span></div>
+  <div class="sechead"><h2>포트폴리오 14사</h2><span class="hint" id="shown"></span></div>
   <div class="controls" id="ctl">
     <span class="chip active" data-f="all">전체</span>
-    <span class="chip" data-f="anchor">앵커 링크만</span>
-    <span class="chip" data-f="core">핵심(90%↑ 견고)만</span>
+    <span class="chip" data-f="supply">공급 확정만</span>
+    <span class="chip" data-f="tseries">시계열 증거만</span>
+    <span class="chip" data-cl="규슈">규슈</span>
+    <span class="chip" data-cl="도호쿠">도호쿠</span>
     <span class="chip" data-cat="인프라">인프라</span>
     <span class="chip" data-cat="패키징">패키징</span>
     <span class="chip" data-cat="소재·부품">소재·부품</span>
@@ -163,17 +165,23 @@
         <thead><tr>
           <th class="num">#</th><th>회사</th><th>카테고리</th>
           <th class="num">품질</th><th class="num">밸류</th><th class="num">QARP</th>
-          <th>구분</th><th>신뢰도</th><th>확정 앵커 근거</th>
+          <th>클러스터</th><th>인과 링크</th><th>확정 앵커 근거</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
   </div>
+
+  <div class="sechead"><h2>정직한 반증 — 제외한 9사</h2><span class="hint">니치 톱이지만 지리 집적 없음. 주제의 AND 조건을 충족하지 못해 제외.</span></div>
+  <div class="card" style="padding:16px 20px;">
+    <div id="exlist" class="exgrid"></div>
+    <p class="foot" style="margin-top:12px;">QARP 최상위(미쓰이금속 #2·우에무라공업 #4·어드밴테스트 #6 등)를 포함 — <b>점수가 아무리 높아도 실제 입지가 간토·간사이면 주제의 인과를 검증할 수 없다</b>. 고득점 종목을 정직하게 뺀 것 자체가 선정이 체리피킹이 아니라는 증거. 상세: phase2-plan.md §7.</p>
+  </div>
+
   <p class="foot">
-    ※ 점수는 코호트 내 상대평가. 재무 지표(매출·영업익·OPM·성장·자기자본)는 각사 <b>최신 통기 결산 실적(2025/12~2026/3期)으로 1차 검증 완료</b>(2026-07-03 대조, 19/19 일치). <b>시총 기반 밸류 점수는 Phase 1 스냅샷 — 자동 재조회를 시도했으나 도구의 단위 오독(15배 오차 확인)으로 폐기, Phase 3에서 1차 소스로 재확정 예정.</b><br>
-    ※ <b>신뢰도(핵심/준견고/취약)</b>는 게이트 임계값과 QARP 가중치를 동시에 750개 조합으로 흔든 결과(백본15 생존율). 정확한 숫자가 아니라 "숫자를 바꿔도 결론이 견고한가"를 실측한 것 — 상세 산식은 phase2-plan.md §6.4.<br>
-    ※ <b>정직한 경계</b>: 클러스터 게이트는 Phase 1 가설 태그 기준 스크린이며, 실제 입지·공급 링크는 <b>◎ 확정 앵커(10사)</b>만 인정. JASM은 전공정 팹이지만 TSMC의 일본 <b>선단패키징(후공정) 확대</b>가 디스코·시바우라 등 후공정 니치사를 흡인(수상이 증거) → 클러스터는 <b>형성 진행형</b>. 라피더스(홋카이도)는 미래형 카탈리스트(실거점 미확인).<br>
-    ※ 상세 논거·방법론: 저장소 내 phase2-report.md / phase2-plan.md 참조
+    ※ 점수는 코호트(생존 47사) 내 상대평가. 기존 10사의 재무 지표는 각사 <b>최신 통기 결산 실적(2025/12~2026/3期)으로 1차 검증 완료</b>(2026-07-03 대조). <b>신규 4사(스미토모베이클라이트·히라타기공·닛토방적·일본마이크로닉스)는 Phase 1 수치 기반 — 결산 대조는 후속 작업(표에 ※ 표시).</b> 시총 기반 밸류 점수는 Phase 1 스냅샷 — 자동 재조회를 시도했으나 단위 오독으로 폐기, Phase 3에서 1차 소스로 재확정 예정.<br>
+    ※ <b>정직한 경계</b>: JASM은 전공정 팹. 다만 TSMC의 일본 <b>선단패키징(후공정) 확대</b>가 후공정 니치사를 흡인하고 있어(디스코·시바우라메카의 수상이 증거) 규슈 후공정 클러스터는 <b>형성 진행형</b>으로 서술. 도호쿠 2사(아오모리·후쿠시마)는 기반형 클러스터+명확한 시계열 증설. 홋카이도(라피더스)는 실거점 확인 제로라 본 포트폴리오에서 제외.<br>
+    ※ 상세 논거·방법론: 저장소 내 phase2-report.md / phase2-plan.md §7 참조
   </p>
 </div>
 
@@ -181,9 +189,13 @@
 <script>
 (function(){
   if(typeof PHASE2==="undefined"){console.error("phase2-data.js 미로드");return;}
-  var H=PHASE2.holdings;
+  var H=PHASE2.holdings, EX=PHASE2.excluded||[];
   var COL={"인프라":"#2DD4BF","패키징":"#E0A340","소재·부품":"#7DA7FF","장치부재":"#B794F6"};
   var BADGE={"인프라":"b-infra","패키징":"b-pkg","소재·부품":"b-mat","장치부재":"b-dev"};
+  var CLBADGE={"규슈":"b-kyushu","도호쿠":"b-tohoku"};
+  var LMAP={"supply":"공급","location":"입지","both":"복합"};
+  function stars(n){return n===3?"★★★":n===2?"★★":"★";}
+  function isSupply(d){return d.link==="supply"||/공급/.test(d.anchor);}
   document.getElementById("f1").textContent=PHASE2.meta.screened;
   document.getElementById("f2").textContent=PHASE2.meta.survived;
   document.getElementById("f3").textContent=PHASE2.meta.final;
@@ -209,26 +221,26 @@
   var tip=document.getElementById("tip");
   function show(e,d){
     tip.innerHTML='<b style="color:'+COL[d.cat]+'">'+d.name+'</b> <span style="color:var(--mute2)">('+d.code+')</span>'+
-      (d.anchor?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
+      (isSupply(d)?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
       '<span style="color:var(--mute)">'+d.niche+'</span><br>'+
-      '품질 '+d.q+' · 밸류 '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+')<br>'+
-      '시총/영업익 '+d.pop+'배 · '+(d.kind==="anchor"?'<span style="color:var(--amber)">앵커 오버레이</span>':'백본')+
-      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">핵심(750조합 중 '+d.confidence+'%)</span>':d.tier==="moderate"?'<span style="color:var(--blue)">준견고('+d.confidence+'%)</span>':d.tier==="fragile"?'<span style="color:var(--mute2)">취약('+d.confidence+'%)</span>':'')+
-      (d.anchor?'<br><span style="color:var(--amber)">'+d.anchor+'</span>':'');
+      '품질 '+d.q+' · 밸류 '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+'/47)<br>'+
+      '시총/영업익 '+d.pop+'배 · '+d.cluster+' · '+stars(d.strength)+' '+LMAP[d.link]+(d.tseries?' · 시계열 증거':'')+
+      '<br><span style="color:var(--amber)">'+d.anchor+'</span>'+
+      (d.verified?'':'<br><span style="color:var(--mute2)">※재무는 결산 대조 전(Phase 1 수치)</span>');
     tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
-    tip.style.top=Math.min(e.clientY+14,innerHeight-140)+"px";tip.style.opacity=1;
+    tip.style.top=Math.min(e.clientY+14,innerHeight-160)+"px";tip.style.opacity=1;
   }
   function hide(){tip.style.opacity=0;}
   H.forEach(function(d){
     var g=el("g",{});
-    if(d.anchor) g.appendChild(el("circle",{cx:X(d.q),cy:Y(d.v),r:9,fill:"none",stroke:COL[d.cat],"stroke-width":1.6,opacity:.9}));
-    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:d.anchor?5.5:6,fill:COL[d.cat],opacity:.9,
-      stroke:d.tier==="core"?"#fff":"none","stroke-width":d.tier==="core"?1.8:0});
+    if(isSupply(d)) g.appendChild(el("circle",{cx:X(d.q),cy:Y(d.v),r:9,fill:"none",stroke:"var(--amber)","stroke-width":1.6,opacity:.9}));
+    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:isSupply(d)?5.5:6,fill:COL[d.cat],opacity:.9,
+      stroke:d.tseries?"#fff":"none","stroke-width":d.tseries?1.8:0});
     c.addEventListener("mousemove",function(e){show(e,d);});
     c.addEventListener("mouseleave",hide);
     c.addEventListener("click",function(e){show(e,d);});
     g.appendChild(c);
-    var lb=el("text",{class:"dotlbl"+(d.anchor?" anchor":""),x:X(d.q)+9,y:Y(d.v)+3});
+    var lb=el("text",{class:"dotlbl anchor",x:X(d.q)+9,y:Y(d.v)+3});
     lb.textContent=d.name.length>7?d.name.slice(0,6)+"…":d.name;
     g.appendChild(lb);
     svg.appendChild(g);
@@ -237,49 +249,59 @@
   /* ── 테이블 ── */
   var KMAP={"인프라":"인프라","패키징":"패키징","소재·부품":"소재","장치부재":"장치"};
   var tbody=document.getElementById("tbody"), shown=document.getElementById("shown");
-  var fCat="all", fAnchor=false, fCore=false;
-  var TIERMAP={"core":"<span class=\"tier-core\">◆ 핵심</span>","moderate":"<span class=\"tier-mod\">● 준견고</span>","fragile":"<span class=\"tier-frag\">○ 취약</span>","anchor":"—"};
+  var fCat="all", fCl="all", fSupply=false, fTs=false;
   function render(){
     tbody.innerHTML="";var n=0;
     H.forEach(function(d){
-      if(fAnchor&&!d.anchor)return;
-      if(fCore&&d.tier!=="core")return;
+      if(fSupply&&!isSupply(d))return;
+      if(fTs&&!d.tseries)return;
+      if(fCl!=="all"&&d.cluster!==fCl)return;
       if(fCat!=="all"&&d.cat!==fCat)return;
       n++;
-      var tr=document.createElement("tr");if(d.kind==="anchor")tr.className="anchor";
+      var tr=document.createElement("tr");
       var qbar='<span class="bar" style="width:'+(d.q*0.5)+'px;background:'+COL[d.cat]+';opacity:.55"></span>';
       var vbar='<span class="bar" style="width:'+(d.v*0.5)+'px;background:var(--teal);opacity:.45"></span>';
       tr.innerHTML='<td class="num">'+n+'</td>'+
-        '<td><b>'+d.name+'</b> <span style="color:var(--mute2);font-size:11px">'+d.code+'</span></td>'+
+        '<td><b>'+d.name+'</b> <span style="color:var(--mute2);font-size:11px">'+d.code+(d.verified?'':' ※')+'</span></td>'+
         '<td><span class="badge '+BADGE[d.cat]+'">'+KMAP[d.cat]+'</span></td>'+
         '<td class="num">'+qbar+d.q+'</td>'+
         '<td class="num">'+vbar+d.v+'</td>'+
         '<td class="num"><b>'+d.qarp+'</b> <span style="color:var(--mute2);font-size:10px">#'+d.rank+'</span></td>'+
-        '<td>'+(d.kind==="anchor"?'<span class="kind-a">앵커</span>':'<span class="kind-b">백본</span>')+'</td>'+
-        '<td>'+TIERMAP[d.tier]+'</td>'+
-        '<td class="anctext">'+(d.anchor?'<span style="color:var(--amber)">◎</span> '+d.anchor:'—')+'</td>';
+        '<td><span class="badge '+CLBADGE[d.cluster]+'">'+d.cluster+'</span></td>'+
+        '<td><span class="lk-'+d.link+'">'+stars(d.strength)+' '+LMAP[d.link]+'</span>'+(d.tseries?'<span class="ts">＋시계열</span>':'')+'</td>'+
+        '<td class="anctext"><span style="color:var(--amber)">◎</span> '+d.anchor+'</td>';
       tbody.appendChild(tr);
     });
     shown.textContent=n+"사 표시";
   }
   document.getElementById("ctl").addEventListener("click",function(e){
     var c=e.target.closest(".chip");if(!c)return;
-    if(c.dataset.f==="all"){fCat="all";fAnchor=false;fCore=false;}
-    else if(c.dataset.f==="anchor"){fAnchor=!fAnchor;fCore=false;}
-    else if(c.dataset.f==="core"){fCore=!fCore;fAnchor=false;}
+    if(c.dataset.f==="all"){fCat="all";fCl="all";fSupply=false;fTs=false;}
+    else if(c.dataset.f==="supply"){fSupply=!fSupply;fTs=false;}
+    else if(c.dataset.f==="tseries"){fTs=!fTs;fSupply=false;}
+    else if(c.dataset.cl){fCl=(fCl===c.dataset.cl?"all":c.dataset.cl);}
     else if(c.dataset.cat){fCat=(fCat===c.dataset.cat?"all":c.dataset.cat);}
     // active states
     document.querySelectorAll("#ctl .chip").forEach(function(x){
       var on=false;
-      if(x.dataset.f==="all")on=(fCat==="all"&&!fAnchor&&!fCore);
-      else if(x.dataset.f==="anchor")on=fAnchor;
-      else if(x.dataset.f==="core")on=fCore;
+      if(x.dataset.f==="all")on=(fCat==="all"&&fCl==="all"&&!fSupply&&!fTs);
+      else if(x.dataset.f==="supply")on=fSupply;
+      else if(x.dataset.f==="tseries")on=fTs;
+      else if(x.dataset.cl)on=(fCl===x.dataset.cl);
       else if(x.dataset.cat)on=(fCat===x.dataset.cat);
       x.classList.toggle("active",on);
     });
     render();
   });
   render();
+
+  /* ── 제외 9사 (정직한 반증) ── */
+  var exlist=document.getElementById("exlist");
+  EX.forEach(function(x){
+    var div=document.createElement("div");div.className="exitem";
+    div.innerHTML='<b>'+x.name+'</b> <span style="color:var(--mute2)">('+x.code+' · QARP '+x.qarp+' #'+x.rank+')</span><br>실제 입지: '+x.where;
+    exlist.appendChild(div);
+  });
 })();
 </script>
 </body>

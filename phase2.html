@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phase 2 · 銘柄絞り込みダッシュボード — 日経ストックリーグ</title>
-<meta name="description" content="後工程ニッチ100社をゲート→Quality×Value→仮説アンカーで19社に圧縮。TSMC熊本のアンカーリンクで「後工程×地方クラスター」の因果を検証したPhase 2ダッシュボード。">
+<meta name="description" content="後工程ニッチ100社をレッドラインゲート→確定アンカーゲート(立地・供給の一次検証)→QARPで14社に圧縮。「後工程ニッチトップ×地方クラスター」の両軸を全銘柄が同時に満たすPhase 2ダッシュボード。">
 <meta name="theme-color" content="#0B1C28">
 <link rel="canonical" href="https://renatusauctor.github.io/nikkei-stock-league/phase2.html">
 <link rel="alternate" hreflang="ja" href="https://renatusauctor.github.io/nikkei-stock-league/phase2.html">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://renatusauctor.github.io/nikkei-stock-league/phase2.html">
 <meta property="og:title" content="Phase 2 · 銘柄絞り込みダッシュボード — 日経ストックリーグ">
-<meta property="og:description" content="後工程ニッチ100社をゲート→Quality×Value→仮説アンカーで19社に圧縮。TSMC熊本のアンカーリンクで因果を検証。">
+<meta property="og:description" content="後工程ニッチ100社を確定アンカーゲート(立地・供給の一次検証)で14社に圧縮。「後工程×地方クラスター」の因果を全銘柄で検証。">
 <meta property="og:image" content="https://renatusauctor.github.io/nikkei-stock-league/og-image.png">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:locale:alternate" content="ko_KR">
@@ -65,7 +65,7 @@
   .dotlbl.anchor{fill:var(--ink);font-weight:800;}
   .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11.5px;color:var(--mute);}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
-  .legend .ring{width:10px;height:10px;border:2px solid var(--ink);background:transparent;}
+  .legend .ring{width:10px;height:10px;border:2px solid var(--amber);background:transparent;}
   .controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;align-items:center;}
   .chip{font-size:12px;color:var(--mute);background:rgba(255,255,255,.05);border:1px solid var(--edge);
     border-radius:20px;padding:5px 13px;cursor:pointer;user-select:none;transition:all .15s;}
@@ -75,18 +75,17 @@
   th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--edge);}
   th{color:var(--mute);font-size:11px;font-weight:700;letter-spacing:.02em;position:sticky;top:0;background:var(--panel);}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
-  tr.anchor td{background:rgba(224,163,64,.06);}
   .badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;}
   .b-infra{background:rgba(45,212,191,.16);color:var(--teal);}
   .b-pkg{background:rgba(224,163,64,.16);color:var(--amber);}
   .b-mat{background:rgba(125,167,255,.16);color:var(--blue);}
   .b-dev{background:rgba(183,148,246,.16);color:var(--purple);}
-  .kind-a{color:var(--amber);font-weight:800;font-size:11px;}
-  .kind-b{color:var(--mute);font-size:11px;}
-  .tier-core{color:var(--teal);font-weight:800;font-size:11px;}
-  .tier-mod{color:var(--blue);font-size:11px;}
-  .tier-frag{color:var(--mute2);font-size:11px;}
-  .tier-cond{color:var(--mute);font-size:11px;}
+  .b-kyushu{background:rgba(45,212,191,.12);color:var(--teal);}
+  .b-tohoku{background:rgba(125,167,255,.14);color:var(--blue);}
+  .lk-supply{color:var(--amber);font-weight:800;font-size:11px;}
+  .lk-location{color:var(--teal);font-weight:700;font-size:11px;}
+  .lk-both{color:var(--blue);font-weight:800;font-size:11px;}
+  .ts{color:var(--mute2);font-size:10px;margin-left:4px;}
   .sensbox{font-size:12.5px;color:var(--mute);line-height:1.75;background:rgba(45,212,191,.05);border:1px solid var(--edge);
     border-radius:12px;padding:14px 16px;margin-bottom:26px;}
   .sensbox b{color:var(--ink);}
@@ -94,6 +93,9 @@
   .anctext{font-size:11px;color:var(--mute);line-height:1.4;}
   .bar{display:inline-block;height:7px;border-radius:4px;vertical-align:1px;margin-right:6px;}
   .foot{font-size:11.5px;color:var(--mute2);line-height:1.7;margin-top:8px;}
+  .exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px 14px;}
+  .exitem{font-size:12px;color:var(--mute);line-height:1.55;}
+  .exitem b{color:var(--ink);font-weight:700;}
   #tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .12s;z-index:50;max-width:280px;
     background:#0d2531;border:1px solid var(--edge);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.55;
     box-shadow:0 12px 30px rgba(0,0,0,.5);}
@@ -111,27 +113,25 @@
 <div class="wrap">
   <a class="back" href="index.html">← プロジェクトハブ</a>
   <div class="eyebrow">Phase 2 · 銘柄の絞り込み</div>
-  <h1>100社 → 19社に圧縮</h1>
-  <p class="sub">Phase 1 スクリーニング100社を<b>ゲート → Quality×Value スコア → 仮説アンカー オーバーレイ</b>で19社まで圧縮。良くて(品質)安く(バリュー)買える銘柄を選びつつ、TSMC熊本との<b>確定アンカーリンク</b>で「後工程 × 地方クラスター」の因果を検証しました。</p>
+  <h1>100社 → 14社に圧縮</h1>
+  <p class="sub">Phase 1 スクリーニング100社を<b>レッドラインゲート → 確定アンカーゲート(立地・供給の一次検証) → QARP順位</b>で14社に圧縮。テーマ「後工程ニッチトップ × 地方クラスター」は<b>二軸のAND条件</b> — 全銘柄がその両方を同時に満たします(九州12 + 東北2)。</p>
 
   <div class="funnel">
     <div class="fstep"><div class="n" id="f1">100</div><div class="l">Phase 1 後工程ニッチ ロングリスト</div></div>
     <div class="fstep"><div class="n" id="f2">47</div><div class="l">レッドラインゲート生存<br>(上場廃止・自己資本・OPM・クラスター・前工程)</div></div>
-    <div class="fstep hl"><div class="n" id="f3">19</div><div class="l">最終ポートフォリオ<br>(バックボーン15 + アンカー4)</div></div>
+    <div class="fstep hl"><div class="n" id="f3">14</div><div class="l">最終ポートフォリオ<br>(確定アンカーゲート → QARP順)</div></div>
   </div>
   <div class="method">
-    <span class="tag">Quality</span> = 0.5·財務(収益性・安定・成長) + 0.5·技術(世界シェア・半導体純度) &nbsp;·&nbsp;
-    <span class="tag">Value</span> = 時価総額/営業益・PSR百分位(安いほど↑) &nbsp;·&nbsp;
-    <span class="tag">QARP</span> = 0.5·Quality + 0.5·Value。 &nbsp;
-    <b>アンカーオーバーレイ</b>: バリュープレミアムで押し出されたがTSMC熊本に確定リンクした象徴銘柄(ディスコ・TOK等)を意図的に編入。
+    <span class="tag">選定</span> = <b>確定アンカーゲート</b>(有報・IR・TSMC受賞・設備投資リリースの一次情報で立地/供給リンクを検証) → <span class="tag">QARP</span>順で採用。&nbsp;
+    Quality = 0.5·財務 + 0.5·技術 · Value = 時価総額/営業益・PSR百分位(安いほど↑) · QARP = 0.5·Q + 0.5·V。<br>
+    <b>2026-07-04 再選定</b>: 旧構成(バックボーン15+アンカー4)はクラスター証拠のない銘柄を9社含んでいた — テーマのAND条件に合わせ、<b>「スコア→テーマ」から「テーマ検証→スコア順」へ選定ロジックを反転</b>。
   </div>
   <div class="sensbox">
-    <span class="tag">ゲート・重み係数はなぜこの数字か — 結合感度750通り</span><br>
-    標本(上場97社)の分布上、自己資本40%は<b>下位9パーセンタイル</b>(緩やかなカット)、OPM8%は<b>下位38パーセンタイル</b>(選択的カット) — 恣意的な通念値ではなく母集団分布に基づく。<br>
-    さらに<b>ゲート(自己資本30〜50%×OPM5〜12%、30通り)×スコア重み(F/T・Q/V各30〜70%、25通り)=750通り</b>を同時に揺らしてバックボーン15の生存率を算出。<span class="tier-core">◆ コア(core、90%↑) 7社</span>は数値をどう変えてもほぼ常に生き残り、<span class="tier-mod">● 準堅牢(moderate、50〜89%) 6社</span>は採用した値に左右され、<span class="tier-frag">○ 脆弱(fragile、50%↓) 1社</span>は半数未満の組合せでしか生存しない — 正直に格下げして表示。アンカー4社は数値ゲートと無関係(確定因果リンクで別途選定)。
+    <span class="tag">なぜこの選定が堅牢か — 数値閾値ではなく文書証拠</span><br>
+    生存47社を算出する財務ゲートは母集団分布に基づき(自己資本40%=<b>下位9パーセンタイル</b>、OPM8%=<b>下位38パーセンタイル</b>)、ゲート×重み<b>750通りの感度分析</b>で検証済み(phase2-plan.md §6.4)。最終の確定アンカーゲートは<b>二値の文書証拠</b>(TSMC受賞・直接受注・主力工場の立地・アンカー投資後の増設公示)による判定 — 閾値の恣意性が入り込む余地がない。証拠強度は<b>★★★(供給確定・立地+時系列) / ★★(主力拠点の立地) / ★(部分拠点)</b>で正直に区分。<b>時系列証拠(白枠)</b>=アンカー投資<b>後</b>の増設・受注公示 — 「なぜ地方か」への因果の答え。
   </div>
 
-  <div class="sechead"><h2>Quality × Value 地形図</h2><span class="hint">右上ほど「良くて安い」。◎=確定アンカーリンク。太い枠=コア(90%↑堅牢)。点にカーソル。</span></div>
+  <div class="sechead"><h2>Quality × Value 地形図</h2><span class="hint">右上ほど「良くて安い」。◎=供給リンク確定。白枠=時系列証拠。点にカーソル。</span></div>
   <div class="card">
     <svg id="scatter" viewBox="0 0 760 500" role="img" aria-label="銘柄ごとの品質×バリュー散布図"></svg>
     <div class="legend">
@@ -139,16 +139,18 @@
       <span><i style="background:var(--amber)"></i>パッケージ</span>
       <span><i style="background:var(--blue)"></i>素材・部品</span>
       <span><i style="background:var(--purple)"></i>装置部材</span>
-      <span><i class="ring"></i>◎ 確定アンカーリンク</span>
-      <span>太い枠 = コア(core、ゲート閾値30組合せ全てで生存)</span>
+      <span><i class="ring"></i>◎ 供給リンク確定(TSMC受賞・直接受注)</span>
+      <span>白枠 = 時系列証拠(アンカー投資後の増設・受注)</span>
     </div>
   </div>
 
-  <div class="sechead"><h2>ポートフォリオ 19社</h2><span class="hint" id="shown"></span></div>
+  <div class="sechead"><h2>ポートフォリオ 14社</h2><span class="hint" id="shown"></span></div>
   <div class="controls" id="ctl">
     <span class="chip active" data-f="all">全て</span>
-    <span class="chip" data-f="anchor">アンカーリンクのみ</span>
-    <span class="chip" data-f="core">コア(90%↑堅牢)のみ</span>
+    <span class="chip" data-f="supply">供給確定のみ</span>
+    <span class="chip" data-f="tseries">時系列証拠のみ</span>
+    <span class="chip" data-cl="규슈">九州</span>
+    <span class="chip" data-cl="도호쿠">東北</span>
     <span class="chip" data-cat="인프라">インフラ</span>
     <span class="chip" data-cat="패키징">パッケージ</span>
     <span class="chip" data-cat="소재·부품">素材・部品</span>
@@ -160,17 +162,23 @@
         <thead><tr>
           <th class="num">#</th><th>会社</th><th>カテゴリ</th>
           <th class="num">品質</th><th class="num">バリュー</th><th class="num">QARP</th>
-          <th>区分</th><th>信頼度</th><th>確定アンカー根拠</th>
+          <th>クラスター</th><th>因果リンク</th><th>確定アンカー根拠</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
   </div>
+
+  <div class="sechead"><h2>正直な反証 — 除外した9社</h2><span class="hint">ニッチトップだが地理集積なし。テーマのAND条件を満たさないため除外。</span></div>
+  <div class="card" style="padding:16px 20px;">
+    <div id="exlist" class="exgrid"></div>
+    <p class="foot" style="margin-top:12px;">QARP最上位(三井金属#2・上村工業#4・アドバンテスト#6等)を含む — <b>スコアがどれだけ高くても、実立地が関東・関西ならテーマの因果を検証できない</b>。高スコア銘柄を正直に外したこと自体が、選定がチェリーピッキングでないことの証拠。詳細: phase2-plan.md §7。</p>
+  </div>
+
   <p class="foot">
-    ※ スコアはコホート内相対評価。財務指標(売上・営業益・OPM・成長・自己資本)は各社の<b>最新通期決算実績(2025/12〜2026/3期)で一次検証済み</b>(2026-07-03照合、19/19一致)。<b>時価総額ベースのバリュースコアはPhase 1スナップショット — 自動再取得を試みたが単位誤読(15倍の誤差を確認)で破棄、Phase 3で一次情報から再確定予定。</b><br>
-    ※ <b>信頼度(コア/準堅牢/脆弱)</b>はゲート閾値とQARP重みを同時に750通り揺らした結果(バックボーン15生存率)。正確な数値ではなく「数値を変えても結論が堅牢か」を実測 — 詳細はphase2-plan.md §6.4。<br>
-    ※ <b>正直な境界</b>: クラスターゲートはPhase 1仮説タグ基準のスクリーンであり、実際の立地・供給リンクは<b>◎ 確定アンカー(10社)</b>のみ認定。JASMは前工程ファブだが、TSMCの日本での<b>先端パッケージ(後工程)拡大</b>がディスコ・芝浦等の後工程ニッチ社を吸引(受賞が証拠) → クラスターは<b>形成進行形</b>。ラピダス(北海道)は将来型カタリスト(実拠点未確認)。<br>
-    ※ 詳細な論拠・方法論: リポジトリ内 phase2-report.md / phase2-plan.md 参照
+    ※ スコアはコホート(生存47社)内の相対評価。既存10社の財務指標は各社の<b>最新通期決算実績(2025/12〜2026/3期)で一次検証済み</b>(2026-07-03照合)。<b>新規4社(住友ベークライト・平田機工・日東紡・日本マイクロニクス)はPhase 1数値ベース — 決算照合は後続タスク(表に※印)。</b>時価総額ベースのバリュースコアはPhase 1スナップショット — 自動再取得を試みたが単位誤読で破棄、Phase 3で一次情報から再確定予定。<br>
+    ※ <b>正直な境界</b>: JASMは前工程ファブ。ただしTSMCの日本での<b>先端パッケージ(後工程)拡大</b>が後工程ニッチ社を吸引しており(ディスコ・芝浦メカトロニクスの受賞が証拠)、九州の後工程クラスターは<b>形成進行形</b>として叙述する。東北2社(青森・福島)は基盤型クラスター+明確な時系列増設。北海道(ラピダス)は実拠点確認ゼロのため本ポートフォリオから除外。<br>
+    ※ 詳細な論拠・方法論: リポジトリ内 phase2-report.md / phase2-plan.md §7 参照
   </p>
 </div>
 
@@ -178,10 +186,15 @@
 <script>
 (function(){
   if(typeof PHASE2==="undefined"){console.error("phase2-data.js 未ロード");return;}
-  var H=PHASE2.holdings;
+  var H=PHASE2.holdings, EX=PHASE2.excluded||[];
   var COL={"인프라":"#2DD4BF","패키징":"#E0A340","소재·부품":"#7DA7FF","장치부재":"#B794F6"};
   var BADGE={"인프라":"b-infra","패키징":"b-pkg","소재·부품":"b-mat","장치부재":"b-dev"};
   var KMAP={"인프라":"インフラ","패키징":"パッケージ","소재·부품":"素材","장치부재":"装置"};
+  var CLMAP={"규슈":"九州","도호쿠":"東北"};
+  var CLBADGE={"규슈":"b-kyushu","도호쿠":"b-tohoku"};
+  var LMAP={"supply":"供給","location":"立地","both":"複合"};
+  function stars(n){return n===3?"★★★":n===2?"★★":"★";}
+  function isSupply(d){return d.link==="supply"||/供給/.test(d.anchorJa);}
   document.getElementById("f1").textContent=PHASE2.meta.screened;
   document.getElementById("f2").textContent=PHASE2.meta.survived;
   document.getElementById("f3").textContent=PHASE2.meta.final;
@@ -204,74 +217,83 @@
   var tip=document.getElementById("tip");
   function show(e,d){
     tip.innerHTML='<b style="color:'+COL[d.cat]+'">'+d.nameJa+'</b> <span style="color:var(--mute2)">('+d.code+')</span>'+
-      (d.anchorJa?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
+      (isSupply(d)?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
       '<span style="color:var(--mute)">'+d.nicheJa+'</span><br>'+
-      '品質 '+d.q+' · バリュー '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+')<br>'+
-      '時価総額/営業益 '+d.pop+'倍 · '+(d.kind==="anchor"?'<span style="color:var(--amber)">アンカーオーバーレイ</span>':'バックボーン')+
-      ' · '+(d.tier==="core"?'<span style="color:var(--teal)">コア(750通り中'+d.confidence+'%)</span>':d.tier==="moderate"?'<span style="color:var(--blue)">準堅牢('+d.confidence+'%)</span>':d.tier==="fragile"?'<span style="color:var(--mute2)">脆弱('+d.confidence+'%)</span>':'')+
-      (d.anchorJa?'<br><span style="color:var(--amber)">'+d.anchorJa+'</span>':'');
+      '品質 '+d.q+' · バリュー '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+'/47)<br>'+
+      '時価総額/営業益 '+d.pop+'倍 · '+CLMAP[d.cluster]+' · '+stars(d.strength)+' '+LMAP[d.link]+(d.tseries?' · 時系列証拠':'')+
+      '<br><span style="color:var(--amber)">'+d.anchorJa+'</span>'+
+      (d.verified?'':'<br><span style="color:var(--mute2)">※財務は決算照合前(Phase 1数値)</span>');
     tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
-    tip.style.top=Math.min(e.clientY+14,innerHeight-140)+"px";tip.style.opacity=1;
+    tip.style.top=Math.min(e.clientY+14,innerHeight-160)+"px";tip.style.opacity=1;
   }
   function hide(){tip.style.opacity=0;}
   H.forEach(function(d){
     var g=el("g",{});
-    if(d.anchorJa) g.appendChild(el("circle",{cx:X(d.q),cy:Y(d.v),r:9,fill:"none",stroke:COL[d.cat],"stroke-width":1.6,opacity:.9}));
-    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:d.anchorJa?5.5:6,fill:COL[d.cat],opacity:.9,
-      stroke:d.tier==="core"?"#fff":"none","stroke-width":d.tier==="core"?1.8:0});
+    if(isSupply(d)) g.appendChild(el("circle",{cx:X(d.q),cy:Y(d.v),r:9,fill:"none",stroke:"var(--amber)","stroke-width":1.6,opacity:.9}));
+    var c=el("circle",{class:"dot",cx:X(d.q),cy:Y(d.v),r:isSupply(d)?5.5:6,fill:COL[d.cat],opacity:.9,
+      stroke:d.tseries?"#fff":"none","stroke-width":d.tseries?1.8:0});
     c.addEventListener("mousemove",function(e){show(e,d);});
     c.addEventListener("mouseleave",hide);
     c.addEventListener("click",function(e){show(e,d);});
     g.appendChild(c);
-    var lb=el("text",{class:"dotlbl"+(d.anchorJa?" anchor":""),x:X(d.q)+9,y:Y(d.v)+3});
+    var lb=el("text",{class:"dotlbl anchor",x:X(d.q)+9,y:Y(d.v)+3});
     lb.textContent=d.nameJa.length>7?d.nameJa.slice(0,6)+"…":d.nameJa;
     g.appendChild(lb);
     svg.appendChild(g);
   });
 
   var tbody=document.getElementById("tbody"), shown=document.getElementById("shown");
-  var fCat="all", fAnchor=false, fCore=false;
-  var TIERMAP={"core":"<span class=\"tier-core\">◆ コア</span>","moderate":"<span class=\"tier-mod\">● 準堅牢</span>","fragile":"<span class=\"tier-frag\">○ 脆弱</span>","anchor":"—"};
+  var fCat="all", fCl="all", fSupply=false, fTs=false;
   function render(){
     tbody.innerHTML="";var n=0;
     H.forEach(function(d){
-      if(fAnchor&&!d.anchorJa)return;
-      if(fCore&&d.tier!=="core")return;
+      if(fSupply&&!isSupply(d))return;
+      if(fTs&&!d.tseries)return;
+      if(fCl!=="all"&&d.cluster!==fCl)return;
       if(fCat!=="all"&&d.cat!==fCat)return;
       n++;
-      var tr=document.createElement("tr");if(d.kind==="anchor")tr.className="anchor";
+      var tr=document.createElement("tr");
       var qbar='<span class="bar" style="width:'+(d.q*0.5)+'px;background:'+COL[d.cat]+';opacity:.55"></span>';
       var vbar='<span class="bar" style="width:'+(d.v*0.5)+'px;background:var(--teal);opacity:.45"></span>';
       tr.innerHTML='<td class="num">'+n+'</td>'+
-        '<td><b>'+d.nameJa+'</b> <span style="color:var(--mute2);font-size:11px">'+d.code+'</span></td>'+
+        '<td><b>'+d.nameJa+'</b> <span style="color:var(--mute2);font-size:11px">'+d.code+(d.verified?'':' ※')+'</span></td>'+
         '<td><span class="badge '+BADGE[d.cat]+'">'+KMAP[d.cat]+'</span></td>'+
         '<td class="num">'+qbar+d.q+'</td>'+
         '<td class="num">'+vbar+d.v+'</td>'+
         '<td class="num"><b>'+d.qarp+'</b> <span style="color:var(--mute2);font-size:10px">#'+d.rank+'</span></td>'+
-        '<td>'+(d.kind==="anchor"?'<span class="kind-a">アンカー</span>':'<span class="kind-b">バックボーン</span>')+'</td>'+
-        '<td>'+TIERMAP[d.tier]+'</td>'+
-        '<td class="anctext">'+(d.anchorJa?'<span style="color:var(--amber)">◎</span> '+d.anchorJa:'—')+'</td>';
+        '<td><span class="badge '+CLBADGE[d.cluster]+'">'+CLMAP[d.cluster]+'</span></td>'+
+        '<td><span class="lk-'+d.link+'">'+stars(d.strength)+' '+LMAP[d.link]+'</span>'+(d.tseries?'<span class="ts">＋時系列</span>':'')+'</td>'+
+        '<td class="anctext"><span style="color:var(--amber)">◎</span> '+d.anchorJa+'</td>';
       tbody.appendChild(tr);
     });
     shown.textContent=n+"社表示";
   }
   document.getElementById("ctl").addEventListener("click",function(e){
     var c=e.target.closest(".chip");if(!c)return;
-    if(c.dataset.f==="all"){fCat="all";fAnchor=false;fCore=false;}
-    else if(c.dataset.f==="anchor"){fAnchor=!fAnchor;fCore=false;}
-    else if(c.dataset.f==="core"){fCore=!fCore;fAnchor=false;}
+    if(c.dataset.f==="all"){fCat="all";fCl="all";fSupply=false;fTs=false;}
+    else if(c.dataset.f==="supply"){fSupply=!fSupply;fTs=false;}
+    else if(c.dataset.f==="tseries"){fTs=!fTs;fSupply=false;}
+    else if(c.dataset.cl){fCl=(fCl===c.dataset.cl?"all":c.dataset.cl);}
     else if(c.dataset.cat){fCat=(fCat===c.dataset.cat?"all":c.dataset.cat);}
     document.querySelectorAll("#ctl .chip").forEach(function(x){
       var on=false;
-      if(x.dataset.f==="all")on=(fCat==="all"&&!fAnchor&&!fCore);
-      else if(x.dataset.f==="anchor")on=fAnchor;
-      else if(x.dataset.f==="core")on=fCore;
+      if(x.dataset.f==="all")on=(fCat==="all"&&fCl==="all"&&!fSupply&&!fTs);
+      else if(x.dataset.f==="supply")on=fSupply;
+      else if(x.dataset.f==="tseries")on=fTs;
+      else if(x.dataset.cl)on=(fCl===x.dataset.cl);
       else if(x.dataset.cat)on=(fCat===x.dataset.cat);
       x.classList.toggle("active",on);
     });
     render();
   });
   render();
+
+  var exlist=document.getElementById("exlist");
+  EX.forEach(function(x){
+    var div=document.createElement("div");div.className="exitem";
+    div.innerHTML='<b>'+x.nameJa+'</b> <span style="color:var(--mute2)">('+x.code+' · QARP '+x.qarp+' #'+x.rank+')</span><br>実立地: '+x.whereJa;
+    exlist.appendChild(div);
+  });
 })();
 </script>
 </body>

@@ -213,7 +213,7 @@
   var KMAP={"인프라":"インフラ","패키징":"パッケージ","소재·부품":"素材","장치부재":"装置"};
   var CLMAP={"규슈":"九州","도호쿠":"東北"};
   var CLBADGE={"규슈":"b-kyushu","도호쿠":"b-tohoku"};
-  var LMAP={"supply":"供給","location":"立地","both":"複合"};
+  var LMAP={"supply":"納入","location":"工場のそば","both":"納入+立地"};
   function stars(n){return n===3?"★★★":n===2?"★★":"★";}
   function isSupply(d){return d.link==="supply"||/供給:/.test(d.anchorJa);}
   document.getElementById("f1").textContent=PHASE2.meta.screened;

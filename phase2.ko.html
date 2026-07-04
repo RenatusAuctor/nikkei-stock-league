@@ -195,7 +195,7 @@
   var CLBADGE={"규슈":"b-kyushu","도호쿠":"b-tohoku"};
   var LMAP={"supply":"공급","location":"입지","both":"복합"};
   function stars(n){return n===3?"★★★":n===2?"★★":"★";}
-  function isSupply(d){return d.link==="supply"||/공급/.test(d.anchor);}
+  function isSupply(d){return d.link==="supply"||/공급:/.test(d.anchor);}
   document.getElementById("f1").textContent=PHASE2.meta.screened;
   document.getElementById("f2").textContent=PHASE2.meta.survived;
   document.getElementById("f3").textContent=PHASE2.meta.final;

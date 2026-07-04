@@ -269,6 +269,7 @@
   var CLMAP={"규슈":"九州","도호쿠":"東北"};
   var CLBADGE={"규슈":"b-kyushu","도호쿠":"b-tohoku"};
   var LMAP={"supply":"納入","location":"工場のそば","both":"納入+立地"};
+  var SMAP={"BE":"後工程直結","FAB":"ファブ共通(前・後工程)","MIX":"前工程主力+後工程併営"};
   function stars(n){return n===3?"★★★":n===2?"★★":"★";}
   function isSupply(d){return d.link==="supply"||/供給:/.test(d.anchorJa);}
   document.getElementById("f1").textContent=PHASE2.meta.screened;

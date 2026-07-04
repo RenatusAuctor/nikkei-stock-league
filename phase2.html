@@ -230,8 +230,8 @@
     var tx=el("text",{class:"axlbl",x:X(g),y:MT+ph+16,"text-anchor":"middle"});tx.textContent=g;svg.appendChild(tx);
     var ty=el("text",{class:"axlbl",x:ML-8,y:Y(g)+4,"text-anchor":"end"});ty.textContent=g;svg.appendChild(ty);
   });
-  var axx=el("text",{class:"axlbl",x:ML+pw/2,y:Hh-6,"text-anchor":"middle","font-weight":800});axx.textContent="Quality (品質) →";svg.appendChild(axx);
-  var axy=el("text",{class:"axlbl",x:14,y:MT+ph/2,"text-anchor":"middle","font-weight":800,transform:"rotate(-90 14 "+(MT+ph/2)+")"});axy.textContent="Value (バリュー) →";svg.appendChild(axy);
+  var axx=el("text",{class:"axlbl",x:ML+pw/2,y:Hh-6,"text-anchor":"middle","font-weight":800});axx.textContent="品質スコア →";svg.appendChild(axx);
+  var axy=el("text",{class:"axlbl",x:14,y:MT+ph/2,"text-anchor":"middle","font-weight":800,transform:"rotate(-90 14 "+(MT+ph/2)+")"});axy.textContent="株価スコア(安いほど↑) →";svg.appendChild(axy);
   var quads=[["良くて安い · 中核",75,96],["安いが品質↓",25,96],["良いが割高",75,8],["弱い",25,8]];
   quads.forEach(function(q){var t=el("text",{class:"quad",x:X(q[1]),y:Y(q[2]),"text-anchor":"middle"});t.textContent=q[0];svg.appendChild(t);});
 

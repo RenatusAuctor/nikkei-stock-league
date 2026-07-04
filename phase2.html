@@ -194,7 +194,7 @@
   var CLBADGE={"규슈":"b-kyushu","도호쿠":"b-tohoku"};
   var LMAP={"supply":"供給","location":"立地","both":"複合"};
   function stars(n){return n===3?"★★★":n===2?"★★":"★";}
-  function isSupply(d){return d.link==="supply"||/供給/.test(d.anchorJa);}
+  function isSupply(d){return d.link==="supply"||/供給:/.test(d.anchorJa);}
   document.getElementById("f1").textContent=PHASE2.meta.screened;
   document.getElementById("f2").textContent=PHASE2.meta.survived;
   document.getElementById("f3").textContent=PHASE2.meta.final;

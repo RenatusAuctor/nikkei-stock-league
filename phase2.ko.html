@@ -233,8 +233,8 @@
     var tx=el("text",{class:"axlbl",x:X(g),y:MT+ph+16,"text-anchor":"middle"});tx.textContent=g;svg.appendChild(tx);
     var ty=el("text",{class:"axlbl",x:ML-8,y:Y(g)+4,"text-anchor":"end"});ty.textContent=g;svg.appendChild(ty);
   });
-  var axx=el("text",{class:"axlbl",x:ML+pw/2,y:Hh-6,"text-anchor":"middle","font-weight":800});axx.textContent="Quality (품질) →";svg.appendChild(axx);
-  var axy=el("text",{class:"axlbl",x:14,y:MT+ph/2,"text-anchor":"middle","font-weight":800,transform:"rotate(-90 14 "+(MT+ph/2)+")"});axy.textContent="Value (밸류) →";svg.appendChild(axy);
+  var axx=el("text",{class:"axlbl",x:ML+pw/2,y:Hh-6,"text-anchor":"middle","font-weight":800});axx.textContent="품질 점수 →";svg.appendChild(axx);
+  var axy=el("text",{class:"axlbl",x:14,y:MT+ph/2,"text-anchor":"middle","font-weight":800,transform:"rotate(-90 14 "+(MT+ph/2)+")"});axy.textContent="주가 점수(쌀수록↑) →";svg.appendChild(axy);
   // quadrant labels
   var quads=[["좋고 쌈 · 핵심",75,96],["싸지만 품질↓",25,96],["좋지만 비쌈",75,8],["약함",25,8]];
   quads.forEach(function(q){var t=el("text",{class:"quad",x:X(q[1]),y:Y(q[2]),"text-anchor":"middle"});t.textContent=q[0];svg.appendChild(t);});

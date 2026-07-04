@@ -226,10 +226,10 @@
     tip.innerHTML='<b style="color:'+COL[d.cat]+'">'+d.name+'</b> <span style="color:var(--mute2)">('+d.code+')</span>'+
       (isSupply(d)?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
       '<span style="color:var(--mute)">'+d.niche+'</span><br>'+
-      '품질 '+d.q+' · 밸류 '+d.v+' · <b>QARP '+d.qarp+'</b> (#'+d.rank+'/47)<br>'+
-      '시총/영업익 '+d.pop+'배 · '+d.cluster+' · '+stars(d.strength)+' '+LMAP[d.link]+(d.tseries?' · 시계열 증거':'')+
+      '품질 '+d.q+' · 주가점수 '+d.v+' · <b>종합 '+d.qarp+'</b> (47개 중 '+d.rank+'위)<br>'+
+      d.cluster+' · '+stars(d.strength)+' '+LMAP[d.link]+(d.tseries?' · 공장 생긴 뒤 증설':'')+
       '<br><span style="color:var(--amber)">'+d.anchor+'</span>'+
-      (d.verified?'':'<br><span style="color:var(--mute2)">※재무는 결산 대조 전(Phase 1 수치)</span>');
+      (d.verified?'':'<br><span style="color:var(--mute2)">※재무 재확인 전(Phase 1 수치)</span>');
     tip.style.left=Math.min(e.clientX+14,innerWidth-292)+"px";
     tip.style.top=Math.min(e.clientY+14,innerHeight-160)+"px";tip.style.opacity=1;
   }

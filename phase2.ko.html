@@ -344,6 +344,7 @@
         '<td><span class="badge '+BADGE[d.cat]+'">'+KMAP[d.cat]+'</span></td>'+
         '<td class="num">'+qbar+d.q+'</td>'+
         '<td class="num">'+vbar+d.v+'</td>'+
+        '<td class="num">'+d.popNow.toFixed(1)+'배</td>'+
         '<td class="num"><b>'+d.qarp+'</b> <span style="color:var(--mute2);font-size:10px">#'+d.rank+'</span></td>'+
         '<td><span class="badge '+CLBADGE[d.cluster]+'">'+d.cluster+'</span></td>'+
         '<td><span class="lk-'+d.link+'">'+stars(d.strength)+' '+LMAP[d.link]+'</span>'+(d.tseries?'<span class="ts">＋이후 증설</span>':'')+'</td>'+

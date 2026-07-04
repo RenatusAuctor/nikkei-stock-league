@@ -297,6 +297,7 @@
       (isSupply(d)?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
       '<span style="color:var(--mute)">'+d.nicheJa+'</span><br>'+
       '品質 '+d.q+' · 株価スコア '+d.v+' · <b>総合 '+d.qarp+'</b>(47社中 '+d.rank+'位)<br>'+
+      '時価総額÷利益 今 '+d.popNow.toFixed(1)+'倍(26.7.3終値) · '+SMAP[d.scope]+'<br>'+
       CLMAP[d.cluster]+' · '+stars(d.strength)+' '+LMAP[d.link]+(d.tseries?' · 工場稼働後に増設':'')+
       '<br><span style="color:var(--amber)">'+d.anchorJa+'</span>'+
       (d.verified?'':'<br><span style="color:var(--mute2)">※財務は再確認前(Phase 1数値)</span>');

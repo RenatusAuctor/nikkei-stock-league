@@ -302,7 +302,7 @@
   var exlist=document.getElementById("exlist");
   EX.forEach(function(x){
     var div=document.createElement("div");div.className="exitem";
-    div.innerHTML='<b>'+x.name+'</b> <span style="color:var(--mute2)">('+x.code+' · QARP '+x.qarp+' #'+x.rank+')</span><br>실제 입지: '+x.where;
+    div.innerHTML='<b>'+x.name+'</b> <span style="color:var(--mute2)">('+x.code+' · 종합점수 '+x.qarp+' · '+x.rank+'위)</span><br>실제 위치: '+x.where;
     exlist.appendChild(div);
   });
 })();

@@ -298,7 +298,7 @@
     tip.innerHTML='<b style="color:'+COL[d.cat]+'">'+d.nameJa+'</b> <span style="color:var(--mute2)">('+d.code+')</span>'+
       (isSupply(d)?' <span style="color:var(--amber)">◎</span>':'')+'<br>'+
       '<span style="color:var(--mute)">'+d.nicheJa+'</span><br>'+
-      '品質 '+d.q+' · 株価スコア '+d.v+' · <b>総合 '+d.qarp+'</b>(47社中 '+d.rank+'位)<br>'+
+      '品質 '+d.q+' · 株価スコア '+d.v+' · <b>総合 '+d.qarp+'</b>(47社中 '+d.rank+'位) → 今 <b>'+d.qarpNow+'</b>('+d.rankNow+'位)<br>'+
       '時価総額÷利益 今 '+d.popNow.toFixed(1)+'倍(26.7.3終値) · '+SMAP[d.scope]+'<br>'+
       CLMAP[d.cluster]+' · '+stars(d.strength)+' '+LMAP[d.link]+(d.tseries?' · 工場稼働後に増設':'')+
       '<br><span style="color:var(--amber)">'+d.anchorJa+'</span>'+

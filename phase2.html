@@ -373,7 +373,7 @@
   var exlist=document.getElementById("exlist");
   EX.forEach(function(x){
     var div=document.createElement("div");div.className="exitem";
-    div.innerHTML='<b>'+x.nameJa+'</b> <span style="color:var(--mute2)">('+x.code+' · 総合 '+x.qarp+' · '+x.rank+'位)</span><br>実際の立地: '+x.whereJa;
+    div.innerHTML='<b>'+x.nameJa+'</b> <span style="color:var(--mute2)">('+x.code+' · 総合 '+x.qarp+' · '+x.rank+'位 → 今 '+x.qarpNow+' · '+x.rankNow+'位)</span><br>実際の立地: '+x.whereJa;
     exlist.appendChild(div);
   });
 })();

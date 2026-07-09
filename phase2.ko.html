@@ -353,8 +353,8 @@
       if(fCat!=="all"&&d.cat!==fCat)return;
       n++;
       var tr=document.createElement("tr");
-      var qbar='<span class="bar" style="width:'+(d.q*0.5)+'px;background:'+COL[d.cat]+';opacity:.55"></span>';
-      var vbar='<span class="bar" style="width:'+(d.v*0.5)+'px;background:var(--teal);opacity:.45"></span>';
+      var qbar='<span class="bar" style="width:'+(d.q*0.28)+'px;background:'+COL[d.cat]+';opacity:.55"></span>';
+      var vbar='<span class="bar" style="width:'+(d.v*0.28)+'px;background:var(--teal);opacity:.45"></span>';
       tr.innerHTML='<td class="num">'+n+'</td>'+
         '<td class="cname"><b>'+d.name+'</b> <span style="color:var(--mute2);font-size:11px">'+d.code+(d.verified?'':' ※')+'</span></td>'+
         '<td><span class="badge '+BADGE[d.cat]+'">'+KMAP[d.cat]+'</span></td>'+

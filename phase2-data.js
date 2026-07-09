@@ -1,37 +1,60 @@
 /* Phase 2 최종 포트폴리오 단일소스 — screening-data.js(FIGURES) 기반 QARP 산출 스냅샷
-   name/niche/anchor=KO, nameJa/nicheJa/anchorJa=JA. q=품질 v=밸류 qarp=종합(0.5q+0.5v)
-   kind=backbone(Quality×Value 상위15)/anchor(가설앵커 오버레이4).
-   tier/confidence(%, 백본만): 게이트(자기자본30~50%×OPM5~12%, 30가지) × 가중치(F/T·Q/V 각 30~70%, 25가지) = 750개 조합
-   동시 그리드에서 백본15에 생존한 비율. core=90%이상(5사 100%+2사 90%대) / moderate=50~89% / fragile=50%미만.
-   앵커 4사는 수치 게이트·가중치와 무관(확정 인과 링크로 별도 선정)이라 tier="anchor", confidence=null.
-   산출: 2026-07-03, phase2-plan.md §6.4 참조. verified: 재무는 각사 최신 결산 대조 완료(fy=결산기).
-   ※ mktcap(밸류점수 origin)은 Phase 1 스냅샷 유지 — 자동 재조회 1회 시도했으나 단위 오독(예: 5334사 실제 1.42조엔을
-   21.4조엔으로 15배 오산출) 확인되어 신뢰 불가로 폐기. Phase 3에서 1차 소스로 직접 재확정 필요. */
+   2026-07-04 테마 정합 재선정(phase2-plan.md §7): 대회 주제 "후공정 니치 톱 × 지방 클러스터"의 AND 조건에 맞춰
+   선정 로직을 반전 — 확정 앵커(입지·공급 1차 검증)를 1차 게이트로, QARP는 순위 결정에만 사용. 19사 → 14사.
+   name/niche/anchor=KO, nameJa/nicheJa/anchorJa=JA. q=품질 v=밸류 qarp=종합(0.5q+0.5v) rank=생존47사 중 QARP 순위.
+   link: supply=앵커 팹 공급 확정(수주·수상) / location=주력 거점 입지 확정 / both=입지+시계열(또는 입지+공급).
+   strength: 3=★★★(공급확정 or 입지+시계열) / 2=★★(주력거점 입지) / 1=★(부분 거점).
+   tseries: 앵커 투자 이후의 증설·수주 공시 확인(시계열 인과 증거) 여부.
+   scope: 후공정 직결도(§8.2 스코프 규칙) — BE=후공정 직결 니치 / FAB=팹 공통 인프라·부재(전·후공정 공통) /
+   MIX=전공정 주력+후공정 사업 병행. 규칙: 전공정 "전용 공정장치" 니치는 스코프밖(레이저텍·에바라·ULVAC 제외와 동일 규율),
+   팹 공통 인프라·소재는 포함하되 직결도를 정직하게 표기.
+   excluded: 구 19사 중 클러스터 증거 없어 이탈한 9사 — "니치 톱이지만 지리 집적 없음" 정직한 반증(리포트 부록용).
+   ※ 재무 1차 검증: 14/14사 완료 — 기존 10사(2026-07-03) + 신규 4사(2026-07-05, irbank 대조). 전 종목 FIGURES 일치.
+   히라타기공은 OPM 8.77%(FY2026/3)로 게이트 통과하나 경계선(OPM 컷 10% 채택 시 탈락하는 조건부 성격, §8.1).
+   ※ mktcap(밸류점수 v의 원천)은 Phase 1 스냅샷 유지 — 47사 코호트 백분위라 14사만 부분 갱신하면 점수 기반이 오염됨.
+   대신 mktcapNow(2026-07-03 종가, 억엔)·popNow(=mktcapNow/최신 영업익, 배)를 병기(§8.4).
+   출처: irbank + 닛케이 교차검증. 닛토방적은 irbank가 2026-05 주식분할 미반영(1,367억 오표시) → 닛케이 값(6,837억) 채택.
+   ※ 2026-07-05: 47사 전면 재채점 완료(plan §8.6) — 생존 47사 전원의 현재 시총(2026-07-03 종가)을 §8.4 방식
+   (irbank 표시값 인용 + 주가×주식수 정합 체크, 의심 종목은 닛케이 교차검증: 후소화학·니치아스 확인)으로 확보,
+   스냅샷과 동일 산식(백분위 = 자기보다 비싼 종목 수/46×100, v = round(0.6·시총/영업익pct + 0.4·PSRpct),
+   QARP = round(0.5q+0.5v), 공표 정수 기반이라 재현 가능)으로 vNow·qarpNow·rankNow 산출.
+   선정(앵커 게이트)은 불변 — 현재가 순위는 Phase 3 비중 결정과 정직성 공시용. excluded에도 병기(정직한 반증).
+   주의: vNow는 최신 '실적' 대비 백분위 — 주가 급락 종목(예: 비편입 타카토리)의 vNow 급등은 밸류트랩일 수 있어
+   매력 신호로 단독 해석 금지. */
 var PHASE2 = {
-  meta: { screened:100, survived:47, final:19, verifiedAt:"2026-07-03",
-    figuresBasis:"각사 최신 통기 실적(2025/12~2026/3期) — irbank/결산단신 대조, 19/19 일치",
-    gateNote:"자기자본40%=모집단 하위9퍼센타일(관대), OPM8%=모집단 하위38퍼센타일(선별적)",
-    mktcapNote:"시총(밸류점수 원천)은 Phase 1 스냅샷. 자동 재조회 시도했으나 irbank 요약도구의 단위오독(조/억 15배 오차)으로 폐기 — Phase 3 재확정 필요" },
+  meta: { screened:100, survived:47, final:14, verifiedAt:"2026-07-05",
+    selection:"확정 앵커 게이트(입지·공급 1차 검증) → QARP 순위. 규슈 12 + 도호쿠 2",
+    figuresBasis:"14/14사 최신 통기 실적(2025/12~2026/3期) 대조 완료 — 기존 10사 2026-07-03 + 신규 4사 2026-07-05(irbank). 전 종목 일치",
+    gateNote:"자기자본40%=모집단 하위9퍼센타일(관대), OPM8%=모집단 하위38퍼센타일(선별적) — 생존 47사 산출용. 히라타 OPM 8.77%는 경계선 통과(조건부 성격)",
+    scopeNote:"BE=후공정 직결 8 / FAB=팹 공통 5 / MIX=전공정 주력+후공정 병행 1 — 전공정 전용 공정장치만 스코프밖(§8.2)",
+    mktcapNote:"밸류점수 v는 Phase 1 스냅샷 시총 기준(47사 코호트 백분위). 현재가는 mktcapNow(2026-07-03 종가)·popNow 병기 + 47사 전면 재채점 완료(2026-07-05, plan §8.6) — vNow·qarpNow·rankNow가 현재가 기준. 선정은 앵커 게이트라 불변",
+    mktcapNowAt:"2026-07-03", rescoredAt:"2026-07-05" },
   holdings: [
-    {"code":"6855","name":"일본전자재료","nameJa":"日本電子材料","cat":"인프라","q":70,"v":86,"qarp":78,"rank":1,"kind":"backbone","tier":"core","confidence":100,"anchor":"입지: 구마모토 기쿠치 주력공장(JASM 인근)","anchorJa":"立地: 熊本菊池の主力工場(JASM近接)","niche":"프로브카드 국내 2위","nicheJa":"テスト用プローブカード（メモリ・ロジック）中堅","pop":4.8,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"5706","name":"미쓰이금속광업","nameJa":"三井金属鉱業","cat":"소재·부품","q":54,"v":100,"qarp":77,"rank":2,"kind":"backbone","tier":"core","confidence":100,"anchor":"","anchorJa":"","niche":"극박 동박 MicroThin 세계 약 100%","nicheJa":"ICパッケージ基板用キャリア付極薄銅箔「MicroThin」で世界シェアほぼ100%を独占","pop":2,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6627","name":"테라프로브","nameJa":"テラプローブ","cat":"인프라","q":59,"v":93,"qarp":76,"rank":3,"kind":"backbone","tier":"moderate","confidence":60,"anchor":"입지: 구마모토 九州事業所","anchorJa":"立地: 熊本 九州事業所","niche":"메모리·LSI 테스트 수탁 국내 톱급","nicheJa":"メモリ・LSIテスト受託","pop":4.3,"cluster":"규슈","fy":"2025/12","verified":true},
-    {"code":"4966","name":"우에무라공업","nameJa":"上村工業","cat":"패키징","q":67,"v":83,"qarp":75,"rank":4,"kind":"backbone","tier":"core","confidence":100,"anchor":"","anchorJa":"","niche":"기판용 무전해 금도금(ENEPIG) 1위","nicheJa":"パッケージ基板向け無電解金めっき、無電解ニッケル/パラジウム/金（ENEPIG）薬品・めっき機械で首位","pop":5.2,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6590","name":"시바우라 메카트로닉스","nameJa":"芝浦メカトロニクス","cat":"인프라","q":37,"v":97,"qarp":67,"rank":5,"kind":"backbone","tier":"core","confidence":100,"anchor":"공급: TSMC 선단패키징 우수공급사","anchorJa":"供給: TSMC先端パッケージ優秀サプライヤー","niche":"플립칩 본더·매엽 세정 고점유","nicheJa":"高精度フリップチップボンダ、枚葉式洗浄装置で高いシェア","pop":4.1,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6857","name":"어드밴테스트","nameJa":"アドバンテスト","cat":"인프라","q":74,"v":57,"qarp":65,"rank":6,"kind":"backbone","tier":"core","confidence":98,"anchor":"","anchorJa":"","niche":"메모리·SoC 테스터 세계 톱","nicheJa":"半導体テストシステム（メモリ・SoCテスタ）世界トップ","pop":7,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6941","name":"야마이치전기","nameJa":"山一電機","cat":"인프라","q":55,"v":74,"qarp":64,"rank":7,"kind":"backbone","tier":"core","confidence":100,"anchor":"","anchorJa":"","niche":"번인·테스트 소켓 세계 상위","nicheJa":"テスト用バーンインソケットおよびテストソケット世界上位","pop":6.8,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"4626","name":"다이요HD","nameJa":"太陽ホールディングス","cat":"소재·부품","q":64,"v":59,"qarp":62,"rank":8,"kind":"backbone","tier":"core","confidence":95,"anchor":"입지: 기타큐슈 사업소(부분)","anchorJa":"立地: 北九州事業所(部分)","niche":"솔더 레지스트 세계 1위","nicheJa":"半導体パッケージ基板およびプリント基板用の層間ソルダーレジスト（緑色の絶縁保護材）で世界シェア1位","pop":7.7,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"4047","name":"간토전화공업","nameJa":"関東電化工業","cat":"소재·부품","q":38,"v":85,"qarp":61,"rank":9,"kind":"backbone","tier":"moderate","confidence":55,"anchor":"","anchorJa":"","niche":"특수가스(NF3·WF6) 세계 상위","nicheJa":"前工程・クリーニング等に使用される各種特殊ガス（NF3、WF6等）でグローバル大手の技術力","pop":7.6,"cluster":"홋카이도","fy":"2026/3","verified":true},
-    {"code":"5333","name":"일본가이시","nameJa":"日本ガイシ","cat":"장치부재","q":33,"v":88,"qarp":61,"rank":10,"kind":"backbone","tier":"moderate","confidence":75,"anchor":"","anchorJa":"","niche":"정전척·세라믹 히터 세계 상위","nicheJa":"半導体エッチング装置などに不可欠な高精度「静電チャック」「セラミックスヒーター」などで高シェア","pop":6.5,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6859","name":"에스펙","nameJa":"エスペック","cat":"인프라","q":42,"v":78,"qarp":60,"rank":11,"kind":"backbone","tier":"moderate","confidence":77,"anchor":"","anchorJa":"","niche":"신뢰성·번인용 환경시험기 세계 1위","nicheJa":"半導体信頼性・バーンイン用環境試験器で世界首位","pop":8.2,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"4368","name":"후소화학공업","nameJa":"扶桑化学工業","cat":"소재·부품","q":66,"v":52,"qarp":59,"rank":12,"kind":"backbone","tier":"moderate","confidence":80,"anchor":"","anchorJa":"","niche":"초고순도 콜로이달 실리카 세계 독점급","nicheJa":"半導体CMP用スラリー研磨砥粒の原料となる「超高純度コロイダルシリカ」をグローバルほぼ独占製造","pop":8.5,"cluster":"홋카이도","fy":"2026/3","verified":true},
-    {"code":"6368","name":"오르가노","nameJa":"オルガノ","cat":"장치부재","q":46,"v":67,"qarp":57,"rank":13,"kind":"backbone","tier":"moderate","confidence":70,"anchor":"공급: TSMC 초순수 직접납품·수상","anchorJa":"供給: TSMC超純水を直接納入・受賞","niche":"초순수 제조장치(TSMC 실적 풍부)","nicheJa":"半導体ウエハ製造・洗浄用「超純水製造装置」国内実績最高峰","pop":7.4,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"5334","name":"일본특수도업","nameJa":"日本特殊陶業","cat":"패키징","q":34,"v":76,"qarp":55,"rank":14,"kind":"backbone","tier":"fragile","confidence":43,"anchor":"","anchorJa":"","niche":"세라믹·FC-BGA 패키지 기판 상위","nicheJa":"セラミックパッケージおよび先端FC-BGA有機パッケージ基板のトップ群","pop":7.1,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6490","name":"일본필러공업","nameJa":"日本ピラー工業","cat":"장치부재","q":55,"v":54,"qarp":55,"rank":15,"kind":"backbone","tier":"moderate","confidence":52,"anchor":"입지: PILLAR 규슈공장(구마모토 고시, 반도체용 불소수지 조인트, 2004~)","anchorJa":"立地: PILLAR九州工場(熊本県合志市、半導体用ふっ素樹脂継手、2004〜)","niche":"초고순도 불소수지 조인트 세계 톱급","nicheJa":"半導体ウェット洗浄装置や、超高純度薬液配管に不可欠な「フッ素樹脂製継手（ピラフィッティング）」で首位級","pop":8.7,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6856","name":"호리바제작소","nameJa":"堀場製作所","cat":"장치부재","q":44,"v":64,"qarp":54,"rank":17,"kind":"anchor","tier":"anchor","confidence":null,"anchor":"입지: 자회사 堀場エステック 구마모토","anchorJa":"立地: 子会社 堀場エステック 熊本","niche":"매스플로 컨트롤러(MFC) 세계 약 60%","nicheJa":"ガス・液体の精密流入量制御装置「マスフローコントローラ（MFC）」で世界圧倒的首位（シェア約6割）","pop":8.5,"cluster":"규슈","fy":"2025/12","verified":true},
-    {"code":"4186","name":"도쿄오카공업","nameJa":"東京応化工業","cat":"소재·부품","q":56,"v":37,"qarp":46,"rank":25,"kind":"anchor","tier":"anchor","confidence":null,"anchor":"입지+공급: 구마모토·고리야마 신공장 / TSMC 서플라이어","anchorJa":"立地+供給: 熊本・郡山新工場 / TSMCサプライヤー","niche":"후공정 후막 포토레지스트 세계 톱","nicheJa":"前工程レジスト世界首位","pop":10.1,"cluster":"규슈","fy":"2025/12","verified":true},
-    {"code":"6146","name":"디스코","nameJa":"ディスコ","cat":"인프라","q":86,"v":0,"qarp":43,"rank":31,"kind":"anchor","tier":"anchor","confidence":null,"anchor":"공급: TSMC 선단패키징 우수공급사(다이싱 세계1위)","anchorJa":"供給: TSMC先端パッケージ優秀サプライヤー(ダイシング世界1位)","niche":"다이싱 소·그라인더 세계 1위(소모품 일체)","nicheJa":"ダイシングソー・グラインダ（切断・薄化装置）世界圧倒的首位","pop":49.2,"cluster":"규슈","fy":"2026/3","verified":true},
-    {"code":"6323","name":"로체","nameJa":"ローツェ","cat":"인프라","q":49,"v":27,"qarp":38,"rank":35,"kind":"anchor","tier":"anchor","confidence":null,"anchor":"입지: Rorze 구마모토 거점","anchorJa":"立地: Rorze 熊本拠点","niche":"웨이퍼·레티클 반송로봇·EFEM 고점유","nicheJa":"ウエハ・レチクル搬送ロボット、EFEM等で高シェア","pop":12.2,"cluster":"규슈","fy":"2026/2","verified":true}
+    {"code":"6855","name":"일본전자재료","nameJa":"日本電子材料","cat":"인프라","scope":"BE","q":70,"v":86,"qarp":78,"rank":1,"cluster":"규슈","link":"location","strength":2,"tseries":false,"anchor":"입지: 구마모토 기쿠치 주력공장(JASM 인근)","anchorJa":"立地: 熊本菊池の主力工場(JASM近接)","niche":"프로브카드 국내 2위","nicheJa":"テスト用プローブカード（メモリ・ロジック）中堅","pop":4.8,"mktcapNow":1136,"popNow":15.6,"vNow":67,"qarpNow":69,"rankNow":1,"fy":"2026/3","verified":true},
+    {"code":"6627","name":"테라프로브","nameJa":"テラプローブ","cat":"인프라","scope":"BE","q":59,"v":93,"qarp":76,"rank":3,"cluster":"규슈","link":"location","strength":2,"tseries":false,"anchor":"입지: 구마모토 九州事業所(테스트하우스)","anchorJa":"立地: 熊本 九州事業所(テストハウス)","niche":"메모리·LSI 테스트 수탁 국내 톱급","nicheJa":"メモリ・LSIテスト受託","pop":4.3,"mktcapNow":1288,"popNow":14.5,"vNow":73,"qarpNow":66,"rankNow":3,"fy":"2025/12","verified":true},
+    {"code":"6590","name":"시바우라 메카트로닉스","nameJa":"芝浦メカトロニクス","cat":"인프라","scope":"BE","q":37,"v":97,"qarp":67,"rank":5,"cluster":"규슈","link":"supply","strength":3,"tseries":true,"anchor":"공급: TSMC 선단패키징 우수공급사(2024 수상)","anchorJa":"供給: TSMC先端パッケージ優秀サプライヤー(2024受賞)","niche":"플립칩 본더·매엽 세정 고점유","nicheJa":"高精度フリップチップボンダ、枚葉式洗浄装置で高いシェア","pop":4.1,"mktcapNow":4178,"popNow":27.4,"vNow":29,"qarpNow":33,"rankNow":43,"fy":"2026/3","verified":true},
+    {"code":"4626","name":"다이요HD","nameJa":"太陽ホールディングス","cat":"소재·부품","scope":"BE","q":64,"v":59,"qarp":62,"rank":8,"cluster":"규슈","link":"location","strength":2,"tseries":false,"anchor":"입지: 기타큐슈 사업소 = 필름타입 솔더레지스트 생산공장(2015~). 사이타마와 이원 생산체제로 세계 8할 공급","anchorJa":"立地: 北九州事業所 = フィルムタイプソルダーレジスト生産工場(2015〜)。埼玉と二元生産体制で世界シェア約8割を供給","niche":"솔더 레지스트 세계 1위","nicheJa":"半導体パッケージ基板およびプリント基板用の層間ソルダーレジスト（緑色の絶縁保護材）で世界シェア1位","pop":7.7,"mktcapNow":5830,"popNow":17.9,"vNow":55,"qarpNow":60,"rankNow":13,"fy":"2026/3","verified":true},
+    {"code":"6368","name":"오르가노","nameJa":"オルガノ","cat":"장치부재","scope":"FAB","q":46,"v":67,"qarp":57,"rank":13,"cluster":"규슈","link":"supply","strength":3,"tseries":true,"anchor":"공급: TSMC 구마모토 초순수 직접납품 + 2024 Excellent Performance Award(신팹)","anchorJa":"供給: TSMC熊本へ超純水を直接納入 + 2024 Excellent Performance Award(新ファブ)","niche":"초순수 제조장치(TSMC 실적 풍부)","nicheJa":"半導体ウエハ製造・洗浄用「超純水製造装置」国内実績最高峰","pop":7.4,"mktcapNow":7476,"popNow":19.9,"vNow":48,"qarpNow":47,"rankNow":25,"fy":"2026/3","verified":true},
+    {"code":"6490","name":"일본필러공업","nameJa":"日本ピラー工業","cat":"장치부재","scope":"FAB","q":55,"v":54,"qarp":55,"rank":15,"cluster":"규슈","link":"location","strength":2,"tseries":false,"anchor":"입지: PILLAR 규슈공장(구마모토 고시, 반도체용 불소수지 조인트, 2004~)","anchorJa":"立地: PILLAR九州工場(熊本県合志市、半導体用ふっ素樹脂継手、2004〜)","niche":"초고순도 불소수지 조인트 세계 톱급","nicheJa":"半導体ウェット洗浄装置や、超高純度薬液配管に不可欠な「フッ素樹脂製継手（ピラフィッティング）」で首位級","pop":8.7,"mktcapNow":2682,"popNow":22.1,"vNow":41,"qarpNow":48,"rankNow":24,"fy":"2026/3","verified":true},
+    {"code":"4203","name":"스미토모 베이클라이트","nameJa":"住友ベークライト","cat":"소재·부품","scope":"BE","q":56,"v":53,"qarp":54,"rank":16,"cluster":"규슈","link":"location","strength":3,"tseries":true,"anchor":"입지: 봉지재 EME 마더공장 = 九州住友ベークライト(후쿠오카 노가타) + 2022 선단 압축성형 봉지재 설비 신설","anchorJa":"立地: 封止材EMEのマザー工場 = 九州住友ベークライト(福岡直方) + 2022先端圧縮成形封止材の生産設備新設","niche":"반도체 봉지재(EME) 세계 약 40% 1위","nicheJa":"半導体封止材「スミコンEME」で世界シェア約40%首位","pop":10.7,"mktcapNow":6624,"popNow":18.7,"vNow":72,"qarpNow":64,"rankNow":5,"fy":"2026/3","verified":true},
+    {"code":"6856","name":"호리바제작소","nameJa":"堀場製作所","cat":"장치부재","scope":"FAB","q":44,"v":64,"qarp":54,"rank":17,"cluster":"규슈","link":"location","strength":2,"tseries":false,"anchor":"입지: 자회사 堀場エステック 구마모토","anchorJa":"立地: 子会社 堀場エステック 熊本","niche":"매스플로 컨트롤러(MFC) 세계 약 60%","nicheJa":"ガス・液体の精密流入量制御装置「マスフローコントローラ（MFC）」で世界圧倒的首位（シェア約6割）","pop":8.5,"mktcapNow":11688,"popNow":22.1,"vNow":48,"qarpNow":46,"rankNow":28,"fy":"2025/12","verified":true},
+    {"code":"6258","name":"히라타기공","nameJa":"平田機工","cat":"인프라","scope":"FAB","q":25,"v":71,"qarp":48,"rank":21,"cluster":"규슈","link":"both","strength":3,"tseries":true,"anchor":"입지+시계열: 본사 구마모토시 + 기쿠치 신공장 취득(2026년도 가동, 반도체 5할 증산) + TSMC 팹에 장비 탑재","anchorJa":"立地+時系列: 本社熊本市 + 菊池新工場取得(2026年度稼働、半導体5割増産) + TSMCファブに装置搭載","niche":"자동화 생산설비 엔지니어링(반도체 반송·조립 설비)","nicheJa":"自動化生産設備エンジニアリング(半導体搬送・組立設備)","pop":9.0,"mktcapNow":997,"popNow":12.0,"vNow":96,"qarpNow":61,"rankNow":9,"fy":"2026/3","verified":true},
+    {"code":"3110","name":"닛토방적","nameJa":"日東紡","cat":"패키징","scope":"BE","q":30,"v":66,"qarp":48,"rank":22,"cluster":"도호쿠","link":"both","strength":3,"tseries":true,"anchor":"입지+시계열: 본사 후쿠시마시, T글라스 클로스 후쿠시마 단독 생산 + 150억엔 신공장(2027 가동, 경산성 공급확보계획 인정)","anchorJa":"立地+時系列: 本社福島市、Tガラスクロスを福島で単独生産 + 150億円新工場棟(2027稼働、経産省供給確保計画認定)","niche":"선단 패키지기판용 저열팽창 T글라스 클로스 세계 톱","nicheJa":"先端パッケージ基板に不可欠な低熱膨張スペシャルガラスクロス(Tガラス)で世界トップ","pop":7.9,"mktcapNow":6837,"popNow":32.8,"vNow":20,"qarpNow":25,"rankNow":45,"fy":"2026/3","verified":true},
+    {"code":"4186","name":"도쿄오카공업","nameJa":"東京応化工業","cat":"소재·부품","scope":"MIX","q":56,"v":37,"qarp":46,"rank":25,"cluster":"규슈","link":"both","strength":3,"tseries":true,"anchor":"입지+공급: 구마모토 기쿠치 신공장(2025 가동)·고리야마 증설(2026) / TSMC 서플라이어(2024 수상)","anchorJa":"立地+供給: 熊本菊池新工場(2025稼働)・郡山増設(2026) / TSMCサプライヤー(2024受賞)","niche":"포토레지스트 세계 톱(패키징용 후막 레지스트 병행)","nicheJa":"フォトレジスト世界首位(パッケージ用厚膜レジストも展開)","pop":10.1,"mktcapNow":13872,"popNow":29.3,"vNow":21,"qarpNow":39,"rankNow":36,"fy":"2025/12","verified":true},
+    {"code":"6146","name":"디스코","nameJa":"ディスコ","cat":"인프라","scope":"BE","q":86,"v":0,"qarp":43,"rank":31,"cluster":"규슈","link":"supply","strength":3,"tseries":true,"anchor":"공급: TSMC 선단패키징 우수공급사(2024 수상, 다이싱 세계1위)","anchorJa":"供給: TSMC先端パッケージ優秀サプライヤー(2024受賞、ダイシング世界1位)","niche":"다이싱 소·그라인더 세계 1위(소모품 일체)","nicheJa":"ダイシングソー・グラインダ（切断・薄化装置）世界圧倒的首位","pop":49.2,"mktcapNow":83083,"popNow":45.0,"vNow":3,"qarpNow":45,"rankNow":30,"fy":"2026/3","verified":true},
+    {"code":"6871","name":"일본 마이크로닉스","nameJa":"日本マイクロニクス","cat":"인프라","scope":"BE","q":68,"v":13,"qarp":40,"rank":34,"cluster":"도호쿠","link":"both","strength":3,"tseries":true,"anchor":"입지+시계열: 프로브카드 최대 생산거점 아오모리 히라카와(1981~) + 신동 110억엔 2024.12 竣工 + 추가 241억엔 투자 발표(HBM 수요 대응)","anchorJa":"立地+時系列: プローブカード最大生産拠点 青森平川(1981〜) + 新棟110億円 2024.12竣工 + 追加241億円投資発表(HBM需要対応)","niche":"프로브카드 세계 상위(메모리용 톱급)","nicheJa":"半導体検査用プローブカード世界上位(メモリ用トップ級)","pop":17.0,"mktcapNow":6404,"popNow":38.7,"vNow":10,"qarpNow":39,"rankNow":37,"fy":"2025/12","verified":true},
+    {"code":"6323","name":"로체","nameJa":"ローツェ","cat":"인프라","scope":"FAB","q":49,"v":27,"qarp":38,"rank":35,"cluster":"규슈","link":"location","strength":2,"tseries":false,"anchor":"입지: Rorze 구마모토 거점","anchorJa":"立地: Rorze 熊本拠点","niche":"웨이퍼·레티클 반송로봇·EFEM 고점유","nicheJa":"ウエハ・レチクル搬送ロボット、EFEM等で高シェア","pop":12.2,"mktcapNow":8714,"popNow":28.0,"vNow":20,"qarpNow":35,"rankNow":41,"fy":"2026/2","verified":true}
+  ],
+  excluded: [
+    {"code":"5706","name":"미쓰이금속광업","nameJa":"三井金属鉱業","qarp":77,"rank":2,"mktcapNow":22242,"popNow":17.0,"qarpNow":63,"rankNow":7,"where":"공장 사이타마 아게오·말레이시아","whereJa":"工場は埼玉上尾・マレーシア"},
+    {"code":"4966","name":"우에무라공업","nameJa":"上村工業","qarp":75,"rank":4,"mktcapNow":4820,"popNow":22.6,"qarpNow":52,"rankNow":19,"where":"오사카 히라카타","whereJa":"大阪枚方"},
+    {"code":"6857","name":"어드밴테스트","nameJa":"アドバンテスト","qarp":65,"rank":6,"mktcapNow":214805,"popNow":43.1,"qarpNow":39,"rankNow":38,"where":"군마 메이와(R&D·생산)","whereJa":"群馬明和(R&D・生産)"},
+    {"code":"6941","name":"야마이치전기","nameJa":"山一電機","qarp":64,"rank":7,"mktcapNow":2056,"popNow":17.8,"qarpNow":57,"rankNow":15,"where":"치바 사쿠라","whereJa":"千葉佐倉"},
+    {"code":"4047","name":"간토전화공업","nameJa":"関東電化工業","qarp":61,"rank":9,"mktcapNow":2003,"popNow":36.5,"qarpNow":35,"rankNow":40,"where":"군마 시부카와·오카야마 미즈시마","whereJa":"群馬渋川・岡山水島"},
+    {"code":"5333","name":"일본가이시","nameJa":"日本ガイシ","qarp":61,"rank":10,"mktcapNow":21839,"popNow":23.0,"qarpNow":40,"rankNow":33,"where":"아이치 고마키","whereJa":"愛知小牧"},
+    {"code":"6859","name":"에스펙","nameJa":"エスペック","qarp":60,"rank":11,"mktcapNow":1015,"popNow":14.4,"qarpNow":66,"rankNow":2,"where":"교토 후쿠치야마(후쿠오카는 영업소)","whereJa":"京都福知山(福岡は営業所のみ)"},
+    {"code":"4368","name":"후소화학공업","nameJa":"扶桑化学工業","qarp":59,"rank":12,"mktcapNow":4613,"popNow":24.5,"qarpNow":47,"rankNow":26,"where":"본사·공장 오사카","whereJa":"本社・工場とも大阪"},
+    {"code":"5334","name":"일본특수도업","nameJa":"日本特殊陶業","qarp":55,"rank":14,"mktcapNow":21897,"popNow":15.8,"qarpNow":54,"rankNow":18,"where":"나고야(그룹 가고시마 공장은 부분)","whereJa":"名古屋(グループ鹿児島工場は部分)"}
   ]
 };
 if (typeof module!=='undefined' && module.exports) module.exports = PHASE2;

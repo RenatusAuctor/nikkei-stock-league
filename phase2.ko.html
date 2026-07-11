@@ -300,7 +300,7 @@
   var COL={"인프라":"#2DD4BF","패키징":"#E0A340","소재·부품":"#7DA7FF","장치부재":"#B794F6"};
   var BADGE={"인프라":"b-infra","패키징":"b-pkg","소재·부품":"b-mat","장치부재":"b-dev"};
   var CLBADGE={"규슈":"b-kyushu","도호쿠":"b-tohoku"};
-  var LMAP={"supply":"납품","location":"공장 옆","both":"납품+위치"};
+  var LMAP={"supply":"납품","location":"공장 옆","both":"위치+납품·증설"};
   var SMAP={"BE":"후공정 직결","FAB":"팹 공통(앞·뒤 공정)","MIX":"앞공정 주력+후공정 병행"};
   function stars(n){return n===3?"★★★":n===2?"★★":"★";}
   function isSupply(d){return d.link==="supply"||/공급:/.test(d.anchor);}

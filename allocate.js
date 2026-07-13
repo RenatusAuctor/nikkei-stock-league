@@ -1,5 +1,5 @@
 /* ────────────────────────────────────────────────────────────
-   allocate.js — 최종 14사 비중·매수금액 산출 (Phase 3 배분)
+   allocate.js — 최종 15사 비중·매수금액 산출 (Phase 3 배분, Round 2 6055 포함)
    방법론(phase3-runbook.md §4):
      ① 기본 비중 ∝ qarpNow (현재가 기준 "좋고 싼" 정도에 비례 — phase2-data.js 단일소스)
      ② 상한 10% / 하한 4% 클립 후 잔여분 미클립 종목에 비례 재배분(반복 수렴)
@@ -54,4 +54,4 @@ console.log("\n합계 비중 " + (sumW * 100).toFixed(2) + "% / 매수금액 " +
 const kyushu = H.filter(h => h.cluster === "규슈").reduce((s, h) => s + w[h.code], 0);
 console.log("클러스터 비중: 규슈 " + (kyushu * 100).toFixed(1) + "% / 도호쿠 " + ((1 - kyushu) * 100).toFixed(1) + "%");
 console.log("\n※ 실제 주수 = floor(목표금액 ÷ 매수일 주가). 잔여 현금은 주수 절사에서 자연 발생.");
-console.log("※ 매수 전 필수: 47사 시총 재확보 → rescore.js → phase2-data.js 갱신 → 본 스크립트 재실행 (phase3-runbook.md).");
+console.log("※ 매수 전 필수: 48사 시총 재확보 → rescore.js → phase2-data.js 갱신 → 본 스크립트 재실행 (phase3-runbook.md).");

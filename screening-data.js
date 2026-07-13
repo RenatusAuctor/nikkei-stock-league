@@ -6,6 +6,11 @@
    ──────────────────────────────────────────────────────────── */
 var FIGURES = {
   "6146": {opm:42.3, growth:10.9, sales:4369, equity:78.9, mktcap:91000, semi:100, judge:"rec"},
+  "6055": {opm:25.3, growth:10.1, sales:580, equity:83.1, mktcap:2793, semi:90, judge:"rec"},
+  "3433": {opm:22.6, growth:7.9, sales:585, equity:74.8, mktcap:1882, semi:45, judge:"chk"},
+  "2802": {opm:12.6, growth:13.7, sales:15837, equity:42.5, mktcap:33000, semi:5, judge:"exc"},
+  "4182": {opm:6.1, growth:-4.6, sales:7382, equity:59.7, mktcap:5300, semi:15, judge:"exc"},
+  "6768": {opm:4.3, growth:8.3, sales:1236, equity:44, mktcap:950, semi:30, judge:"exc"},
   "7729": {opm:20.2, growth:13.6, sales:1668, equity:76.3, mktcap:4200, semi:75, judge:"rec"},
   "6857": {opm:44.2, growth:118.8, sales:11286, equity:67.9, mktcap:35000, semi:100, judge:"rec"},
   "6315": {opm:12.7, growth:-22.1, sales:544, equity:66.4, mktcap:2498, semi:90, judge:"chk"},

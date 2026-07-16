@@ -295,6 +295,8 @@
   var SMAP={"BE":"後工程直結","FAB":"ファブ共通(前・後工程)","MIX":"前工程主力+後工程併営"};
   function stars(n){return n===3?"★★★":n===2?"★★":"★";}
   function isSupply(d){return d.link==="supply"||/供給:/.test(d.anchorJa);}
+  document.getElementById("f00").textContent=PHASE2.meta.listedAll.toLocaleString();
+  document.getElementById("f0").textContent=PHASE2.meta.population.toLocaleString();
   document.getElementById("f1").textContent=PHASE2.meta.screened;
   document.getElementById("f2").textContent=PHASE2.meta.survived;
   document.getElementById("f3").textContent=PHASE2.meta.final;

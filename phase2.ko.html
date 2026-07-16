@@ -297,6 +297,8 @@
   var SMAP={"BE":"후공정 직결","FAB":"팹 공통(앞·뒤 공정)","MIX":"앞공정 주력+후공정 병행"};
   function stars(n){return n===3?"★★★":n===2?"★★":"★";}
   function isSupply(d){return d.link==="supply"||/공급:/.test(d.anchor);}
+  document.getElementById("f00").textContent=PHASE2.meta.listedAll.toLocaleString();
+  document.getElementById("f0").textContent=PHASE2.meta.population.toLocaleString();
   document.getElementById("f1").textContent=PHASE2.meta.screened;
   document.getElementById("f2").textContent=PHASE2.meta.survived;
   document.getElementById("f3").textContent=PHASE2.meta.final;

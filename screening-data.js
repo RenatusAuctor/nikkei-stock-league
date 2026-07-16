@@ -1,8 +1,9 @@
 /* ────────────────────────────────────────────────────────────
-   単一ソース：後工程ニッチ候補102社の財務数値と判定
+   単一ソース：後工程ニッチ候補106社の財務数値と判定
    母集団: 東証全上場4,438社(JPX公式一覧2026-06-30) → 半導体関連1,039社
-   (JPX隣接8業種 ∪ 株探半導体テーマ) → 後工程ニッチ候補102社(本ファイル)。
+   (JPX隣接8業種 ∪ 株探半導体テーマ) → 後工程ニッチ候補106社(本ファイル)。
    上場廃止・非上場9社は2026-07-15にユニバースから除外(plan §14)。
+   純度境界の一貫化で4社を編入(2026-07-16, plan §15)。
    screening.html / screening.ko.html / index(.ko).html が参照する。
    数値・判定はこのファイルだけを更新すれば全ページに反映される。
    judge:  rec=推薦(추천) / chk=要検証(요검증) / exc=除外(제외)
@@ -21,6 +22,13 @@ var FIGURES = {
   "4975": {opm:41.0, growth:15.6, sales:297, equity:87.1, mktcap:1744, semi:40, judge:"chk"},
   "4099": {opm:15.4, growth:11.6, sales:707, equity:65.0, mktcap:2593, semi:20, judge:"chk"},
   "255A": {opm:15.1, growth:12.1, sales:472, equity:75.4, mktcap:796, semi:35, judge:"chk"},
+  /* Round 6 純度境界の一貫化 (2026-07-16, plan §15). §12.3で文書化のみだった候補を正式編入 —
+     「世界ニッチトップなら純度が低くても候補に入れる」(味の素ABF96%)という事実上の規則を
+     富士フイルムCMP・三菱マテリアルにも同一適用。財務はkabutan最新通期(2026-07-16照会) */
+  "4901": {opm:10.4, growth:6.1, sales:33570, equity:63.4, mktcap:44726, semi:5, judge:"exc"},
+  "4046": {opm:17.6, growth:33.1, sales:1000, equity:76.2, mktcap:2433, semi:15, judge:"exc"},
+  "5711": {opm:3.3, growth:63.0, sales:18441, equity:24.5, mktcap:5513, semi:10, judge:"exc"},
+  "6721": {opm:-283.9, growth:null, sales:4, equity:37.4, mktcap:46, semi:70, judge:"exc"},
   "7729": {opm:20.2, growth:13.6, sales:1668, equity:76.3, mktcap:4200, semi:75, judge:"rec"},
   "6857": {opm:44.2, growth:118.8, sales:11286, equity:67.9, mktcap:35000, semi:100, judge:"rec"},
   "6315": {opm:12.7, growth:-22.1, sales:544, equity:66.4, mktcap:2498, semi:90, judge:"chk"},

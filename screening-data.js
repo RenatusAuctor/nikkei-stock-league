@@ -1,5 +1,8 @@
 /* ────────────────────────────────────────────────────────────
-   単一ソース：後工程ニッチトップ100社の財務数値と判定
+   単一ソース：後工程ニッチ候補102社の財務数値と判定
+   母集団: 東証全上場4,438社(JPX公式一覧2026-06-30) → 半導体関連1,039社
+   (JPX隣接8業種 ∪ 株探半導体テーマ) → 後工程ニッチ候補102社(本ファイル)。
+   上場廃止・非上場9社は2026-07-15にユニバースから除外(plan §14)。
    screening.html / screening.ko.html / index(.ko).html が参照する。
    数値・判定はこのファイルだけを更新すれば全ページに反映される。
    judge:  rec=推薦(추천) / chk=要検証(요검증) / exc=除外(제외)
@@ -11,6 +14,13 @@ var FIGURES = {
   "2802": {opm:12.6, growth:13.7, sales:15837, equity:42.5, mktcap:33000, semi:5, judge:"exc"},
   "4182": {opm:6.1, growth:-4.6, sales:7382, equity:59.7, mktcap:5300, semi:15, judge:"exc"},
   "6768": {opm:4.3, growth:8.3, sales:1236, equity:44, mktcap:950, semi:30, judge:"exc"},
+  /* Round 4 DB全数スクリーン追加 (2026-07-15, kabutan 半導体3テーマ照合 — plan §13). growthは営業利益成長率 */
+  "6264": {opm:18.4, growth:1248.1, sales:114, equity:31.5, mktcap:612, semi:75, judge:"chk"},
+  "4216": {opm:9.5, growth:-31.9, sales:801, equity:74.5, mktcap:1313, semi:28, judge:"chk"},
+  "5344": {opm:33.5, growth:-7.2, sales:745, equity:90.5, mktcap:7449, semi:30, judge:"chk"},
+  "4975": {opm:41.0, growth:15.6, sales:297, equity:87.1, mktcap:1744, semi:40, judge:"chk"},
+  "4099": {opm:15.4, growth:11.6, sales:707, equity:65.0, mktcap:2593, semi:20, judge:"chk"},
+  "255A": {opm:15.1, growth:12.1, sales:472, equity:75.4, mktcap:796, semi:35, judge:"chk"},
   "7729": {opm:20.2, growth:13.6, sales:1668, equity:76.3, mktcap:4200, semi:75, judge:"rec"},
   "6857": {opm:44.2, growth:118.8, sales:11286, equity:67.9, mktcap:35000, semi:100, judge:"rec"},
   "6315": {opm:12.7, growth:-22.1, sales:544, equity:66.4, mktcap:2498, semi:90, judge:"chk"},
@@ -26,7 +36,6 @@ var FIGURES = {
   "7745": {opm:13.3, growth:4.5, sales:693, equity:65.7, mktcap:820, semi:35, judge:"rec"},
   "6336": {opm:7.3, growth:25.7, sales:157, equity:66.9, mktcap:110, semi:30, judge:"exc"},
   "6125": {opm:3.6, growth:-49.7, sales:425, equity:63.5, mktcap:420, semi:40, judge:"chk"},
-  "6131": {opm:2.8, growth:-74.2, sales:79, equity:31.6, mktcap:85, semi:50, judge:"exc"},
   "7609": {opm:6.8, growth:13.1, sales:1031, equity:44.8, mktcap:380, semi:30, judge:"chk"},
   "6859": {opm:10.1, growth:-5.9, sales:700, equity:74, mktcap:580, semi:25, judge:"chk"},
   "6627": {opm:21.3, growth:28, sales:417, equity:40.2, mktcap:380, semi:100, judge:"rec"},
@@ -50,7 +59,6 @@ var FIGURES = {
   "6966": {opm:5.8, growth:-21, sales:2183, equity:47, mktcap:2100, semi:45, judge:"chk"},
   "7911": {opm:3.7, growth:-21.1, sales:18050, equity:52.3, mktcap:11200, semi:15, judge:"chk"},
   "7912": {opm:6.7, growth:7.9, sales:15125, equity:58.5, mktcap:10500, semi:12, judge:"exc"},
-  "6640": {opm:4, growth:null, sales:645, equity:66.2, mktcap:480, semi:22, judge:"chk"},
   "5201": {opm:6.2, growth:1.3, sales:20588, equity:50.3, mktcap:11000, semi:12, judge:"exc"},
   "5214": {opm:11, growth:457.7, sales:3114, equity:70.2, mktcap:2700, semi:14, judge:"exc"},
   "6907": {opm:5.7, growth:5.3, sales:60, equity:61, mktcap:75, semi:25, judge:"exc"},
@@ -73,8 +81,6 @@ var FIGURES = {
   "4186": {opm:20, growth:43.2, sales:2370, equity:67.9, mktcap:4800, semi:95, judge:"rec"},
   "4980": {opm:33.5, growth:-4.1, sales:1138, equity:66.2, mktcap:3500, semi:35, judge:"rec"},
   "5706": {opm:17.3, growth:75.2, sales:7585, equity:59.1, mktcap:2600, semi:22, judge:"chk"},
-  "4960": {opm:4.5, growth:1.1, sales:510, equity:59.5, mktcap:250, semi:20, judge:"chk"},
-  "5977": {opm:-8.5, growth:null, sales:120, equity:22, mktcap:60, semi:100, judge:"exc"},
   "5384": {opm:19.9, growth:17.4, sales:694, equity:69.1, mktcap:2600, semi:85, judge:"rec"},
   "5186": {opm:6.4, growth:13.7, sales:918, equity:85.6, mktcap:920, semi:18, judge:"chk"},
   "4109": {opm:12.6, growth:7.1, sales:368, equity:74.6, mktcap:450, semi:65, judge:"rec"},
@@ -99,16 +105,11 @@ var FIGURES = {
   "6481": {opm:6, growth:-9.3, sales:3400, equity:55.3, mktcap:3100, semi:25, judge:"chk"},
   "7713": {opm:9.8, growth:-4, sales:116, equity:86.9, mktcap:180, semi:35, judge:"chk"},
   "4082": {opm:9.7, growth:52.5, sales:358, equity:57.5, mktcap:210, semi:20, judge:"exc"},
-  "5352": {opm:7.9, growth:-4.2, sales:1779, equity:50.8, mktcap:880, semi:12, judge:"exc"},
   "5333": {opm:14.2, growth:16.9, sales:6701, equity:65, mktcap:6200, semi:22, judge:"rec"},
   "1966": {opm:3.3, growth:-39.4, sales:537, equity:45.5, mktcap:160, semi:25, judge:"chk"},
-  "6957": {opm:16, growth:6.6, sales:340, equity:82.8, mktcap:320, semi:15, judge:"exc"},
   "6247": {opm:7.4, growth:12.7, sales:449, equity:75.9, mktcap:310, semi:15, judge:"exc"},
   "6521": {opm:5.4, growth:null, sales:100, equity:31.8, mktcap:180, semi:30, judge:"chk"},
   "6834": {opm:25.7, growth:174.5, sales:301, equity:81.2, mktcap:240, semi:22, judge:"chk"},
   "4238": {opm:4.1, growth:-64.3, sales:126, equity:85.7, mktcap:220, semi:90, judge:"chk"},
-  "6967": {opm:10, growth:null, sales:2800, equity:70, mktcap:7500, semi:100, judge:"exc"},
-  "5809": {opm:5, growth:null, sales:600, equity:60, mktcap:300, semi:40, judge:"exc"},
-  "4185": {opm:11.5, growth:null, sales:4000, equity:55, mktcap:9000, semi:80, judge:"exc"},
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = FIGURES;

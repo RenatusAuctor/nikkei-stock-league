@@ -689,6 +689,10 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
     tx=null;
   },{passive:true});
 
+  window.addEventListener('hashchange',function(){
+    var h=parseInt((location.hash||'').replace('#',''),10);
+    if(!isNaN(h)&&h-1!==cur)show(h-1,false);
+  });
   var h=parseInt((location.hash||'').replace('#',''),10);
   show(isNaN(h)?0:h-1,false);
 })();

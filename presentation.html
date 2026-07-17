@@ -761,25 +761,34 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 
   var chipWrap=document.getElementById('chipWrap');
   var chipCap=document.getElementById('chipCap');
-  var chipLayers=[
-    {el:document.querySelector('.csub'),at:2},
-    {el:document.querySelector('.cdie'),at:7},
-    {el:document.querySelector('.clid'),at:12},
-    {el:document.querySelector('.cring'),at:15,noInc:true}
-  ];
-  function updateChip(idx){
+  var CE={};
+  ['cwafer','cdie','csub','cunder','cwires','clid','cpins','cbeamP','cled','cring'].forEach(function(c){CE[c]=chipWrap.querySelector('.'+c)});
+  var stageNames=['웨이퍼 입고','웨이퍼 검사','얇게 갈기','절단선 긋기','칩 분리','기판 준비','칩 올리기','접합','금선 연결','수지 덮기','굳히기','레이저 각인','다리 달기','최종 검사','합격 판정','칩 완성 ✓'];
+  function updateChip(i){
     if(!chipWrap)return;
-    var incGiven=false;
-    chipLayers.forEach(function(L){
-      L.el.classList.remove('hid','inc','set');
-      if(idx>=L.at)L.el.classList.add('set');
-      else if(!incGiven&&!L.noInc){L.el.classList.add('inc');incGiven=true}
-      else L.el.classList.add('hid');
-    });
-    var done=idx>=N-1;
-    chipCap.textContent=done?'칩 완성 ✓':'칩 조립 '+Math.round((idx+1)/N*100)+'%';
-    chipCap.classList.toggle('done',done);
-    chipWrap.classList.toggle('dim',slides[idx].getAttribute('data-chip')==='dim');
+    CE.cwafer.classList.toggle('on',i<=4);
+    CE.cwafer.classList.toggle('scan',i===1);
+    CE.cwafer.classList.toggle('grind',i===2);
+    CE.cwafer.classList.toggle('diced',i===3||i===4);
+    CE.cdie.classList.toggle('on',i>=4);
+    CE.cdie.classList.toggle('fly',i===4||i===5);
+    CE.cdie.classList.toggle('seat',i>=6);
+    CE.csub.classList.toggle('on',i>=5);
+    CE.cunder.classList.toggle('on',i>=7);
+    CE.cwires.classList.toggle('on',i>=8);
+    CE.clid.classList.toggle('on',i>=9);
+    CE.clid.classList.toggle('solid',i>=10);
+    CE.clid.classList.toggle('marked',i>=11);
+    CE.cpins.classList.toggle('on',i>=12);
+    CE.cbeamP.classList.toggle('on',i===13);
+    CE.cled.classList.toggle('on',i>=14);
+    CE.cring.classList.toggle('on',i>=15);
+    var si=Math.min(i,stageNames.length-1);
+    chipCap.innerHTML='<b>후공정 '+(si+1)+'/16</b> · '+stageNames[si];
+    chipCap.classList.toggle('done',i>=N-1);
+    var dim=slides[i].getAttribute('data-chip')==='dim';
+    chipWrap.classList.toggle('dim',dim);
+    chipCap.style.opacity=dim?'.25':'1';
   }
 
   function show(i,push){

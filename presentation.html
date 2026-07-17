@@ -214,10 +214,49 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .s-close .trio .t{font-size:clamp(15px,2.6vmin,30px);font-weight:700;color:var(--ink-2)}
 .s-close .thanks{margin-top:6vmin;color:var(--ink-3);font-size:clamp(13px,2vmin,20px)}
 
+/* ---------- 3D chip build-up (page 진행 = 칩 조립) ---------- */
+#chipWrap{position:fixed;top:5vmin;right:4vmin;width:17vmin;height:17vmin;z-index:0;pointer-events:none;opacity:.95;transition:opacity .6s}
+#chipWrap.dim{opacity:.12}
+#chipScene{width:100%;height:82%;perspective:900px}
+#chipStage{width:100%;height:100%;position:relative;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-42deg)}
+.clayer{position:absolute;transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.2,.7,.3,1),opacity 1.1s}
+.clayer .in{position:absolute;inset:0;transform-style:preserve-3d;border-radius:inherit}
+.clayer.hid{transform:translateZ(16vmin);opacity:0}
+.clayer.inc{transform:translateZ(7vmin);opacity:.55}
+.clayer.inc .in{animation:bobz 2.4s ease-in-out infinite alternate}
+@keyframes bobz{from{transform:translateZ(0)}to{transform:translateZ(1.1vmin)}}
+.cshadow{inset:6%;border-radius:12%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent 75%);transform:translateZ(-1.6vmin)}
+.csub{inset:8%;border-radius:4%}
+.csub .in{background-image:repeating-linear-gradient(0deg,rgba(201,133,0,.18) 0 1px,transparent 1px 14%),repeating-linear-gradient(90deg,rgba(201,133,0,.18) 0 1px,transparent 1px 14%),linear-gradient(135deg,#15351F,#0D2416);border:1px solid #2E5A40}
+.csub.set{transform:translateZ(0)}
+.cdie{inset:31%;border-radius:5%}
+.cdie .in{background-image:radial-gradient(circle at 50% 50%,rgba(79,184,232,.30),transparent 65%),repeating-linear-gradient(0deg,rgba(79,184,232,.22) 0 1px,transparent 1px 22%),repeating-linear-gradient(90deg,rgba(79,184,232,.22) 0 1px,transparent 1px 22%);background-color:#0F141C;border:1px solid #3A465A;box-shadow:0 0 1.6vmin rgba(79,184,232,.3)}
+.cdie.set{transform:translateZ(1.5vmin)}
+.clid{inset:13%;border-radius:5%}
+.clid .in{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(26,32,44,.94),rgba(14,18,26,.97));border:1px solid #2A3444;color:rgba(240,180,41,.6);font-size:1.5vmin;font-weight:700;letter-spacing:.22em}
+.clid.set{transform:translateZ(2.9vmin)}
+.cring{inset:4%;border-radius:6%;border:1px solid rgba(240,180,41,.55);box-shadow:0 0 3vmin rgba(240,180,41,.45),inset 0 0 2vmin rgba(240,180,41,.2)}
+.cring.set{transform:translateZ(3.2vmin);animation:ringpulse 2.6s ease-in-out infinite}
+@keyframes ringpulse{0%,100%{box-shadow:0 0 2vmin rgba(240,180,41,.35),inset 0 0 2vmin rgba(240,180,41,.15)}50%{box-shadow:0 0 4.5vmin rgba(240,180,41,.7),inset 0 0 2.6vmin rgba(240,180,41,.3)}}
+#chipCap{margin-top:1.4vmin;text-align:center;font-size:clamp(10px,1.5vmin,14px);color:var(--ink-3);font-weight:700;letter-spacing:.12em}
+#chipCap.done{color:var(--gold)}
+
+/* ---------- map leader-line draw-in ---------- */
+.s-map .leader{stroke-dasharray:200;stroke-dashoffset:200}
+.s-map.active .leader{animation:drawline .7s ease forwards;animation-delay:1s}
+.s-map .mlabel,.s-map .msub{opacity:0}
+.s-map.active .mlabel,.s-map.active .msub{animation:fadeup .6s ease forwards;animation-delay:1.35s}
+@keyframes drawline{to{stroke-dashoffset:0}}
+@keyframes fadeup{to{opacity:1}}
+
 @media (prefers-reduced-motion:reduce){
   .rv,.slide.active .rv{animation:none!important;opacity:1!important}
   .fr .bar{transition:none!important}
   .pulse{animation:none!important;opacity:.4}
+  .clayer{transition:none!important}
+  .clayer.inc .in,.cring.set{animation:none!important}
+  .s-map .leader{stroke-dashoffset:0!important;animation:none!important}
+  .s-map .mlabel,.s-map .msub{opacity:1!important;animation:none!important}
 }
 /* ?static / #Nstatic : capture/print mode — no motion, everything at final state */
 .static .rv,.static .slide.active .rv{animation:none!important;opacity:1!important}

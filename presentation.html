@@ -214,32 +214,86 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .s-close .trio .t{font-size:clamp(15px,2.6vmin,30px);font-weight:700;color:var(--ink-2)}
 .s-close .thanks{margin-top:6vmin;color:var(--ink-3);font-size:clamp(13px,2vmin,20px)}
 
-/* ---------- 3D chip build-up (page 진행 = 칩 조립) ---------- */
-#chipWrap{position:fixed;top:5vmin;right:4vmin;width:17vmin;height:17vmin;z-index:0;pointer-events:none;opacity:.95;transition:opacity .6s}
-#chipWrap.dim{opacity:.12}
-#chipScene{width:100%;height:82%;perspective:900px}
+/* ---------- 3D chip build-up : 후공정 16단계 (화면 중앙, 콘텐츠 뒤 배경) ---------- */
+#chipWrap{position:fixed;left:50%;top:50%;width:64vmin;height:64vmin;transform:translate(-50%,-54%);z-index:0;pointer-events:none;opacity:.55;transition:opacity .6s}
+#chipWrap.dim{opacity:.07}
+#chipScene{width:100%;height:100%;perspective:1400px}
 #chipStage{width:100%;height:100%;position:relative;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-42deg)}
-.clayer{position:absolute;transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.2,.7,.3,1),opacity 1.1s}
-.clayer .in{position:absolute;inset:0;transform-style:preserve-3d;border-radius:inherit}
-.clayer.hid{transform:translateZ(16vmin);opacity:0}
-.clayer.inc{transform:translateZ(7vmin);opacity:.55}
-.clayer.inc .in{animation:bobz 2.4s ease-in-out infinite alternate}
-@keyframes bobz{from{transform:translateZ(0)}to{transform:translateZ(1.1vmin)}}
-.cshadow{inset:6%;border-radius:12%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent 75%);transform:translateZ(-1.6vmin)}
-.csub{inset:8%;border-radius:4%}
-.csub .in{background-image:repeating-linear-gradient(0deg,rgba(201,133,0,.18) 0 1px,transparent 1px 14%),repeating-linear-gradient(90deg,rgba(201,133,0,.18) 0 1px,transparent 1px 14%),linear-gradient(135deg,#15351F,#0D2416);border:1px solid #2E5A40}
-.csub.set{transform:translateZ(0)}
-.cdie{inset:31%;border-radius:5%}
-.cdie .in{background-image:radial-gradient(circle at 50% 50%,rgba(79,184,232,.30),transparent 65%),repeating-linear-gradient(0deg,rgba(79,184,232,.22) 0 1px,transparent 1px 22%),repeating-linear-gradient(90deg,rgba(79,184,232,.22) 0 1px,transparent 1px 22%);background-color:#0F141C;border:1px solid #3A465A;box-shadow:0 0 1.6vmin rgba(79,184,232,.3)}
-.cdie.set{transform:translateZ(1.5vmin)}
-.clid{inset:13%;border-radius:5%}
-.clid .in{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(26,32,44,.94),rgba(14,18,26,.97));border:1px solid #2A3444;color:rgba(240,180,41,.6);font-size:1.5vmin;font-weight:700;letter-spacing:.22em}
-.clid.set{transform:translateZ(2.9vmin)}
-.cring{inset:4%;border-radius:6%;border:1px solid rgba(240,180,41,.55);box-shadow:0 0 3vmin rgba(240,180,41,.45),inset 0 0 2vmin rgba(240,180,41,.2)}
-.cring.set{transform:translateZ(3.2vmin);animation:ringpulse 2.6s ease-in-out infinite}
+.cel{position:absolute;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.7,.3,1),opacity 1s;opacity:0}
+.cel .face{position:absolute;inset:0;border-radius:inherit}
+.cshadow{inset:14%;border-radius:14%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent 75%);transform:translateZ(-1.8vmin);opacity:1;transition:none}
+/* 1~5 웨이퍼 */
+.cwafer{inset:12%;border-radius:50%;transform:translateZ(14vmin)}
+.cwafer.on{opacity:1;transform:translateZ(1.2vmin)}
+.cwafer .face{background-color:#121826;border:1px solid #3A465A;background-image:radial-gradient(circle at 50% 50%,rgba(79,184,232,.18),transparent 70%),repeating-linear-gradient(0deg,rgba(79,184,232,.14) 0 1px,transparent 1px 7%),repeating-linear-gradient(90deg,rgba(79,184,232,.14) 0 1px,transparent 1px 7%);overflow:hidden}
+.cdice{position:absolute;inset:0;opacity:0;transition:opacity .8s;background-image:repeating-linear-gradient(0deg,rgba(240,180,41,.55) 0 1px,transparent 1px 14%),repeating-linear-gradient(90deg,rgba(240,180,41,.55) 0 1px,transparent 1px 14%)}
+.cwafer.diced .cdice{opacity:1}
+.cbeamW{position:absolute;top:0;bottom:0;width:12%;left:-15%;background:linear-gradient(90deg,transparent,rgba(79,184,232,.75),transparent);opacity:0}
+.cwafer.scan .cbeamW{opacity:1;animation:sweep 1.6s linear infinite}
+.cwafer.grind .cbeamW{opacity:1;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:sweep 1.9s linear infinite}
+@keyframes sweep{from{transform:translateX(0)}to{transform:translateX(1080%)}}
+/* 5~ 다이(칩) */
+.cdie{inset:42%;border-radius:6%;transform:translateZ(.6vmin)}
+.cdie .face{background-color:#0F141C;border:1px solid rgba(79,184,232,.8);background-image:radial-gradient(circle at 50% 50%,rgba(79,184,232,.35),transparent 65%),repeating-linear-gradient(0deg,rgba(79,184,232,.28) 0 1px,transparent 1px 18%),repeating-linear-gradient(90deg,rgba(79,184,232,.28) 0 1px,transparent 1px 18%)}
+.cdie.on{opacity:1}
+.cdie.fly{transform:translateZ(9vmin)}
+.cdie.fly .face{box-shadow:0 0 3vmin rgba(79,184,232,.6)}
+.cdie.seat{transform:translateZ(2.2vmin)}
+/* 6~ 기판 */
+.csub{inset:24%;border-radius:4%;transform:translateZ(-8vmin)}
+.csub .face{border:1px solid #2E5A40;background-image:repeating-linear-gradient(0deg,rgba(201,133,0,.2) 0 1px,transparent 1px 11%),repeating-linear-gradient(90deg,rgba(201,133,0,.2) 0 1px,transparent 1px 11%),linear-gradient(135deg,#15351F,#0D2416)}
+.csub.on{opacity:1;transform:translateZ(0)}
+/* 8 접합 */
+.cunder{inset:39%;border-radius:10%;background:radial-gradient(closest-side,rgba(240,180,41,.55),transparent 75%);transform:translateZ(1.2vmin)}
+.cunder.on{opacity:1}
+/* 9 금선 */
+.cwires{inset:24%;transform:translateZ(2.6vmin)}
+.cwires.on{opacity:1}
+.cwires path{fill:none;stroke:rgba(240,180,41,.85);stroke-width:1.1;stroke-dasharray:60;stroke-dashoffset:60}
+.cwires.on path{animation:wire .8s ease forwards}
+.cwires.on path:nth-child(2){animation-delay:.07s}
+.cwires.on path:nth-child(3){animation-delay:.14s}
+.cwires.on path:nth-child(4){animation-delay:.21s}
+.cwires.on path:nth-child(5){animation-delay:.28s}
+.cwires.on path:nth-child(6){animation-delay:.35s}
+.cwires.on path:nth-child(7){animation-delay:.42s}
+.cwires.on path:nth-child(8){animation-delay:.49s}
+@keyframes wire{to{stroke-dashoffset:0}}
+/* 10~ 몰드 뚜껑 · 12 각인 */
+.clid{inset:26%;border-radius:5%;transform:translateZ(12vmin)}
+.clid .face{background:rgba(18,22,30,.5);border:1px solid #2A3444;transition:background .8s}
+.clid.on{opacity:1;transform:translateZ(3.4vmin)}
+.clid.solid .face{background:linear-gradient(145deg,rgba(26,32,44,.97),rgba(12,16,24,.98))}
+.cmark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(240,180,41,0);font-size:4vmin;font-weight:700;letter-spacing:.24em;transition:color .8s,text-shadow .8s}
+.clid.marked .cmark{color:rgba(240,180,41,.75);text-shadow:0 0 1.6vmin rgba(240,180,41,.55)}
+/* 13 다리(리드핀) */
+.cpins{inset:24%;transform:translateZ(.4vmin)}
+.cpins.on{opacity:1}
+.cpins i{position:absolute;background:repeating-linear-gradient(90deg,#C98500 0 6%,transparent 6% 14%)}
+.cpins i.t{left:6%;right:6%;top:-3.4%;height:3%}
+.cpins i.b{left:6%;right:6%;bottom:-3.4%;height:3%}
+.cpins i.l{top:6%;bottom:6%;left:-3.4%;width:3%;background:repeating-linear-gradient(0deg,#C98500 0 6%,transparent 6% 14%)}
+.cpins i.r{top:6%;bottom:6%;right:-3.4%;width:3%;background:repeating-linear-gradient(0deg,#C98500 0 6%,transparent 6% 14%)}
+/* 14 최종 검사 빔 */
+.cbeamP{inset:24%;transform:translateZ(4vmin);overflow:hidden;border-radius:4%}
+.cbeamP i{position:absolute;top:0;bottom:0;width:14%;left:-16%;background:linear-gradient(90deg,transparent,rgba(79,184,232,.6),transparent)}
+.cbeamP.on{opacity:1}
+.cbeamP.on i{animation:sweep 1.7s linear infinite}
+/* 15 합격 LED */
+.cled{width:2.4vmin;height:2.4vmin;border-radius:50%;left:69%;top:69%;background:#F0B429;box-shadow:0 0 2vmin rgba(240,180,41,.9);transform:translateZ(3.6vmin)}
+.cled.on{opacity:1}
+/* 16 완성 광륜 */
+.cring{inset:20%;border-radius:8%;border:1px solid rgba(240,180,41,.55);transform:translateZ(3.8vmin)}
+.cring.on{opacity:1;animation:ringpulse 2.4s ease-in-out infinite}
 @keyframes ringpulse{0%,100%{box-shadow:0 0 2vmin rgba(240,180,41,.35),inset 0 0 2vmin rgba(240,180,41,.15)}50%{box-shadow:0 0 4.5vmin rgba(240,180,41,.7),inset 0 0 2.6vmin rgba(240,180,41,.3)}}
-#chipCap{margin-top:1.4vmin;text-align:center;font-size:clamp(10px,1.5vmin,14px);color:var(--ink-3);font-weight:700;letter-spacing:.12em}
-#chipCap.done{color:var(--gold)}
+/* 단계 캡션 */
+#chipCap{position:fixed;right:2.6vmin;bottom:4.6vmin;z-index:2;text-align:right;font-size:clamp(10px,1.6vmin,15px);color:var(--ink-3);font-weight:700;letter-spacing:.1em;pointer-events:none;transition:opacity .5s}
+#chipCap b{color:var(--ink-2)}
+#chipCap.done,{color:var(--gold)}
+#chipCap.done b{color:var(--gold)}
+/* 지도 → 구마모토 줌 전환 */
+.mapWrap svg{transition:transform .75s cubic-bezier(.55,0,.85,.35),opacity .7s ease;transform-origin:10.4% 82.6%}
+.mapWrap.zoomout svg{transform:scale(2.6);opacity:0}
 
 /* ---------- map leader-line draw-in ---------- */
 .s-map .leader{stroke-dasharray:200;stroke-dashoffset:200}

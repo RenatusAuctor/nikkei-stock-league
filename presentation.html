@@ -41,13 +41,14 @@ body::before{
   pointer-events:none;z-index:0;
 }
 
-#progress{position:fixed;top:0;left:0;height:3px;background:var(--gold);width:0%;transition:width .35s ease;z-index:50}
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--gold);width:0%;transition:width .35s ease;z-index:50;overflow:visible}
+#progress::after{content:"";position:absolute;right:-3px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px 3px rgba(240,180,41,.75)}
 
 .slide{
   position:fixed;inset:0;z-index:1;
   display:flex;flex-direction:column;justify-content:center;
   padding:7vmin 9vmin 9vmin;
-  opacity:0;visibility:hidden;transform:translateY(16px);
+  opacity:0;visibility:hidden;transform:translateY(16px) scale(.986);
   transition:opacity .45s ease,transform .45s ease,visibility 0s linear .45s;
 }
 .slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .5s ease,transform .5s ease}

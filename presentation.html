@@ -808,7 +808,22 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
     });
     if(push!==false)location.hash=(cur+1);
   }
-  function next(){show(cur+1)} function prev(){show(cur-1)}
+  var MAP_I=-1;
+  slides.forEach(function(s,ix){if(s.classList.contains('s-map'))MAP_I=ix});
+  var zooming=false;
+  function next(){
+    if(zooming)return;
+    if(cur===MAP_I&&cur<N-1&&!reduced){
+      zooming=true;
+      var mw=slides[cur].querySelector('.mapWrap');
+      mw.classList.add('zoomout');
+      setTimeout(function(){
+        show(cur+1);
+        setTimeout(function(){mw.classList.remove('zoomout');zooming=false},650);
+      },430);
+    }else show(cur+1);
+  }
+  function prev(){if(zooming)return;show(cur-1)}
 
   document.addEventListener('keydown',function(e){
     if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'||e.key==='ArrowDown'){e.preventDefault();next()}

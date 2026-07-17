@@ -58,14 +58,12 @@ body::before{
 
 /* type scale */
 .eyebrow{font-size:clamp(12px,1.8vmin,19px);letter-spacing:.28em;color:var(--gold);font-weight:700;margin-bottom:2.6vmin}
-.eyebrow.cool{color:var(--blue)}
 h1.huge{font-size:clamp(40px,9.2vmin,118px);font-weight:800;line-height:1.14;letter-spacing:-.02em}
 h1.big{font-size:clamp(30px,6.4vmin,84px);font-weight:800;line-height:1.2;letter-spacing:-.015em}
 h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;letter-spacing:-.01em;margin-bottom:4vmin}
 .sub{font-size:clamp(16px,2.6vmin,30px);color:var(--ink-2);line-height:1.65;font-weight:500}
 .punch{font-size:clamp(18px,3.1vmin,38px);font-weight:700;line-height:1.5;margin-top:7vmin}
 .punch em{font-style:normal;color:var(--gold)}
-.punch.cool em{color:var(--blue)}
 .small{font-size:clamp(12px,1.75vmin,17px);color:var(--ink-3);line-height:1.6}
 .gold{color:var(--gold)}.blue{color:var(--blue)}.strike{color:var(--bad)}
 .num{font-variant-numeric:tabular-nums}
@@ -95,7 +93,11 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 /* S1 title */
 .s-title{align-items:flex-start}
 .s-title .sub{margin-top:3.4vmin;max-width:34em}
-.s-title .meta{margin-top:9vmin;display:flex;gap:2.6vmin;align-items:center;color:var(--ink-3);
+.themeTag{margin-top:5vmin;display:inline-flex;align-items:baseline;gap:1.6vmin;
+  border:1px solid rgba(240,180,41,.4);border-radius:999px;padding:1.3vmin 2.8vmin;background:rgba(240,180,41,.06)}
+.themeTag .tl{font-size:clamp(11px,1.6vmin,15px);letter-spacing:.18em;color:var(--ink-3);font-weight:700}
+.themeTag .tn{font-size:clamp(15px,2.4vmin,26px);font-weight:800;color:var(--gold)}
+.s-title .meta{margin-top:5vmin;display:flex;gap:2.6vmin;align-items:center;color:var(--ink-3);
   font-size:clamp(12px,1.8vmin,17px);font-weight:600}
 .dotSep{width:5px;height:5px;border-radius:50%;background:var(--ink-3)}
 
@@ -108,7 +110,7 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .xy .card.yes{border-color:rgba(240,180,41,.45)}
 .xy .card.yes h3{color:var(--gold)}
 
-/* S3 cake */
+/* S3 book */
 .flow{display:flex;align-items:stretch;gap:1.8vmin;margin-bottom:3.2vmin}
 .flow .step{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.4vmin;text-align:center}
 .flow .step .ico{font-size:clamp(26px,5vmin,54px);margin-bottom:1.4vmin;display:block}
@@ -117,7 +119,6 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .flow .arrow{align-self:center;color:var(--ink-3);font-size:clamp(18px,3vmin,34px);font-weight:700}
 .flow .step.hero{border-color:rgba(240,180,41,.5);background:linear-gradient(180deg,rgba(240,180,41,.10),rgba(240,180,41,.03))}
 .flow .step.hero h3{color:var(--gold)}
-.tagline{font-size:clamp(13px,2vmin,21px);color:var(--ink-3)}
 
 /* S4 magnet reasons */
 .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2vmin;margin-bottom:3.4vmin}
@@ -125,12 +126,14 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 /* S5 map */
 .s-map{flex-direction:row;gap:5vmin;align-items:center}
 .s-map .txt{flex:1.05;display:flex;flex-direction:column;min-width:0}
-.s-map .mapWrap{flex:1;min-width:0}
-.mapWrap svg{width:100%;height:auto;display:block}
-.land{fill:#161D28;stroke:#2A3444;stroke-width:1.5}
-.mlabel{font-size:17px;font-weight:700;fill:var(--ink)}
+.s-map .mapWrap{flex:1;min-width:0;max-height:82vh}
+.mapWrap svg{width:100%;max-height:82vh;height:auto;display:block}
+.land{fill:#161D28;stroke:#2A3444;stroke-width:1}
+.land.kumamoto{fill:rgba(201,133,0,.38);stroke:#C98500;stroke-width:1.4}
+.land.aomori,.land.iwate,.land.fukushima{fill:rgba(30,149,212,.3);stroke:#1E95D4;stroke-width:1.4}
+.mlabel{font-size:19px;font-weight:700;fill:var(--ink)}
 .mlabel.dim{fill:var(--ink-3);font-weight:600}
-.msub{font-size:13px;fill:var(--ink-3);font-weight:500}
+.msub{font-size:14px;fill:var(--ink-3);font-weight:500}
 .leader{stroke:#3A465A;stroke-width:1.2}
 .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.2s ease-out infinite}
 @keyframes pulse{0%{opacity:.75;transform:scale(.4)}80%{opacity:0;transform:scale(1.9)}100%{opacity:0;transform:scale(1.9)}}
@@ -144,7 +147,16 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .tl .row p b{color:var(--ink);font-weight:700}
 .tl .row.hot{border-color:rgba(240,180,41,.45)}
 
-/* S8 funnel */
+/* S7 theme reveal */
+.s-theme{align-items:flex-start}
+.quoteLine{font-size:clamp(26px,5.2vmin,66px);font-weight:800;line-height:1.3;letter-spacing:-.015em}
+.themeName{margin-top:4.5vmin;font-size:clamp(28px,5.6vmin,72px);font-weight:800;color:var(--gold);letter-spacing:-.01em;line-height:1.25}
+.decode{display:flex;gap:2vmin;margin-top:4vmin;flex-wrap:wrap}
+.decode .d1{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.6vmin 2.2vmin;
+  font-size:clamp(12px,1.9vmin,19px);color:var(--ink-2);line-height:1.5}
+.decode .d1 b{color:var(--ink);display:block;margin-bottom:.4vmin;font-size:clamp(13px,2.1vmin,21px)}
+
+/* S9 funnel */
 .funnel{display:flex;flex-direction:column;gap:1.7vmin;margin-bottom:3vmin}
 .fr{display:grid;grid-template-columns:minmax(15ch,20ch) 1fr minmax(7ch,9ch);gap:2vmin;align-items:center}
 .fr .lb{font-size:clamp(13px,2vmin,21px);color:var(--ink-2);font-weight:600;text-align:right;line-height:1.3}
@@ -155,12 +167,12 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .fr .val{font-size:clamp(16px,2.8vmin,32px);font-weight:800;text-align:left}
 .fr.final .val{color:var(--gold)}
 
-/* S9 verify */
+/* S10 verify */
 .bigStat{display:flex;gap:5vmin;align-items:baseline;margin-bottom:3vmin;flex-wrap:wrap}
 .bigStat .n{font-size:clamp(56px,13vmin,170px);font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
 .bigStat .d{font-size:clamp(15px,2.6vmin,30px);color:var(--ink-2);font-weight:600;line-height:1.5;max-width:24em}
 
-/* S10 excluded list */
+/* S11 excluded list */
 .exList{display:flex;flex-direction:column;gap:1.4vmin;margin-bottom:2.8vmin}
 .exRow{display:flex;align-items:center;gap:2.4vmin;background:var(--card);border:1px solid var(--line);
   border-radius:12px;padding:1.6vmin 2.4vmin}
@@ -169,69 +181,51 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .exRow .why{font-size:clamp(12px,1.9vmin,19px);color:var(--ink-3)}
 .exRow .out{flex:0 0 auto;font-weight:800;color:var(--bad);font-size:clamp(14px,2.3vmin,25px)}
 
-/* S12 fails */
-.failGrid{display:grid;grid-template-columns:1fr 1fr;gap:2.4vmin;margin-bottom:3vmin}
-.fail .b4{color:var(--bad);font-weight:800}
-.fail .aft{color:var(--blue);font-weight:800}
-
-/* S13 spotlight */
-.spot{display:grid;grid-template-columns:repeat(2,1fr);gap:2.2vmin;margin-bottom:2.6vmin}
-.spot .card{display:flex;flex-direction:column;gap:.8vmin}
-.spot .who{font-size:clamp(12px,1.75vmin,17px);color:var(--ink-3);font-weight:600}
-.spot h3 .pct{float:right;color:var(--ink-3);font-weight:700;font-size:.75em}
-
-/* S14 roster */
-.roster{display:flex;flex-direction:column;gap:.7vmin;margin-bottom:1.8vmin}
-.rr{display:grid;grid-template-columns:minmax(13ch,22ch) 1fr 6ch minmax(14vmin,24vmin) 6ch;
-  gap:1.8vmin;align-items:center;padding:.55vmin 1.4vmin;border-radius:8px}
-.rr:nth-child(odd){background:rgba(255,255,255,.025)}
-.rr .nm{font-size:clamp(12px,1.85vmin,18px);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rr .nm .st{color:var(--gold);font-size:.85em}
-.rr .ds{font-size:clamp(11px,1.7vmin,16px);color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chip{font-size:clamp(10px,1.5vmin,14px);font-weight:700;text-align:center;border-radius:999px;padding:.3vmin .2vmin}
-.chip.k{color:#FFD887;background:rgba(201,133,0,.18);border:1px solid rgba(201,133,0,.5)}
-.chip.t{color:#9AD6F5;background:rgba(30,149,212,.16);border:1px solid rgba(30,149,212,.5)}
-.wbar{height:clamp(10px,1.7vmin,16px);position:relative}
-.wbar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:3px;transition:width .9s cubic-bezier(.2,.7,.3,1);transition-delay:var(--dd,0s)}
-.slide.active .wbar i{width:var(--w)}
-.wbar.k i{background:var(--gold-deep)}.wbar.t i{background:var(--blue-deep)}
-.rr .pc{font-size:clamp(11px,1.75vmin,17px);font-weight:700;text-align:right;color:var(--ink-2)}
+/* S13 roster groups */
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:2vmin;margin-bottom:2vmin}
+.grp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2vmin 2.4vmin}
+.grp h3{font-size:clamp(14px,2.3vmin,24px);font-weight:800;margin-bottom:1.2vmin}
+.grp h3 .gi{margin-right:1vmin}
+.grp ul{list-style:none}
+.grp li{display:flex;gap:1.1vmin;align-items:baseline;padding:.45vmin 0;
+  font-size:clamp(11.5px,1.8vmin,17px);color:var(--ink-2);line-height:1.45}
+.grp .co{color:var(--ink);font-weight:700;white-space:nowrap}
+.grp .st{color:var(--gold);font-size:.9em}
+.rdot{flex:0 0 auto;width:1.1vmin;height:1.1vmin;min-width:7px;min-height:7px;border-radius:50%;align-self:center}
+.rdot.k{background:var(--gold-deep)}.rdot.t{background:var(--blue-deep)}
 .legendLine{display:flex;gap:3vmin;align-items:center;flex-wrap:wrap}
 .legendLine .li{display:flex;gap:1vmin;align-items:center;font-size:clamp(11px,1.65vmin,16px);color:var(--ink-3);font-weight:600}
-.swatch{width:1.6vmin;height:1.6vmin;min-width:9px;min-height:9px;border-radius:3px}
+.swatch{width:1.6vmin;height:1.6vmin;min-width:9px;min-height:9px;border-radius:50%}
 .swatch.k{background:var(--gold-deep)}.swatch.t{background:var(--blue-deep)}
 
-/* S15 money rules */
-.money{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2vmin;margin-bottom:3vmin}
-.money .card b{color:var(--gold);font-size:clamp(22px,4vmin,46px);display:block;margin-bottom:1vmin;font-weight:800}
-
-/* S16 risk */
+/* S14 risk */
 .risk{display:flex;flex-direction:column;gap:2vmin;margin-bottom:3vmin}
 .risk .card{display:grid;grid-template-columns:minmax(16ch,22ch) 1fr;gap:2.6vmin;align-items:center}
 .risk .q{font-size:clamp(15px,2.5vmin,27px);font-weight:800;line-height:1.4}
 .risk .a{font-size:clamp(13px,2vmin,21px);color:var(--ink-2);line-height:1.6}
 .risk .a b{color:var(--ink)}
 
-/* S18 closing */
+/* S16 closing */
 .s-close{align-items:center;text-align:center;justify-content:center}
-.s-close .trio{display:flex;gap:4.5vmin;margin-top:4.5vmin;flex-wrap:wrap;justify-content:center}
+.s-close .themeLine{margin-top:4.5vmin;font-size:clamp(17px,3vmin,36px);font-weight:800;color:var(--gold)}
+.s-close .trio{display:flex;gap:4.5vmin;margin-top:4vmin;flex-wrap:wrap;justify-content:center}
 .s-close .trio .t{font-size:clamp(15px,2.6vmin,30px);font-weight:700;color:var(--ink-2)}
 .s-close .thanks{margin-top:6vmin;color:var(--ink-3);font-size:clamp(13px,2vmin,20px)}
 
 @media (prefers-reduced-motion:reduce){
   .rv,.slide.active .rv{animation:none!important;opacity:1!important}
-  .fr .bar,.wbar i{transition:none!important}
+  .fr .bar{transition:none!important}
   .pulse{animation:none!important;opacity:.4}
 }
-/* ?static=1 : capture/print mode — no motion, everything at final state */
+/* ?static / #Nstatic : capture/print mode — no motion, everything at final state */
 .static .rv,.static .slide.active .rv{animation:none!important;opacity:1!important}
-.static .fr .bar,.static .wbar i{transition:none!important}
+.static .fr .bar{transition:none!important}
 .static .pulse{animation:none!important;opacity:.35}
 .static .slide{transition:none!important}
 @media (max-aspect-ratio:1/1){
   .s-map{flex-direction:column}
-  .xy,.failGrid,.spot{grid-template-columns:1fr}
-  .reasons,.money{grid-template-columns:1fr}
+  .xy,.groups{grid-template-columns:1fr}
+  .reasons{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -242,11 +236,12 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 <main id="deck">
 
 <!-- 1 표지 -->
-<section class="slide s-title" data-note="인사 후: 오늘 발표 제목이 곧 결론입니다. 세계 1위 기술은 도쿄가 아니라 시골에 있다 — 저희는 이걸 넉 달 동안 숫자와 서류로 증명했고, 오늘 그 이야기를 들려드립니다.">
+<section class="slide s-title" data-note="인사 후: 오늘 발표 제목이 곧 결론입니다. 세계 1위 기술은 도쿄가 아니라 시골에 있다 — 저희는 이걸 숫자와 서류로 증명했습니다. 저희의 공식 테마명은 '후공정 니치 톱 × 지방 클러스터' — 지금은 어려워 보여도, 발표가 끝나면 이 이름이 완전히 이해되실 겁니다.">
   <div class="eyebrow rv">닛케이 스톡리그 2026 · 중간 성과 보고</div>
   <h1 class="huge rv" style="--d:.15s">세계 1위는,<br>시골에 있다<span class="gold">.</span></h1>
   <p class="sub rv" style="--d:.45s">일본 증시에 상장된 4,438개 회사 중에서 찾아낸,<br>지방의 ‘세계 챔피언’ 15곳 이야기</p>
-  <div class="meta rv" style="--d:.7s"><span>2026년 7월</span><span class="dotSep"></span><span>선정 완료 · 운용 준비</span></div>
+  <div class="themeTag rv" style="--d:.65s"><span class="tl">공식 테마</span><span class="tn">후공정 니치 톱 × 지방 클러스터</span></div>
+  <div class="meta rv" style="--d:.85s"><span>2026년 7월</span><span class="dotSep"></span><span>종목 선정 완료 · 운용 준비</span></div>
 </section>
 
 <!-- 2 게임의 규칙 -->
@@ -271,21 +266,21 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   <p class="punch rv" style="--d:.95s">그래서 저희는 <em>아무도 반박할 수 없는 ‘이유’</em>를 만드는 데 전부를 걸었습니다.</p>
 </section>
 
-<!-- 3 반도체 = 케이크 -->
-<section class="slide" data-note="반도체 지식 0을 가정하고 케이크 비유. 원판에 회로를 새기는 ‘굽기’가 뉴스의 주인공이지만, 자르고 포장하고 검사해야 상품이 됩니다. 머리카락 수만분의 1 굵기 회로를 다치지 않게 자르는 것 자체가 세계 최고 기술.">
+<!-- 3 반도체 = 책 만들기 -->
+<section class="slide" data-note="반도체 지식 0을 가정하고 책 만들기에 비유. 원판에 회로를 새기는 ‘인쇄’가 뉴스의 주인공이지만, 낱장을 자르고 표지로 감싸고 파본을 걸러내야 책이 됩니다. 이 ‘마무리 공정’이 오늘의 주인공이고, 정식 용어로는 ‘후공정’입니다.">
   <div class="eyebrow rv">30초 만에 이해하는 반도체</div>
-  <h2 class="title rv" style="--d:.1s">반도체는, 아주 비싼 케이크입니다</h2>
+  <h2 class="title rv" style="--d:.1s">반도체 만들기는, 책 만들기와 같습니다</h2>
   <div class="flow">
     <div class="step rv" style="--d:.3s">
-      <span class="ico">🎂</span>
-      <h3>굽는다</h3>
+      <span class="ico">🖨️</span>
+      <h3>인쇄한다</h3>
       <p>둥근 원판에 머리카락 <b>수만 분의 1</b> 굵기의 회로를 새긴다 — 뉴스에 나오는 거대 공장이 여기</p>
     </div>
     <div class="arrow rv" style="--d:.45s">→</div>
     <div class="step hero rv" style="--d:.55s">
-      <span class="ico">🔪</span>
-      <h3>자르고 · 포장하고 · 검사한다</h3>
-      <p>원판을 한 조각씩 잘라, 감싸서 보호하고, 불량을 골라내야 비로소 ‘칩’이 된다 — <b>오늘의 주인공</b></p>
+      <span class="ico">✂️</span>
+      <h3>자르고 · 감싸고 · 검사한다</h3>
+      <p>원판을 한 조각씩 잘라, 단단히 감싸고, 불량을 걸러내야 비로소 ‘칩’이 된다 — <b>오늘의 주인공, ‘후공정’</b></p>
     </div>
     <div class="arrow rv" style="--d:.7s">→</div>
     <div class="step rv" style="--d:.8s">
@@ -294,11 +289,11 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
       <p>스마트폰 · 자동차 · AI — 우리가 아는 모든 전자제품 속으로</p>
     </div>
   </div>
-  <p class="punch rv" style="--d:1s">아무리 잘 구워도, <em>자르다 부서지면 상품이 아닙니다.</em></p>
+  <p class="punch rv" style="--d:1s">아무리 잘 인쇄해도, <em>자르고 묶는 마무리가 엉망이면 책이 되지 못합니다.</em></p>
 </section>
 
 <!-- 4 자석 이론 -->
-<section class="slide" data-note="핵심 논리 한 장. 굽는 공장은 돈만 있으면 어디든 짓지만, 마무리를 맡는 회사들은 물리적으로 옆에 있어야 합니다. 세 가지 이유를 들고, ‘거대 공장 = 자석’으로 요약. 이게 우리 투자 아이디어의 뼈대.">
+<section class="slide" data-note="핵심 논리 한 장. 인쇄 공장(거대 공장)은 돈만 있으면 어디든 짓지만, 마무리를 맡는 회사들은 물리적으로 옆에 있어야 합니다. 세 가지 이유를 들고, ‘거대 공장 = 자석’으로 요약. 이게 우리 투자 아이디어의 뼈대.">
   <div class="eyebrow rv">저희가 주목한 법칙</div>
   <h2 class="title rv" style="--d:.1s">거대 공장은, 자석입니다</h2>
   <div class="reasons">
@@ -318,11 +313,11 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
       <p>새 조립 기술은 공장과 부품 회사가 <b>얼굴을 맞대고</b> 함께 개발해야 이깁니다.</p>
     </div>
   </div>
-  <p class="punch rv" style="--d:.95s">그래서 거대 공장이 들어서면, 그 주변에 <em>세계 1위들이 철가루처럼</em> 모여듭니다.</p>
+  <p class="punch rv" style="--d:.95s">그래서 거대 공장이 들어서면, 그 주변에 <em>세계 1위들이 위성처럼</em> 모여듭니다.</p>
 </section>
 
 <!-- 5 지도 -->
-<section class="slide s-map" data-note="2021년, 세계 최대 반도체 회사 TSMC가 새 공장 부지로 고른 곳은 도쿄가 아니라 구마모토의 농촌이었습니다. 일본 최대 메모리 공장도 이와테에. 그래서 우리 질문: ‘그 옆 마을들에선 지금 무슨 일이?’ — 지도의 점을 가리키며 진행.">
+<section class="slide s-map" data-note="2021년, 세계 최대 반도체 회사 TSMC가 새 공장 부지로 고른 곳은 도쿄가 아니라 구마모토의 농촌이었습니다. 일본 최대 메모리 공장도 이와테에. 금색이 구마모토, 파란색이 아오모리·이와테·후쿠시마 — 오늘 계속 나올 네 지역입니다. 그래서 우리 질문: ‘그 옆 마을들에선 지금 무슨 일이?’">
   <div class="txt">
     <div class="eyebrow rv">2021년, 사건이 일어납니다</div>
     <h2 class="title rv" style="--d:.1s">세계 최대 반도체 회사가<br>공장 지을 곳으로 고른 땅은—</h2>
@@ -331,47 +326,39 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
     <p class="punch rv" style="--d:.6s">저희의 질문 — <em>“그럼 그 옆 마을에서는,<br>지금 무슨 일이 벌어지고 있을까?”</em></p>
   </div>
   <div class="mapWrap rv" style="--d:.4s">
-    <svg viewBox="0 0 760 560" role="img" aria-label="일본 지도: 구마모토, 아오모리, 이와테, 후쿠시마에 표시">
-      <!-- honshu -->
-      <path class="land" d="M190 415 C240 355 330 330 400 300 C460 274 520 210 560 150 C575 128 590 112 602 110 C614 108 620 118 614 132 C596 172 570 212 540 252 C515 285 490 312 455 332 C420 352 380 362 340 374 C300 386 252 407 224 430 C210 441 196 433 190 415 Z"/>
-      <!-- hokkaido -->
-      <path class="land" d="M614 82 C622 60 650 46 678 50 C706 54 722 72 718 94 C714 114 694 128 670 128 C657 128 647 134 637 128 C623 120 608 104 614 82 Z"/>
-      <!-- shikoku -->
-      <path class="land" d="M262 432 C276 422 306 420 320 428 C330 434 326 446 310 451 C290 457 268 452 260 444 Z"/>
-      <!-- kyushu -->
-      <path class="land" d="M116 398 C128 380 156 372 174 382 C192 392 198 414 192 438 C186 462 166 478 144 476 C122 474 106 456 104 434 C103 420 108 408 116 398 Z"/>
-
+    <svg viewBox="0 0 720 640" role="img" aria-label="일본 지도: 구마모토(금색), 아오모리·이와테·후쿠시마(파란색) 하이라이트">
+      <!--JAPAN_PATHS-->
       <!-- Tokyo (not here) -->
-      <circle cx="468" cy="318" r="7" fill="none" stroke="#5A6474" stroke-width="2"/>
-      <line class="leader" x1="474" y1="324" x2="512" y2="368"/>
-      <text class="mlabel dim" x="518" y="374">도쿄</text>
-      <text class="msub" x="518" y="392">— 여기가 아니라</text>
+      <circle cx="360.8" cy="418.5" r="6.5" fill="none" stroke="#5A6474" stroke-width="2"/>
+      <line class="leader" x1="366" y1="424" x2="428" y2="478"/>
+      <text class="mlabel dim" x="434" y="484">도쿄</text>
+      <text class="msub" x="434" y="502">— 여기가 아니라</text>
 
-      <!-- Kumamoto -->
-      <circle class="pulse" cx="146" cy="432" r="12" fill="#C98500"/>
-      <circle cx="146" cy="432" r="7" fill="#F0B429"/>
-      <line class="leader" x1="146" y1="442" x2="146" y2="496"/>
-      <text class="mlabel" x="60" y="516">구마모토 <tspan fill="#F0B429">— TSMC</tspan></text>
-      <text class="msub" x="60" y="534">2021 발표 → 2024 가동</text>
+      <!-- Kumamoto city -->
+      <circle class="pulse" cx="74.9" cy="528.5" r="12" fill="#C98500"/>
+      <circle cx="74.9" cy="528.5" r="7" fill="#F0B429"/>
+      <line class="leader" x1="80" y1="537" x2="164" y2="608"/>
+      <text class="mlabel" x="170" y="614">구마모토 <tspan fill="#F0B429">— TSMC</tspan></text>
+      <text class="msub" x="170" y="632">2021 발표 → 2024 가동</text>
 
-      <!-- Iwate -->
-      <circle class="pulse" cx="545" cy="205" r="10" fill="#1E95D4"/>
-      <circle cx="545" cy="205" r="6" fill="#4FB8E8"/>
-      <line class="leader" x1="552" y1="203" x2="600" y2="196"/>
-      <text class="mlabel" x="606" y="200">이와테 <tspan fill="#4FB8E8">— 키옥시아</tspan></text>
-      <text class="msub" x="606" y="218">일본 최대 메모리</text>
+      <!-- Kitakami (Iwate) -->
+      <circle class="pulse" cx="403.1" cy="274.9" r="10" fill="#1E95D4"/>
+      <circle cx="403.1" cy="274.9" r="6" fill="#4FB8E8"/>
+      <line class="leader" x1="410" y1="274" x2="478" y2="272"/>
+      <text class="mlabel" x="484" y="277">이와테 <tspan fill="#4FB8E8">— 키옥시아</tspan></text>
+      <text class="msub" x="484" y="295">일본 최대 메모리</text>
 
-      <!-- Aomori -->
-      <circle class="pulse" cx="566" cy="152" r="8" fill="#1E95D4"/>
-      <circle cx="566" cy="152" r="5" fill="#4FB8E8"/>
-      <line class="leader" x1="573" y1="150" x2="622" y2="140"/>
-      <text class="mlabel" x="628" y="144">아오모리</text>
+      <!-- Hirakawa (Aomori) -->
+      <circle class="pulse" cx="386.1" cy="221.8" r="8" fill="#1E95D4"/>
+      <circle cx="386.1" cy="221.8" r="5" fill="#4FB8E8"/>
+      <line class="leader" x1="393" y1="219" x2="468" y2="210"/>
+      <text class="mlabel" x="474" y="215">아오모리</text>
 
-      <!-- Fukushima -->
-      <circle class="pulse" cx="502" cy="268" r="8" fill="#1E95D4"/>
-      <circle cx="502" cy="268" r="5" fill="#4FB8E8"/>
-      <line class="leader" x1="509" y1="272" x2="560" y2="290"/>
-      <text class="mlabel" x="566" y="294">후쿠시마</text>
+      <!-- Fukushima city -->
+      <circle class="pulse" cx="382.9" cy="336.6" r="8" fill="#1E95D4"/>
+      <circle cx="382.9" cy="336.6" r="5" fill="#4FB8E8"/>
+      <line class="leader" x1="390" y1="340" x2="466" y2="352"/>
+      <text class="mlabel" x="472" y="357">후쿠시마</text>
     </svg>
   </div>
 </section>
@@ -389,28 +376,58 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   <p class="punch rv" style="--d:.95s">공장이 먼저, 번영이 그 뒤. <em>이 ‘순서’가 저희 주장의 증거입니다.</em></p>
 </section>
 
-<!-- 7 아이디어 한 문장 -->
-<section class="slide" data-note="투자 아이디어를 한 문장으로 못박기. 쉬워 보이지만, 이 문장을 증명하는 게 어렵습니다. 지금부터가 오늘 발표의 하이라이트 — 어떻게 증명했는가.">
+<!-- 7 테마 공개 -->
+<section class="slide s-theme" data-note="투자 아이디어를 한 문장으로 못박고, 공식 테마명을 공개합니다. 후공정 = 자르고·감싸고·검사하는 마무리 공정, 니치 톱 = 좁은 분야의 세계 1위, 지방 클러스터 = 거대 공장 곁에 모여든 지역. 방금까지 들으신 이야기가 이 이름 안에 전부 들어 있습니다.">
   <div class="eyebrow rv">저희의 투자 아이디어 — 한 문장</div>
-  <h1 class="big rv" style="--d:.2s">“시골 거대 공장 <span class="gold">옆</span>의,<br>세계 1위 회사들을 산다.”</h1>
-  <p class="sub rv" style="--d:.55s;margin-top:4.5vmin">아이디어는 간단합니다.<br>어려운 건 — <b>진짜인지 증명하는 일</b>이었습니다.</p>
+  <div class="quoteLine rv" style="--d:.15s">“시골 거대 공장 <span class="gold">옆</span>의,<br>세계 1위 회사들을 산다.”</div>
+  <div class="themeName rv" style="--d:.5s">후공정 니치 톱 × 지방 클러스터</div>
+  <div class="decode">
+    <div class="d1 rv" style="--d:.75s"><b>후공정</b>자르고 · 감싸고 · 검사하는<br>‘마무리 공정’</div>
+    <div class="d1 rv" style="--d:.9s"><b>니치 톱</b>좁은 분야의<br>세계 1위</div>
+    <div class="d1 rv" style="--d:1.05s"><b>지방 클러스터</b>거대 공장 곁에<br>모여든 지역</div>
+  </div>
+  <p class="punch rv" style="--d:1.25s">방금 들으신 이야기 전부가, <em>이 한 줄</em>에 들어 있습니다.</p>
 </section>
 
-<!-- 8 퍼널 -->
-<section class="slide" data-note="증명 1단계: 후보를 고른 과정 전체를 공개. 일본 증시 전부 4,438개에서 출발해 다섯 번 걸러 15개. 마지막 관문이 핵심 — ‘진짜 공장 옆인가’를 서류로 확인. 1,000개 중 3개꼴.">
-  <div class="eyebrow rv">4,438개 회사, 전부 올려놓고 걸렀습니다</div>
+<!-- 8 왜 이 테마인가 -->
+<section class="slide" data-note="테마 선정 이유 세 가지. ① 남들이 안 보는 자리(창의성·유니크함 심사 기준에 정면 대응) ② 사회적 의미 — 지방에 일자리·생태계, 반도체를 나라 안에서 완성하는 안보. 우리 포트폴리오가 그 변화의 온도계 ③ 증명 가능 — ‘공장 옆인가’는 서류로 확인되는 사실.">
+  <div class="eyebrow rv">왜 이 테마를 골랐나</div>
+  <h2 class="title rv" style="--d:.1s">세 가지 이유</h2>
+  <div class="reasons">
+    <div class="card rv" style="--d:.3s">
+      <div class="kicker">이유 ①</div>
+      <h3>아무도 안 보던 자리라서</h3>
+      <p>뉴스와 투자자의 눈은 ‘인쇄’(거대 공장)에만 쏠립니다. 마무리 공정의 숨은 세계 1위들은 <b>비어 있던 자리</b> — 심사 기준인 ‘창의성·유니크함’에 정면으로 답합니다.</p>
+    </div>
+    <div class="card rv" style="--d:.5s">
+      <div class="kicker">이유 ②</div>
+      <h3>사회에 의미가 있어서</h3>
+      <p>시골에 일자리와 산업 생태계가 생기고, 반도체를 <b>나라 안에서 끝까지</b> 만들 수 있게 됩니다. 저희 포트폴리오는 그 변화가 진짜인지 보여주는 <b>온도계</b>입니다.</p>
+    </div>
+    <div class="card rv" style="--d:.7s">
+      <div class="kicker">이유 ③</div>
+      <h3>증명할 수 있어서</h3>
+      <p>‘공장 옆에 있는가’는 취향이 아니라 <b>서류로 확인되는 사실</b>입니다. 느낌이 아니라 증거로 승부할 수 있는 테마입니다.</p>
+    </div>
+  </div>
+  <p class="punch rv" style="--d:.9s">독창적이고, 의미 있고, 증명 가능한 — <em>세 박자가 맞는 자리</em>는 여기뿐이었습니다.</p>
+</section>
+
+<!-- 9 퍼널 -->
+<section class="slide" data-note="증명 1단계: 후보를 고른 과정 전체를 공개. 저희는 처음부터 일본 증시 전체 4,438개를 올려놓고, 다섯 번에 걸쳐 조여서 15개까지 왔습니다. 마지막 관문이 핵심 — ‘진짜 공장 옆인가’를 서류로 확인. 1,000개 중 3개꼴.">
+  <div class="eyebrow rv">처음부터, 증시 전체를 올려놓고 조였습니다</div>
   <h2 class="title rv" style="--d:.1s">4,438 → 15</h2>
   <div class="funnel">
-    <div class="fr rv" style="--d:.3s"><span class="lb">일본 증시 전체</span><div class="track"><div class="bar" style="--w:100%;--dd:.4s"></div></div><span class="val num" data-count="4438">0</span></div>
+    <div class="fr rv" style="--d:.3s"><span class="lb">일본 증시 전체 — 출발점</span><div class="track"><div class="bar" style="--w:100%;--dd:.4s"></div></div><span class="val num" data-count="4438">0</span></div>
     <div class="fr rv" style="--d:.45s"><span class="lb">반도체와 관련 있는 회사</span><div class="track"><div class="bar" style="--w:23.4%;--dd:.55s"></div></div><span class="val num" data-count="1039">0</span></div>
-    <div class="fr rv" style="--d:.6s"><span class="lb">‘마무리 공정’ 후보</span><div class="track"><div class="bar" style="--w:2.4%;--dd:.7s"></div></div><span class="val num" data-count="106">0</span></div>
+    <div class="fr rv" style="--d:.6s"><span class="lb">‘후공정’ 후보</span><div class="track"><div class="bar" style="--w:2.4%;--dd:.7s"></div></div><span class="val num" data-count="106">0</span></div>
     <div class="fr rv" style="--d:.75s"><span class="lb">빚 적고 이익 튼튼한 회사</span><div class="track"><div class="bar" style="--w:1.1%;--dd:.85s"></div></div><span class="val num" data-count="48">0</span></div>
     <div class="fr final rv" style="--d:.9s"><span class="lb">진짜 ‘공장 옆’ 확인</span><div class="track"><div class="bar" style="--w:0.5%;--dd:1s"></div></div><span class="val num" data-count="15">0</span></div>
   </div>
   <p class="punch rv" style="--d:1.15s">생존율 0.3% — <em>1,000개 중 3개</em>꼴입니다.</p>
 </section>
 
-<!-- 9 전수 검증 -->
+<!-- 10 전수 검증 -->
 <section class="slide" data-note="제일 고생한 부분. ‘규슈 근처’라는 이름표를 단 회사가 많았지만, 회사가 정부에 내는 공식 서류로 48곳 전부 공장 위치를 확인해보니 태반이 실제로는 도쿄·오사카였습니다. 세계 1위여도 가차없이 탈락.">
   <div class="eyebrow rv">저희가 가장 오래 매달린 일</div>
   <h2 class="title rv" style="--d:.1s">“진짜 공장 옆에 있나?”<br>전부, 서류로 확인했습니다</h2>
@@ -431,7 +448,7 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   <p class="punch rv" style="--d:1.05s">인터넷 기사 말고, <em>공식 서류</em>. 이게 저희의 원칙입니다.</p>
 </section>
 
-<!-- 10 점수 1등이어도 뺐다 -->
+<!-- 11 점수 1등이어도 뺐다 -->
 <section class="slide" data-note="심사위원이 반드시 묻는 질문 — ‘좋아 보이는 회사 골라놓고 이유를 붙인 것 아니냐’. 우리 대답: 자체 점수 2위, 4위, 6위인 세계 1위급 회사 9곳을 뺐습니다. 이유는 하나, 공장 옆에 없어서. 원칙이 골랐다는 증거.">
   <div class="eyebrow rv">저희가 가장 자신 있는 한 장</div>
   <h2 class="title rv" style="--d:.1s">점수 상위권이어도, 뺐습니다</h2>
@@ -444,8 +461,8 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   <p class="punch rv" style="--d:1s">“좋아 보여서 골랐다”는 의심에 대한 대답 — <em>원칙이 골랐고, 예외는 없었습니다.</em></p>
 </section>
 
-<!-- 11 750번 흔들기 -->
-<section class="slide" data-note="두 번째 예상 질문 — ‘그 기준 숫자들, 너희 마음대로 정한 것 아니냐’. 그래서 기준을 750가지 조합으로 바꿔 전부 다시 계산했고, 후보 출발점을 증시 전체로 다시 넓혀도 결과는 같았습니다. 우연이 아니라는 뜻.">
+<!-- 12 750번 흔들기 -->
+<section class="slide" data-note="두 번째 예상 질문 — ‘그 기준 숫자들, 너희 마음대로 정한 것 아니냐’. 그래서 탈락 기준을 750가지 조합으로 바꿔가며 전부 다시 계산했습니다. 최종 15곳은 그대로였습니다. 결과를 가른 건 기준의 미세조정이 아니라 ‘진짜 공장 옆인가’라는 원칙이었습니다.">
   <div class="eyebrow rv">“그 기준, 너희 마음대로 정한 것 아냐?”</div>
   <h2 class="title rv" style="--d:.1s">그래서, 기준을 750번 바꿔봤습니다</h2>
   <div class="bigStat">
@@ -458,107 +475,63 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
       <p>기준을 어떻게 흔들어도 <b>같은 회사들이 살아남았습니다.</b></p>
     </div>
     <div class="card rv" style="--d:.85s">
-      <h3>출발점을 다시 넓혀도, 그대로</h3>
-      <p>후보 출발점을 증시 전체 4,438개로 재정의해도 <b>결론은 바뀌지 않았습니다</b> (1곳만 추가 편입).</p>
+      <h3>결과를 가른 건, 원칙</h3>
+      <p>살아남을 회사를 결정한 건 숫자의 미세조정이 아니라 <b>‘진짜 공장 옆인가’라는 원칙</b>이었습니다.</p>
     </div>
   </div>
   <p class="punch rv" style="--d:1.05s">어떻게 흔들어도 같은 답이 나온다면 — <em>그건 우연히 고른 게 아닙니다.</em></p>
 </section>
 
-<!-- 12 실수 기록 -->
-<section class="slide" data-note="심사 기준의 ‘학습 열의’에 대한 답. 실수를 숨기지 않고 그대로 제출합니다. 15배 오독 사고 → 시스템 폐기하고 3중 확인으로 재설계. 1년 묵은 기사로 오판할 뻔 → ‘숫자에도 유통기한’ 규칙. 실수를 잡는 시스템이 있는 팀이 강하다.">
-  <div class="eyebrow rv">숨기지 않기로 했습니다</div>
-  <h2 class="title rv" style="--d:.1s">저희의 실수도, 그대로 제출합니다</h2>
-  <div class="failGrid">
-    <div class="card fail rv" style="--d:.35s">
-      <div class="kicker">사고 ①</div>
-      <h3>회사 몸값을 <span class="b4">15배</span>로 잘못 읽었다</h3>
-      <p>자동 수집 프로그램의 단위 실수. 프로그램을 <b>통째로 폐기</b>하고, 사람 확인을 포함한 <span class="aft">3중 검증</span>으로 다시 만들었습니다.</p>
-    </div>
-    <div class="card fail rv" style="--d:.55s">
-      <div class="kicker">사고 ②</div>
-      <h3><span class="b4">1년 묵은 기사</span>로 오판할 뻔했다</h3>
-      <p>오래된 기사만 믿고 회사 하나를 떨어뜨리기 직전, 최신 실적 확인으로 살려냈습니다. 이후 규칙 — <span class="aft">“숫자에도 유통기한이 있다.”</span></p>
-    </div>
-  </div>
-  <p class="punch rv" style="--d:.8s">실수를 숨기는 팀보다, <em>실수를 잡아내는 시스템을 가진 팀</em>이 강하다고 믿습니다.</p>
-</section>
-
-<!-- 13 대표 선수 -->
-<section class="slide" data-note="그렇게 살아남은 15곳 — 전원이 각자 분야 세계 1위급입니다. 대표 4곳 소개: 원판 자르는 칼 세계 1위 디스코, 칩 포장재 세계 40% 스미토모 베이클라이트, 가장 깨끗한 물 오르가노(TSMC 최우수 협력사 상), 후쿠시마에서만 나오는 특수 유리 천 닛토방적.">
+<!-- 13 최종 15곳 -->
+<section class="slide" data-note="그렇게 살아남은 15곳 — 전원이 각자 분야 세계 1위급이고, 마무리 공정의 네 가지 역할을 빠짐없이 덮습니다. 자르고 조립하는 팀, 감싸고 지키는 팀, 불량을 걸러내는 팀, 공장을 돌리는 팀. 금색 점이 규슈 13곳, 파란 점이 도호쿠 2곳. 별표는 공장이 생긴 ‘뒤’의 증설·수상까지 서류로 확인된 9곳.">
   <div class="eyebrow rv">그렇게 남은 15곳</div>
-  <h2 class="title rv" style="--d:.1s">전원이, ‘세계 1위급’입니다</h2>
-  <div class="spot">
-    <div class="card rv" style="--d:.3s">
-      <div class="who">디스코 · 구마모토에서 수상</div>
-      <h3>원판 자르는 ‘칼’ — 세계 1위</h3>
-      <p>케이크(원판)를 자르는 그 기술. TSMC가 직접 <b>우수 협력사 상</b>을 준 회사입니다.</p>
+  <h2 class="title rv" style="--d:.1s" style="margin-bottom:2.6vmin">전원이 ‘세계 1위급’ — 후공정의 모든 역할을 덮습니다</h2>
+  <div class="groups">
+    <div class="grp rv" style="--d:.3s">
+      <h3><span class="gi">✂️</span>자르고, 조립한다</h3>
+      <ul>
+        <li><span class="rdot k"></span><span class="co">디스코 <span class="st">★</span></span>원판 자르는 ‘칼’ 세계 압도적 1위 · TSMC 수상</li>
+        <li><span class="rdot k"></span><span class="co">시바우라메카트로닉스 <span class="st">★</span></span>칩 붙이고 씻는 장비 · TSMC 수상</li>
+        <li><span class="rdot k"></span><span class="co">히라타기공 <span class="st">★</span></span>공장 자동화 설비 · 구마모토 토박이</li>
+        <li><span class="rdot k"></span><span class="co">로체</span>원판 운반 로봇 세계 최고급</li>
+      </ul>
     </div>
-    <div class="card rv" style="--d:.45s">
-      <div class="who">스미토모 베이클라이트 · 규슈</div>
-      <h3>칩 ‘포장재’ — 세계 40%</h3>
-      <p>전 세계 칩 10개 중 4개가 이 회사 재료로 감싸져 있습니다. 세계 1위.</p>
+    <div class="grp rv" style="--d:.45s">
+      <h3><span class="gi">🛡️</span>감싸고, 지킨다</h3>
+      <ul>
+        <li><span class="rdot k"></span><span class="co">스미토모베이클라이트 <span class="st">★</span></span>칩 ‘포장재’ 세계 40% 1위</li>
+        <li><span class="rdot k"></span><span class="co">다이요HD</span>기판 보호 ‘초록 페인트’ 세계 1위</li>
+        <li><span class="rdot k"></span><span class="co">도쿄오카공업 <span class="st">★</span></span>회로 그리는 ‘특수 잉크’ 세계 1위</li>
+        <li><span class="rdot t"></span><span class="co">닛토방적 <span class="st">★</span></span>칩 뼈대 ‘특수 유리 천’ 세계 톱 · 후쿠시마 단독 생산</li>
+      </ul>
     </div>
-    <div class="card rv" style="--d:.6s">
-      <div class="who">오르가노 · TSMC에 직접 납품</div>
-      <h3>‘세상에서 가장 깨끗한 물’</h3>
-      <p>반도체는 초고순도의 물로 씻습니다. 그 물의 국내 최고봉 — TSMC <b>최우수 협력사 상</b> 수상.</p>
+    <div class="grp rv" style="--d:.6s">
+      <h3><span class="gi">🔍</span>불량을 걸러낸다</h3>
+      <ul>
+        <li><span class="rdot k"></span><span class="co">일본전자재료</span>칩 검사용 ‘바늘 판’ 국내 2위</li>
+        <li><span class="rdot t"></span><span class="co">일본마이크로닉스 <span class="st">★</span></span>‘바늘 판’ 세계 상위 · 아오모리</li>
+        <li><span class="rdot k"></span><span class="co">테라프로브</span>칩 검사 통째 대행, 국내 최대급</li>
+      </ul>
     </div>
-    <div class="card rv" style="--d:.75s">
-      <div class="who">닛토방적 · 본사가 후쿠시마</div>
-      <h3>칩의 ‘뼈대’가 되는 특수 유리 천</h3>
-      <p>최첨단 칩 기판에 꼭 필요한 소재 — 세계 톱, 그리고 <b>후쿠시마에서만</b> 만듭니다.</p>
+    <div class="grp rv" style="--d:.75s">
+      <h3><span class="gi">💧</span>공장을 돌린다</h3>
+      <ul>
+        <li><span class="rdot k"></span><span class="co">오르가노 <span class="st">★</span></span>‘가장 깨끗한 물’ 국내 최고봉 · TSMC 최우수상</li>
+        <li><span class="rdot k"></span><span class="co">재팬머티리얼 <span class="st">★</span></span>특수 가스를 공장 안에서 상시 공급</li>
+        <li><span class="rdot k"></span><span class="co">일본필러공업</span>초고순도 배관 부품 최고급</li>
+        <li><span class="rdot k"></span><span class="co">호리바제작소</span>가스 양 초정밀 조절 · 세계 약 60%</li>
+      </ul>
     </div>
   </div>
-  <p class="small rv" style="--d:.9s">나머지 11곳도 전부 — 검사용 바늘 판, 초정밀 가스 조절 장치, 원판 운반 로봇… 각자 분야의 세계 최고 수준입니다. 다음 장에서 전원 공개 →</p>
-</section>
-
-<!-- 14 15개 전원 명단 -->
-<section class="slide" data-note="15곳 전원 명단. 막대가 투자 비중. 금색=규슈 13곳, 파란색=도호쿠 2곳. 별표는 ‘공장이 생긴 이후의 증설·수상’까지 서류로 확인된 9곳. 특정 종목 몰빵 없이 최대 9.4%.">
-  <div class="eyebrow rv">최종 포트폴리오</div>
-  <h2 class="title rv" style="--d:.1s" style="margin-bottom:2.6vmin">15곳 전원 공개</h2>
-  <div class="roster rv" style="--d:.3s">
-    <div class="rr"><span class="nm">일본전자재료 <span class="st"></span></span><span class="ds">칩 검사용 ‘바늘 판’ 국내 2위</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:100%;--dd:.35s"></i></div><span class="pc num">9.4%</span></div>
-    <div class="rr"><span class="nm">테라프로브</span><span class="ds">칩 검사 통째 대행 — 국내 최대급</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:97%;--dd:.4s"></i></div><span class="pc num">9.1%</span></div>
-    <div class="rr"><span class="nm">스미토모베이클라이트 <span class="st">★</span></span><span class="ds">칩 ‘포장재’ 세계 40% 1위</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:94%;--dd:.45s"></i></div><span class="pc num">8.9%</span></div>
-    <div class="rr"><span class="nm">히라타기공 <span class="st">★</span></span><span class="ds">공장 자동화 설비 — 구마모토 토박이</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:88%;--dd:.5s"></i></div><span class="pc num">8.3%</span></div>
-    <div class="rr"><span class="nm">다이요HD</span><span class="ds">기판 보호 ‘초록 페인트’ 세계 1위</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:87%;--dd:.55s"></i></div><span class="pc num">8.2%</span></div>
-    <div class="rr"><span class="nm">재팬머티리얼 <span class="st">★</span></span><span class="ds">특수 가스를 공장 안에서 상시 공급</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:76%;--dd:.6s"></i></div><span class="pc num">7.1%</span></div>
-    <div class="rr"><span class="nm">일본필러공업</span><span class="ds">초고순도 배관 부품 — 최고급</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:70%;--dd:.65s"></i></div><span class="pc num">6.6%</span></div>
-    <div class="rr"><span class="nm">오르가노 <span class="st">★</span></span><span class="ds">‘가장 깨끗한 물’ 국내 최고봉</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:68%;--dd:.7s"></i></div><span class="pc num">6.4%</span></div>
-    <div class="rr"><span class="nm">호리바제작소</span><span class="ds">가스 양 초정밀 조절 — 세계 약 60%</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:67%;--dd:.75s"></i></div><span class="pc num">6.3%</span></div>
-    <div class="rr"><span class="nm">디스코 <span class="st">★</span></span><span class="ds">원판 자르는 ‘칼’ — 세계 압도적 1위</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:65%;--dd:.8s"></i></div><span class="pc num">6.1%</span></div>
-    <div class="rr"><span class="nm">일본마이크로닉스 <span class="st">★</span></span><span class="ds">검사용 ‘바늘 판’ 세계 상위</span><span class="chip t">도호쿠</span><div class="wbar t"><i style="--w:56%;--dd:.85s"></i></div><span class="pc num">5.3%</span></div>
-    <div class="rr"><span class="nm">도쿄오카공업 <span class="st">★</span></span><span class="ds">회로 그리는 ‘특수 잉크’ 세계 1위</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:55%;--dd:.9s"></i></div><span class="pc num">5.2%</span></div>
-    <div class="rr"><span class="nm">로체</span><span class="ds">원판 운반 로봇 — 세계 최고급</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:49%;--dd:.95s"></i></div><span class="pc num">4.6%</span></div>
-    <div class="rr"><span class="nm">시바우라메카트로닉스 <span class="st">★</span></span><span class="ds">칩 붙이고 씻는 장비 — TSMC 수상</span><span class="chip k">규슈</span><div class="wbar k"><i style="--w:48%;--dd:1s"></i></div><span class="pc num">4.5%</span></div>
-    <div class="rr"><span class="nm">닛토방적 <span class="st">★</span></span><span class="ds">칩 뼈대 ‘특수 유리 천’ 세계 톱</span><span class="chip t">도호쿠</span><div class="wbar t"><i style="--w:43%;--dd:1.05s"></i></div><span class="pc num">4.0%</span></div>
-  </div>
-  <div class="legendLine rv" style="--d:.5s">
-    <span class="li"><span class="swatch k"></span>규슈 13곳 (90.7%)</span>
-    <span class="li"><span class="swatch t"></span>도호쿠 2곳 (9.3%)</span>
-    <span class="li"><span class="gold">★</span>&nbsp;공장이 생긴 ‘뒤’의 증설·수상까지 확인된 9곳</span>
-    <span class="li">막대 = 투자 비중</span>
+  <div class="legendLine rv" style="--d:.9s">
+    <span class="li"><span class="swatch k"></span>규슈 13곳</span>
+    <span class="li"><span class="swatch t"></span>도호쿠 2곳</span>
+    <span class="li"><span class="gold">★</span>&nbsp;공장이 생긴 ‘뒤’의 증설·수상까지 서류로 확인된 9곳</span>
   </div>
 </section>
 
-<!-- 15 돈 담기 규칙 -->
-<section class="slide" data-note="500만엔을 나눈 3원칙: 몰빵 금지(최대 10%), 구색 금지(최소 4% 보장), 비싸진 회사는 빼지 않고 가볍게. 수수료 1.1%까지 미리 빼고 설계 — 매수 494만 + 수수료 5.4만엔. 15곳 모두 배당도 줍니다.">
-  <div class="eyebrow rv">500만엔, 이렇게 나눴습니다</div>
-  <h2 class="title rv" style="--d:.1s">돈 담기의 3원칙</h2>
-  <div class="money">
-    <div class="card rv" style="--d:.3s"><b>최대 10%</b>
-      <h3>몰빵 금지</h3><p>아무리 좋아 보여도, 한 회사에 10%를 넘겨 담지 않습니다.</p></div>
-    <div class="card rv" style="--d:.5s"><b>최소 4%</b>
-      <h3>구색 금지</h3><p>이야기에 꼭 필요한 회사가 ‘이름만 걸치는’ 일이 없게, 최소 비중을 보장합니다.</p></div>
-    <div class="card rv" style="--d:.7s"><b>빼지 않고, 가볍게</b>
-      <h3>비싸진 회사 대응</h3><p>주가가 많이 오른 좋은 회사는 빼는 대신 <b>비중만 줄여서</b> 담습니다.</p></div>
-  </div>
-  <p class="punch rv" style="--d:.9s">거래 수수료 1.1%까지 미리 빼고 설계 — <em>1엔 단위까지 계산이 끝나 있습니다.</em></p>
-</section>
-
-<!-- 16 리스크 -->
-<section class="slide" data-note="잘될 이야기만 하면 신뢰를 잃습니다. 세 가지 리스크에 미리 답: 공장 지연 → 구마모토엔 소니·미쓰비시전기 등 거대 공장이 여럿. 대만 위기 → 오히려 일본 이전 가속(이 공장 자체가 그 결과물). 경기 하강 → 애초에 비싼 주식 회피 + 15곳 전부 배당.">
+<!-- 14 리스크 -->
+<section class="slide" data-note="잘될 이야기만 하면 신뢰를 잃습니다. 세 가지 리스크에 미리 답: 공장 지연 → 구마모토엔 소니·미쓰비시전기 등 거대 공장이 여럿. 대만 위기 → 오히려 일본 이전 가속(이 공장 자체가 그 결과물). 경기 하강 → ‘비싸진 주식은 가볍게 담는다’는 원칙을 미리 정해뒀고, 15곳 모두 배당을 주는 튼튼한 회사들.">
   <div class="eyebrow rv">잘못될 수 있는 것도, 먼저 말씀드립니다</div>
   <h2 class="title rv" style="--d:.1s">리스크에 대한 세 가지 대답</h2>
   <div class="risk">
@@ -572,53 +545,54 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
     </div>
     <div class="card rv" style="--d:.7s">
       <span class="q">반도체 경기가<br>식으면?</span>
-      <span class="a">애초에 <b>비싸진 주식을 피해서</b> 담았고, 15곳 전부 배당을 줍니다. 버틸 수 있게 설계했습니다.</span>
+      <span class="a">그래서 살 때의 원칙을 미리 정해뒀습니다 — <b>비싸진 주식은 빼지 않되, 가볍게 담는다</b>. 그리고 15곳 모두 꾸준히 배당을 주는 튼튼한 회사들입니다.</span>
     </div>
   </div>
   <p class="punch rv" style="--d:.9s">리스크가 없다고 말하는 팀이 아니라, <em>리스크를 알고 있는 팀</em>이 되려 합니다.</p>
 </section>
 
-<!-- 17 다음 단계 -->
-<section class="slide" data-note="다음 단계. 8월 매수 — 실적 발표가 몰린 시기를 피하는 디테일까지 계산. 가을엔 구마모토 현장 방문과 회사 직접 질문. 매주 금요일 시장 평균과 비교 기록. 책상에서 끝내지 않겠다.">
+<!-- 15 다음 단계 -->
+<section class="slide" data-note="다음 단계. 8월 매수 — 실적 발표가 몰린 시기를 피하고, 그 시점 가격을 보고 각 회사에 얼마씩 담을지 정한 뒤 삽니다. 가을엔 필드워크 — 공개 IR 자료를 정독해 검증 질문을 설계하고, 회사·지자체와 서면/온라인으로 대화. 필요하다면 현장 방문. 매주 금요일 시장 평균과 비교 기록.">
   <div class="eyebrow rv">다음 단계</div>
-  <h2 class="title rv" style="--d:.1s">다음은, 직접 갑니다</h2>
+  <h2 class="title rv" style="--d:.1s">이제, 확인하러 갑니다</h2>
   <div class="cards" style="grid-template-columns:repeat(3,1fr)">
     <div class="card rv" style="--d:.3s">
-      <div class="kicker">8월</div>
-      <h3>매수 실행</h3>
-      <p>15곳의 실적 발표가 몰린 시기를 <b>피해서</b> 삽니다 — 이런 디테일까지 계산해 뒀습니다.</p>
+      <div class="kicker">8월 · 매수 실행</div>
+      <h3>서두르지 않고 삽니다</h3>
+      <p>15곳의 실적 발표가 몰린 시기를 <b>피하고</b>, 그 시점의 가격을 보고 <b>각 회사에 얼마씩 담을지 정한 뒤</b> 삽니다.</p>
     </div>
     <div class="card rv" style="--d:.5s">
-      <div class="kicker">가을</div>
-      <h3>현장 방문</h3>
-      <p><b>구마모토의 공장</b>을 직접 찾아가고, 회사에 직접 질문합니다. 서류에서 현장으로.</p>
+      <div class="kicker">가을 · 필드워크</div>
+      <h3>회사에 직접 묻습니다</h3>
+      <p>공개 IR 자료를 정독해 <b>검증 질문을 설계</b>하고, 회사·지자체와 <b>서면/온라인으로 대화</b>합니다. 필요하다면 현장 방문도 합니다.</p>
     </div>
     <div class="card rv" style="--d:.7s">
-      <div class="kicker">매주 금요일</div>
-      <h3>성적 기록</h3>
-      <p>시장 평균과 나란히 <b>매주 기록</b>합니다 — 잘되든 못되든, 그대로 리포트에 씁니다.</p>
+      <div class="kicker">매주 금요일 · 기록</div>
+      <h3>성적을 숨기지 않습니다</h3>
+      <p>시장 평균과 나란히 <b>매주 기록</b>합니다 — 결과가 어떻든, 그대로 리포트에 씁니다.</p>
     </div>
   </div>
-  <p class="punch rv" style="--d:.9s"><em>책상에서 끝내지 않겠습니다.</em></p>
+  <p class="punch rv" style="--d:.9s">질문은 책상이 아니라, <em>회사에 직접</em> 던지겠습니다.</p>
 </section>
 
-<!-- 18 클로징 -->
-<section class="slide s-close" data-note="클로징. 세계 1위는 시골에 있다 — 4,438개에서 원칙으로 골라낸 15곳이 그 증거입니다. 구마모토·아오모리·후쿠시마. 감사합니다.">
+<!-- 16 클로징 -->
+<section class="slide s-close" data-note="클로징. 세계 1위는 시골에 있다 — 그걸 증명하는 테마가 ‘후공정 니치 톱 × 지방 클러스터’입니다. 4,438개에서 원칙으로 골라낸 15곳, 구마모토·아오모리·후쿠시마. 감사합니다.">
   <div class="eyebrow rv">마무리</div>
   <h1 class="huge rv" style="--d:.15s">세계 1위는,<br>시골에 있다<span class="gold">.</span></h1>
-  <div class="trio rv" style="--d:.5s">
+  <div class="themeLine rv" style="--d:.45s">후공정 니치 톱 × 지방 클러스터</div>
+  <div class="trio rv" style="--d:.65s">
     <span class="t num"><span class="gold">4,438</span> → <span class="gold">15</span></span>
     <span class="t">구마모토 · 아오모리 · 후쿠시마</span>
     <span class="t">원칙이 골랐고, 예외는 없었습니다</span>
   </div>
-  <p class="thanks rv" style="--d:.8s">감사합니다 — 닛케이 스톡리그 2026 · 질문 환영합니다</p>
+  <p class="thanks rv" style="--d:.85s">감사합니다 — 닛케이 스톡리그 2026 · 질문 환영합니다</p>
 </section>
 
 </main>
 
 <footer id="hud">
   <span class="keys">← → 이동 · F 전체화면 · N 발표자 노트</span>
-  <span id="pageNo" class="num">1 / 18</span>
+  <span id="pageNo" class="num">1 / 16</span>
 </footer>
 
 <div id="notes"><div class="nt">발표자 노트</div><div class="nb" id="noteBody"></div></div>

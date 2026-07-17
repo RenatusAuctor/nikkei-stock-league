@@ -318,8 +318,10 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .static .fr .bar{transition:none!important}
 .static .pulse{animation:none!important;opacity:.35}
 .static .slide{transition:none!important}
-.static .clayer{transition:none!important}
-.static .clayer.inc .in,.static .cring.set{animation:none!important}
+.static .cel,.static .cel *{transition:none!important;animation:none!important}
+.static .cwires path{stroke-dashoffset:0!important}
+.static .cbeamW,.static .cbeamP{opacity:0!important}
+.static .mapWrap svg{transition:none!important}
 .static .s-map .leader{stroke-dashoffset:0!important;animation:none!important}
 .static .s-map .mlabel,.static .s-map .msub{opacity:1!important;animation:none!important}
 @media (max-aspect-ratio:1/1){

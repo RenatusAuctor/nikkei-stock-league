@@ -631,7 +631,9 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   var pageNo=document.getElementById('pageNo');
   var notes=document.getElementById('notes');
   var noteBody=document.getElementById('noteBody');
-  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STATIC=/[?&]static/.test(location.search);
+  if(STATIC)document.documentElement.classList.add('static');
+  var reduced=STATIC||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function countUp(el){
     var to=+el.getAttribute('data-count'),dur=1300,t0=null;

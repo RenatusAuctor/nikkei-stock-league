@@ -638,6 +638,7 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   function countUp(el){
     var to=+el.getAttribute('data-count'),dur=1300,t0=null;
     if(reduced){el.textContent=to.toLocaleString();return}
+    setTimeout(function(){el.textContent=to.toLocaleString()},dur+400);
     function step(ts){
       if(!t0)t0=ts;
       var p=Math.min((ts-t0)/dur,1);

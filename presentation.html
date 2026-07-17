@@ -631,7 +631,7 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   var pageNo=document.getElementById('pageNo');
   var notes=document.getElementById('notes');
   var noteBody=document.getElementById('noteBody');
-  var STATIC=/[?&]static/.test(location.search);
+  var STATIC=/static/.test(location.search+location.hash);
   if(STATIC)document.documentElement.classList.add('static');
   var reduced=STATIC||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

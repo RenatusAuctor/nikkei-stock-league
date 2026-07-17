@@ -691,6 +691,29 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
     requestAnimationFrame(step);
   }
 
+  var chipWrap=document.getElementById('chipWrap');
+  var chipCap=document.getElementById('chipCap');
+  var chipLayers=[
+    {el:document.querySelector('.csub'),at:2},
+    {el:document.querySelector('.cdie'),at:7},
+    {el:document.querySelector('.clid'),at:12},
+    {el:document.querySelector('.cring'),at:15,noInc:true}
+  ];
+  function updateChip(idx){
+    if(!chipWrap)return;
+    var incGiven=false;
+    chipLayers.forEach(function(L){
+      L.el.classList.remove('hid','inc','set');
+      if(idx>=L.at)L.el.classList.add('set');
+      else if(!incGiven&&!L.noInc){L.el.classList.add('inc');incGiven=true}
+      else L.el.classList.add('hid');
+    });
+    var done=idx>=N-1;
+    chipCap.textContent=done?'칩 완성 ✓':'칩 조립 '+Math.round((idx+1)/N*100)+'%';
+    chipCap.classList.toggle('done',done);
+    chipWrap.classList.toggle('dim',slides[idx].getAttribute('data-chip')==='dim');
+  }
+
   function show(i,push){
     i=Math.max(0,Math.min(N-1,i));
     if(slides[cur])slides[cur].classList.remove('active');
@@ -700,6 +723,7 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
     prog.style.width=((cur+1)/N*100)+'%';
     pageNo.textContent=(cur+1)+' / '+N;
     noteBody.textContent=s.getAttribute('data-note')||'';
+    updateChip(cur);
     [].forEach.call(s.querySelectorAll('[data-count]'),function(el){
       if(STATIC){el.textContent=(+el.getAttribute('data-count')).toLocaleString();return}
       el.textContent='0';

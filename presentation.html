@@ -223,6 +223,11 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   .fr .bar,.wbar i{transition:none!important}
   .pulse{animation:none!important;opacity:.4}
 }
+/* ?static=1 : capture/print mode — no motion, everything at final state */
+.static .rv,.static .slide.active .rv{animation:none!important;opacity:1!important}
+.static .fr .bar,.static .wbar i{transition:none!important}
+.static .pulse{animation:none!important;opacity:.35}
+.static .slide{transition:none!important}
 @media (max-aspect-ratio:1/1){
   .s-map{flex-direction:column}
   .xy,.failGrid,.spot{grid-template-columns:1fr}

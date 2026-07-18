@@ -816,24 +816,24 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
 
   var chipWrap=document.getElementById('chipWrap');
   var chipCap=document.getElementById('chipCap');
-  /* 분해도: zf=조립 위치, ze=분해 시 추가 간격, rz=분해 시 회전(부호 교차 → 층마다 반대 방향) */
+  /* 분해도: zf=조립 위치, ze=분해 간격, rz=회전(부호 교차), rx=기울기, ty=측면 스캐터 */
   var chipParts=[
-    {sel:'.cballs',zf:-0.6,ze:-34,rz: 230},
-    {sel:'.cpins', zf:0.2, ze:-24,rz:-185},
-    {sel:'.csub',  zf:0,   ze:-14,rz: 150},
-    {sel:'.cunder',zf:1.3, ze:-6, rz:-210},
-    {sel:'.cdie',  zf:2.3, ze:8,  rz: 175},
-    {sel:'.cwires',zf:2.8, ze:18, rz:-160},
-    {sel:'.clid',  zf:3.6, ze:30, rz: 200}
+    {sel:'.cballs',zf:-0.6,ze:-50,rz: 330,rx: 24,ty: 6},
+    {sel:'.cpins', zf:0.2, ze:-34,rz:-290,rx:-17,ty: 3},
+    {sel:'.csub',  zf:0,   ze:-20,rz: 245,rx: 15,ty: 0},
+    {sel:'.cunder',zf:1.3, ze:-8, rz:-310,rx:-11,ty:-3},
+    {sel:'.cdie',  zf:2.3, ze:15, rz: 285,rx: 17,ty: 3},
+    {sel:'.cwires',zf:2.8, ze:30, rz:-255,rx:-19,ty: 4},
+    {sel:'.clid',  zf:3.6, ze:50, rz: 330,rx: 22,ty: 7}
   ].map(function(p){p.el=chipWrap.querySelector(p.sel);return p});
   var chipRing=chipWrap.querySelector('.cring');
   var chipStage=document.getElementById('chipStage');
   function updateChip(i){
     if(!chipWrap)return;
-    var p=N>1?i/(N-1):1;
-    chipStage.style.transform='rotateX(58deg) rotateZ(-42deg)';
+    var p=N>1?i/(N-1):1,q=1-p;
+    chipStage.style.transform='rotateX(58deg) rotateZ('+(-42-260*q).toFixed(1)+'deg)';
     chipParts.forEach(function(L){
-      L.el.style.transform='translateZ('+(L.zf+L.ze*(1-p)).toFixed(2)+'vmin) rotateZ('+(L.rz*(1-p)).toFixed(1)+'deg)';
+      L.el.style.transform='translateZ('+(L.zf+L.ze*q).toFixed(2)+'vmin) translateY('+(L.ty*q).toFixed(2)+'vmin) rotateZ('+(L.rz*q).toFixed(1)+'deg) rotateX('+(L.rx*q).toFixed(1)+'deg)';
     });
     var done=i>=N-1;
     chipRing.classList.toggle('on',done);

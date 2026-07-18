@@ -336,7 +336,7 @@ h1.huge{
   background-size:230% 100%;background-position:125% 0;
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--ink)}
 h1.huge .gold{-webkit-text-fill-color:var(--gold)}
-.slide.active h1.huge{animation:shine 3.2s ease-in-out .45s 2}
+.slide.active h1.huge{animation:rise .7s cubic-bezier(.2,.7,.3,1) var(--d,0s) both, shine 3.2s ease-in-out calc(var(--d,0s) + .55s) 2}
 @keyframes shine{0%{background-position:125% 0}100%{background-position:-45% 0}}
 
 /* emphasis words · soft glow breathe */

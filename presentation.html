@@ -765,24 +765,24 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 
   var chipWrap=document.getElementById('chipWrap');
   var chipCap=document.getElementById('chipCap');
-  /* 분해도: zf=조립 위치, ze=분해 시 추가 간격(아래층은 음수, 위층은 양수) */
+  /* 분해도: zf=조립 위치, ze=분해 시 추가 간격, rz=분해 시 회전(부호 교차 → 층마다 반대 방향) */
   var chipParts=[
-    {sel:'.cballs',zf:-0.6,ze:-20},
-    {sel:'.cpins', zf:0.2, ze:-14},
-    {sel:'.csub',  zf:0,   ze:-8},
-    {sel:'.cunder',zf:1.3, ze:-3.5},
-    {sel:'.cdie',  zf:2.3, ze:3.5},
-    {sel:'.cwires',zf:2.8, ze:9},
-    {sel:'.clid',  zf:3.6, ze:16}
+    {sel:'.cballs',zf:-0.6,ze:-34,rz: 230},
+    {sel:'.cpins', zf:0.2, ze:-24,rz:-185},
+    {sel:'.csub',  zf:0,   ze:-14,rz: 150},
+    {sel:'.cunder',zf:1.3, ze:-6, rz:-210},
+    {sel:'.cdie',  zf:2.3, ze:8,  rz: 175},
+    {sel:'.cwires',zf:2.8, ze:18, rz:-160},
+    {sel:'.clid',  zf:3.6, ze:30, rz: 200}
   ].map(function(p){p.el=chipWrap.querySelector(p.sel);return p});
   var chipRing=chipWrap.querySelector('.cring');
   var chipStage=document.getElementById('chipStage');
   function updateChip(i){
     if(!chipWrap)return;
     var p=N>1?i/(N-1):1;
-    chipStage.style.transform='rotateX(58deg) rotateZ('+(-42-360*(1-p)).toFixed(1)+'deg)';
+    chipStage.style.transform='rotateX(58deg) rotateZ(-42deg)';
     chipParts.forEach(function(L){
-      L.el.style.transform='translateZ('+(L.zf+L.ze*(1-p)).toFixed(2)+'vmin)';
+      L.el.style.transform='translateZ('+(L.zf+L.ze*(1-p)).toFixed(2)+'vmin) rotateZ('+(L.rz*(1-p)).toFixed(1)+'deg)';
     });
     var done=i>=N-1;
     chipRing.classList.toggle('on',done);

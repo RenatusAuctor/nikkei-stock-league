@@ -868,12 +868,17 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
     if(zooming)return;
     if(cur===MAP_I&&cur<N-1&&!reduced){
       zooming=true;
-      var mw=slides[cur].querySelector('.mapWrap');
+      var s=slides[cur],mw=s.querySelector('.mapWrap');
+      s.classList.add('diving');
       mw.classList.add('zoomout');
       setTimeout(function(){
         show(cur+1);
-        setTimeout(function(){mw.classList.remove('zoomout');zooming=false},650);
-      },430);
+        var ns=slides[cur];ns.classList.add('arrived');
+        setTimeout(function(){
+          mw.classList.remove('zoomout');s.classList.remove('diving');
+          ns.classList.remove('arrived');zooming=false;
+        },780);
+      },500);
     }else show(cur+1);
   }
   function prev(){if(zooming)return;show(cur-1)}

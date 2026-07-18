@@ -298,9 +298,13 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 #chipCap b{color:var(--ink-2)}
 #chipCap.done{color:var(--gold)}
 #chipCap.done b{color:var(--gold)}
-/* 지도 → 구마모토 줌 전환 */
-.mapWrap svg{transition:transform .75s cubic-bezier(.55,0,.85,.35),opacity .7s ease;transform-origin:10.4% 82.6%}
-.mapWrap.zoomout svg{transform:scale(2.6);opacity:0}
+/* 지도 → 구마모토 안으로 다이브 전환 */
+.mapWrap svg{transition:transform .66s cubic-bezier(.62,0,.9,.28),opacity .42s ease .24s;transform-origin:10.4% 82.6%;will-change:transform}
+.mapWrap.zoomout svg{transform:scale(9);opacity:0}
+.s-map.diving .txt{opacity:0;transition:opacity .34s ease}
+/* 구마모토 도착(다음 장) 연출 */
+@keyframes arrive{0%{transform:scale(1.18);filter:blur(9px);opacity:0}55%{opacity:1}100%{transform:none;filter:none;opacity:1}}
+.slide.arrived{animation:arrive .74s cubic-bezier(.2,.7,.3,1) both}
 
 /* ---------- map leader-line draw-in ---------- */
 .s-map .leader{stroke-dasharray:200;stroke-dashoffset:200}

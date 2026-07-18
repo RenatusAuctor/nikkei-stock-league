@@ -740,17 +740,20 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
   var chipCap=document.getElementById('chipCap');
   /* 분해도: zf=조립 위치, ze=분해 시 추가 간격(아래층은 음수, 위층은 양수) */
   var chipParts=[
+    {sel:'.cballs',zf:-0.6,ze:-20},
     {sel:'.cpins', zf:0.2, ze:-14},
     {sel:'.csub',  zf:0,   ze:-8},
-    {sel:'.cunder',zf:1.2, ze:-3.5},
-    {sel:'.cdie',  zf:2.2, ze:3.5},
-    {sel:'.cwires',zf:2.6, ze:9},
-    {sel:'.clid',  zf:3.4, ze:16}
+    {sel:'.cunder',zf:1.3, ze:-3.5},
+    {sel:'.cdie',  zf:2.3, ze:3.5},
+    {sel:'.cwires',zf:2.8, ze:9},
+    {sel:'.clid',  zf:3.6, ze:16}
   ].map(function(p){p.el=chipWrap.querySelector(p.sel);return p});
   var chipRing=chipWrap.querySelector('.cring');
+  var chipStage=document.getElementById('chipStage');
   function updateChip(i){
     if(!chipWrap)return;
     var p=N>1?i/(N-1):1;
+    chipStage.style.transform='rotateX(58deg) rotateZ('+(-42-360*(1-p)).toFixed(1)+'deg)';
     chipParts.forEach(function(L){
       L.el.style.transform='translateZ('+(L.zf+L.ze*(1-p)).toFixed(2)+'vmin)';
     });

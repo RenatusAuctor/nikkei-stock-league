@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>世界トップは、地方にある — 日経ストックリーグ2026 中間報告</title>
+<title>後工程ニッチトップ × 地方クラスター — 日経ストックリーグ2026 中間報告</title>
 <style>
 :root{
   --bg:#0A0D12;
@@ -67,8 +67,236 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .punch{font-size:clamp(18px,3.1vmin,38px);font-weight:700;line-height:1.5;margin-top:7vmin}
 .punch em{font-style:normal;color:var(--gold)}
 .small{font-size:clamp(12px,1.75vmin,17px);color:var(--ink-3);line-height:1.6}
+.sourceLine{position:absolute;left:9vmin;right:9vmin;bottom:5.2vmin;
+  font-size:clamp(9px,1.25vmin,12px);color:var(--ink-3);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sourceLine a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(125,134,148,.45)}
 .gold{color:var(--gold)}.blue{color:var(--blue)}.strike{color:var(--bad)}
 .num{font-variant-numeric:tabular-nums}
+
+/* clarity-first layouts + impact moments */
+.coverEquation{margin-top:4.2vmin;display:flex;align-items:baseline;gap:2.2vmin;position:relative}
+.coverEquation .metric{display:flex;align-items:baseline;gap:.9vmin}
+.coverEquation b{font-size:clamp(34px,7.2vmin,88px);line-height:1;color:var(--gold);letter-spacing:-.03em}
+.coverEquation .arr{font-size:clamp(23px,4.2vmin,48px);color:var(--ink-3);font-weight:800}
+.coverEquation small{font-size:clamp(12px,1.8vmin,18px);color:var(--ink-2);font-weight:700;margin-left:.8vmin}
+
+.ruleCompare{display:grid;grid-template-columns:1fr auto 1.35fr;gap:2.6vmin;align-items:stretch;margin-bottom:3vmin}
+.ruleChoice{position:relative;border-top:2px solid var(--line);padding:2.4vmin 2.2vmin 1.8vmin;min-height:18vmin}
+.ruleChoice .mark{position:absolute;right:1.6vmin;top:.4vmin;font-size:clamp(36px,7vmin,86px);font-weight:900;line-height:1;opacity:.86}
+.ruleChoice .main{display:block;font-size:clamp(24px,4.2vmin,52px);font-weight:850;line-height:1.2;margin-bottom:1vmin}
+.ruleChoice .explain{font-size:clamp(13px,2vmin,21px);color:var(--ink-2);line-height:1.55;max-width:25em}
+.ruleChoice.no{border-color:rgba(226,99,92,.55)}.ruleChoice.no .mark{color:var(--bad)}
+.ruleChoice.yes{border-color:rgba(240,180,41,.75)}.ruleChoice.yes .mark,.ruleChoice.yes .main{color:var(--gold)}
+.ruleVs{align-self:center;color:var(--ink-3);font-size:clamp(13px,2vmin,20px);font-weight:800}
+.criteriaLine{display:grid;grid-template-columns:repeat(4,1fr);gap:2vmin;margin-bottom:1.4vmin}
+.criterion{border-top:1px solid var(--line);padding-top:1.2vmin;font-size:clamp(13px,2vmin,20px);font-weight:750;color:var(--ink-2)}
+.criterion b{display:block;color:var(--ink);font-size:clamp(16px,2.4vmin,25px);margin-bottom:.4vmin}
+
+.reasonStage{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:3vmin}
+.reasonUnit{padding:2.8vmin 2.8vmin 2.5vmin;border-right:1px solid var(--line);min-height:22vmin}
+.reasonUnit:last-child{border-right:0}
+.reasonUnit .bigKey{display:block;font-size:clamp(29px,5.5vmin,68px);font-weight:900;color:var(--gold);line-height:1;margin-bottom:1.7vmin;letter-spacing:-.02em}
+.reasonUnit h3{font-size:clamp(18px,2.8vmin,30px);font-weight:800;margin-bottom:.8vmin}
+.reasonUnit p{font-size:clamp(13px,1.95vmin,20px);color:var(--ink-2);line-height:1.55}
+
+.s-magnet>.magnetField{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.s-magnet>*:not(.magnetField){position:relative;z-index:1}
+.magnetField i{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 12px 3px rgba(240,180,41,.45);opacity:0}
+.s-magnet.active .magnetField i{animation:attract 1.55s cubic-bezier(.22,.66,.2,1) var(--md,0s) both}
+@keyframes attract{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:.85}100%{opacity:0;transform:translate(var(--mx),var(--my)) scale(.15)}}
+
+.fourLogic{display:flex;flex-direction:column;border-top:1px solid var(--line);margin-bottom:2.2vmin}
+.logicRow{position:relative;display:grid;grid-template-columns:5.5vmin 13vmin 1fr;gap:2.2vmin;align-items:center;
+  padding:1.55vmin 1.4vmin;border-bottom:1px solid var(--line);overflow:hidden}
+.logicRow::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left}
+.slide.active .logicRow::after{animation:traceLine .7s ease var(--ld,0s) forwards}
+@keyframes traceLine{to{transform:scaleX(1)}}
+.logicRow .ln{font-size:clamp(22px,4.3vmin,50px);font-weight:900;color:var(--gold);line-height:1}
+.logicRow .lk{font-size:clamp(17px,2.6vmin,28px);font-weight:850}
+.logicRow .lm{font-size:clamp(15px,2.3vmin,24px);color:var(--ink-2);font-weight:650}
+
+.themeName{position:relative;display:inline-block}
+.themeName::after{content:"";position:absolute;inset:8% -2%;background:linear-gradient(90deg,transparent,rgba(255,236,176,.85),transparent);
+  mix-blend-mode:screen;filter:blur(7px);opacity:0;transform:translateX(-140%) skewX(-12deg);pointer-events:none}
+.s-theme.active .themeName::after{animation:themeWhoosh .72s cubic-bezier(.16,.76,.24,1) .58s forwards}
+@keyframes themeWhoosh{
+  0%{opacity:0;transform:translateX(-140%) skewX(-12deg)}
+  14%{opacity:.95}
+  68%{opacity:.72}
+  100%{opacity:0;transform:translateX(140%) skewX(-12deg)}
+}
+
+.tl .row.hot{position:relative;overflow:hidden}
+.tl .row.hot::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 25%,rgba(240,180,41,.12) 48%,transparent 72%);
+  transform:translateX(-120%)}
+.slide.active .tl .row.hot::after{animation:timelineSweep 1.2s ease var(--d,.4s) forwards}
+@keyframes timelineSweep{to{transform:translateX(120%)}}
+
+.fr .bar::after{content:"";position:absolute;right:-3px;top:50%;width:8px;height:8px;border-radius:50%;background:inherit;
+  box-shadow:0 0 12px 3px rgba(240,180,41,.4);transform:translateY(-50%)}
+.slide.active .fr .val{animation:numberPop .55s cubic-bezier(.2,.8,.2,1) var(--dd,.4s) both}
+@keyframes numberPop{from{opacity:.25;transform:scale(.82)}to{opacity:1;transform:none}}
+
+.slide.active .exRow .out{animation:stampIn .45s cubic-bezier(.18,.9,.3,1.25) both}
+.slide.active .exRow:nth-child(1) .out{animation-delay:.72s}.slide.active .exRow:nth-child(2) .out{animation-delay:.87s}
+.slide.active .exRow:nth-child(3) .out{animation-delay:1.02s}.slide.active .exRow:nth-child(4) .out{animation-delay:1.17s}
+.exRow:last-child .out{color:var(--gold)}
+@keyframes stampIn{from{opacity:0;transform:scale(1.9) rotate(-10deg)}to{opacity:1;transform:scale(1) rotate(-2deg)}}
+
+.repairFlow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:1.7vmin;align-items:center;margin:1vmin 0 3vmin}
+.repairNode{border-top:2px solid var(--line);border-bottom:1px solid var(--line);padding:2.5vmin 2.1vmin;text-align:center}
+.repairNode .rlabel{display:block;font-size:clamp(11px,1.6vmin,16px);color:var(--ink-3);letter-spacing:.12em;font-weight:800;margin-bottom:.7vmin}
+.repairNode strong{font-size:clamp(17px,2.8vmin,30px);line-height:1.35}
+.repairNode.bad{border-top-color:var(--bad)}.repairNode.bad strong{color:#F1A09A}
+.repairNode.good{border-top-color:var(--gold)}.repairNode.good strong{color:var(--gold)}
+.repairArrow{font-size:clamp(20px,3.2vmin,36px);color:var(--ink-3);font-weight:900}
+.consistencyBar{display:grid;grid-template-columns:auto 1fr auto;gap:2.2vmin;align-items:center;
+  padding:1.8vmin 2.4vmin;background:rgba(19,26,36,.72);border-left:3px solid var(--blue)}
+.consistencyBar b{font-size:clamp(15px,2.4vmin,25px)}.consistencyBar span{font-size:clamp(13px,2vmin,21px);color:var(--ink-2)}
+.consistencyBar strong{font-size:clamp(16px,2.5vmin,27px);color:var(--blue)}
+
+.roleGrid{display:grid;grid-template-columns:1.15fr 1fr .72fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:2.2vmin}
+.roleCol{padding:2.2vmin 2.4vmin;border-right:1px solid var(--line)}
+.roleCol:last-child{border-right:0}
+.roleTop{display:flex;gap:1.5vmin;align-items:baseline;margin-bottom:1.1vmin}
+.roleNum{font-size:clamp(42px,8vmin,98px);font-weight:900;color:var(--gold);line-height:.9}
+.rolePlain{font-size:clamp(17px,2.6vmin,28px);font-weight:850;line-height:1.25}
+.roleFormal{display:block;color:var(--ink-3);font-size:clamp(11px,1.55vmin,15px);font-weight:700;margin-top:.35vmin}
+.roleNames{font-size:clamp(11px,1.55vmin,16px);line-height:1.55;color:var(--ink-2)}
+.proofBand{display:grid;grid-template-columns:auto 1fr 1fr;gap:2.2vmin;align-items:center}
+.proofBand .pbTitle{font-size:clamp(13px,2vmin,21px);font-weight:800;color:var(--ink-3)}
+.proofBand .pb{font-size:clamp(16px,2.5vmin,27px);font-weight:850;padding-left:2vmin;border-left:2px solid var(--line)}
+.proofBand .pb.goldB{border-color:var(--gold);color:var(--gold)}.proofBand .pb.blueB{border-color:var(--blue);color:var(--blue)}
+.proofBand small{display:block;color:var(--ink-3);font-size:.62em;margin-top:.3vmin}
+
+/* S11–13 company one-line guide */
+.companySlide h2.title{margin-bottom:2.4vmin}
+.companyGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 4.2vmin;margin-bottom:1.4vmin}
+.companyCol{border-top:1px solid var(--line)}
+.companyItem{position:relative;overflow:hidden;display:grid;grid-template-columns:3vmin minmax(10.5em,13em) 1fr;gap:1.25vmin;align-items:baseline;
+  padding:1.12vmin 0;border-bottom:1px solid var(--line)}
+.companyGrid.six .companyItem{padding:1.72vmin 0}
+.companyItem>*{position:relative;z-index:1}
+.companyItem::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 8%,rgba(240,180,41,.04) 34%,rgba(255,235,170,.2) 49%,rgba(79,184,232,.06) 62%,transparent 88%);
+  opacity:0;transform:translateX(-115%)}
+.slide.active .companyItem::after{animation:rowBeam .72s ease calc(var(--d,0s) + .12s) both}
+@keyframes rowBeam{12%{opacity:.9}100%{opacity:0;transform:translateX(115%)}}
+.ciNo{font-size:clamp(14px,1.82vmin,18px);font-weight:900;color:var(--gold)}
+.ciName{font-size:clamp(17px,2.1vmin,22px);font-weight:850;color:var(--ink);line-height:1.32;white-space:nowrap}
+.ciDesc{font-size:clamp(16px,1.95vmin,19px);font-weight:650;color:var(--ink-2);line-height:1.42}
+.ciDesc b{color:var(--gold);font-weight:850}
+.companyTake{margin-top:1.4vmin;font-size:clamp(18px,2.55vmin,28px);font-weight:800;color:var(--ink-2)}
+.companyTake em{font-style:normal;color:var(--gold)}
+.singleCompany{display:grid;grid-template-columns:12vmin 1fr;gap:3vmin;align-items:center;border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);padding:3vmin 0;margin-bottom:3vmin}
+.singleCompany .bigOne{font-size:clamp(58px,11vmin,132px);font-weight:900;color:var(--gold);line-height:.8;text-align:center}
+.singleCompany strong{display:block;font-size:clamp(25px,4.2vmin,50px);line-height:1.2;margin-bottom:1.1vmin}
+.singleCompany p{font-size:clamp(17px,2.45vmin,27px);color:var(--ink-2);font-weight:650;line-height:1.55}
+.roleEquation{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto auto;gap:1.5vmin;align-items:center;margin-bottom:2.8vmin}
+.roleEq{border-left:2px solid var(--line);padding-left:1.7vmin}
+.roleEq b{font-size:clamp(31px,5vmin,58px);color:var(--gold);line-height:1}
+.roleEq span{display:block;font-size:clamp(13px,1.9vmin,19px);color:var(--ink-2);font-weight:750;margin-top:.35vmin}
+.rolePlus{font-size:clamp(22px,3.3vmin,38px);color:var(--ink-3);font-weight:850}
+.roleTotal{font-size:clamp(28px,4.5vmin,52px);font-weight:900;color:var(--ink);white-space:nowrap}
+
+.s-close .finalMetric{margin-top:4vmin;font-size:clamp(29px,5.6vmin,68px);font-weight:900;letter-spacing:-.02em}
+.s-close .finalMetric .arrow{color:var(--ink-3);padding:0 1.8vmin}
+.s-close .finalLine{margin-top:2.6vmin;font-size:clamp(15px,2.4vmin,26px);color:var(--ink-2);font-weight:700}
+.proofBand .pbTitle b{display:block;margin-top:.4vmin;color:var(--ink);font-size:clamp(14px,2vmin,21px);white-space:nowrap}
+
+/* stage-first motion: high-impact moments without a full-screen sweep */
+#sceneFx{position:fixed;inset:0;z-index:34;pointer-events:none;overflow:hidden}
+#sceneFx .fxRing{position:absolute;left:50%;top:48%;width:22vmin;aspect-ratio:1;border-radius:50%;
+  border:2px solid rgba(255,225,139,.78);box-shadow:0 0 3vmin rgba(240,180,41,.48),inset 0 0 2vmin rgba(240,180,41,.28);
+  opacity:0;transform:translate(-50%,-50%) scale(.12)}
+body.scene-theme #sceneFx.hit .fxRing{animation:shockRing 1.18s cubic-bezier(.12,.74,.2,1) .12s both}
+body.scene-close #sceneFx.hit .fxRing{animation:shockRingClose 1.5s cubic-bezier(.1,.74,.18,1) .08s both}
+@keyframes shockRing{0%{opacity:0;transform:translate(-50%,-50%) scale(.12)}18%{opacity:.95}100%{opacity:0;transform:translate(-50%,-50%) scale(5.1);border-width:.3px}}
+@keyframes shockRingClose{0%{opacity:0;transform:translate(-50%,-50%) scale(.08)}16%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(6.8);border-width:.2px}}
+#sceneFx .fxBurst{position:absolute;left:50%;top:48%;width:1px;height:82vmin;opacity:0;
+  background:linear-gradient(transparent,rgba(255,225,139,.8) 46%,#fff 50%,rgba(255,225,139,.8) 54%,transparent);
+  transform:translate(-50%,-50%) rotate(48deg);filter:drop-shadow(0 0 1.2vmin rgba(240,180,41,.85))}
+#sceneFx .fxBurst::after{content:"";position:absolute;left:50%;top:50%;width:82vmin;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,225,139,.8) 46%,#fff 50%,rgba(255,225,139,.8) 54%,transparent);
+  transform:translate(-50%,-50%)}
+body.scene-theme #sceneFx.hit .fxBurst,body.scene-close #sceneFx.hit .fxBurst{animation:burstFlash .82s ease-out .08s both}
+@keyframes burstFlash{0%{opacity:0;transform:translate(-50%,-50%) rotate(48deg) scale(.35)}22%{opacity:.92}100%{opacity:0;transform:translate(-50%,-50%) rotate(48deg) scale(1.35)}}
+
+body.scene-title #aura{background:
+  radial-gradient(42vmax 34vmax at 24% 28%,rgba(240,180,41,.14),transparent 60%),
+  radial-gradient(38vmax 32vmax at 82% 76%,rgba(30,149,212,.08),transparent 62%)}
+.s-title.active .coverEquation::after{content:"";position:absolute;left:0;bottom:-1.1vmin;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--gold),rgba(240,180,41,.15),transparent);transform-origin:left;animation:lineIgnite .9s ease .62s both}
+.s-title.active .coverEquation .metric:last-child b{display:inline-block;animation:targetLock .75s cubic-bezier(.16,.85,.24,1.15) .7s both}
+@keyframes lineIgnite{from{transform:scaleX(0);filter:brightness(2)}to{transform:scaleX(1);filter:none}}
+@keyframes targetLock{0%{opacity:0;transform:scale(1.75);filter:blur(7px)}60%{opacity:1;filter:none}100%{transform:none;text-shadow:0 0 2vmin rgba(240,180,41,.55)}}
+
+.s-theme,.s-close{overflow:hidden}
+.s-theme>*:not(.sourceLine),.s-close>*{position:relative;z-index:1}
+.s-theme::before,.s-close::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0}
+.s-theme::before{background:
+  radial-gradient(54vmin 42vmin at 42% 45%,rgba(240,180,41,.22),transparent 62%),
+  linear-gradient(115deg,rgba(240,180,41,.05),transparent 48%)}
+.s-theme.active::before{animation:themeHalo 1.7s ease-out .06s both}
+@keyframes themeHalo{0%{opacity:0;transform:scale(.65)}28%{opacity:1}100%{opacity:.48;transform:scale(1.18)}}
+.s-theme.active .quoteLine{animation:rise .7s cubic-bezier(.2,.7,.3,1) var(--d,0s) forwards,quoteFocus 1s ease-out .12s both}
+@keyframes quoteFocus{0%{filter:blur(12px);letter-spacing:.035em}70%{filter:none}100%{letter-spacing:-.015em;text-shadow:0 0 2.2vmin rgba(240,180,41,.12)}}
+.themeName::before{content:"";position:absolute;left:0;right:0;bottom:-1vmin;height:3px;
+  background:linear-gradient(90deg,var(--gold),#fff2bd,var(--blue),transparent);transform:scaleX(0);transform-origin:left;box-shadow:0 0 1.4vmin rgba(240,180,41,.7)}
+.s-theme.active .themeName::before{animation:themeUnderline .9s cubic-bezier(.14,.74,.2,1) .62s forwards}
+@keyframes themeUnderline{to{transform:scaleX(1)}}
+.s-theme.active .decode .d1{animation:rise .7s cubic-bezier(.2,.7,.3,1) var(--d,0s) forwards,decodeGlow .9s ease calc(var(--d,0s) + .18s) both}
+@keyframes decodeGlow{0%{border-color:rgba(240,180,41,.72);box-shadow:0 0 2.8vmin rgba(240,180,41,.22)}100%{border-color:var(--line);box-shadow:none}}
+
+.fr .lb small{display:block;margin-top:.35vmin;font-size:clamp(12px,1.7vmin,16px);line-height:1.25;color:var(--ink-3);font-weight:650}
+.s-funnel .funnel{position:relative}
+.s-funnel .funnel::after{content:"";position:absolute;left:22%;right:8%;top:-1vmin;height:2px;opacity:0;
+  background:linear-gradient(90deg,transparent,var(--blue),#fff5ce,var(--gold),transparent);
+  box-shadow:0 0 2vmin rgba(240,180,41,.8);pointer-events:none}
+.s-funnel.active .funnel::after{animation:funnelScan 1.2s cubic-bezier(.2,.7,.25,1) .32s both}
+@keyframes funnelScan{0%{opacity:0;transform:translateY(0)}18%{opacity:1}100%{opacity:0;transform:translateY(25vmin)}}
+.s-funnel .fr.final{margin:-.2vmin -1.2vmin 0;padding:1vmin 1.2vmin;border-left:3px solid var(--gold);
+  background:linear-gradient(90deg,rgba(240,180,41,.13),transparent 76%)}
+.s-funnel.active .fr.final{animation:rise .7s cubic-bezier(.2,.7,.3,1) var(--d,0s) forwards,gateGlow 1.1s ease 1s both}
+@keyframes gateGlow{0%{box-shadow:0 0 0 rgba(240,180,41,0)}35%{box-shadow:0 0 3.5vmin rgba(240,180,41,.28)}100%{box-shadow:none}}
+
+.s-next .card{position:relative;overflow:hidden}
+.s-next .card::after{content:"";position:absolute;left:-45%;top:0;width:35%;height:2px;
+  background:linear-gradient(90deg,transparent,#fff0b5,var(--gold),transparent);opacity:0}
+.s-next.active .card::after{animation:cardSpark .85s ease calc(var(--d,0s) + .2s) both}
+@keyframes cardSpark{15%{opacity:1}100%{opacity:0;left:115%}}
+.s-next .card p{font-size:clamp(15px,2.08vmin,22px)}
+
+.s-close::before{background:
+  radial-gradient(44vmin 44vmin at 50% 47%,rgba(240,180,41,.27),transparent 62%),
+  repeating-conic-gradient(from 0deg at 50% 47%,rgba(240,180,41,.08) 0 1deg,transparent 1deg 12deg)}
+.s-close.active::before{animation:closeSun 2.2s ease-out .04s both}
+@keyframes closeSun{0%{opacity:0;transform:scale(.25) rotate(-8deg)}28%{opacity:.95}100%{opacity:.34;transform:scale(1.32) rotate(3deg)}}
+.s-close.active .finalMetric{animation:rise .7s cubic-bezier(.2,.7,.3,1) var(--d,0s) forwards,metricGlow 1.3s ease .62s both}
+@keyframes metricGlow{0%{filter:blur(8px)}35%{filter:none;filter:drop-shadow(0 0 2.4vmin rgba(240,180,41,.72))}100%{filter:drop-shadow(0 0 .8vmin rgba(240,180,41,.28))}}
+.s-close .finalMetric .gold:last-child{display:inline-block}
+.s-close.active .finalMetric .gold:last-child{animation:finalFifteen .86s cubic-bezier(.16,.86,.2,1.18) .72s both}
+@keyframes finalFifteen{0%{opacity:0;transform:scale(2.15);filter:blur(8px)}62%{opacity:1;filter:none}100%{transform:none}}
+#chipWrap.complete #chipScene{animation:chipVictory 2.1s cubic-bezier(.15,.72,.22,1) .1s both}
+@keyframes chipVictory{0%{transform:scale(.7);filter:brightness(.8) blur(4px)}28%{transform:scale(1.08);filter:brightness(1.75) drop-shadow(0 0 3.4vmin rgba(240,180,41,.75))}100%{transform:scale(1);filter:brightness(1.08) drop-shadow(0 0 1.5vmin rgba(240,180,41,.32))}}
+
+@media (prefers-reduced-motion:reduce){
+  .magnetField{display:none!important}
+  #sceneFx{display:none!important}
+  .themeName::before,.themeName::after,.tl .row.hot::after,.logicRow::after,.companyItem::after,.funnel::after,.card::after{display:none!important}
+  .slide.active .exRow .out,.slide.active .fr .val{animation:none!important}
+  .s-theme::before,.s-close::before,.s-theme.active .quoteLine,.s-theme.active .decode .d1,.s-close.active .finalMetric,.s-close.active .finalMetric .gold:last-child,#chipWrap.complete #chipScene{animation:none!important}
+}
+.static .magnetField{display:none!important}
+.static #sceneFx{display:none!important}
+.static .themeName::before,.static .themeName::after,.static .tl .row.hot::after,.static .companyItem::after,.static .funnel::after,.static .card::after{display:none!important}
+.static .logicRow::after{transform:scaleX(1)!important;animation:none!important}
+.static .slide.active .exRow .out,.static .slide.active .fr .val{animation:none!important}
+.static .s-theme::before,.static .s-close::before{opacity:.34!important;animation:none!important}
+.static .s-theme.active .quoteLine,.static .s-theme.active .decode .d1,.static .s-close.active .finalMetric,.static .s-close.active .finalMetric .gold:last-child,.static #chipWrap.complete #chipScene{animation:none!important}
 
 /* generic cards */
 .cards{display:grid;gap:2.2vmin;margin:0 0 3vmin}
@@ -89,6 +317,11 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 #notes.on{display:block}
 #notes .nt{font-size:clamp(10px,1.5vmin,14px);letter-spacing:.2em;color:var(--gold);font-weight:700;margin-bottom:.8vmin}
 #notes .nb{font-size:clamp(14px,2.1vmin,20px);color:var(--ink-2);line-height:1.7;max-width:110ch}
+#toast{position:fixed;left:50%;bottom:7vmin;z-index:60;transform:translate(-50%,14px);
+  padding:1.2vmin 2vmin;border:1px solid rgba(226,99,92,.55);border-radius:10px;
+  background:rgba(10,13,18,.96);color:var(--ink);font-size:clamp(12px,1.7vmin,16px);
+  opacity:0;visibility:hidden;transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s}
+#toast.on{opacity:1;visibility:visible;transform:translate(-50%,0);transition-delay:0s}
 
 /* ---------- slide-specific ---------- */
 
@@ -130,6 +363,15 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .s-map .txt{flex:1.05;display:flex;flex-direction:column;min-width:0}
 .s-map .mapWrap{flex:1;min-width:0;max-height:82vh}
 .mapWrap svg{width:100%;max-height:82vh;height:auto;display:block}
+.mapTimeline{display:flex;flex-direction:column;gap:.9vmin;margin:.4vmin 0 1.5vmin}
+.mapBeat{display:grid;grid-template-columns:9ch 1fr;gap:1.2vmin;align-items:baseline;
+  border-left:2px solid var(--line);padding:.8vmin 0 .8vmin 1.4vmin}
+.mapBeat.hot{border-left-color:var(--gold);background:linear-gradient(90deg,rgba(240,180,41,.08),transparent)}
+.mapBeat .yr{font-size:clamp(14px,2.05vmin,22px);font-weight:900;color:var(--gold);white-space:nowrap}
+.mapBeat p{font-size:clamp(12px,1.72vmin,18px);line-height:1.45;color:var(--ink-2)}
+.mapBeat p b{color:var(--ink)}
+.mapFoot{font-size:clamp(12px,1.7vmin,18px);line-height:1.5;color:var(--ink-2);font-weight:650}
+.mapFoot em{font-style:normal;color:var(--gold);font-weight:850}
 .land{fill:#161D28;stroke:#2A3444;stroke-width:1}
 .land.kumamoto{fill:rgba(201,133,0,.38);stroke:#C98500;stroke-width:1.4}
 .land.aomori,.land.iwate,.land.fukushima{fill:rgba(30,149,212,.3);stroke:#1E95D4;stroke-width:1.4}
@@ -195,6 +437,12 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .grp .st{color:var(--gold);font-size:.9em}
 .rdot{flex:0 0 auto;width:1.1vmin;height:1.1vmin;min-width:7px;min-height:7px;border-radius:50%;align-self:center}
 .rdot.k{background:var(--gold-deep)}.rdot.t{background:var(--blue-deep)}
+.scopeGroups .grp{padding:2.2vmin 2.6vmin}
+.scopeGroups .grp h3{display:flex;align-items:baseline;justify-content:space-between;gap:1.5vmin}
+.scopeGroups .grp h3 .count{font-size:.72em;color:var(--gold);white-space:nowrap}
+.scopeGroups .grp li{display:block;padding:.5vmin 0;font-size:clamp(13px,1.95vmin,19px);line-height:1.5}
+.scopeGroups .grp .co{white-space:normal}
+.grpNote{margin-top:1vmin;color:var(--ink-3);font-size:clamp(11px,1.55vmin,15px);line-height:1.45}
 .legendLine{display:flex;gap:3vmin;align-items:center;flex-wrap:wrap}
 .legendLine .li{display:flex;gap:1vmin;align-items:center;font-size:clamp(11px,1.65vmin,16px);color:var(--ink-3);font-weight:600}
 .swatch{width:1.6vmin;height:1.6vmin;min-width:9px;min-height:9px;border-radius:50%}
@@ -207,12 +455,18 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 .risk .a{font-size:clamp(13px,2vmin,21px);color:var(--ink-2);line-height:1.6}
 .risk .a b{color:var(--ink)}
 
-/* S16 closing */
+/* S15 closing */
 .s-close{align-items:center;text-align:center;justify-content:center}
 .s-close .themeLine{margin-top:4.5vmin;font-size:clamp(17px,3vmin,36px);font-weight:800;color:var(--gold)}
 .s-close .trio{display:flex;gap:4.5vmin;margin-top:4vmin;flex-wrap:wrap;justify-content:center}
 .s-close .trio .t{font-size:clamp(15px,2.6vmin,30px);font-weight:700;color:var(--ink-2)}
 .s-close .thanks{margin-top:6vmin;color:var(--ink-3);font-size:clamp(13px,2vmin,20px)}
+.winClose .criteriaLine{width:min(82vw,1280px);margin:3.6vmin 0 0;text-align:left}
+.winClose .criterion{font-size:clamp(12px,1.7vmin,18px)}
+.winClose .criterion b{font-size:clamp(15px,2.15vmin,23px)}
+.winClose .themeLine{margin-top:3vmin}
+.winClose .finalLine{margin-top:1.6vmin}
+.winClose .thanks{margin-top:2.8vmin}
 
 /* ---------- 3D chip exploded view : 最初のページ=大きく分解、回転しながら合体 ---------- */
 #chipWrap{position:fixed;left:50%;top:50%;width:64vmin;height:64vmin;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.55;transition:opacity .6s}
@@ -298,6 +552,51 @@ h2.title{font-size:clamp(26px,4.9vmin,62px);font-weight:800;line-height:1.22;let
 #chipCap b{color:var(--ink-2)}
 #chipCap.done{color:var(--gold)}
 #chipCap.done b{color:var(--gold)}
+/* visual polish only — the original 3D geometry, angles and motion stay unchanged */
+#chipWrap{filter:drop-shadow(0 2.6vmin 2.8vmin rgba(0,0,0,.52)) drop-shadow(-1.1vmin -1vmin 1.5vmin rgba(78,172,224,.09))}
+#chipScene{position:relative}
+#chipScene::before{content:"";position:absolute;left:15%;right:15%;top:44%;bottom:14%;z-index:0;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.58) 0 24%,rgba(0,0,0,.22) 48%,transparent 72%);
+  filter:blur(1.8vmin);transform:translateY(13%);opacity:.78}
+#chipStage{z-index:1}
+#chipStage,.cel{will-change:transform}
+.cel{backface-visibility:hidden}
+.cballs{background-image:
+  radial-gradient(circle at 37% 29%,rgba(255,255,255,.98) 0 3%,#FFF0BC 6%,#F3CE72 20%,#C58A22 40%,#6B3C05 58%,rgba(0,0,0,0) 65%),
+  radial-gradient(circle at 60% 66%,rgba(65,28,0,.5) 0 26%,transparent 66%);
+  filter:drop-shadow(0 .75vmin .6vmin rgba(0,0,0,.52)) drop-shadow(0 0 .45vmin rgba(255,218,132,.25))}
+.cpins i{box-shadow:0 .12vmin .18vmin rgba(0,0,0,.55);filter:saturate(1.15) contrast(1.08)}
+.csub .base{background:linear-gradient(145deg,#0C3A20,#04140B 58%,#010604);border-color:#255F3C;
+  box-shadow:0 1.6vmin 2.2vmin rgba(0,0,0,.58),inset 0 .25vmin .45vmin rgba(99,183,121,.12)}
+.csub .face{background-blend-mode:screen,screen,normal,normal,normal;
+  box-shadow:inset 0 0 2.8vmin rgba(0,0,0,.62),inset 0 .12vmin .3vmin rgba(187,255,204,.18),0 0 1.2vmin rgba(42,128,76,.16)}
+.csub::after{content:"";position:absolute;inset:1.2%;border-radius:3.5%;pointer-events:none;
+  background:linear-gradient(115deg,rgba(255,255,255,.16) 0 5%,transparent 23% 68%,rgba(91,214,142,.06)),
+  radial-gradient(circle at 78% 72%,rgba(95,255,166,.08),transparent 44%);
+  border:1px solid rgba(170,255,194,.09);box-shadow:inset 0 0 1vmin rgba(0,0,0,.42);mix-blend-mode:screen;opacity:.82}
+.cunder{background:radial-gradient(closest-side,rgba(255,231,151,.7),rgba(215,146,28,.18) 58%,transparent 74%);
+  box-shadow:0 0 1.8vmin rgba(240,180,41,.44),inset 0 0 .8vmin rgba(255,249,210,.18)}
+.cdie .base{background:linear-gradient(145deg,#121B2B,#03060B 70%);border-color:#35445D;
+  box-shadow:0 1.1vmin 1.8vmin rgba(0,0,0,.68),inset 0 .15vmin .3vmin rgba(146,184,224,.12)}
+.cdie .face{background-blend-mode:screen,soft-light,soft-light,normal;
+  box-shadow:0 0 3vmin rgba(79,184,232,.46),inset 0 0 1.4vmin rgba(0,0,0,.68),inset 0 .12vmin .28vmin rgba(214,239,255,.2)}
+.cdie .core{filter:contrast(1.08) saturate(1.25)}
+.cdie::after{content:"";position:absolute;inset:1.5%;border-radius:4%;pointer-events:none;
+  background:linear-gradient(112deg,transparent 0 34%,rgba(112,255,225,.16) 41%,rgba(184,130,255,.17) 50%,rgba(255,214,116,.14) 58%,transparent 66%),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px);
+  mix-blend-mode:screen;box-shadow:inset 0 0 .8vmin rgba(174,222,255,.14);opacity:.92}
+.cwires path{stroke:#F7D787;stroke-width:1.15;stroke-linecap:round}
+.cwires circle{fill:#FFF1BE;stroke:#A76C0A;stroke-width:.24}
+.clid .body{background:linear-gradient(145deg,#1A2230,#05080E 72%);border-color:#29364A;
+  box-shadow:0 2vmin 3.2vmin rgba(0,0,0,.64),inset 0 .18vmin .35vmin rgba(180,198,226,.08)}
+.clid .face{background-blend-mode:screen,overlay,screen,normal;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 2px 4px rgba(255,255,255,.09),inset 0 -4px 7px rgba(0,0,0,.68),inset 0 0 3.2vmin rgba(0,0,0,.54),0 .4vmin 1.2vmin rgba(0,0,0,.22)}
+.clid::after{content:"";position:absolute;inset:1.5%;z-index:1;border-radius:5%;pointer-events:none;
+  background:linear-gradient(128deg,rgba(255,255,255,.15),transparent 18% 63%,rgba(255,255,255,.035)),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,rgba(0,0,0,.025) 1px 3px);
+  box-shadow:inset .3vmin .3vmin .5vmin rgba(255,255,255,.07),inset -.4vmin -.5vmin .8vmin rgba(0,0,0,.72);opacity:.88}
+.clid .dot,.cmark{z-index:2}
+.cmark{color:rgba(247,206,110,.78);text-shadow:0 1px 0 rgba(255,255,255,.13),0 -1px 1px rgba(0,0,0,.82),0 0 1.8vmin rgba(240,180,41,.36)}
 /* 地図 → 熊本の中へダイブ遷移 */
 .mapWrap svg{transition:transform .66s cubic-bezier(.62,0,.9,.28),opacity .42s ease .24s;transform-origin:10.4% 82.6%;will-change:transform}
 .mapWrap.zoomout svg{transform:scale(9);opacity:0}
@@ -376,7 +675,7 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
 .static .eyebrow::before,.static .slide.active h1.huge,.static .slide.active .punch em{animation:none!important}
 @media (max-aspect-ratio:1/1){
   .s-map{flex-direction:column}
-  .xy,.groups{grid-template-columns:1fr}
+  .xy,.groups,.companyGrid{grid-template-columns:1fr}
   .reasons{grid-template-columns:1fr}
 }
 </style>
@@ -385,64 +684,58 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
 
 <div id="aura"></div>
 <div id="vig"></div>
+<div id="sceneFx" aria-hidden="true"><i class="fxRing"></i><i class="fxBurst"></i></div>
 
 <div id="progress"></div>
 
 <main id="deck">
 
-<!-- 1 表紙 -->
-<section class="slide s-title" data-note="挨拶の後:本日の発表タイトルがそのまま結論です。世界トップの技術は東京ではなく地方にある — これを数字と書類で証明しました。公式テーマ名は「後工程ニッチトップ × 地方クラスター」。今は難しく見えても、発表が終わる頃にはこの名前が完全に理解できます。">
-  <div class="eyebrow rv">日経ストックリーグ2026 · 中間成果報告</div>
-  <h1 class="huge rv" style="--d:.15s">世界トップは、<br>地方にある<span class="gold">.</span></h1>
-  <p class="sub rv" style="--d:.45s">日本の株式市場に上場する4,438社の中から見つけ出した、<br>地方の「世界チャンピオン」15社の物語</p>
-  <div class="themeTag rv" style="--d:.65s"><span class="tl">公式テーマ</span><span class="tn">後工程ニッチトップ × 地方クラスター</span></div>
-  <div class="meta rv" style="--d:.85s"><span>2026年7月</span><span class="dotSep"></span><span>銘柄選定 完了 · 運用準備</span></div>
+<!-- 1 結論から -->
+<section class="slide s-title" data-note="結論から申し上げます。日経ストックリーグで優勝を目指すため、私たちが見つけた答えは「後工程ニッチトップ × 地方クラスター」です。半導体を完成させる隠れた強者を日本の地方で探し、東証上場4,438銘柄から15社へ絞りました。">
+  <div class="eyebrow rv">日経ストックリーグ2026・優勝を目指す私たちの答え</div>
+  <h1 class="huge rv" style="--d:.15s">後工程ニッチトップ ×<br>地方クラスター<span class="gold">。</span></h1>
+  <p class="sub rv" style="--d:.4s">「半導体を完成させる隠れた強者を、日本の地方で探す。」</p>
+  <div class="coverEquation rv" style="--d:.6s"><span class="metric"><b class="num" data-count="4438" data-delay="520">4,438</b><small>東証上場銘柄</small></span><span class="arr">→</span><span class="metric"><b class="num" data-count="15" data-delay="720">15</b><small>選定企業</small></span></div>
+  <div class="meta rv" style="--d:.85s"><span>世界を支える技術は、地方にある</span><span class="dotSep"></span><span>2026年7月</span></div>
 </section>
 
 <!-- 2 ゲームのルール -->
-<section class="slide" data-note="まず大会のどんでん返しから:稼いだ金額は審査に入りません。仮想資金500万円でポートフォリオを組み、「なぜ選んだか」をレポートで説得する大会です。だから私たちの戦略は、リターンではなく「反論できない理由づくり」だったと宣言。">
+<section class="slide" data-note="なぜこのテーマが優勝を目指す答えなのか。その前に大会のルールを確認します。ポートフォリオの評価額は審査と無関係で、経済・投資の理解、独創性、表現力、調査への熱意、大学部門の理論性・専門性が総合評価されます。つまり一つのテーマで、これらすべてに答える必要があります。">
   <div class="eyebrow rv">ゲームのルール</div>
-  <h2 class="title rv" style="--d:.1s">この大会、最もお金を稼いだチームが<br>優勝するのでしょうか?</h2>
-  <div class="xy">
-    <div class="card no rv" style="--d:.35s">
-      <h3>リターンで審査する</h3>
-      <p>いいえ。いくら稼いだかは <b>審査の対象ではありません。</b></p>
+  <h2 class="title rv" style="--d:.1s">お金を多く稼げば、この大会で勝てるのでしょうか？</h2>
+  <div class="ruleCompare">
+    <div class="ruleChoice no rv" style="--d:.3s">
+      <span class="mark">×</span><span class="main">運用成績</span>
+      <p class="explain">ポートフォリオの評価額は <b>審査と無関係</b>です。</p>
     </div>
-    <div class="card yes rv" style="--d:.55s">
-      <h3>「なぜ選んだか」で審査する</h3>
-      <p>審査されるのはただ一つ — 企業を選んだ <b>理由の説得力</b>、それを込めたレポートです。</p>
+    <div class="ruleVs rv" style="--d:.4s">ではなく</div>
+    <div class="ruleChoice yes rv" style="--d:.5s">
+      <span class="mark">○</span><span class="main">選んだ理由</span>
+      <p class="explain">「なぜこの企業か」を <b>資料と論理で説明</b>します。</p>
     </div>
   </div>
-  <div class="rulebox rv" style="--d:.75s">
-    <span class="pill">日本経済新聞社 主催</span>
-    <span class="pill">仮想資金 500万円</span>
-    <span class="pill">10〜20社に分散投資</span>
+  <div class="criteriaLine">
+    <div class="criterion rv" style="--d:.65s"><b>経済理解</b>市場を正しく読んだか</div>
+    <div class="criterion rv" style="--d:.75s"><b>独創性</b>他と違う問いか</div>
+    <div class="criterion rv" style="--d:.85s"><b>表現力</b>誰にでも伝わるか</div>
+    <div class="criterion rv" style="--d:.95s"><b>調査の熱意</b>自分たちで確かめたか</div>
   </div>
-  <p class="punch rv" style="--d:.95s">だから私たちは <em>誰にも反論できない「理由」</em>を作ることに全てを懸けました。</p>
+  <p class="small rv" style="--d:1s">※ 大学部門では理論性・専門性も評価されます。</p>
+  <p class="punch rv" style="--d:1.1s">優勝には、<em>一つの投資テーマで、これらをすべて証明する</em>必要があります。</p>
+  <p class="sourceLine">出所：<a href="https://manabow.com/sl/concept/reportcontest.html">日経STOCKリーグ「レポート審査のポイント」</a>・<a href="https://manabow.com/sl/concept/portfolio.html">ポートフォリオの考え方</a></p>
 </section>
 
 <!-- なぜ半導体か (マクロ) -->
-<section class="slide" data-note="本論の前に土台を敷く — 私たちが立つ土地がなぜ半導体か。① すべてがチップの上で動く:日本で半導体は「産業のコメ」 ② 需要が構造的に拡大:AI・データセンター・自動運転 — 世界市場は2030年ごろ約1兆ドルへ ③ 各国が補助金競争中 — 国が後押しする産業は追い風。ただし成長産業の中でもどこに乗るかが勝負 → その答え(後工程)を次のページから作っていきます。">
-  <div class="eyebrow rv">まず — なぜ、半導体なのか</div>
-  <h2 class="title rv" style="--d:.1s">半導体は、「産業のコメ」です</h2>
-  <div class="reasons">
-    <div class="card rv" style="--d:.3s">
-      <div class="kicker">理由 ①</div>
-      <h3>すべてが、チップの上で動きます</h3>
-      <p>スマホ · 自動車 · 医療機器 · AIまで。日本では半導体を <b>「産業のコメ」</b>と呼びます — なければすべての産業が止まる <b>基礎食料</b>という意味です。</p>
-    </div>
-    <div class="card rv" style="--d:.5s">
-      <div class="kicker">理由 ②</div>
-      <h3>需要が、構造的に大きくなります</h3>
-      <p>AIが火をつけました — データセンター · 自動運転 · ロボット。チップは <b>より多く、より高性能に</b> 必要とされ、世界市場は <b>2030年ごろ約1兆ドル</b> 規模へ成長すると見込まれます。</p>
-    </div>
-    <div class="card rv" style="--d:.7s">
-      <div class="kicker">理由 ③</div>
-      <h3>国々が、お金を注ぎます</h3>
-      <p>米国 · 欧州 · 日本が横並びで <b>補助金競争</b>の最中です。国が後押しする産業は <b>追い風</b>に乗ります — 逆風の産業とはスタート地点が違います。</p>
-    </div>
+<section class="slide" data-note="最初の問いは、なぜ半導体かです。需要は、暮らしの製品、AIデータセンターとロボット、国の供給網投資という三方向から同時に伸びています。ただし大きな産業というだけでは選ばず、成長の果実が実際に残る工程と企業を探します。">
+  <div class="eyebrow rv">なぜ、半導体なのか</div>
+  <h2 class="title rv" style="--d:.1s">半導体需要は、三方向から同時に伸びています</h2>
+  <div class="reasonStage">
+    <div class="reasonUnit rv" style="--d:.3s"><span class="bigKey">暮らし</span><h3>あらゆる製品の頭脳</h3><p>スマホ・自動車・医療機器まで、チップがなければ動きません。</p></div>
+    <div class="reasonUnit rv" style="--d:.5s"><span class="bigKey">AI</span><h3>より多くのチップが必要</h3><p>データセンターやロボットが増えるほど、高性能半導体の需要も伸びます。</p></div>
+    <div class="reasonUnit rv" style="--d:.7s"><span class="bigKey">国</span><h3>供給網へ直接投資</h3><p>日本は国内生産と安定した供給網を政策で強化しています。</p></div>
   </div>
-  <p class="punch rv" style="--d:.9s">ただし、成長する産業の中でも <em>どこに乗るか</em>が勝負です — その答えを、これから作ってお見せします。</p>
+  <p class="punch rv" style="--d:.9s">大きな市場を選ぶだけでなく、<em>成長の果実がどこに残るか</em>を探しました。</p>
+  <p class="sourceLine">出所：経済産業省「<a href="https://www.meti.go.jp/policy/mono_info_service/joho/conference/semicon_digital.html">半導体・デジタル産業戦略</a>」（2026年6月改訂）</p>
 </section>
 
 <!-- 3 半導体 = 本づくり -->
@@ -458,54 +751,64 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
     <div class="arrow rv" style="--d:.45s">→</div>
     <div class="step hero rv" style="--d:.55s">
       <span class="ico">✂️</span>
-      <h3>切って · 包んで · 検査する</h3>
+      <h3>切って・包んで・検査する</h3>
       <p>ウェハーを一片ずつ切り、しっかり包み、不良をはじいて初めて「チップ」になる — <b>今日の主役、「後工程」</b></p>
     </div>
     <div class="arrow rv" style="--d:.7s">→</div>
     <div class="step rv" style="--d:.8s">
       <span class="ico">📱</span>
       <h3>製品になる</h3>
-      <p>スマホ · 自動車 · AI — 私たちの知るあらゆる電子製品の中へ</p>
+      <p>スマホ・自動車・AI—私たちの知るあらゆる電子製品の中へ</p>
     </div>
   </div>
-  <p class="punch rv" style="--d:1s">どれだけ上手に印刷しても、<em>切って綴じる仕上げがダメなら本になりません。</em></p>
+  <p class="punch rv" style="--d:1s">きれいに刻んだ回路も、<em>切って・包んで・検査して</em>初めて使えるチップになります。</p>
 </section>
 
-<!-- 4 磁石の理論 -->
-<section class="slide" data-note="核心の論理を一枚で。印刷工場(巨大工場)は金があればどこにでも建つが、仕上げを担う会社は物理的に隣にいなければならない。三つの理由を挙げ、「巨大工場=磁石」とまとめる。これが投資アイデアの背骨。">
-  <div class="eyebrow rv">私たちが注目した法則</div>
-  <h2 class="title rv" style="--d:.1s">巨大工場は、磁石です</h2>
+<!-- 7 なぜ地方クラスターか -->
+<section class="slide s-magnet" data-seq="7" data-note="三つ目の軸は地方クラスターです。すべての会社が工場の隣に必要なわけではありませんが、安定供給・緊急保守・共同開発が重要な後工程とファブインフラ企業は、顧客に近いほど有利です。そこで、近接の必要性が高いニッチ企業ほどアンカーファブの周辺に集まる、という仮説を立てました。">
+  <div class="magnetField" aria-hidden="true">
+    <i style="left:5%;top:18%;--mx:45vw;--my:32vh;--md:.05s"></i><i style="left:92%;top:25%;--mx:-42vw;--my:25vh;--md:.12s"></i>
+    <i style="left:10%;top:70%;--mx:40vw;--my:-20vh;--md:.2s"></i><i style="left:88%;top:78%;--mx:-38vw;--my:-28vh;--md:.28s"></i>
+    <i style="left:22%;top:8%;--mx:28vw;--my:42vh;--md:.36s"></i><i style="left:78%;top:10%;--mx:-28vw;--my:40vh;--md:.44s"></i>
+    <i style="left:2%;top:50%;--mx:48vw;--my:0;--md:.52s"></i><i style="left:96%;top:52%;--mx:-46vw;--my:-2vh;--md:.6s"></i>
+  </div>
+  <div class="eyebrow rv">なぜ、地方クラスターなのか</div>
+  <h2 class="title rv" style="--d:.1s">工場の近くで、さらに強くなる企業があります</h2>
   <div class="reasons">
     <div class="card rv" style="--d:.35s">
       <div class="kicker">理由 ①</div>
-      <h3>毎日使う材料</h3>
-      <p>切るテープ、特殊ガス — 工場が <b>毎日</b> 使う材料は、その都度届けなければなりません。</p>
+      <h3>安定供給が必要</h3>
+      <p>消耗品・ガス・薬液は、量と品質を保ちながら <b>継続供給できる体制</b>が重要です。</p>
     </div>
     <div class="card rv" style="--d:.55s">
       <div class="kicker">理由 ②</div>
-      <h3>機械が止まれば終わり</h3>
-      <p>修理の技術者が <b>すぐ駆けつけられる距離</b>にいなければなりません。事実上、常駐が基本。</p>
+      <h3>保守対応を速くする</h3>
+      <p>設備停止の損失が大きいほど、拠点や技術者を <b>顧客の近くに置く動機</b>が強まります。</p>
     </div>
     <div class="card rv" style="--d:.75s">
       <div class="kicker">理由 ③</div>
-      <h3>新技術は一緒に作る</h3>
-      <p>新しい組み立て技術は、工場と部品メーカーが <b>顔を突き合わせて</b> 共同開発してこそ勝てます。</p>
+      <h3>共同開発を速める</h3>
+      <p>先端工程では、装置・素材メーカーと工場の <b>試作と改善の往復</b>が競争力になります。</p>
     </div>
   </div>
-  <p class="punch rv" style="--d:.95s">だから巨大工場ができると、その周りに <em>世界トップ企業が衛星のように</em> 集まってきます。</p>
+  <p class="punch rv" style="--d:.95s">すべてではありません。<em>近接の必要性が高いニッチ企業ほど、アンカーの周辺に集まりやすい</em>—これが私たちの仮説です。</p>
 </section>
 
-<!-- 5 地図 -->
-<section class="slide s-map" data-chip="dim" data-note="2021年、世界最大の半導体企業TSMCが新工場の用地に選んだのは東京ではなく熊本の農村。日本最大のメモリ工場も岩手に。金色が熊本、青色が青森・岩手・福島 — 今日ずっと出てくる四つの地域です。そこで問い:「その隣の町々では今、何が?」">
+<!-- 8 地方クラスターの実証 -->
+<section class="slide s-map" data-seq="8" data-chip="dim" data-note="仮説は熊本で実際に観察できました。2021年のJASM建設発表後、2022〜2023年にはTOKの用地取得と東京エレクトロンの開発棟着工が続き、JASMは2024年に開所・量産しました。つまり発表された需要が、稼働前から周辺投資を動かしました。ただし九州のアンカー誘致型と東北の既存産業基盤型を、同じ因果として誇張しません。">
   <div class="txt">
-    <div class="eyebrow rv">2021年、事件が起きます</div>
-    <h2 class="title rv" style="--d:.1s">世界最大の半導体企業が<br>工場を建てる場所に選んだ土地は—</h2>
-    <p class="sub rv" style="--d:.35s">東京ではありませんでした。<b class="gold">熊本の農村</b>でした。<br><br>
-    日本最大のメモリ工場も <b class="blue">岩手</b>にあります。<br>どちらも、いわゆる「地方」です。</p>
-    <p class="punch rv" style="--d:.6s">私たちの問い — <em>「では、その隣の町では、<br>今、何が起きているのか?」</em></p>
+    <div class="eyebrow rv">仮説は現実に動きました</div>
+    <h2 class="title rv" style="--d:.1s">JASM発表後、<br>稼働前から投資が始まりました</h2>
+    <div class="mapTimeline">
+      <div class="mapBeat rv" style="--d:.28s"><span class="yr num">2021</span><p>TSMCが <b>熊本JASMの建設</b>を発表</p></div>
+      <div class="mapBeat hot rv" style="--d:.42s"><span class="yr num">2022–23</span><p>TOKが用地取得、TELが開発棟着工—<b>稼働前投資</b></p></div>
+      <div class="mapBeat rv" style="--d:.56s"><span class="yr num">2024–26</span><p>JASM量産とともに、増設・供給・受賞の証拠が拡大</p></div>
+    </div>
+    <p class="mapFoot rv" style="--d:.72s"><em>九州はアンカー誘致型</em>、東北は <span class="blue">既存産業基盤型</span>です。<br>異なる証拠を同じ因果として誇張しません。</p>
+    <p class="sourceLine">出所：<a href="https://pr.tsmc.com/schinese/news/3113">TSMC JASM</a>・<a href="https://www.tok.co.jp/news/2023/230808_5">東京応化工業</a>・<a href="https://www.tel.co.jp/news/ir/2025/20251015_001.html">東京エレクトロン</a></p>
   </div>
   <div class="mapWrap rv" style="--d:.4s">
-    <svg viewBox="0 0 720 640" role="img" aria-label="日本地図: 熊本(金色)、青森·岩手·福島(青色)をハイライト">
+    <svg viewBox="0 0 720 640" role="img" aria-label="日本地図：熊本（金色）、青森・岩手・福島（青色）をハイライト">
       <path class="land" d="M211.5 424.0L209.3 424.7L207.3 423.6L205.8 421.9L206.0 419.6L208.2 419.6L209.8 418.0L212.2 417.4L214.2 415.9L216.3 415.2L218.4 416.0L219.9 417.7L218.3 419.6L217.0 421.7L216.4 424.0L217.9 422.2L218.8 424.3L220.9 425.3L222.9 426.3L221.2 424.9L222.7 423.2L224.5 421.9L224.6 424.1L224.8 426.6L226.1 428.5L227.7 430.2L229.9 430.5L232.1 431.4L234.4 431.0L235.9 432.9L237.0 434.9L236.8 437.4L237.2 439.8L236.6 442.1L236.7 444.3L237.6 446.4L237.7 448.9L239.9 448.9L241.0 451.0L242.4 452.8L243.5 454.8L241.4 455.8L239.5 454.7L237.6 456.1L235.3 455.4L233.5 454.2L233.5 451.8L232.1 449.9L230.8 448.0L229.7 445.9L227.9 447.4L225.7 446.9L224.9 444.8L222.6 444.4L222.5 442.0L222.1 439.8L219.8 439.3L217.8 438.0L216.1 436.5L214.6 434.6L212.5 435.7L210.6 434.4L208.7 433.1L207.7 430.7L209.6 429.4L211.8 429.1L211.7 426.8L211.6 424.5L211.5 424.0ZM53.8 503.2L56.1 503.0L58.3 503.3L60.7 503.0L63.1 504.0L65.1 505.0L67.5 504.4L69.6 506.1L68.5 508.1L66.9 509.9L65.4 511.6L63.7 513.1L63.7 515.4L61.5 515.2L60.3 513.3L58.8 515.3L56.6 516.5L57.5 518.6L58.4 520.8L56.7 522.1L54.5 521.5L52.7 520.0L51.0 518.4L51.1 516.2L49.3 514.9L47.1 514.2L46.6 512.0L45.2 510.2L47.4 510.1L47.6 507.9L48.3 505.8L46.6 504.5L47.3 502.4L47.7 500.2L50.2 500.4L50.8 502.5L52.4 504.1L53.8 503.2ZM189.2 461.6L189.9 463.7L189.3 466.0L187.2 465.3L186.1 467.3L186.1 464.9L183.9 465.4L184.0 463.1L186.2 462.9L188.3 462.1L189.2 461.6ZM183.0 477.3L181.1 478.6L179.2 479.8L177.0 479.3L174.7 479.3L172.4 480.5L170.2 481.4L168.0 482.1L167.2 479.9L167.4 477.4L167.2 475.2L165.5 473.8L167.8 474.2L170.0 473.5L171.4 471.6L173.1 470.2L175.3 469.7L177.5 468.7L179.8 469.6L181.6 468.4L183.9 468.4L184.0 470.7L186.2 470.2L187.0 472.3L189.4 473.3L191.5 474.0L192.3 476.1L190.1 476.1L187.8 476.3L185.6 476.3L183.4 476.8L183.0 477.3ZM272.2 428.8L274.0 430.3L275.6 431.9L277.2 433.4L279.0 434.8L281.2 434.5L283.7 433.9L285.6 435.0L287.8 435.5L289.7 434.3L291.3 435.8L293.4 436.6L295.5 435.9L297.7 436.4L299.9 436.6L299.6 438.9L298.5 440.9L297.0 442.5L295.7 444.2L295.2 446.5L293.8 448.3L292.2 449.9L290.1 450.9L289.0 452.7L288.5 455.0L288.7 457.2L285.2 458.1L281.4 459.3L278.2 460.5L275.6 460.7L275.2 458.3L277.7 458.7L279.7 457.5L281.7 456.5L283.9 455.4L283.8 453.1L281.6 452.3L279.3 452.8L277.1 452.9L274.8 453.4L273.2 451.9L272.4 449.8L272.9 447.5L272.3 449.7L271.1 452.0L271.4 454.3L272.6 456.2L270.3 455.7L268.6 454.3L269.1 452.0L268.3 449.6L267.9 447.4L268.4 445.2L269.3 443.0L267.0 442.8L265.2 441.5L263.3 439.9L263.1 437.6L263.4 435.2L264.8 433.4L265.8 431.0L268.1 431.0L270.9 430.2L272.2 428.8ZM366.9 360.7L369.1 361.3L371.3 361.9L373.0 363.3L374.3 365.3L375.8 367.1L376.2 369.2L376.2 371.7L376.5 374.2L376.2 376.4L375.8 378.7L375.8 381.1L375.8 383.4L376.3 385.8L374.8 387.5L374.3 390.0L371.9 389.9L370.0 391.2L367.9 391.6L365.6 392.7L363.6 393.9L362.7 396.1L360.4 397.6L358.3 398.2L356.6 396.2L354.3 395.6L352.1 395.3L350.2 394.3L348.8 392.2L348.6 389.8L350.1 388.1L350.3 385.6L351.5 383.6L349.6 382.2L347.5 381.6L347.2 379.4L348.2 377.0L348.4 374.8L347.6 372.6L348.8 370.7L350.5 368.9L352.5 367.9L354.7 366.7L356.7 365.5L358.7 364.4L360.8 363.5L362.5 361.9L364.9 360.7L366.9 360.7ZM316.7 407.2L318.9 407.9L319.9 410.1L322.0 409.4L324.3 409.6L326.2 411.1L327.9 409.6L330.0 410.7L332.1 411.6L334.3 411.9L335.6 413.7L336.6 415.8L338.1 417.4L340.2 418.3L340.5 420.7L340.6 423.0L339.2 425.0L337.4 426.2L335.1 427.0L333.9 429.0L331.7 429.8L328.6 430.6L326.2 429.6L324.0 428.6L321.8 429.1L321.8 431.6L321.4 433.8L321.8 436.2L320.6 438.1L318.2 437.2L317.0 435.0L316.5 432.8L314.3 432.7L312.9 430.8L313.1 428.6L313.2 425.4L312.8 423.1L312.5 420.8L311.2 418.9L311.4 416.4L310.9 414.2L311.9 412.0L314.2 411.2L315.6 409.2L316.7 407.2L316.7 407.2ZM246.6 417.8L248.8 418.3L250.7 419.3L251.9 421.3L251.9 423.7L254.4 424.3L254.5 426.6L255.2 428.9L254.9 431.2L254.3 433.5L254.0 435.7L255.1 437.7L256.0 440.0L255.8 442.3L255.1 444.5L254.3 446.7L253.1 448.6L251.1 449.8L248.9 450.1L246.7 449.3L245.1 451.0L243.5 452.5L242.0 450.9L240.0 449.9L237.9 449.1L238.0 446.8L236.4 445.2L236.2 442.9L237.0 440.4L236.9 437.9L236.6 435.5L236.2 433.3L234.4 431.5L235.9 429.7L238.3 429.3L239.2 426.7L241.4 425.9L243.1 424.2L245.3 423.7L247.2 422.5L246.9 420.2L246.6 418.0L246.6 417.8ZM325.3 390.0L323.1 389.6L320.9 389.8L318.2 389.2L317.5 386.9L318.2 384.8L318.7 382.6L320.2 380.8L321.4 378.9L323.6 378.3L325.8 377.5L327.8 376.3L329.9 376.9L331.2 374.9L333.4 373.6L334.1 371.4L335.8 370.0L335.5 367.6L337.7 367.4L339.4 365.7L341.8 366.7L343.0 368.5L345.3 369.4L347.5 369.9L347.7 372.4L349.0 374.3L347.6 376.1L347.7 378.4L346.9 380.5L348.6 382.1L350.8 382.4L350.4 384.6L349.9 386.8L349.2 389.0L347.9 391.0L349.6 392.8L351.0 394.8L353.4 395.1L355.8 395.6L357.5 397.1L355.1 397.8L352.7 398.5L350.0 397.8L348.2 396.4L345.9 396.5L343.6 396.0L340.8 395.2L339.2 397.6L338.6 399.8L336.6 401.1L334.7 402.4L332.5 402.9L330.9 404.6L328.6 405.3L326.5 405.9L325.3 403.5L325.3 401.3L323.5 399.8L325.0 398.0L324.1 395.9L325.6 394.2L325.6 392.0L325.3 390.0ZM414.9 287.6L417.2 286.9L419.3 287.8L420.2 289.9L420.8 292.0L418.7 291.4L418.7 293.6L416.8 294.9L416.6 297.2L415.9 299.3L413.7 299.9L415.6 301.2L415.2 303.4L415.3 305.6L415.3 307.9L414.3 310.0L416.3 311.1L416.5 313.3L416.2 315.7L414.5 314.4L412.8 312.8L411.3 311.0L409.1 310.4L406.2 311.3L404.5 313.0L402.6 311.8L400.8 313.4L402.5 314.9L400.5 316.1L399.2 318.3L398.4 320.3L397.4 323.5L397.0 326.9L397.2 330.2L395.1 331.4L395.1 333.6L393.0 334.9L390.6 335.0L390.0 332.7L387.8 331.0L385.5 330.6L383.4 330.9L382.1 328.7L379.8 328.8L377.6 328.3L377.0 326.1L378.8 324.8L381.2 323.8L382.1 321.8L383.2 319.8L382.9 317.3L383.7 314.9L384.7 312.6L386.2 310.9L387.5 308.8L386.1 306.9L386.0 304.5L385.5 302.3L387.2 300.9L387.3 298.5L388.1 296.4L387.0 294.5L385.7 292.6L387.3 291.1L389.6 290.3L391.3 288.7L393.8 288.1L395.8 289.5L397.9 290.2L399.7 291.5L402.0 291.6L404.3 292.0L403.0 293.9L404.6 295.5L406.5 296.8L408.2 295.3L410.2 294.3L412.2 295.2L414.0 293.8L414.3 291.4L415.2 288.8L414.9 287.6ZM311.9 419.9L312.7 421.9L313.1 424.3L313.0 426.8L313.1 429.1L313.0 431.4L315.4 432.2L316.6 434.1L317.3 436.2L318.9 437.9L321.2 437.4L321.5 435.2L321.2 432.7L321.7 430.2L322.6 428.0L324.2 429.6L326.5 431.0L329.8 430.4L332.0 429.8L334.4 429.3L336.6 429.4L336.9 431.6L336.3 433.8L336.0 436.2L337.4 438.0L339.3 439.4L338.9 441.7L339.6 444.1L340.6 446.2L340.9 448.5L339.5 450.4L338.5 452.4L337.2 454.2L335.9 456.0L335.2 458.1L333.1 458.9L331.1 460.0L329.4 458.4L328.4 456.3L329.3 454.3L329.1 452.0L328.9 449.8L329.6 447.7L329.3 445.4L330.9 443.9L333.2 444.1L332.4 442.0L330.0 440.2L327.0 439.5L324.6 440.4L322.3 441.5L321.2 443.4L320.7 445.9L318.0 447.0L316.2 448.3L315.2 450.5L314.4 453.3L312.8 454.8L311.5 456.8L311.3 459.0L308.8 459.1L306.9 458.0L304.0 457.7L301.7 457.7L299.5 458.2L297.0 458.0L294.8 457.5L292.4 457.3L289.1 457.3L288.5 455.0L289.0 452.7L290.1 450.9L292.2 449.9L293.8 448.4L295.2 446.5L295.7 444.2L297.0 442.5L298.5 440.9L299.6 438.9L299.6 436.7L301.3 435.3L303.3 434.1L305.6 433.2L307.0 431.4L309.5 430.5L308.9 428.3L310.0 425.9L310.0 423.7L311.2 421.7L311.9 419.9ZM386.0 369.3L387.9 370.6L390.1 371.2L392.2 371.9L392.0 374.9L391.2 377.0L390.7 379.8L389.7 381.9L388.4 384.5L387.9 386.7L387.3 388.8L387.7 391.1L386.8 393.5L385.8 396.1L386.2 398.8L387.4 402.7L388.6 405.6L390.2 408.5L389.8 410.7L392.2 412.4L394.4 415.7L391.7 414.5L390.4 412.4L388.0 411.5L386.7 409.7L384.9 408.3L382.6 408.9L380.1 409.8L378.1 411.3L375.9 411.6L373.4 412.1L371.3 410.7L369.1 409.9L367.0 408.9L365.5 407.2L364.1 405.5L362.4 403.8L360.2 402.7L359.0 400.7L358.3 398.5L360.4 397.6L362.5 396.7L363.3 393.9L365.4 393.0L367.3 391.2L369.5 391.4L371.6 390.5L374.0 390.5L374.5 388.3L375.5 386.3L375.8 384.0L375.7 381.6L375.2 379.4L377.1 378.2L376.2 376.1L376.5 373.8L376.1 371.4L377.0 369.3L378.5 371.1L380.0 372.9L382.3 374.3L384.4 373.6L386.2 372.1L386.1 369.5L386.0 369.3ZM364.0 281.9L366.4 282.1L370.1 281.2L371.3 283.3L373.0 284.7L375.3 285.6L377.6 286.0L379.8 286.6L382.0 287.4L382.6 289.6L384.7 290.8L385.8 292.9L387.0 294.8L388.0 296.9L387.8 299.2L387.1 301.3L386.1 303.3L385.6 305.5L387.0 307.4L386.4 309.8L385.5 312.0L384.8 314.1L383.5 316.0L383.0 318.5L382.8 320.7L381.3 322.9L379.9 324.7L377.7 324.9L376.8 327.3L376.9 329.7L376.6 332.1L377.2 334.4L375.9 336.6L373.5 336.8L371.4 337.5L369.8 335.9L367.6 336.5L366.6 334.4L364.3 334.6L362.1 334.9L360.0 334.2L358.0 333.0L356.4 331.3L356.8 328.9L357.2 326.6L358.4 324.7L358.4 322.4L358.1 320.2L360.0 319.0L362.4 318.4L364.2 316.9L364.2 314.3L362.3 312.7L360.1 312.5L358.8 310.7L359.1 308.4L357.7 306.6L355.5 306.0L353.7 304.6L354.7 302.5L355.7 300.5L357.2 298.7L358.8 297.0L360.6 294.8L361.9 290.5L362.9 288.5L364.1 283.9L364.0 281.9ZM227.0 469.7L229.1 468.8L231.2 469.5L231.5 471.8L233.0 473.5L231.2 474.8L230.0 476.6L228.5 478.7L228.2 480.9L229.7 482.7L230.4 485.0L230.1 487.4L232.7 486.8L234.9 487.3L237.2 487.2L237.4 489.6L238.8 491.4L240.4 493.4L241.0 495.6L240.1 497.6L238.9 499.6L237.2 501.2L235.4 502.5L234.4 504.5L232.9 502.8L230.5 502.0L228.3 501.5L226.1 500.8L224.1 499.6L222.7 497.8L221.2 496.1L222.6 494.4L220.9 492.8L218.9 491.4L216.9 490.4L215.3 488.5L213.3 487.4L213.1 485.0L214.4 483.1L214.9 481.0L212.8 480.3L214.6 478.8L216.5 477.7L215.0 476.0L213.5 474.1L212.5 472.0L214.7 472.6L216.8 471.6L219.2 471.0L221.5 470.4L223.8 470.1L226.0 469.7L227.0 469.7ZM33.1 466.9L33.2 469.2L32.5 471.3L31.9 469.2L29.8 469.8L29.6 467.5L30.8 465.5L30.7 463.0L30.4 460.9L31.1 458.5L33.3 458.7L34.1 456.6L36.3 457.3L36.1 459.5L35.8 461.7L34.8 463.7L33.3 465.4L33.1 466.9ZM27.7 479.9L26.3 478.2L26.6 476.0L26.8 473.7L27.2 471.4L29.8 471.4L32.0 471.9L31.0 474.0L29.9 476.0L29.7 478.2L27.9 479.7L27.7 479.9ZM32.8 514.6L33.1 512.4L34.3 510.4L34.8 508.2L36.9 507.2L38.4 505.5L38.3 507.7L37.1 509.6L36.3 511.7L35.0 513.5L32.9 514.5L32.8 514.6ZM40.9 507.3L43.2 507.9L45.4 507.5L44.9 510.0L46.6 511.8L46.8 514.0L48.9 514.9L50.9 515.9L50.6 518.2L52.4 519.7L54.1 521.2L56.4 522.0L58.6 522.5L57.6 524.4L55.7 525.7L57.6 526.9L59.8 526.0L62.1 525.6L63.6 527.4L64.3 529.5L63.6 531.8L62.3 533.9L60.3 535.0L58.3 536.2L56.6 534.5L57.5 532.5L59.1 530.8L58.2 528.7L55.8 528.7L53.4 529.8L51.2 529.8L50.2 531.8L48.8 534.0L47.0 535.6L44.9 536.7L46.1 534.7L46.0 532.4L48.0 531.4L46.2 529.9L45.4 527.8L43.2 527.3L42.1 524.9L41.0 522.9L41.7 520.8L42.0 518.6L44.2 518.5L44.1 520.7L46.3 520.8L46.8 523.0L46.4 525.2L47.6 527.1L49.3 525.5L51.2 526.7L51.0 524.4L50.4 522.3L50.0 519.7L47.9 518.6L45.8 517.8L45.0 515.7L43.0 516.7L42.1 514.6L41.1 512.6L38.9 512.7L39.2 510.4L39.0 508.1L40.9 507.3ZM22.8 527.8L22.2 525.7L22.0 523.5L22.3 521.2L23.6 519.3L24.4 517.1L24.4 514.8L24.7 517.3L23.9 519.5L23.8 521.7L26.0 520.9L25.5 523.2L23.6 524.6L22.8 526.6L22.8 527.8ZM13.8 536.9L11.4 535.8L9.2 535.7L10.2 533.7L9.8 531.4L10.1 529.2L11.7 530.7L13.9 530.9L14.7 528.7L16.2 530.3L16.3 532.5L17.6 534.4L15.3 534.6L14.0 536.5L13.8 536.9ZM395.9 224.6L395.3 227.6L397.4 228.4L399.2 229.7L398.6 231.9L398.3 234.2L397.8 236.4L395.6 238.4L395.7 240.8L394.9 243.2L394.9 245.4L395.2 247.7L395.5 249.9L393.3 250.6L392.8 252.8L394.9 254.2L393.5 256.2L393.9 258.5L393.6 260.8L392.4 262.7L391.5 264.9L391.0 267.1L389.7 269.5L389.5 271.7L390.0 273.9L391.3 275.8L392.9 277.5L393.0 279.7L392.3 281.8L393.5 283.8L392.7 286.1L392.5 288.3L390.7 289.6L388.7 291.1L386.6 291.5L384.4 290.7L382.6 289.4L381.8 287.1L379.7 286.4L377.4 285.9L375.0 285.4L372.9 284.7L370.5 283.2L368.4 281.7L365.2 281.8L365.1 279.0L365.4 276.6L366.9 274.7L368.0 272.8L368.6 270.6L369.5 266.2L370.0 262.8L370.1 259.4L369.9 256.9L369.4 254.6L368.6 252.5L367.1 250.7L364.9 249.8L363.4 251.4L361.1 251.4L359.6 249.5L358.8 247.4L361.2 247.1L364.1 246.2L366.4 242.8L367.2 240.6L367.9 238.3L368.5 235.3L368.9 232.4L368.2 230.3L366.5 228.7L368.7 228.4L369.8 226.5L371.8 227.8L374.1 227.7L376.6 227.5L378.9 227.5L380.4 225.6L382.0 227.2L384.2 228.1L386.7 228.0L388.8 229.1L390.9 228.4L393.0 226.9L394.4 225.0L395.9 224.6ZM179.2 431.3L180.3 433.3L182.6 434.0L183.9 436.0L184.0 438.2L186.1 437.2L188.7 437.1L190.5 435.7L191.7 437.6L190.2 439.5L189.2 441.5L187.9 443.4L187.3 445.5L187.4 447.7L186.9 450.1L188.2 452.0L188.8 454.3L186.8 455.6L184.6 454.9L186.4 456.2L184.8 457.7L183.4 459.5L181.5 460.9L179.4 459.8L177.0 460.2L179.6 460.2L178.7 462.6L177.3 464.4L175.0 465.7L172.7 465.5L170.8 464.3L169.4 462.5L167.6 463.8L165.5 465.1L163.2 464.1L162.4 466.2L161.6 463.9L160.9 461.5L159.6 459.8L159.9 457.5L158.9 455.5L158.9 453.3L157.8 451.2L156.6 449.1L156.6 446.5L157.2 444.4L155.6 442.8L156.6 440.8L158.9 440.5L159.6 438.3L161.9 438.0L163.6 436.6L165.1 434.8L165.5 432.5L167.7 431.8L169.9 432.5L171.9 433.4L173.4 435.2L174.9 433.4L176.6 431.9L179.0 431.3L179.2 431.3ZM73.8 486.2L76.1 485.7L78.3 486.0L76.6 487.4L78.5 486.2L80.7 487.1L82.4 485.5L84.3 484.3L84.2 486.6L83.7 488.8L83.7 491.0L84.5 493.2L85.8 495.2L87.0 497.2L89.3 497.7L90.1 499.7L89.4 501.9L87.2 501.9L85.0 501.4L82.9 502.1L81.3 503.9L80.4 506.2L78.9 508.0L79.6 510.2L79.6 512.4L80.1 514.6L79.4 516.8L77.3 516.3L75.3 515.2L73.3 516.6L71.1 516.6L69.4 518.2L68.8 520.5L66.5 520.8L65.7 518.2L64.3 516.4L63.7 514.2L64.3 511.8L66.1 510.3L67.9 509.0L69.6 507.1L69.4 504.5L67.1 504.8L64.9 504.9L62.7 503.7L60.5 503.1L58.1 503.4L55.8 503.0L56.8 501.0L55.5 499.2L57.6 498.0L59.1 496.4L60.9 497.8L63.1 498.4L65.3 498.0L66.2 495.9L64.0 496.0L61.7 495.6L64.2 495.6L65.7 494.0L67.3 492.5L66.6 490.3L68.2 488.7L70.0 487.3L72.6 487.5L73.8 486.2ZM275.3 391.5L276.9 389.8L278.5 388.2L280.8 388.6L283.0 388.0L285.2 388.3L287.2 389.6L289.4 389.4L291.1 390.9L293.1 392.0L293.9 394.0L292.7 396.0L291.6 398.1L291.3 400.3L291.6 402.6L292.3 405.0L290.8 406.6L289.4 408.4L288.1 410.3L285.4 410.3L284.0 412.1L285.7 413.9L287.3 415.5L288.8 417.1L290.1 418.9L289.7 421.3L291.3 422.9L292.9 424.5L293.4 426.7L293.1 428.9L292.4 431.1L291.1 432.9L289.4 434.5L287.4 435.8L285.4 434.8L283.3 433.7L281.2 434.4L278.9 434.6L277.1 433.3L275.4 431.8L273.9 430.1L272.3 428.6L270.0 430.2L267.4 430.9L265.4 432.0L264.1 434.2L263.4 437.1L263.1 439.3L261.0 438.4L259.5 436.5L257.3 435.7L255.0 436.3L254.4 434.1L255.0 431.8L255.9 429.8L255.3 427.5L254.1 425.7L253.7 423.4L252.0 421.6L250.6 419.5L251.7 417.5L252.0 415.2L254.2 414.2L256.3 414.7L258.8 414.6L261.1 414.1L263.4 414.2L265.8 413.5L267.6 412.2L267.7 409.9L266.4 407.9L264.8 406.2L265.2 403.9L266.2 401.5L267.1 399.3L268.2 397.2L267.3 394.9L268.4 393.0L270.5 391.9L272.3 393.6L274.6 393.6L275.3 391.5ZM222.0 443.1L223.7 444.7L225.8 445.2L226.6 447.4L228.4 445.9L230.1 447.4L231.9 449.1L232.9 451.1L233.3 453.3L232.5 455.4L231.6 457.5L231.0 459.7L231.0 462.0L231.7 464.1L231.8 466.5L230.9 468.5L228.6 468.7L226.3 470.3L224.0 469.8L221.8 470.6L219.8 471.6L217.4 471.6L215.4 472.5L213.4 471.4L215.4 470.5L217.5 469.6L219.1 468.0L220.9 466.4L222.2 464.6L223.9 462.8L223.1 460.7L224.5 459.0L223.5 457.0L224.7 455.0L224.3 452.9L223.5 450.5L223.6 448.3L222.2 446.5L221.5 444.3L222.0 443.1ZM321.5 365.6L323.5 367.3L323.4 369.5L324.8 371.4L326.8 372.4L326.7 374.8L326.9 377.1L324.9 377.8L322.6 378.4L321.6 380.5L319.4 381.2L318.3 383.5L317.7 385.7L317.7 387.9L319.1 389.6L321.4 390.1L323.5 389.6L325.6 390.6L325.5 392.9L324.3 394.9L324.4 397.2L325.0 399.4L325.3 401.7L325.3 404.1L326.5 405.9L328.0 407.8L326.9 410.0L325.0 411.1L323.8 409.3L321.4 409.2L319.1 409.4L317.6 407.4L315.8 408.8L314.2 411.2L311.9 412.0L310.8 414.0L311.4 416.4L311.1 418.7L311.5 421.3L309.8 422.8L309.5 425.1L308.8 427.2L309.8 429.4L308.2 431.1L306.2 432.2L304.5 433.5L302.4 435.0L300.6 436.2L298.4 436.9L296.2 436.2L293.9 436.5L291.7 437.2L290.7 435.0L291.0 432.8L292.4 431.1L293.4 429.0L292.9 426.7L292.9 424.5L291.3 422.9L289.7 421.3L290.3 419.1L288.7 417.4L287.9 415.3L285.8 414.6L283.7 413.4L285.0 411.4L286.6 409.8L288.8 409.3L290.2 407.6L291.9 405.9L292.7 403.8L291.2 402.1L291.7 399.8L291.6 397.6L292.8 395.7L294.0 393.7L292.7 391.7L293.1 389.5L294.1 387.6L295.7 385.8L295.9 383.4L297.1 381.5L297.4 379.2L297.3 376.9L299.3 374.7L300.5 372.6L300.6 370.4L303.0 370.2L305.2 370.5L305.6 372.9L307.1 374.5L308.6 372.7L311.2 372.5L313.5 372.3L314.4 370.2L316.4 369.1L317.4 367.1L319.4 366.0L321.5 365.6ZM101.3 495.4L103.5 495.5L105.5 496.6L106.9 498.7L107.2 501.5L106.9 504.0L105.2 505.5L103.3 507.0L101.1 507.1L99.9 509.1L101.0 511.2L103.3 511.4L105.4 510.5L107.3 511.6L109.6 511.8L111.8 511.0L111.2 513.2L110.0 515.1L111.8 516.4L112.8 518.4L115.3 518.4L113.1 519.3L112.1 521.3L114.0 522.5L115.9 523.5L118.1 523.1L116.0 523.8L115.1 526.1L114.7 528.3L112.6 529.0L111.1 530.8L111.0 528.6L109.0 527.5L106.7 528.9L104.3 529.6L102.1 530.2L100.1 529.1L99.1 527.1L97.0 528.0L94.8 527.2L92.9 525.8L92.0 523.6L91.9 521.3L90.9 519.2L89.5 517.4L88.7 515.3L86.7 513.8L84.4 514.2L84.0 516.5L84.5 518.8L82.3 519.0L80.5 517.7L80.0 515.5L79.2 513.2L79.8 511.1L79.5 508.7L80.5 506.6L80.8 504.4L82.3 502.6L84.4 501.7L86.9 501.8L89.2 501.8L90.1 499.7L91.6 498.0L93.6 499.0L95.8 499.2L98.1 498.0L99.8 496.6L101.3 495.4ZM258.5 434.9L259.6 436.8L261.2 438.7L263.3 439.9L265.0 441.2L266.0 443.5L264.0 444.5L262.3 446.2L262.3 448.5L260.8 451.1L259.0 453.5L258.3 456.5L259.2 458.9L261.5 460.2L263.5 462.0L265.4 463.0L267.5 464.0L269.6 465.0L270.9 466.9L269.4 468.5L269.8 470.9L269.3 473.1L267.1 473.4L269.0 472.2L267.3 470.7L265.2 471.7L264.1 469.8L262.2 471.1L261.1 473.0L258.8 473.4L257.1 474.7L254.9 475.2L252.7 475.3L251.0 476.9L251.6 479.1L249.2 479.2L249.6 481.6L250.4 483.7L248.1 484.2L247.5 486.4L245.5 487.3L244.0 489.2L242.9 491.8L241.0 493.1L238.9 492.0L237.3 490.0L237.5 487.8L239.3 486.2L241.1 484.9L242.1 482.8L244.2 481.8L245.5 480.0L245.1 477.7L244.9 475.4L246.0 473.5L245.0 471.5L244.7 469.3L244.7 467.1L246.9 466.0L248.8 464.6L247.2 463.0L245.2 461.9L243.4 460.7L244.1 458.6L243.8 456.4L243.1 454.2L244.3 452.2L245.5 450.4L247.5 449.2L249.6 450.2L251.7 449.4L253.5 447.9L255.0 445.6L255.0 443.2L255.8 440.9L256.2 438.7L255.0 436.8L257.0 435.7L258.5 434.9ZM142.8 441.2L145.1 441.6L147.3 441.3L149.9 441.8L152.1 442.0L154.4 442.2L156.4 443.5L157.0 445.8L156.7 448.2L157.6 450.4L159.1 452.3L158.9 454.6L159.3 456.8L159.5 458.9L160.6 461.1L161.3 463.3L161.2 466.1L159.2 468.1L157.0 468.5L154.9 467.8L152.5 468.0L150.0 468.1L148.8 470.1L146.5 470.4L143.9 470.7L141.7 471.1L139.9 472.5L138.2 474.0L136.3 475.2L133.8 475.3L132.2 473.7L131.6 471.6L132.1 469.4L129.8 469.7L127.6 469.3L125.7 470.7L124.3 472.5L122.7 474.1L120.5 474.2L119.7 471.9L118.6 469.8L117.9 467.5L117.8 465.3L117.3 462.9L119.2 461.6L119.5 459.5L120.5 457.2L121.2 455.0L122.9 453.6L125.1 453.4L127.4 452.5L129.7 451.9L131.9 452.4L134.0 451.8L136.2 451.0L137.7 449.4L135.6 448.5L137.2 446.9L139.3 446.1L140.5 444.3L141.7 442.5L142.8 441.2ZM417.9 23.7L417.7 21.1L419.0 19.2L420.0 16.5L419.8 14.1L420.0 11.8L421.5 13.5L424.0 13.5L426.7 12.1L427.4 9.9L429.2 8.1L430.4 10.0L432.0 11.8L433.2 13.9L435.1 15.3L436.9 16.9L438.6 19.3L442.1 23.7L443.5 25.4L445.5 27.7L447.2 29.6L448.2 31.6L449.7 33.3L450.3 35.9L452.0 38.7L453.4 40.5L454.8 42.4L456.5 44.4L458.1 45.9L460.1 47.9L461.6 49.8L463.9 52.2L465.7 53.7L468.0 55.3L469.9 56.5L471.5 58.2L473.8 59.5L475.9 62.3L478.5 63.7L480.4 64.7L482.4 65.7L486.3 67.4L489.1 68.4L494.2 69.9L496.8 70.4L500.1 71.2L502.3 71.3L502.6 73.6L503.5 75.7L505.8 77.7L510.0 79.0L512.7 79.4L515.2 79.4L517.9 79.2L520.7 77.9L522.2 76.3L523.7 74.3L525.7 72.8L527.1 71.1L529.0 69.3L530.8 68.0L532.4 66.5L533.4 64.5L534.8 62.8L536.0 61.0L537.1 63.1L536.9 65.6L535.9 67.8L534.3 69.7L533.5 71.8L532.9 74.2L531.2 76.2L529.9 78.5L528.9 80.6L528.8 83.0L527.8 85.2L528.8 87.8L530.0 90.2L532.3 92.1L535.2 93.1L536.9 94.8L534.7 93.7L532.4 92.3L532.9 94.7L533.7 97.1L534.2 100.2L535.1 102.7L536.4 104.8L538.2 106.4L540.6 107.4L542.4 106.1L544.2 104.6L546.0 103.2L548.7 102.7L551.2 102.5L549.9 104.5L547.6 105.2L545.2 105.9L543.7 107.7L543.2 110.1L542.4 112.2L539.6 111.2L537.2 111.6L534.8 112.0L532.9 113.2L530.5 113.1L529.5 115.6L528.3 117.5L526.8 119.0L524.8 120.1L522.6 119.8L520.6 118.7L519.0 117.0L517.4 119.2L518.3 121.5L515.7 122.0L513.4 121.5L511.1 121.4L508.6 121.7L506.5 120.6L504.7 119.3L502.1 119.3L499.7 120.0L497.2 121.4L494.5 122.8L491.8 124.8L489.9 126.4L488.3 128.1L486.3 130.0L484.6 131.7L483.0 133.3L479.8 137.1L478.5 139.0L476.4 141.9L475.1 144.3L473.9 147.0L473.5 149.3L472.6 151.4L473.4 153.5L473.0 155.8L472.7 158.1L472.3 160.3L470.6 163.3L468.3 163.2L467.1 161.0L465.3 159.7L463.1 158.7L461.0 156.9L458.7 156.4L456.1 155.5L454.0 154.3L451.7 153.3L449.7 151.8L447.3 150.8L445.5 149.4L443.4 148.6L441.3 147.0L439.0 144.9L437.4 143.1L435.1 142.2L432.1 141.5L430.1 139.6L428.0 137.5L425.6 136.3L423.2 135.6L420.9 135.3L418.7 135.4L415.3 136.4L412.9 137.6L410.7 139.0L408.6 140.7L406.2 142.7L403.6 144.3L401.3 146.9L399.9 148.8L397.5 147.8L399.9 147.3L397.8 146.6L396.5 144.3L395.4 142.3L393.4 140.9L392.0 138.5L390.2 137.1L387.7 137.4L385.2 137.2L382.9 137.1L381.1 139.0L379.1 142.0L378.1 144.3L377.0 147.8L376.8 150.2L378.2 152.1L380.7 152.9L382.5 154.6L384.2 156.4L386.4 157.5L388.9 156.7L391.4 156.9L392.9 158.8L394.2 160.8L396.0 162.1L397.5 164.2L399.1 166.2L401.3 166.7L403.3 167.7L404.8 169.6L403.2 171.2L402.0 173.1L399.9 174.2L397.5 173.3L395.1 172.3L392.6 171.7L390.4 173.1L391.0 170.8L389.1 169.7L387.5 171.4L386.4 173.5L384.5 174.8L382.1 175.5L381.7 179.7L381.4 182.0L379.2 182.9L376.3 184.1L375.2 186.2L372.9 186.4L370.5 186.5L369.0 184.9L368.4 182.6L367.6 180.3L367.9 177.8L368.4 175.2L369.7 173.2L370.4 170.7L372.1 169.1L372.4 166.8L372.3 164.1L371.9 162.0L370.7 160.1L368.9 157.3L366.1 156.6L364.9 154.6L363.4 152.8L361.3 151.5L360.8 149.3L361.2 147.1L362.7 145.4L363.3 143.1L363.1 140.9L363.0 138.6L362.5 136.3L363.8 134.2L365.8 132.7L368.0 132.7L370.2 132.0L371.8 130.4L373.2 128.2L375.5 128.1L377.7 128.9L377.8 126.6L379.4 124.9L380.5 122.8L382.3 121.3L384.1 120.0L384.2 117.7L383.0 115.8L382.0 113.8L380.4 112.3L378.9 110.5L378.7 108.2L379.3 106.0L381.5 105.1L382.7 103.2L384.9 104.2L386.4 105.9L388.5 107.0L390.2 108.4L392.1 109.5L393.8 110.9L396.1 110.3L398.4 109.3L400.0 110.9L402.4 111.9L404.8 113.1L407.0 112.0L408.8 110.7L410.8 108.4L412.5 106.0L413.2 103.8L413.2 101.2L412.2 99.0L411.0 96.9L411.8 93.9L410.8 91.4L410.2 88.9L410.7 86.7L411.9 84.3L413.9 83.2L416.1 82.0L418.2 81.0L419.6 78.9L420.2 76.1L420.6 72.1L420.3 69.0L420.4 66.6L420.2 63.0L421.1 61.0L422.1 58.6L423.6 55.7L423.8 52.3L424.5 50.0L424.7 47.5L424.4 43.9L423.8 40.1L423.2 37.8L422.5 35.2L421.2 31.6L419.6 27.7L418.1 24.4L417.9 23.7ZM400.7 19.3L400.0 17.2L399.2 14.8L399.5 12.5L401.8 12.6L401.5 15.3L401.3 17.9L400.7 19.3ZM404.4 21.5L406.2 20.2L408.2 21.1L409.7 22.8L409.5 25.4L407.6 26.9L405.5 25.9L404.0 24.0L404.0 21.7L404.4 21.5ZM549.5 73.0L549.8 70.7L551.5 68.7L553.1 66.1L555.4 63.6L557.2 61.6L557.7 59.3L559.1 57.4L559.9 55.3L561.5 53.4L563.6 54.1L565.2 55.7L567.2 57.0L570.2 57.2L573.1 57.1L573.2 60.0L570.0 59.9L568.6 61.7L567.0 63.4L564.5 63.9L562.1 64.2L559.6 65.5L558.9 67.7L556.8 68.5L554.8 70.2L553.7 72.3L553.2 74.5L551.3 76.0L550.6 78.3L548.6 79.7L546.1 80.1L544.2 82.1L543.9 84.4L543.9 86.7L543.5 89.1L541.6 87.5L539.3 87.5L539.3 85.2L538.6 83.0L540.2 81.4L541.8 79.7L543.6 78.2L545.5 76.6L547.4 75.1L549.3 73.5L549.5 73.0ZM350.8 159.9L349.9 157.7L349.4 155.4L350.3 153.0L352.5 152.4L352.9 154.6L352.7 157.2L351.5 159.1L350.8 159.9ZM206.1 419.4L206.0 421.7L207.3 423.6L209.0 425.0L211.3 423.9L211.5 426.2L211.8 428.5L210.0 429.9L207.7 430.7L208.3 432.9L210.6 433.9L212.3 435.4L214.6 434.6L215.8 436.5L216.8 438.5L219.0 438.0L221.1 439.0L222.7 440.5L222.0 442.7L221.5 445.3L223.2 447.0L224.3 449.0L223.6 451.5L224.3 453.7L223.8 456.0L221.5 456.5L219.3 455.8L217.2 456.5L215.6 458.4L213.2 458.9L210.9 458.5L208.4 457.7L206.3 456.3L204.4 455.1L202.3 453.7L200.0 453.4L197.8 453.3L195.6 453.4L193.4 452.4L192.2 454.3L189.9 454.9L188.7 452.8L187.0 451.3L187.4 449.0L186.8 446.9L187.6 444.8L188.7 442.6L189.9 440.4L191.7 439.0L190.8 436.8L192.7 435.7L194.6 434.4L194.7 431.8L193.7 429.7L192.6 427.7L192.3 425.4L192.0 423.1L190.6 421.3L192.6 420.2L194.7 419.4L196.9 419.6L199.2 419.3L201.4 419.1L203.7 419.0L205.9 419.4L206.1 419.4ZM203.6 466.8L205.4 465.0L206.7 462.9L208.9 461.3L210.0 463.4L208.5 465.3L207.1 467.1L207.0 469.3L208.2 471.5L206.9 473.7L204.9 474.7L202.3 475.8L201.5 473.5L199.7 472.1L201.4 470.7L202.5 468.7L203.6 466.8ZM361.0 402.5L363.2 404.7L365.0 406.9L366.6 408.6L368.6 409.5L370.5 410.8L372.7 412.1L374.8 411.4L377.2 411.1L379.3 410.2L381.8 409.5L383.9 408.1L386.2 409.1L387.7 411.0L390.3 412.3L391.7 414.5L394.0 416.2L395.4 418.0L392.1 417.8L389.7 417.8L387.7 418.9L385.8 420.5L384.1 422.1L382.7 424.0L381.2 426.6L380.6 428.8L380.6 431.8L380.8 434.2L380.6 436.5L379.0 438.1L377.3 439.5L375.3 440.4L373.0 440.1L371.3 441.6L369.3 442.8L367.5 444.4L367.0 446.6L365.6 448.4L363.3 448.5L361.2 446.5L363.1 445.1L362.8 442.9L362.6 440.7L362.5 438.5L363.8 436.4L363.3 434.1L361.4 432.8L363.0 431.0L365.2 430.5L365.0 428.3L366.9 427.1L368.8 425.6L370.0 423.8L372.1 422.9L370.7 421.1L368.7 419.6L366.7 418.1L365.3 420.7L364.6 418.5L364.9 416.0L364.7 413.8L364.9 411.3L364.0 409.2L362.8 407.3L362.2 405.1L361.1 402.7L361.0 402.5ZM293.5 367.6L295.5 369.1L296.2 371.5L296.7 373.9L297.5 376.0L297.1 378.4L297.1 381.5L295.9 383.4L295.7 385.8L294.0 387.2L293.4 389.4L291.6 390.7L289.6 389.6L287.2 389.6L285.4 388.3L283.5 389.4L281.5 388.4L279.2 388.3L277.3 389.6L275.7 391.2L274.8 393.4L273.0 394.9L272.0 392.8L269.7 392.7L268.0 394.2L267.4 392.0L266.5 389.8L267.0 387.5L267.4 385.2L266.9 383.0L267.2 380.7L267.5 378.5L268.5 376.5L268.7 374.3L269.4 372.1L270.1 370.0L272.0 368.5L274.2 368.3L273.8 370.8L273.7 373.2L275.6 374.9L277.3 376.3L279.9 376.3L282.6 376.3L284.7 375.2L286.0 373.2L286.5 371.1L288.1 369.1L290.3 368.3L293.1 367.6L293.5 367.6ZM334.8 411.7L336.8 410.3L338.8 411.0L341.3 411.5L343.6 412.3L345.8 412.4L347.3 414.1L349.3 415.0L351.5 414.8L353.6 413.6L355.6 414.8L357.9 413.9L360.1 414.5L362.3 413.5L364.2 414.6L364.9 416.7L364.5 418.9L362.5 420.4L360.3 420.6L360.2 422.9L358.0 423.0L356.5 421.4L354.4 420.6L352.2 420.9L352.0 423.1L351.9 425.3L350.3 423.7L348.7 422.1L346.4 421.4L344.1 421.4L342.7 419.6L340.6 418.7L338.6 417.8L336.9 416.2L335.8 414.1L334.9 411.9L334.8 411.7ZM340.6 395.0L342.8 395.8L344.9 396.6L347.1 396.6L349.4 397.3L351.5 398.7L354.2 398.2L356.4 398.4L358.4 399.4L359.5 401.7L361.2 403.3L362.3 405.9L363.4 408.5L364.9 411.2L364.6 413.5L362.3 413.5L360.1 414.4L357.9 413.9L356.0 415.1L353.8 415.6L351.7 414.6L349.4 415.1L347.4 414.0L345.8 412.4L343.6 412.3L341.3 411.5L339.0 410.9L336.9 410.1L334.9 411.2L332.8 412.0L330.5 411.1L328.7 409.9L327.8 407.7L328.6 405.5L330.7 404.7L332.3 403.0L334.7 402.4L336.6 401.1L338.5 399.9L339.2 397.6L340.2 395.6L340.6 395.0ZM105.9 457.1L106.0 459.4L106.5 461.6L105.2 463.6L106.0 465.7L108.2 466.5L108.2 468.8L109.2 470.8L111.4 471.5L113.4 470.4L115.5 469.4L115.4 467.1L116.9 465.2L117.8 467.3L117.8 469.5L119.7 470.8L120.0 473.1L121.7 474.5L123.2 476.4L122.0 478.3L122.2 480.7L122.4 483.0L120.7 484.7L119.7 486.8L120.6 489.0L118.8 487.6L116.7 486.6L114.5 486.2L113.0 484.3L111.3 482.9L109.1 483.6L109.2 481.3L106.8 480.9L104.5 481.7L102.4 482.3L100.2 483.0L98.0 483.7L96.5 481.8L95.2 483.6L93.6 485.3L91.4 485.9L89.2 485.0L87.9 483.0L86.2 481.6L84.2 482.4L82.7 484.4L81.5 486.4L81.3 484.2L81.4 481.5L80.0 479.7L81.1 477.5L81.9 475.3L80.8 473.0L80.8 470.7L82.7 469.5L85.2 469.0L83.3 467.7L85.6 467.4L87.8 467.4L89.6 468.7L91.8 468.5L94.1 468.2L96.0 467.1L97.8 465.3L98.5 463.0L100.4 461.9L101.7 460.1L102.9 458.2L105.2 457.9L105.9 457.1ZM122.2 488.5L121.2 486.2L122.9 484.6L124.9 485.5L126.9 486.5L128.8 484.9L127.4 486.7L126.1 488.5L124.6 486.8L122.6 487.9L122.2 488.5ZM276.1 348.3L278.0 347.0L280.3 346.6L282.5 345.8L284.5 346.8L284.6 349.1L281.9 349.5L281.0 352.0L281.4 354.2L279.3 354.9L277.1 355.3L275.8 357.1L274.2 358.7L272.0 358.2L270.2 359.8L270.1 362.1L271.4 363.9L273.6 364.5L274.8 362.5L274.9 365.2L275.0 367.5L272.9 368.4L270.9 369.3L269.7 371.2L269.0 373.6L268.8 375.9L267.0 377.4L267.8 379.6L266.6 381.7L267.4 384.1L267.0 386.4L266.8 388.6L267.0 390.8L266.6 393.1L267.3 395.2L268.1 397.5L266.8 399.4L266.0 401.9L264.0 403.1L262.0 402.2L260.2 400.7L258.0 400.3L255.8 400.7L253.7 399.4L252.3 397.6L250.9 395.8L250.7 393.4L252.9 391.7L255.0 389.6L256.5 387.6L258.3 385.3L260.0 383.1L261.2 381.0L263.0 378.6L264.0 376.6L265.4 373.3L266.1 370.7L266.1 368.2L265.3 366.1L264.6 364.0L264.8 361.7L263.2 360.2L263.8 358.1L265.0 355.7L265.1 353.5L266.8 352.0L268.8 350.8L271.0 351.1L273.3 349.9L275.7 348.8L276.1 348.3ZM249.6 394.5L251.4 396.0L252.3 398.2L254.2 399.5L256.3 400.7L258.5 400.2L260.7 400.9L262.4 402.5L264.8 402.9L265.0 405.2L265.5 407.3L266.9 409.1L268.0 411.2L266.9 413.5L264.7 413.5L262.7 414.5L260.5 414.0L258.2 414.7L255.9 414.9L253.8 414.0L252.0 415.7L251.3 418.0L249.1 418.5L246.8 417.7L246.8 420.0L247.1 422.3L245.2 423.4L243.1 424.2L241.4 425.9L239.2 426.7L238.4 429.2L236.2 428.8L234.8 430.7L232.6 431.5L230.4 430.8L228.3 430.3L226.9 428.6L225.0 427.0L224.5 424.7L226.5 423.6L227.2 425.9L229.3 425.0L231.2 423.6L230.2 425.7L232.5 425.9L234.1 424.2L236.4 424.2L237.3 422.1L236.3 420.2L238.5 421.1L240.7 420.7L241.1 418.3L241.7 415.9L243.2 417.5L245.0 416.0L244.3 413.5L242.2 411.0L241.8 408.6L240.7 406.6L242.2 404.7L242.8 402.6L244.4 400.5L245.5 398.5L245.8 396.3L248.1 395.7L249.6 394.5ZM132.4 496.9L134.9 495.6L136.5 494.0L137.6 492.0L137.4 489.7L137.7 487.5L139.5 486.2L140.0 484.0L141.4 482.2L143.3 480.9L145.0 479.5L147.3 480.4L148.7 482.5L149.9 484.7L151.9 485.7L154.6 484.9L156.5 483.8L158.9 483.8L161.2 483.9L163.3 484.3L164.9 482.7L167.0 481.7L168.8 483.0L169.0 485.3L168.0 487.5L165.8 487.9L163.6 488.9L161.4 489.4L158.9 489.6L156.5 489.6L154.7 491.4L152.7 492.3L151.8 494.3L150.4 496.1L149.4 498.2L149.2 500.4L147.6 502.4L145.5 503.3L143.2 503.2L141.7 505.0L142.8 507.1L143.9 509.2L141.9 510.2L140.2 511.6L138.9 513.6L137.6 515.5L135.7 514.2L136.0 516.5L136.4 518.8L137.3 521.0L136.5 523.1L134.5 524.2L132.5 523.2L130.7 524.5L130.9 522.3L133.1 522.4L131.5 520.9L130.0 519.1L128.2 520.4L128.7 518.2L130.9 518.8L130.4 516.5L129.3 514.6L131.4 514.0L133.2 512.7L131.6 511.1L131.3 508.9L129.1 509.1L128.7 506.7L128.7 504.3L126.7 502.7L124.7 503.7L122.8 504.9L120.5 506.2L118.3 506.6L116.4 508.0L118.1 506.3L120.0 505.1L121.8 503.9L124.0 503.6L125.8 502.1L127.8 500.9L129.5 499.3L131.1 497.6L132.4 496.9ZM232.8 453.2L234.2 455.0L236.2 455.9L238.6 455.4L240.7 454.8L242.8 456.1L244.5 457.7L243.5 459.9L244.7 461.8L246.9 462.1L248.8 463.5L248.4 466.0L246.1 466.1L244.3 467.7L245.0 469.9L245.4 472.4L245.6 474.6L245.4 476.9L245.2 479.1L244.8 481.3L242.6 481.8L241.2 483.5L239.2 484.4L238.5 486.7L236.1 486.7L233.9 487.4L231.7 487.0L229.5 486.9L230.4 484.7L229.5 482.6L228.1 480.7L228.7 478.2L230.1 476.4L231.4 474.6L232.7 472.8L231.4 470.7L230.9 468.5L231.8 466.5L231.7 464.1L231.0 462.0L231.0 459.7L231.5 457.6L232.4 455.5L232.8 453.2L232.8 453.2ZM155.0 399.8L153.8 397.8L153.0 395.7L154.2 393.8L156.1 392.6L157.9 393.9L159.4 395.6L158.9 398.0L157.0 399.3L155.0 399.8ZM154.9 423.6L154.2 426.2L155.9 427.6L157.3 429.4L156.5 431.4L156.9 434.0L154.9 435.0L152.8 435.9L153.3 438.3L151.8 440.0L150.2 441.6L147.7 441.8L145.2 441.7L143.2 440.9L142.0 442.8L140.5 444.6L139.1 446.4L137.0 447.3L137.9 450.1L135.9 451.0L133.6 452.1L131.4 452.5L129.4 451.7L127.0 452.5L124.9 453.3L122.8 453.7L120.8 455.3L120.4 457.5L119.3 459.7L118.9 461.9L117.2 463.4L116.3 465.6L115.6 467.8L115.0 470.0L112.9 470.5L110.8 471.3L108.7 470.4L108.5 468.2L106.7 466.7L105.6 464.7L106.3 462.4L106.8 460.2L106.0 458.1L108.8 456.9L111.1 455.7L112.3 453.7L114.1 452.3L115.8 450.7L117.4 449.1L118.9 447.4L120.4 445.7L123.0 443.6L125.2 442.7L126.5 440.8L127.9 439.2L129.4 437.3L131.3 436.1L133.1 434.7L135.3 433.8L136.6 431.8L136.8 429.3L138.5 427.5L140.3 426.3L142.5 425.2L144.7 424.8L146.6 423.7L148.9 423.2L150.5 421.7L152.2 423.1L154.3 422.4L156.6 422.6L154.9 423.6ZM190.4 421.0L191.7 423.1L192.3 425.2L192.6 427.7L193.7 429.7L194.8 431.6L194.9 433.8L193.4 435.4L191.2 435.1L189.3 436.6L187.0 436.7L184.9 437.5L183.3 435.9L182.4 433.9L180.1 433.1L178.7 431.2L176.5 432.4L174.4 433.5L172.1 433.5L170.1 432.5L167.7 431.8L165.5 432.5L165.1 434.8L163.2 436.0L162.0 438.0L159.7 437.8L160.2 440.1L157.9 440.7L156.2 442.3L154.0 442.0L151.7 442.3L151.8 440.0L153.3 438.4L152.0 436.5L154.3 435.2L156.5 434.6L156.6 432.3L157.1 429.9L155.9 427.6L154.2 426.2L154.1 423.7L155.5 425.5L157.9 426.9L160.1 427.2L161.7 425.6L163.7 424.7L166.0 424.5L168.2 425.2L170.8 425.4L173.7 425.4L176.7 425.0L178.9 424.1L181.2 424.7L184.4 424.1L186.6 423.5L188.2 422.0L190.4 421.4L190.4 421.0ZM192.6 475.2L194.7 474.5L197.2 474.0L198.4 476.2L197.8 478.5L197.8 481.0L197.9 483.2L199.8 484.5L200.8 486.6L198.9 488.1L201.1 488.8L199.8 490.7L197.7 491.8L195.9 493.1L194.3 494.8L192.3 495.9L190.4 497.0L189.2 498.9L187.3 500.0L184.9 499.8L183.9 497.8L184.1 495.6L182.0 494.7L180.7 492.9L180.2 490.7L178.3 489.3L176.4 490.7L174.3 489.7L172.1 489.3L169.9 488.8L168.0 487.6L168.8 485.4L168.7 483.1L170.2 481.4L172.0 480.1L174.1 479.2L176.6 478.7L178.3 480.2L180.1 478.9L182.3 478.6L183.7 476.8L185.9 476.3L188.1 476.6L190.5 476.4L192.6 475.6L192.6 475.2ZM71.2 551.4L73.1 552.7L74.7 554.4L75.7 556.6L77.1 558.6L78.3 560.6L80.4 561.3L80.6 563.9L81.7 565.9L83.8 566.7L84.6 568.8L85.3 571.0L87.5 571.8L89.7 572.1L90.4 574.3L90.2 576.6L88.5 578.2L86.0 578.9L84.7 580.8L86.0 582.8L86.5 585.0L85.6 587.1L83.9 588.6L82.5 590.5L80.0 591.9L77.8 592.3L75.9 593.5L74.1 595.1L73.7 592.9L75.0 591.2L76.5 589.1L76.9 586.6L77.5 584.5L77.5 582.2L76.5 580.1L74.8 578.5L74.6 575.9L72.5 575.0L72.2 572.5L74.4 572.4L75.1 574.4L77.4 573.7L78.3 571.6L77.6 569.4L75.5 568.6L72.8 568.8L71.9 570.9L70.7 572.8L70.1 575.2L69.3 577.5L69.0 579.9L70.2 583.0L71.6 584.6L73.0 586.5L72.3 588.7L70.0 588.8L68.2 587.0L66.1 586.3L63.9 586.0L61.7 585.5L59.6 586.1L59.4 583.9L58.5 581.8L56.7 580.3L59.2 580.5L61.5 579.1L62.6 576.8L63.1 573.7L62.5 571.1L61.0 569.3L59.5 567.7L57.8 566.0L58.8 563.8L59.6 561.7L59.0 559.3L58.7 557.1L58.0 554.9L59.9 553.6L62.1 554.4L64.0 552.7L65.9 554.0L68.1 553.4L70.3 552.6L71.2 551.4ZM82.5 608.8L83.2 606.1L84.3 604.0L85.1 601.9L86.6 603.5L86.4 606.0L85.6 608.4L85.1 610.5L83.9 612.5L82.9 614.5L83.1 616.7L81.0 618.7L79.8 616.7L80.3 614.4L81.9 612.1L82.5 609.9L82.5 608.8ZM69.0 623.7L66.6 623.4L65.5 621.3L64.6 619.2L66.0 617.3L67.2 615.3L69.3 615.7L71.3 616.7L73.3 617.8L73.4 620.1L72.2 622.1L70.4 623.4L69.0 623.7ZM353.8 304.8L355.8 305.9L358.1 306.7L359.2 308.9L358.8 311.3L360.9 312.8L363.2 313.2L364.6 315.0L364.0 317.1L362.1 318.6L359.8 318.9L358.2 320.4L358.1 322.7L358.3 324.9L357.1 326.9L356.8 329.2L356.7 331.7L358.6 333.1L358.5 335.6L357.2 337.5L356.2 339.4L354.4 340.8L354.4 343.1L354.6 345.3L352.8 346.6L350.5 346.4L349.3 348.2L347.1 348.6L344.7 349.1L342.8 350.5L343.9 352.7L343.2 355.5L341.7 357.4L343.6 358.7L344.4 361.0L344.1 363.3L344.5 365.4L344.5 367.8L342.2 368.2L341.0 365.9L338.8 366.5L336.8 367.4L335.5 369.5L334.1 371.4L333.4 373.6L331.1 374.0L330.8 376.2L328.4 376.3L326.1 375.6L326.7 373.4L325.3 371.7L323.6 370.2L323.5 368.0L322.5 365.9L320.2 366.0L318.0 366.7L316.6 368.5L314.7 370.0L314.2 372.2L311.8 372.0L309.7 372.7L307.3 374.0L305.1 373.6L306.0 371.6L304.0 370.3L301.7 370.3L300.5 372.6L299.3 374.7L297.5 376.0L296.7 373.9L296.2 371.5L295.9 369.0L293.7 367.8L296.5 366.7L299.0 365.6L302.1 364.4L304.0 363.1L306.1 362.0L307.7 360.3L310.4 360.3L312.7 359.6L316.0 356.9L318.2 354.6L320.2 353.1L322.5 351.8L323.9 349.3L325.0 347.2L326.4 345.4L328.1 343.5L329.0 341.4L329.7 339.1L330.2 336.9L331.5 334.4L333.2 332.9L336.4 330.8L338.5 329.2L340.6 328.5L342.9 327.7L345.3 326.1L347.7 323.5L349.5 320.9L350.5 318.1L350.7 315.4L350.8 312.8L351.2 310.7L352.2 308.7L353.1 306.6L353.8 304.8ZM312.7 334.9L313.9 332.3L314.4 329.9L315.7 327.9L313.6 326.9L312.4 324.9L313.3 322.8L314.5 320.9L315.9 318.9L317.4 317.3L318.9 315.5L320.3 313.7L321.0 315.8L320.6 318.0L319.8 320.1L318.7 322.3L320.2 324.5L322.3 323.7L322.4 326.0L321.4 328.0L320.8 330.2L319.0 331.6L317.1 333.2L314.9 333.9L312.9 334.8L312.7 334.9ZM165.6 488.1L168.0 487.6L169.9 488.8L172.1 489.3L174.3 489.7L176.3 490.8L178.0 489.3L180.2 490.7L180.7 492.9L182.0 494.7L184.3 495.1L183.5 497.2L184.7 499.0L186.7 500.1L186.9 502.6L185.8 505.1L185.2 507.4L184.7 509.9L182.4 509.9L180.9 507.5L179.7 505.4L177.5 504.3L175.9 502.3L173.6 501.8L171.5 501.5L169.2 500.7L166.8 501.2L164.9 500.1L164.1 502.7L161.9 503.9L159.7 504.3L158.1 505.9L156.0 506.5L155.1 508.6L155.3 510.8L154.8 512.9L154.2 515.1L152.2 516.2L150.7 518.0L149.8 520.0L147.6 520.4L147.0 522.8L147.5 525.4L145.7 526.8L147.0 528.8L147.9 531.2L145.8 530.1L143.9 528.9L141.8 529.8L139.6 530.2L138.1 528.5L136.1 529.6L136.3 527.4L137.6 525.2L136.3 523.4L137.2 521.2L136.5 518.9L136.0 516.5L135.2 514.4L137.2 515.6L138.9 514.1L140.0 512.0L141.5 510.3L143.9 509.2L143.0 507.1L142.0 505.1L142.4 502.9L144.6 503.3L146.8 503.1L148.4 501.4L148.8 498.8L149.5 496.6L151.0 494.8L152.2 492.6L153.7 490.9L155.6 489.9L158.1 489.7L160.3 489.2L162.6 489.6L164.2 487.9L165.6 488.1ZM100.1 529.4L102.4 529.8L104.7 529.6L107.1 528.5L108.9 527.2L111.2 527.7L110.9 530.1L111.0 532.3L109.1 533.3L108.2 535.4L106.0 537.2L105.7 539.4L104.6 541.3L104.1 543.8L103.3 546.1L102.2 548.8L101.5 551.7L101.0 553.9L100.2 556.3L99.3 559.1L98.8 561.3L98.4 564.4L99.1 567.1L98.7 569.4L98.8 571.6L97.1 573.5L96.2 575.6L95.8 577.8L95.2 580.1L93.2 581.1L91.4 579.5L89.4 578.5L90.4 576.4L90.5 574.0L89.4 572.0L87.1 571.5L84.9 570.8L84.6 568.2L83.2 566.4L80.9 565.8L80.6 563.5L80.3 561.3L77.9 560.2L77.1 557.8L74.7 556.2L76.3 554.5L78.5 554.6L80.7 553.7L83.2 553.9L84.5 551.9L86.8 552.6L86.5 550.2L85.8 548.1L87.5 546.2L86.4 544.1L84.9 542.2L84.3 540.0L84.9 537.7L87.0 536.8L87.7 534.5L89.6 533.2L90.6 531.1L91.6 529.0L93.1 527.3L95.4 528.3L97.7 527.7L99.9 527.9L100.1 529.4ZM340.7 418.8L342.9 419.6L344.3 421.4L346.7 421.4L348.8 422.1L350.5 423.8L352.0 422.2L353.0 420.1L355.1 420.9L357.2 422.0L358.8 423.6L361.0 424.2L359.3 425.7L356.9 426.4L358.2 428.3L356.2 429.5L357.3 431.6L357.2 433.8L359.3 434.7L358.2 436.8L358.0 439.1L355.8 439.4L355.6 437.2L354.9 435.0L353.7 432.9L351.5 433.3L349.4 432.6L347.0 432.8L344.3 433.6L341.9 435.0L341.0 437.1L341.6 439.2L339.3 439.4L337.4 438.0L336.0 436.2L336.3 433.8L336.9 431.6L336.6 429.4L334.4 429.3L335.1 427.0L337.2 426.3L339.1 425.0L340.6 423.0L340.5 420.7L340.7 418.8Z"/>
 <path class="land kumamoto" d="M87.6 514.0L88.7 515.1L89.3 516.4L90.0 518.2L91.0 519.5L91.6 520.8L92.2 522.3L92.1 524.0L92.4 525.5L93.7 526.5L92.7 527.6L91.8 528.9L91.5 530.4L90.2 531.3L89.6 532.6L88.3 533.8L87.8 535.1L87.5 536.6L85.9 536.5L85.2 537.7L84.6 539.1L84.6 540.7L84.9 542.2L86.0 543.2L86.4 544.7L87.4 545.8L87.0 547.3L85.7 548.0L86.3 549.5L87.2 550.9L87.5 552.4L85.9 552.6L84.5 551.9L83.6 553.0L82.6 554.1L81.3 553.5L80.0 554.1L78.5 554.6L77.0 554.6L75.5 554.6L74.0 553.9L73.1 552.7L71.8 551.4L70.9 552.6L69.5 553.3L68.1 553.4L66.8 554.1L65.3 553.9L64.3 552.5L64.4 551.0L65.2 549.6L66.2 548.5L67.2 547.5L67.5 546.0L68.5 545.0L69.5 543.1L70.6 542.2L70.5 540.6L70.0 539.3L70.7 537.5L71.7 536.2L72.7 535.1L71.3 535.1L69.7 535.1L68.4 535.5L66.9 535.1L68.2 534.0L69.6 533.3L70.8 532.1L71.7 530.5L71.7 528.9L71.1 527.5L69.2 526.6L68.7 525.2L67.4 524.7L66.5 523.6L66.1 521.4L67.6 520.8L68.4 519.5L69.4 518.2L70.2 517.0L71.8 516.8L73.2 516.9L73.5 515.5L75.0 515.1L76.3 515.8L78.0 516.6L79.2 517.5L80.6 518.1L81.8 519.0L83.1 520.1L84.4 519.3L84.6 517.9L84.0 516.5L83.5 515.1L85.0 513.9L86.7 513.8L87.6 514.0ZM63.7 543.3L62.3 543.5L60.8 543.1L59.4 542.6L58.8 543.8L59.2 545.2L58.4 546.6L57.0 546.8L56.3 548.1L55.7 549.5L54.6 550.5L53.4 551.2L52.9 549.7L51.5 549.3L52.3 547.9L53.7 548.0L53.3 546.6L51.9 546.3L52.0 544.5L52.7 543.0L53.3 541.6L53.8 540.1L52.9 538.6L54.5 539.1L56.0 538.2L57.6 537.8L58.6 538.9L59.0 540.4L60.3 540.9L61.7 540.3L62.5 539.1L63.9 538.7L64.9 539.7L66.1 539.0L66.3 540.5L65.6 541.9L65.1 543.5L63.8 544.3L63.7 543.3Z"/>
 <path class="land aomori" d="M392.7 195.5L392.7 193.7L393.2 192.3L393.4 190.9L394.0 189.5L394.4 187.6L395.1 186.1L396.0 184.7L396.7 183.4L396.7 181.9L398.1 182.3L399.3 183.6L400.8 184.0L402.3 184.4L403.5 185.5L404.5 186.7L405.8 188.0L407.4 189.1L409.1 189.6L411.4 188.8L412.6 187.9L413.8 186.7L414.2 188.0L413.4 190.2L412.6 193.7L412.2 195.9L412.0 197.5L412.1 199.0L412.1 200.7L411.8 204.2L412.0 205.6L412.0 207.2L412.1 209.0L412.3 211.1L412.8 214.6L413.3 217.3L413.8 219.2L414.3 220.7L414.9 222.2L415.8 223.3L417.1 223.9L418.5 224.3L419.6 225.3L420.4 226.5L420.3 228.1L418.5 228.7L418.1 230.2L416.9 231.3L415.4 230.8L414.0 230.3L412.5 231.0L411.1 231.9L410.1 230.8L408.4 231.6L407.0 232.2L405.6 233.1L404.1 233.4L402.8 234.2L402.1 235.4L400.5 236.4L399.0 236.7L398.2 235.6L398.3 234.0L398.4 232.6L399.3 231.4L399.2 229.7L399.2 228.1L397.8 228.0L396.3 228.3L395.6 226.2L395.9 224.6L394.5 225.0L393.6 226.5L392.2 227.1L391.3 228.3L389.8 228.1L388.8 229.1L387.5 228.3L386.0 228.2L384.7 228.8L383.8 227.7L382.5 227.0L381.6 225.8L380.2 225.7L379.1 226.6L377.9 227.7L376.3 227.5L374.9 227.8L373.3 227.6L371.8 227.8L370.9 226.7L369.3 226.7L368.7 228.1L367.3 228.1L366.3 227.1L366.4 225.6L366.3 223.1L365.5 221.5L364.1 221.7L363.8 220.3L364.9 219.3L366.1 218.4L367.1 217.0L367.9 215.4L369.1 214.4L370.7 214.3L371.9 215.0L373.4 213.9L374.7 213.4L376.0 212.6L376.7 211.1L377.6 207.7L378.2 204.3L378.3 202.4L378.3 200.7L377.5 199.5L376.0 199.1L377.5 198.8L378.4 197.4L378.6 195.9L378.6 194.3L380.1 194.1L381.2 195.2L382.3 196.4L383.8 196.4L384.7 195.2L386.1 194.9L387.5 195.9L388.4 197.2L388.1 198.7L388.1 200.7L388.5 202.3L388.7 204.2L389.0 206.4L389.5 208.8L390.1 210.3L391.3 211.2L392.8 211.3L394.0 210.4L394.9 209.1L395.6 207.9L395.3 206.5L395.6 205.0L396.6 204.0L397.9 204.6L399.1 205.9L400.3 207.2L401.7 207.9L402.7 209.4L404.2 209.4L405.7 207.6L406.6 205.5L407.3 202.2L407.4 200.7L407.7 199.2L408.4 197.8L408.1 196.2L407.4 194.8L406.1 193.0L404.7 192.7L403.9 194.0L402.9 195.3L401.6 196.5L400.2 196.1L398.7 196.1L397.5 197.0L395.9 197.3L394.3 198.1L392.9 198.8L392.3 197.2L392.7 195.6L392.7 195.5Z"/>
@@ -546,192 +849,189 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
   </div>
 </section>
 
-<!-- 6 熊本タイムライン -->
-<section class="slide" data-note="理論ではなく、すでに起きたこと。順序が重要 — 工場の発表が先、周辺企業の増設と受賞がその「後」。この時間の順序を、各社の公式資料で確認しました。">
-  <div class="eyebrow rv">理論ではなく、すでに起きたこと</div>
-  <h2 class="title rv" style="--d:.1s">熊本で実際に起きたこと</h2>
+<!-- 6 なぜニッチトップか -->
+<section class="slide" data-seq="6" data-note="二つ目の軸はニッチトップです。15社すべてを世界1位とは呼びません。狭くても不可欠な工程で、高いシェアや検証できる競争力を持つ企業を探します。代表例では、ディスコがダイシングソーとグラインダ・ポリッシャで7〜8割、住友ベークライトが半導体封止材で約40％、太陽ホールディングスがソルダーレジストで液状53％超・ドライフィルム84％超のシェアを示しています。">
+  <div class="eyebrow rv">なぜ、ニッチトップなのか</div>
+  <h2 class="title rv" style="--d:.1s">狭い市場を押さえる競争力は、数字に表れます</h2>
   <div class="tl">
-    <div class="row rv" style="--d:.3s"><span class="yr num">2021</span><p>TSMC、<b>「熊本に工場を建てる」</b>と発表</p></div>
-    <div class="row rv" style="--d:.45s"><span class="yr num">2024</span><p>工場が稼働開始 — そして <b>周辺が動き始めます</b></p></div>
-    <div class="row hot rv" style="--d:.6s"><span class="yr num">その後</span><p>「特殊インク」の会社が隣町に <b>新工場130億円</b> · 装置メーカーは <b>新研究棟470億円</b></p></div>
-    <div class="row hot rv" style="--d:.75s"><span class="yr num">その後</span><p>熊本地元の会社は工場を増やし <b>生産1.5倍</b> · 「最もきれいな水」の会社は <b>TSMCが贈る最優秀サプライヤー賞</b>を受賞</p></div>
+    <div class="row hot rv" style="--d:.3s"><span class="yr num">70–80%</span><p><b>ディスコ</b> — ダイシングソー・グラインダ・ポリッシャ。装置と加工応用技術を一体で提供</p></div>
+    <div class="row rv" style="--d:.48s"><span class="yr num">約40%</span><p><b>住友ベークライト</b> — 半導体封止材で世界トップシェア</p></div>
+    <div class="row hot rv" style="--d:.66s"><span class="yr num">53%超</span><p><b>太陽ホールディングス</b> — 液状SRは53％超、ドライフィルムSRは84％超</p></div>
   </div>
-  <p class="punch rv" style="--d:.95s">工場が先、繁栄がその後。<em>この「順序」こそ、私たちの主張の証拠です。</em></p>
+  <p class="punch rv" style="--d:.9s">ニッチトップの強さは市場規模ではなく、<em>不可欠な工程でのシェアと顧客対応力</em>です。</p>
+  <p class="sourceLine">出所：<a href="https://www.disco.co.jp/jp/ir/faq/">ディスコ IR FAQ</a>・<a href="https://www.sumibe.co.jp/topics/2022/it-materials/0920_01/index.html">住友ベークライト</a>・<a href="https://www.taiyo-hd.co.jp/career/about/">太陽ホールディングス</a> 公式資料</p>
 </section>
 
-<!-- 7 テーマ公開 -->
-<section class="slide s-theme" data-note="投資アイデアを一文で打ち込み、公式テーマ名を公開。後工程=切って・包んで・検査する仕上げ工程、ニッチトップ=狭い分野の世界トップ、地方クラスター=巨大工場のそばに集まった地域。今までの話が、この名前の中に全部入っています。">
-  <div class="eyebrow rv">私たちの投資アイデア — 一文で</div>
-  <div class="quoteLine rv" style="--d:.15s">「地方の巨大工場の <span class="gold">隣</span>の、<br>世界トップ企業を買う。」</div>
-  <div class="themeName rv" style="--d:.5s">後工程ニッチトップ × 地方クラスター</div>
+<!-- 5 なぜ後工程か -->
+<section class="slide s-theme" data-seq="5" data-note="後工程は、単にチップを包むコスト工程ではありません。チップレットや2.5D・3D積層では、複数のチップを短くつなぎ、性能と電力を最適化し、熱と不良を管理する技術が競争力を決めます。経済産業省も、先端パッケージの微細なチップ間配線と接合を、今後の競争力の源泉と位置づけています。">
+  <div class="eyebrow rv">なぜ、後工程なのか</div>
+  <h2 class="quoteLine rv" style="--d:.15s">「チップが複雑になるほど、<br><span class="gold">最後の工程</span>が性能を決める。」</h2>
+  <div class="themeName rv" style="--d:.5s">包装ではなく、競争力</div>
   <div class="decode">
-    <div class="d1 rv" style="--d:.75s"><b>後工程</b>切って · 包んで · 検査する<br>「仕上げ工程」</div>
-    <div class="d1 rv" style="--d:.9s"><b>ニッチトップ</b>狭い分野の<br>世界トップ</div>
-    <div class="d1 rv" style="--d:1.05s"><b>地方クラスター</b>巨大工場のそばに<br>集まった地域</div>
+    <div class="d1 rv" style="--d:.75s"><b>接続</b>複数のチップを短く速くつなぎ、一つのように動かす</div>
+    <div class="d1 rv" style="--d:.9s"><b>電力・熱</b>データ移動と発熱を同時に最適化</div>
+    <div class="d1 rv" style="--d:1.05s"><b>検査</b>積み重ねる前に不良を見つけ、全体損失を抑える</div>
   </div>
-  <p class="punch rv" style="--d:1.25s">今お聞きした話のすべてが、<em>この一行</em>に込められています。</p>
+  <p class="punch rv" style="--d:1.2s">後工程はコストではなく、<em>AIチップの性能・電力・歩留まりをつくる競争軸</em>です。</p>
+  <p class="sourceLine">出所：経済産業省「<a href="https://www.meti.go.jp/policy/mono_info_service/joho/conference/semicon_digital/0011/handejisetr.pdf">半導体・デジタル産業戦略の現状と今後</a>」・<a href="https://www.meti.go.jp/meti_lib/report/2022FY/000178.pdf">後工程材料・装置調査</a></p>
 </section>
 
 <!-- 9 なぜこのテーマか -->
-<section class="slide" data-note="テーマの三語がそのまま投資の理由。① なぜ後工程 — 回路を細かく刻む「印刷」は物理的限界に近づき、性能競争の舞台が切る・綴じる・検査する仕上げ技術へ移りつつある。これから重要になる側に賭ける ② なぜニッチトップ — その後工程を支える素材・装置の狭い分野ごとに世界トップがなぜか日本企業。有名大企業でなく隠れたチャンピオンを買う ③ なぜ地方クラスター — そのトップ企業は巨大工場のそばに集まり、「工場の隣」は書類で証明できる事実 ④ 社会と同じ方向 — コロナ時にチップが途絶え自動車工場が止まった(皆の記憶)。だから国が税金で工場を誘致したが、工場を毎日支える必需品が国内にあって初めて完成する(経済安全保障) — 政府も日東紡績を供給確保計画で公式認定。これらの会社は工場のそばを離れられず、雇用は地方に生まれる(地方創生)。">
-  <div class="eyebrow rv">なぜ、このテーマでなければならなかったか</div>
-  <h2 class="title rv" style="--d:.1s">テーマの三つの言葉が、そのまま投資の理由です</h2>
-  <div class="reasons" style="grid-template-columns:1fr 1fr">
-    <div class="card rv" style="--d:.3s">
-      <div class="kicker">なぜ「後工程」か</div>
-      <h3>性能競争の舞台が移ってきているから</h3>
-      <p>回路をより細かく刻む「印刷」は <b>物理的な限界</b>に近づき、性能を上げるのがますます難しく、高くつきます。だから世界は今 <b>うまく切り · うまく綴じ · うまく検査する仕上げ技術</b>で勝負します — これからより重要になる側に賭けます。</p>
-    </div>
-    <div class="card rv" style="--d:.45s">
-      <div class="kicker">なぜ「ニッチトップ」か</div>
-      <h3>その分野の世界トップが、日本に集中しているから</h3>
-      <p>後工程を支える素材と装置 — ウェハーを切る刃、チップの封止材、特殊インク… こうした狭い分野ごとに <b>世界トップがなぜか日本企業</b>です。有名な大企業ではなく、この <b>隠れたチャンピオン</b>たちを買います。</p>
-    </div>
-    <div class="card rv" style="--d:.6s">
-      <div class="kicker">なぜ「地方クラスター」か</div>
-      <h3>トップ企業が集まる立地が、証明されているから</h3>
-      <p>そのチャンピオンたちは磁石(巨大工場)のそばに集まります。「工場の隣」という立地は好みではなく <b>書類で確認できる事実</b> — 熊本·青森·福島がまさにその現場です。</p>
-    </div>
-    <div class="card rv" style="--d:.75s">
-      <div class="kicker">そして — 社会的な意味</div>
-      <h3>国が進める方向と、同じだから</h3>
-      <p>工場を毎日支える必需品を国内に備え(<b>経済安全保障</b>)、工場のそばを離れられないこれらの会社が育てば、雇用は地方に生まれます(<b>地方創生</b>)。政府も15社のうち1社(日東紡績)を <b>「国が確保すべき物資」として公式に認定</b>しました。</p>
-    </div>
+<section class="slide" data-note="ここまでの四つの問いを、一つの選定ルールにまとめます。半導体の構造需要、後工程の価値上昇、ニッチトップの堀、地方アンカーとの検証可能な関係が、すべて重なる必要があります。産業見通しで終わらせず、四回の「なぜ」を実際の銘柄選定条件へ翻訳しました。">
+  <div class="eyebrow rv">四回の「なぜ」を、一つの選定式へ</div>
+  <h2 class="title rv" style="--d:.1s">四条件の交点にある企業だけを残します</h2>
+  <div class="fourLogic">
+    <div class="logicRow rv" style="--d:.28s;--ld:.45s"><span class="ln">1</span><span class="lk">需要</span><span class="lm">AI・暮らし・国が半導体需要を伸ばすか</span></div>
+    <div class="logicRow rv" style="--d:.42s;--ld:.58s"><span class="ln">2</span><span class="lk">工程</span><span class="lm">後工程が性能・電力・歩留まりを左右するか</span></div>
+    <div class="logicRow rv" style="--d:.56s;--ld:.71s"><span class="ln">3</span><span class="lk">堀</span><span class="lm">狭くても不可欠な分野で競争力を示せるか</span></div>
+    <div class="logicRow rv" style="--d:.7s;--ld:.84s"><span class="ln">4</span><span class="lk">立地</span><span class="lm">地方アンカーとの関係を一次資料で確認したか</span></div>
   </div>
-  <p class="punch rv" style="--d:.95s">大きくなる工程、日本が最強の分野、証明できる立地 — <em>三つが重なる場所</em>が私たちのテーマです。</p>
+  <p class="punch rv" style="--d:.95s"><em>半導体需要 × 後工程価値 × ニッチの堀 × 地方立地</em>を、実際の銘柄ルールに変えました。</p>
+  <p class="sourceLine">出所：前各ページの公式資料・チーム選定ルール</p>
 </section>
 
 <!-- 10 ファネル -->
-<section class="slide" data-note="証明の第1段階:候補を選んだ過程をすべて公開。日本市場全体4,438社をのせ、5回絞って15社まで来ました。最後の関門が核心 — 「本当に工場の隣か」を書類で確認。1,000社に3社の割合。">
-  <div class="eyebrow rv">最初から、市場全体をのせて絞り込みました</div>
-  <h2 class="title rv" style="--d:.1s">4,438 → 15</h2>
+<section class="slide s-funnel" data-note="4,438は上場会社数ではなく、JPXの東証上場銘柄一覧に載る銘柄件数です。半導体関連1,039、後工程・周辺候補106、財務ゲート48、一次資料で確定アンカーを確認した15社へ絞りました。各段階の定義と除外理由を記録しています。">
+  <div class="eyebrow rv">この論理を15銘柄へ翻訳しました</div>
+  <h2 class="title rv" style="--d:.1s">4,438銘柄 → 15社</h2>
   <div class="funnel">
-    <div class="fr rv" style="--d:.3s"><span class="lb">日本市場全体 — 出発点</span><div class="track"><div class="bar" style="--w:100%;--dd:.4s"></div></div><span class="val num" data-count="4438">0</span></div>
-    <div class="fr rv" style="--d:.45s"><span class="lb">半導体に関わる企業</span><div class="track"><div class="bar" style="--w:23.4%;--dd:.55s"></div></div><span class="val num" data-count="1039">0</span></div>
-    <div class="fr rv" style="--d:.6s"><span class="lb">「後工程」候補</span><div class="track"><div class="bar" style="--w:2.4%;--dd:.7s"></div></div><span class="val num" data-count="106">0</span></div>
-    <div class="fr rv" style="--d:.75s"><span class="lb">負債が少なく利益が堅い企業</span><div class="track"><div class="bar" style="--w:1.1%;--dd:.85s"></div></div><span class="val num" data-count="48">0</span></div>
-    <div class="fr final rv" style="--d:.9s"><span class="lb">本当に「工場の隣」か確認</span><div class="track"><div class="bar" style="--w:0.5%;--dd:1s"></div></div><span class="val num" data-count="15">0</span></div>
+    <div class="fr rv" style="--d:.3s"><span class="lb">東証上場銘柄（2026年6月末）</span><div class="track"><div class="bar" style="--w:100%;--dd:.4s"></div></div><span class="val num" data-count="4438" data-delay="350">4,438</span></div>
+    <div class="fr rv" style="--d:.45s"><span class="lb">半導体関連ユニバース</span><div class="track"><div class="bar" style="--w:23.4%;--dd:.55s"></div></div><span class="val num" data-count="1039" data-delay="500">1,039</span></div>
+    <div class="fr rv" style="--d:.6s"><span class="lb">後工程・周辺候補</span><div class="track"><div class="bar" style="--w:2.4%;--dd:.7s"></div></div><span class="val num" data-count="106" data-delay="650">106</span></div>
+    <div class="fr rv" style="--d:.75s"><span class="lb">財務ゲート<small>収益性・事業純度の下限を通過</small></span><div class="track"><div class="bar" style="--w:1.1%;--dd:.85s"></div></div><span class="val num" data-count="48" data-delay="800">48</span></div>
+    <div class="fr final rv" style="--d:.9s"><span class="lb">確定アンカー<small>立地・供給を一次資料で確認</small></span><div class="track"><div class="bar" style="--w:0.5%;--dd:1s"></div></div><span class="val num" data-count="15" data-delay="950">15</span></div>
   </div>
-  <p class="punch rv" style="--d:1.15s">生存率0.3% — <em>1,000社に3社</em>の割合です。</p>
+  <p class="punch rv" style="--d:1.15s">各段階の定義と除外理由を記録し、<em>同じ手順で再検証できる</em>ようにしました。</p>
+  <p class="sourceLine">出所：<a href="https://www.jpx.co.jp/markets/statistics-equities/misc/01.html">JPX「東証上場銘柄一覧」</a>（2026年6月末）・チーム選定ログ</p>
 </section>
 
-<!-- 11 スコア上位でも外した -->
-<section class="slide" data-note="審査員が必ず聞く質問 — 「良さそうな会社を選んで後から理由をつけたのでは」。答え:自社スコア2位・4位・6位の世界トップ級9社を外しました。理由は一つ、工場の隣にないから。原則が選んだ証拠。">
-  <div class="eyebrow rv">私たちが最も自信のある一枚</div>
-  <h2 class="title rv" style="--d:.1s">スコア上位でも、外しました</h2>
-  <div class="exList">
-    <div class="exRow rv" style="--d:.35s"><span class="rank num">スコア2位</span><span class="nm">三井金属</span><span class="why">工場の隣ではない(埼玉)</span><span class="out">不採用</span></div>
-    <div class="exRow rv" style="--d:.5s"><span class="rank num">スコア4位</span><span class="nm">上村工業</span><span class="why">工場の隣ではない(大阪)</span><span class="out">不採用</span></div>
-    <div class="exRow rv" style="--d:.65s"><span class="rank num">スコア6位</span><span class="nm">アドバンテスト</span><span class="why">工場の隣ではない(群馬)</span><span class="out">不採用</span></div>
-    <div class="exRow rv" style="--d:.8s"><span class="rank num">…</span><span class="nm">世界トップ級、計9社</span><span class="why">同じ理由で</span><span class="out">すべて不採用</span></div>
+<!-- 11 チップを完成させる8社 -->
+<section class="slide companySlide" data-note="一つ目の軸は、後工程の価値に直接つながる8社です。ディスコはウェハーを薄く研削して切り、芝浦メカトロニクスは洗浄と接合の装置をつくります。材料企業はチップと基板を守り、検査企業は正しく動くかを確かめます。">
+  <div class="eyebrow rv">最終15社 · テーマの第一軸</div>
+  <h2 class="title rv" style="--d:.1s">後工程需要を直接受ける8社</h2>
+  <div class="companyGrid">
+    <div class="companyCol">
+      <div class="companyItem rv" style="--d:.28s"><span class="ciNo">01</span><span class="ciName">ディスコ（DISCO）</span><span class="ciDesc"><b>研削・切断</b>でチップを精密加工</span></div>
+      <div class="companyItem rv" style="--d:.38s"><span class="ciNo">02</span><span class="ciName">芝浦メカトロニクス</span><span class="ciDesc"><b>洗浄・接合</b>で先端パッケージを支援</span></div>
+      <div class="companyItem rv" style="--d:.48s"><span class="ciNo">03</span><span class="ciName">住友ベークライト</span><span class="ciDesc"><b>封止材</b>でチップを熱・湿気から保護</span></div>
+      <div class="companyItem rv" style="--d:.58s"><span class="ciNo">04</span><span class="ciName">太陽ホールディングス</span><span class="ciDesc"><b>ソルダーレジスト</b>で基板回路を保護・絶縁</span></div>
+    </div>
+    <div class="companyCol">
+      <div class="companyItem rv" style="--d:.34s"><span class="ciNo">05</span><span class="ciName">日東紡績</span><span class="ciDesc"><b>低熱膨張ガラス</b>でAI基板を支える</span></div>
+      <div class="companyItem rv" style="--d:.44s"><span class="ciNo">06</span><span class="ciName">日本電子材料</span><span class="ciDesc"><b>プローブカード</b>でチップ性能を測定</span></div>
+      <div class="companyItem rv" style="--d:.54s"><span class="ciNo">07</span><span class="ciName">日本マイクロニクス</span><span class="ciDesc"><b>HBM向け</b>プローブカード・検査装置</span></div>
+      <div class="companyItem rv" style="--d:.64s"><span class="ciNo">08</span><span class="ciName">テラプローブ</span><span class="ciDesc"><b>ウェハー・完成チップ</b>を受託検査</span></div>
+    </div>
   </div>
-  <p class="punch rv" style="--d:1s">「良さそうだから選んだ」という疑いへの答え — <em>原則が選び、例外はありませんでした。</em></p>
+  <p class="companyTake rv" style="--d:.82s">切る・包む・検査することで、<em>チップを「使える製品」にする最後の工程</em>を担います。</p>
+  <p class="sourceLine">出所：各社公式の事業・製品紹介（資料注記にURLを記載）</p>
+  <!-- [Sources]
+  - https://disco.co.jp/jp/solution/
+  - https://www.shibaura.co.jp/products/semicon/
+  - https://www.sumibe.co.jp/ir/segment/semiconductor/index.html
+  - https://www.taiyo-hd.co.jp/jp/business/electronics/pcb.html
+  - https://www.nittobo.co.jp/business/electronicmaterials/index.htm
+  - https://jem-net.co.jp/products/handotai
+  - https://www.mjc.co.jp/products_service/
+  - https://www.teraprobe.com/service/
+  -->
 </section>
 
-<!-- 12 750回揺らす -->
-<section class="slide" data-note="二つ目の想定質問 — 「その基準の数値、君たちの都合で決めたのでは」。そこで不採用の基準を750通りに変えながら全部再計算。最終15社は同じでした。結果を分けたのは基準の微調整ではなく「本当に工場の隣か」という原則。">
-  <div class="eyebrow rv">「その基準、君たちの都合で決めたのでは?」</div>
-  <h2 class="title rv" style="--d:.1s">そこで、基準を750通り変えてみました</h2>
-  <div class="bigStat">
-    <span class="n num rv" style="--d:.35s" data-count="750">0</span>
-    <span class="d rv" style="--d:.5s">不採用の基準の数値を <b>750通りの組み合わせ</b>に変えながら<br>最初からすべて再計算</span>
-  </div>
-  <div class="cards" style="grid-template-columns:1fr 1fr">
-    <div class="card rv" style="--d:.7s">
-      <h3>結果:最終15社、そのまま</h3>
-      <p>基準をどう揺らしても <b>同じ会社が生き残りました。</b></p>
+<!-- 12 工場を動かす6社 -->
+<section class="slide companySlide" data-note="二つ目の軸は、アンカーファブを止めない6社です。ウェハーをきれいに運び、洗浄用の超純水と工程用ガスを供給し、薬液を漏らさずつなぎ、ガスと液体を正確に測ります。近接供給と現場対応の価値が大きい、ファブ共通インフラです。">
+  <div class="eyebrow rv">最終15社 · テーマの第二軸</div>
+  <h2 class="title rv" style="--d:.1s">アンカーファブを24時間動かす6社</h2>
+  <div class="companyGrid six">
+    <div class="companyCol">
+      <div class="companyItem rv" style="--d:.28s"><span class="ciNo">09</span><span class="ciName">平田機工</span><span class="ciDesc"><b>搬送設備</b>をロボットで自動化</span></div>
+      <div class="companyItem rv" style="--d:.42s"><span class="ciNo">10</span><span class="ciName">ローツェ</span><span class="ciDesc"><b>クリーン搬送</b>でウェハーを正確に運ぶ</span></div>
+      <div class="companyItem rv" style="--d:.56s"><span class="ciNo">11</span><span class="ciName">オルガノ</span><span class="ciDesc"><b>超純水</b>でウェハー洗浄を支える</span></div>
     </div>
-    <div class="card rv" style="--d:.85s">
-      <h3>結果を分けたのは、原則</h3>
-      <p>生き残る会社を決めたのは数値の微調整ではなく <b>「本当に工場の隣か」という原則</b>でした。</p>
+    <div class="companyCol">
+      <div class="companyItem rv" style="--d:.35s"><span class="ciNo">12</span><span class="ciName">ジャパンマテリアル</span><span class="ciDesc"><b>特殊ガス</b>の供給・配管・保守を一括支援</span></div>
+      <div class="companyItem rv" style="--d:.49s"><span class="ciNo">13</span><span class="ciName">PILLAR</span><span class="ciDesc"><b>継手・シール</b>で薬液とガスの漏れを防ぐ</span></div>
+      <div class="companyItem rv" style="--d:.63s"><span class="ciNo">14</span><span class="ciName">堀場製作所</span><span class="ciDesc"><b>流量・濃度</b>を測定し、正確に制御</span></div>
     </div>
   </div>
-  <p class="punch rv" style="--d:1.05s">どう揺らしても同じ答えが出るなら — <em>それは偶然選んだのではありません。</em></p>
+  <p class="companyTake rv" style="--d:.82s">水・ガス・ロボットで、<em>近接供給と現場対応が必要な基盤</em>を担います。</p>
+  <p class="sourceLine">出所：各社公式の事業・製品紹介（資料注記にURLを記載）</p>
+  <!-- [Sources]
+  - https://www.hirata.co.jp/products/semiconductor
+  - https://www.rorze.com/products_category/wafer-transfer-system/
+  - https://www.organo.co.jp/english/business/electronic/ultrapure/
+  - https://www.j-materials.jp/business/electronics/business/
+  - https://www.pillar.co.jp/ja/
+  - https://www.horiba.com/jpn/semiconductor/technology/fluid-control/
+  -->
 </section>
 
-<!-- 13 最終15社 -->
-<section class="slide" data-note="そうして生き残った15社 — 全社が各分野で世界トップ級、後工程の四つの役割を漏れなくカバー。切って組み立てる、包んで守る、不良をはじく、工場を動かすチーム。金色が九州13社、青が東北2社。星印は工場ができた「後」の増設・受賞まで書類で確認できた9社。">
-  <div class="eyebrow rv">そうして残った15社</div>
-  <h2 class="title rv" style="--d:.1s" style="margin-bottom:2.6vmin">全社が「世界トップ級」— 後工程のあらゆる役割をカバー</h2>
-  <div class="groups">
-    <div class="grp rv" style="--d:.3s">
-      <h3><span class="gi">✂️</span>切って、組み立てる</h3>
-      <ul>
-        <li><span class="rdot k"></span><span class="co">ディスコ <span class="st">★</span></span>ウェハーを切る「刃」で世界圧倒的1位 · TSMC受賞</li>
-        <li><span class="rdot k"></span><span class="co">芝浦メカトロニクス <span class="st">★</span></span>チップを接着·洗浄する装置 · TSMC受賞</li>
-        <li><span class="rdot k"></span><span class="co">平田機工 <span class="st">★</span></span>工場自動化設備 · 熊本の地元企業</li>
-        <li><span class="rdot k"></span><span class="co">ローツェ</span>ウェハー搬送ロボット世界最高級</li>
-      </ul>
-    </div>
-    <div class="grp rv" style="--d:.45s">
-      <h3><span class="gi">🛡️</span>包んで、守る</h3>
-      <ul>
-        <li><span class="rdot k"></span><span class="co">住友ベークライト <span class="st">★</span></span>チップ「封止材」世界40%で1位</li>
-        <li><span class="rdot k"></span><span class="co">太陽ホールディングス</span>基板を守る「緑の塗料」世界1位</li>
-        <li><span class="rdot k"></span><span class="co">東京応化工業 <span class="st">★</span></span>回路を描く「特殊インク」世界1位</li>
-        <li><span class="rdot t"></span><span class="co">日東紡績 <span class="st">★</span></span>チップの骨格「特殊ガラス布」世界トップ · 福島で単独生産</li>
-      </ul>
-    </div>
-    <div class="grp rv" style="--d:.6s">
-      <h3><span class="gi">🔍</span>不良をはじく</h3>
-      <ul>
-        <li><span class="rdot k"></span><span class="co">日本電子材料</span>チップ検査用「針の板」国内2位 · 主力工場は熊本</li>
-        <li><span class="rdot t"></span><span class="co">日本マイクロニクス <span class="st">★</span></span>メモリチップ検査の世界的強者 · 青森で40年</li>
-        <li><span class="rdot k"></span><span class="co">テラプローブ</span>検査を丸ごと請け負う国内最大級</li>
-      </ul>
-    </div>
-    <div class="grp rv" style="--d:.75s">
-      <h3><span class="gi">💧</span>工場を動かす</h3>
-      <ul>
-        <li><span class="rdot k"></span><span class="co">オルガノ <span class="st">★</span></span>「最もきれいな水」国内最高峰 · TSMC最優秀賞</li>
-        <li><span class="rdot k"></span><span class="co">ジャパンマテリアル <span class="st">★</span></span>特殊ガスを工場内で常時供給</li>
-        <li><span class="rdot k"></span><span class="co">日本ピラー工業</span>超高純度の配管部品で最高級</li>
-        <li><span class="rdot k"></span><span class="co">堀場製作所</span>ガス流量を超精密に制御 · 世界約60%</li>
-      </ul>
+<!-- 13 回路を刻む1社 + 全体整理 -->
+<section class="slide companySlide" data-note="最後の1社は東京応化工業です。前工程のフォトレジストが主力ですが、パッケージ工程向け材料も供給するため、後工程の純粋企業と同じ箱に隠さず、境界企業として別に示します。後工程直結8社、ファブ共通インフラ6社、前・後工程並行1社で最終15社です。立地証拠も因果確認9社と既存産業基盤6社に分けます。">
+  <div class="eyebrow rv">最終15社 · 境界まで公開します</div>
+  <h2 class="title rv" style="--d:.1s">前工程と後工程をつなぐ1社、東京応化工業</h2>
+  <div class="singleCompany rv" style="--d:.3s">
+    <span class="bigOne">1</span>
+    <div>
+      <strong>東京応化工業（TOK）</strong>
+      <p>ウェハーに回路を描くフォトレジストを主力に、パッケージ工程向け材料も供給します。</p>
     </div>
   </div>
-  <div class="legendLine rv" style="--d:.9s">
-    <span class="li"><span class="swatch k"></span>九州13社</span>
-    <span class="li"><span class="swatch t"></span>東北2社</span>
-    <span class="li"><span class="gold">★</span>&nbsp;工場ができた「後」の増設·受賞まで書類で確認できた9社</span>
+  <div class="roleEquation rv" style="--d:.52s">
+    <div class="roleEq"><b>8</b><span>チップを完成</span></div><span class="rolePlus">+</span>
+    <div class="roleEq"><b>6</b><span>工場を稼働</span></div><span class="rolePlus">+</span>
+    <div class="roleEq"><b>1</b><span>回路を形成</span></div><span class="rolePlus">=</span>
+    <strong class="roleTotal">15社</strong>
   </div>
+  <div class="proofBand rv" style="--d:.7s">
+    <span class="pbTitle">立地の証拠<b>九州13・東北2</b></span>
+    <span class="pb goldB">因果確認9社<small>発表後の増設・供給・受賞まで確認</small></span>
+    <span class="pb blueB">既存産業基盤6社<small>アンカー以前から地域に立地</small></span>
+  </div>
+  <p class="sourceLine">出所：<a href="https://www.tok.co.jp/products">東京応化工業 事業・製品紹介</a>・チーム立地証拠分類</p>
+  <!-- [Sources]
+  - https://www.tok.co.jp/products
+  - https://www.tok-pr.com/
+  -->
 </section>
 
 <!-- 14 次のステップ: フィールドワーク -->
-<section class="slide" data-note="次はフィールドワーク — 検証の深さで差をつける。① 公開IR資料を精読し会社ごとに検証質問を設計 ② 会社IR・自治体と書面/オンラインで直接対話、必要なら現地訪問 ③ 回答が得られなければ専門家・証券リポートでクロスチェック。質問は机の上でなく、会社に直接投げる。">
-  <div class="eyebrow rv">次のステップ · フィールドワーク</div>
-  <h2 class="title rv" style="--d:.1s">いよいよ、会社に直接聞きます</h2>
+<section class="slide s-next" data-note="論理が完成しても、調査は終わりません。企業IR・自治体への取材でアンカーとの因果を深く確認し、現在価格でQARPを更新して比重と買付時期を決め、JASM第2工場・地政学・半導体サイクルへの反証条件を先に設定します。この次の段階が、調査の熱意と投資理解を行動で示します。">
+  <div class="eyebrow rv">優勝の論理を、調査で完成させる</div>
+  <h2 class="title rv" style="--d:.1s">選定は終わっても、検証は終わりません</h2>
   <div class="cards" style="grid-template-columns:repeat(3,1fr)">
     <div class="card rv" style="--d:.3s">
       <div class="kicker">STEP 1</div>
-      <h3>質問を設計する</h3>
-      <p>会社が公開するIR資料を <b>精読</b>し、15社それぞれに投げる <b>「検証の質問」</b>を作ります — 私たちの話が本当かを確かめる質問です。</p>
+      <h3>一次情報を深める</h3>
+      <p>企業のIR担当者や自治体に <b>書面・オンラインで面談を依頼</b>し、アンカーとの因果や地域雇用を確認します。</p>
     </div>
     <div class="card rv" style="--d:.5s">
       <div class="kicker">STEP 2</div>
-      <h3>直接対話する</h3>
-      <p>会社のIR·自治体と <b>書面/オンラインで対話</b>します。必要なら <b>現地訪問</b>もします。</p>
+      <h3>現在価格で配分する</h3>
+      <p>最新QARP（<b>質に見合う価格</b>）で15社を再評価し、上限10％・下限4％と売買手数料を反映して比重を決めます。</p>
     </div>
     <div class="card rv" style="--d:.7s">
       <div class="kicker">STEP 3</div>
-      <h3>クロスチェックする</h3>
-      <p>回答が得られなければ <b>専門家·証券リポート</b>でクロスチェックします — どの道でも、検証は最後までやり切ります。</p>
+      <h3>見直し条件を決める</h3>
+      <p><b>JASM第2工場の遅延、地政学、半導体サイクル</b>を四半期ごとに確認し、仮説が崩れたら比重を見直します。</p>
     </div>
   </div>
-  <p class="punch rv" style="--d:.9s">質問は机の上ではなく、<em>会社に直接</em>投げます。</p>
+  <p class="punch rv" style="--d:.9s">質問して終わらず、<em>いくら持ち、何が起きたら見直すか</em>まで決めます。</p>
+  <p class="sourceLine">出所：チーム Phase 3 ランブック・Phase 2 リスクシナリオ</p>
 </section>
 
 <!-- 15 クロージング -->
-<section class="slide s-close" data-note="クロージング。世界トップは地方にある — それを証明するテーマが「後工程ニッチトップ × 地方クラスター」。4,438社から原則で選んだ15社、熊本・青森・福島。ありがとうございました。">
-  <div class="eyebrow rv">まとめ</div>
-  <h1 class="huge rv" style="--d:.15s">世界トップは、<br>地方にある<span class="gold">.</span></h1>
-  <div class="themeLine rv" style="--d:.45s">後工程ニッチトップ × 地方クラスター</div>
-  <div class="trio rv" style="--d:.65s">
-    <span class="t num"><span class="gold">4,438</span> → <span class="gold">15</span></span>
-    <span class="t">熊本 · 青森 · 福島</span>
-    <span class="t">原則が選び、例外はありませんでした</span>
+<section class="slide s-close winClose" data-note="最初の問いに戻ります。このテーマが優勝を目指せる理由は、大会の問いを一つの論理で答えるからです。半導体需要から企業利益まで説明して経済・投資理解を示し、後工程ニッチトップと地方クラスターの交点で独創性をつくり、4,438銘柄から15社へ至る再現可能な規則で理論性を証明します。一次資料とわかりやすい説明、次のフィールドワークで調査の熱意と表現力まで完成させます。">
+  <div class="eyebrow rv">最初の問いに戻ると</div>
+  <h1 class="big rv" style="--d:.15s">なぜ、このテーマで<br>優勝を目指せるのか<span class="gold">？</span></h1>
+  <div class="criteriaLine">
+    <div class="criterion rv" style="--d:.4s"><b>経済・投資理解</b>需要 → 工程 → 企業利益</div>
+    <div class="criterion rv" style="--d:.5s"><b>独創性</b>後工程 × ニッチ × 地方の交点</div>
+    <div class="criterion rv" style="--d:.6s"><b>理論・専門性</b>4,438 → 15の再現可能な規則</div>
+    <div class="criterion rv" style="--d:.7s"><b>調査・表現力</b>一次資料を誰にでも伝える</div>
   </div>
-  <p class="thanks rv" style="--d:.85s">ありがとうございました — 日経ストックリーグ2026 · ご質問を歓迎します</p>
+  <div class="themeLine rv" style="--d:.8s">後工程ニッチトップ × 地方クラスター</div>
+  <p class="finalLine rv" style="--d:.88s">良い産業ではなく、<span class="gold">最後まで説明できる15社</span>を選びました。</p>
+  <p class="thanks rv" style="--d:.98s">ありがとうございました。ご質問があればお願いいたします。</p>
 </section>
 
 </main>
@@ -754,21 +1054,26 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
       <circle cx="46" cy="42" r="1.3"/><circle cx="50" cy="42" r="1.3"/><circle cx="54" cy="42" r="1.3"/>
       <circle cx="46" cy="58" r="1.3"/><circle cx="50" cy="58" r="1.3"/><circle cx="54" cy="58" r="1.3"/>
     </svg></div>
-    <div class="cel clid"><div class="body"></div><div class="face"></div><div class="dot"></div><div class="cmark">SL·2026<small>NIKKEI STOCK LEAGUE</small></div></div>
+    <div class="cel clid"><div class="body"></div><div class="face"></div><div class="dot"></div><div class="cmark">SL・2026<small>NIKKEI STOCK LEAGUE</small></div></div>
     <div class="cel cring"></div>
   </div></div>
 </div>
-<div id="chipCap"><b>チップ組み立て</b> 0%</div>
+<div id="chipCap"><b>物語を組み立て中</b> 0%</div>
 
 <footer id="hud">
-  <span class="keys">← → 移動 · F 全画面 · N 発表者ノート</span>
-  <span id="pageNo" class="num">1 / 16</span>
+  <span class="keys">← → 移動・F 全画面・R 演出再生</span>
+  <span id="pageNo" class="num">1 / 15</span>
 </footer>
 
 <div id="notes"><div class="nt">発表者ノート</div><div class="nb" id="noteBody"></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
+  var deckNode=document.getElementById('deck');
+  var seeded=[].slice.call(deckNode.querySelectorAll('.slide'));
+  seeded.forEach(function(s,i){s._deckSeq=+(s.getAttribute('data-seq')||i+1)});
+  seeded.sort(function(a,b){return a._deckSeq-b._deckSeq}).forEach(function(s){deckNode.appendChild(s)});
   var slides=[].slice.call(document.querySelectorAll('.slide'));
   var cur=0,N=slides.length;
   var prog=document.getElementById('progress');
@@ -779,22 +1084,45 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
   if(STATIC)document.documentElement.classList.add('static');
   var reduced=STATIC||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function countUp(el){
-    var to=+el.getAttribute('data-count'),dur=1300,t0=null;
-    if(reduced){el.textContent=to.toLocaleString();return}
-    setTimeout(function(){el.textContent=to.toLocaleString()},dur+400);
-    function step(ts){
-      if(!t0)t0=ts;
-      var p=Math.min((ts-t0)/dur,1);
-      var e=1-Math.pow(1-p,3);
-      el.textContent=Math.round(to*e).toLocaleString();
-      if(p<1)requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+  function setCount(el){el.textContent=(+el.getAttribute('data-count')).toLocaleString()}
+  function animateCount(el){
+    clearTimeout(el._countTimer);
+    if(el._countFrame)cancelAnimationFrame(el._countFrame);
+    var target=+el.getAttribute('data-count');
+    if(reduced||!isFinite(target)){setCount(el);return}
+    el.textContent='0';
+    var delay=+(el.getAttribute('data-delay')||0);
+    var duration=Math.min(900,460+Math.log(target+1)*45);
+    el._countTimer=setTimeout(function(){
+      var start=performance.now();
+      function tick(now){
+        var p=Math.min(1,(now-start)/duration);
+        var eased=1-Math.pow(1-p,3);
+        el.textContent=Math.round(target*eased).toLocaleString();
+        if(p<1)el._countFrame=requestAnimationFrame(tick);
+        else setCount(el);
+      }
+      el._countFrame=requestAnimationFrame(tick);
+    },delay);
   }
 
   var chipWrap=document.getElementById('chipWrap');
   var chipCap=document.getElementById('chipCap');
+  var sceneFx=document.getElementById('sceneFx'),sceneTimer=null;
+  var sceneClasses=['scene-title','scene-theme','scene-funnel','scene-close'];
+  function triggerScene(s){
+    sceneClasses.forEach(function(c){document.body.classList.remove(c)});
+    if(s.classList.contains('s-title'))document.body.classList.add('scene-title');
+    if(s.classList.contains('s-theme'))document.body.classList.add('scene-theme');
+    if(s.classList.contains('s-funnel'))document.body.classList.add('scene-funnel');
+    if(s.classList.contains('s-close'))document.body.classList.add('scene-close');
+    if(reduced||!sceneFx)return;
+    clearTimeout(sceneTimer);
+    sceneFx.classList.remove('hit');
+    void sceneFx.offsetWidth;
+    sceneFx.classList.add('hit');
+    sceneTimer=setTimeout(function(){sceneFx.classList.remove('hit')},1650);
+  }
   /* 分解図: zf=組立位置, ze=分解間隔, rz=回転(符号交差), rx=傾き, ty=側面スキャッター */
   var chipParts=[
     {sel:'.cballs',zf:-0.6,ze:-50,rz: 330,rx: 24,ty: 6},
@@ -816,7 +1144,8 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
     });
     var done=i>=N-1;
     chipRing.classList.toggle('on',done);
-    chipCap.innerHTML=done?'<b>チップ完成</b> ✓':'<b>チップ組み立て</b> '+Math.round(p*100)+'%';
+    chipWrap.classList.toggle('complete',done);
+    chipCap.innerHTML=done?'<b>物語完成</b> ✓':'<b>物語を組み立て中</b> '+Math.round(p*100)+'%';
     chipCap.classList.toggle('done',done);
     var dim=slides[i].getAttribute('data-chip')==='dim';
     chipWrap.classList.toggle('dim',dim);
@@ -828,15 +1157,14 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
     if(slides[cur])slides[cur].classList.remove('active');
     cur=i;
     var s=slides[cur];
+    triggerScene(s);
     s.classList.add('active');
     prog.style.width=((cur+1)/N*100)+'%';
     pageNo.textContent=(cur+1)+' / '+N;
     noteBody.textContent=s.getAttribute('data-note')||'';
     updateChip(cur);
     [].forEach.call(s.querySelectorAll('[data-count]'),function(el){
-      if(STATIC){el.textContent=(+el.getAttribute('data-count')).toLocaleString();return}
-      el.textContent='0';
-      setTimeout(function(){countUp(el)},350);
+      animateCount(el);
     });
     if(push!==false)location.hash=(cur+1);
   }
@@ -861,16 +1189,41 @@ h1.huge .gold{-webkit-text-fill-color:var(--gold)}
     }else show(cur+1);
   }
   function prev(){if(zooming)return;show(cur-1)}
+  function replayCurrent(){
+    if(reduced||zooming)return;
+    var s=slides[cur];
+    s.classList.remove('active');
+    chipWrap.classList.remove('complete');
+    chipRing.classList.remove('on');
+    void s.offsetWidth;
+    triggerScene(s);
+    s.classList.add('active');
+    updateChip(cur);
+    [].forEach.call(s.querySelectorAll('[data-count]'),animateCount);
+  }
+  var toast=document.getElementById('toast'),toastTimer=null;
+  function flash(msg){
+    toast.textContent=msg;toast.classList.add('on');
+    clearTimeout(toastTimer);toastTimer=setTimeout(function(){toast.classList.remove('on')},3200);
+  }
+  function toggleFullscreen(){
+    try{
+      if(document.fullscreenElement){
+        var out=document.exitFullscreen&&document.exitFullscreen();
+        if(out&&out.catch)out.catch(function(){flash('全画面を終了できませんでした。')});
+      }else if(document.documentElement.requestFullscreen){
+        var enter=document.documentElement.requestFullscreen();
+        if(enter&&enter.catch)enter.catch(function(){flash('全画面にできません。ブラウザの全画面ボタンをお使いください。')});
+      }else flash('このブラウザは全画面表示に対応していません。');
+    }catch(err){flash('全画面にできません。ブラウザの全画面ボタンをお使いください。')}
+  }
 
   document.addEventListener('keydown',function(e){
     if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'||e.key==='ArrowDown'){e.preventDefault();next()}
     else if(e.key==='ArrowLeft'||e.key==='PageUp'||e.key==='ArrowUp'){e.preventDefault();prev()}
     else if(e.key==='Home'){show(0)} else if(e.key==='End'){show(N-1)}
-    else if(e.key==='f'||e.key==='F'){
-      if(document.fullscreenElement)document.exitFullscreen();
-      else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();
-    }
-    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('on')}
+    else if(e.key==='f'||e.key==='F'){toggleFullscreen()}
+    else if(e.key==='r'||e.key==='R'){replayCurrent()}
   });
   document.addEventListener('click',function(e){
     if(notes.contains(e.target))return;

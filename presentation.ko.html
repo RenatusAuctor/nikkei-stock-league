@@ -45,7 +45,7 @@ body::before{
 #intro{
   position:fixed;inset:0;z-index:100;overflow:hidden;isolation:isolate;cursor:pointer;
   background:
-    radial-gradient(50vmax 42vmax at 74% 50%,rgba(240,180,41,.16),transparent 58%),
+    radial-gradient(50vmax 42vmax at 79% 50%,rgba(240,180,41,.16),transparent 58%),
     radial-gradient(38vmax 34vmax at 22% 30%,rgba(30,149,212,.09),transparent 64%),
     linear-gradient(145deg,#05080D 0%,#090E16 52%,#030508 100%);
   opacity:1;visibility:visible;
@@ -63,7 +63,7 @@ body::before{
 #intro.playing::before{animation:introGridDrift 5.2s ease-out both}
 #intro::after{
   content:"";position:absolute;inset:-30%;z-index:1;pointer-events:none;opacity:0;
-  background:radial-gradient(circle at 74% 50%,rgba(255,247,213,.92) 0 1%,rgba(240,180,41,.32) 2%,transparent 13%);
+  background:radial-gradient(circle at 79% 50%,rgba(255,247,213,.92) 0 1%,rgba(240,180,41,.32) 2%,transparent 13%);
 }
 #intro.playing::after{animation:introImpact .9s ease-out 1.58s both}
 .introScan{
@@ -73,68 +73,40 @@ body::before{
 }
 #intro.playing .introScan{animation:introScanDown 2.4s cubic-bezier(.2,.72,.2,1) .35s both}
 .introChip{
-  position:absolute;left:74%;top:50%;z-index:2;width:min(42vmin,520px);aspect-ratio:1;
-  transform-style:preserve-3d;perspective:1200px;opacity:0;
+  position:absolute;left:79%;top:50%;z-index:2;width:min(44vmin,540px);aspect-ratio:1;
+  transform-style:preserve-3d;perspective:1600px;opacity:0;
+  filter:drop-shadow(0 3vmin 3.6vmin rgba(0,0,0,.72));
 }
-#intro.playing .introChip{animation:introChipArrive 1.6s cubic-bezier(.16,.78,.2,1) .12s both}
+#intro.playing .introChip{animation:introChipArrive 1.35s cubic-bezier(.16,.78,.2,1) .08s both}
 .introChip::before{
   content:"";position:absolute;inset:15% 4% -2%;border-radius:50%;z-index:-1;
-  background:radial-gradient(ellipse,rgba(0,0,0,.78),transparent 68%);filter:blur(2.2vmin);
+  background:radial-gradient(ellipse,rgba(0,0,0,.82),transparent 68%);filter:blur(2.4vmin);
 }
 .introChip::after{
   content:"";position:absolute;inset:8%;border:1px solid rgba(240,180,41,.66);border-radius:12%;
   opacity:0;box-shadow:0 0 5vmin rgba(240,180,41,.55),inset 0 0 3vmin rgba(240,180,41,.28);
 }
-#intro.playing .introChip::after{animation:introLockFlash 1.1s ease-out 1.55s both}
-.introLayer{
-  position:absolute;display:block;opacity:0;border-radius:7%;
-  transform-origin:center;backface-visibility:hidden;
+#intro.playing .introChip::after{animation:introLockFlash 1.15s ease-out 1.82s both}
+.introStage{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+#intro.playing .introStage{animation:introStageAssemble 2.05s cubic-bezier(.13,.78,.2,1) .12s both}
+.introChip .cel{transition:none!important;will-change:transform,opacity}
+#intro.playing .introStage [data-intro-part]{
+  animation:introRealPart 1.55s cubic-bezier(.13,.82,.2,1) var(--intro-delay) both;
 }
-#intro.playing .introLayer{animation:introLayerLock 1.28s cubic-bezier(.14,.8,.2,1) var(--id) both}
-.introBoard{
-  inset:8%;z-index:1;--ix:-20vmin;--iy:13vmin;--ir:-38deg;--id:.18s;
-  border:1px solid rgba(99,210,141,.58);
-  background:
-    repeating-linear-gradient(90deg,transparent 0 5%,rgba(246,202,103,.88) 5% 6.4%,transparent 6.4% 10%) top/100% 7% no-repeat,
-    repeating-linear-gradient(90deg,transparent 0 5%,rgba(246,202,103,.88) 5% 6.4%,transparent 6.4% 10%) bottom/100% 7% no-repeat,
-    repeating-linear-gradient(0deg,transparent 0 5%,rgba(246,202,103,.78) 5% 6.4%,transparent 6.4% 10%) left/7% 100% no-repeat,
-    repeating-linear-gradient(0deg,transparent 0 5%,rgba(246,202,103,.78) 5% 6.4%,transparent 6.4% 10%) right/7% 100% no-repeat,
-    linear-gradient(145deg,#164D2B,#071B10 68%);
-  box-shadow:0 2vmin 4vmin rgba(0,0,0,.65),inset 0 0 2.2vmin rgba(0,0,0,.55);
+.introChip .cshadow{opacity:0}
+#intro.playing .introStage .cshadow{animation:introShadowSettle .8s ease 1.28s both}
+.introChip .cring{opacity:0}
+#intro.playing .introStage .cring{animation:introRingLock 1.15s ease-out 1.78s both}
+.introChip .cwires path{stroke-dasharray:120;stroke-dashoffset:120}
+#intro.playing .introStage .cwires path{animation:introWireDraw .78s ease-out 1.18s forwards}
+.introChip .clid .face{overflow:hidden}
+.introChip .clid .face::after{
+  content:"";position:absolute;inset:-20%;pointer-events:none;opacity:0;
+  background:linear-gradient(112deg,transparent 28%,rgba(255,255,255,.28) 46%,transparent 63%);
+  transform:translateX(-125%);
 }
-.introTrace{
-  inset:17%;z-index:2;--ix:18vmin;--iy:-14vmin;--ir:42deg;--id:.34s;
-  border:1px solid rgba(240,180,41,.45);
-  background:
-    repeating-linear-gradient(0deg,transparent 0 9%,rgba(240,180,41,.18) 9% 10%,transparent 10% 18%),
-    repeating-linear-gradient(90deg,transparent 0 9%,rgba(79,184,232,.14) 9% 10%,transparent 10% 18%),
-    rgba(13,38,27,.9);
-  box-shadow:inset 0 0 2vmin rgba(240,180,41,.16);
-}
-.introDie{
-  inset:31%;z-index:3;--ix:-13vmin;--iy:-18vmin;--ir:-55deg;--id:.50s;
-  border:1px solid rgba(151,213,255,.84);
-  background:
-    repeating-linear-gradient(0deg,transparent 0 10%,rgba(151,213,255,.15) 10% 12%),
-    repeating-linear-gradient(90deg,transparent 0 10%,rgba(151,213,255,.14) 10% 12%),
-    linear-gradient(135deg,#214276,#081426);
-  box-shadow:0 0 4vmin rgba(79,184,232,.58),inset 0 0 1.4vmin rgba(0,0,0,.58);
-}
-.introLid{
-  inset:24%;z-index:4;--ix:17vmin;--iy:17vmin;--ir:48deg;--id:.66s;
-  border:1px solid rgba(160,178,207,.52);
-  background:
-    linear-gradient(118deg,transparent 25%,rgba(255,255,255,.16) 43%,transparent 58%),
-    repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 1px,transparent 1px 5px),
-    linear-gradient(150deg,#303B4E,#101722 62%,#080C12);
-  box-shadow:0 2.2vmin 3.8vmin rgba(0,0,0,.65),inset 0 0 0 1px rgba(255,255,255,.055);
-}
-.introLid::after{
-  content:"SL";position:absolute;inset:0;display:grid;place-items:center;
-  color:rgba(246,205,105,.78);font-size:clamp(24px,5vmin,64px);font-style:normal;font-weight:900;letter-spacing:.16em;
-  text-shadow:0 0 2vmin rgba(240,180,41,.34);
-}
-.introCopy{position:absolute;left:7vw;top:50%;z-index:3;width:59vw;transform:translateY(-50%)}
+#intro.playing .introStage .clid .face::after{animation:introMetalSweep .9s ease 1.72s both}
+.introCopy{position:absolute;left:7vw;top:50%;z-index:3;width:56vw;transform:translateY(-50%)}
 .introKicker,.introQuestion,.introAnswer,.introRule{opacity:0}
 .introKicker{
   color:var(--gold);font-size:clamp(11px,1.55vmin,16px);font-weight:850;letter-spacing:.28em;margin-bottom:2.4vmin;
@@ -146,10 +118,10 @@ body::before{
 .introQuestion em{font-style:normal;color:var(--gold)}
 .introAnswer{margin-top:2.8vmin;font-size:clamp(17px,2.55vmin,30px);color:var(--ink-2);font-weight:750;letter-spacing:.02em}
 .introRule{width:min(22vmin,220px);height:1px;margin-top:2.3vmin;background:linear-gradient(90deg,var(--gold),var(--blue),transparent)}
-#intro.playing .introKicker{animation:introTextIn .62s ease-out 1.68s both}
-#intro.playing .introQuestion{animation:introTextIn .8s cubic-bezier(.18,.75,.24,1) 1.96s both}
-#intro.playing .introAnswer{animation:introTextIn .72s ease-out 3.2s both}
-#intro.playing .introRule{animation:introRuleIn .8s ease-out 3.52s both}
+#intro.playing .introKicker{animation:introTextIn .62s ease-out 1.88s both}
+#intro.playing .introQuestion{animation:introTextIn .8s cubic-bezier(.18,.75,.24,1) 2.14s both}
+#intro.playing .introAnswer{animation:introTextIn .72s ease-out 3.36s both}
+#intro.playing .introRule{animation:introRuleIn .8s ease-out 3.64s both}
 #intro.ready{cursor:default}
 #introPlay{
   position:absolute;left:50%;top:50%;z-index:6;width:clamp(138px,18vmin,210px);aspect-ratio:1;
@@ -182,8 +154,13 @@ body::before{
 @keyframes introGridDrift{from{transform:perspective(75vmin) rotateX(62deg) translateY(22%) translateX(-2%)}to{transform:perspective(75vmin) rotateX(62deg) translateY(8%) translateX(2%)}}
 @keyframes introImpact{0%{opacity:0;transform:scale(.35)}20%{opacity:.9}100%{opacity:0;transform:scale(1.8)}}
 @keyframes introScanDown{0%{top:-8%;opacity:0}14%{opacity:.92}100%{top:108%;opacity:0}}
-@keyframes introChipArrive{0%{opacity:0;transform:translate(-50%,-43%) rotateX(72deg) rotateZ(-18deg) scale(.62);filter:blur(9px)}65%{opacity:1;filter:none}100%{opacity:1;transform:translate(-50%,-50%) rotateX(56deg) rotateZ(-38deg) scale(1)}}
-@keyframes introLayerLock{0%{opacity:0;transform:translate3d(var(--ix),var(--iy),0) rotate(var(--ir)) scale(.72)}45%{opacity:1}100%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}}
+@keyframes introChipArrive{0%{opacity:0;transform:translate(-50%,-45%) scale(.7);filter:blur(10px)}62%{opacity:1;filter:none}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes introStageAssemble{from{transform:rotateX(58deg) rotateZ(-302deg) scale(.86)}to{transform:rotateX(58deg) rotateZ(-42deg) scale(1)}}
+@keyframes introRealPart{0%{opacity:0;transform:var(--intro-from)}30%{opacity:1}100%{opacity:1;transform:var(--intro-to)}}
+@keyframes introShadowSettle{from{opacity:0;transform:translateZ(-3vmin) scale(.7)}to{opacity:.9;transform:translateZ(-2.2vmin) scale(1)}}
+@keyframes introRingLock{0%{opacity:0;transform:translateZ(3.8vmin) scale(.72)}22%{opacity:1;box-shadow:0 0 6vmin rgba(240,180,41,.78),inset 0 0 3vmin rgba(240,180,41,.32)}100%{opacity:.5;transform:translateZ(3.8vmin) scale(1);box-shadow:0 0 2.4vmin rgba(240,180,41,.32),inset 0 0 1.5vmin rgba(240,180,41,.16)}}
+@keyframes introWireDraw{to{stroke-dashoffset:0}}
+@keyframes introMetalSweep{0%{opacity:0;transform:translateX(-125%)}25%{opacity:1}100%{opacity:0;transform:translateX(125%)}}
 @keyframes introLockFlash{0%{opacity:0;transform:scale(.7)}22%{opacity:1}100%{opacity:0;transform:scale(1.35)}}
 @keyframes introTextIn{from{opacity:0;transform:translateY(2.2vmin);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
 @keyframes introRuleIn{from{opacity:0;transform:scaleX(0);transform-origin:left}to{opacity:1;transform:scaleX(1);transform-origin:left}}
@@ -914,12 +891,7 @@ body.scene-theme #sceneFx,body.scene-close #sceneFx{display:none}
 
 <div id="intro" aria-label="프레젠테이션 오프닝">
   <div class="introScan" aria-hidden="true"></div>
-  <div class="introChip" aria-hidden="true">
-    <i class="introLayer introBoard"></i>
-    <i class="introLayer introTrace"></i>
-    <i class="introLayer introDie"></i>
-    <i class="introLayer introLid"></i>
-  </div>
+  <div id="introChip" class="introChip" aria-hidden="true"></div>
   <div class="introCopy">
     <p class="introKicker">NIKKEI STOCK LEAGUE 2026</p>
     <p class="introQuestion">세계를 움직이는 두뇌는,<br><em>어디에서 완성되는가?</em></p>
@@ -1331,6 +1303,7 @@ body.scene-theme #sceneFx,body.scene-close #sceneFx{display:none}
   if(STATIC)document.documentElement.classList.add('static');
   var reduced=STATIC||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var intro=document.getElementById('intro');
+  var introChip=document.getElementById('introChip');
   var introPlay=document.getElementById('introPlay');
   var introDone=!intro,introStarted=false,introTimer=null,introHideTimer=null;
 
@@ -1351,6 +1324,7 @@ body.scene-theme #sceneFx,body.scene-close #sceneFx{display:none}
   function startIntro(){
     if(!intro)return;
     if(reduced||cur!==0){finishIntro(true);return}
+    buildIntroChip();
     introDone=false;
     introStarted=false;
     intro.hidden=false;
@@ -1417,6 +1391,26 @@ body.scene-theme #sceneFx,body.scene-close #sceneFx{display:none}
   ].map(function(p){p.el=chipWrap.querySelector(p.sel);return p});
   var chipRing=chipWrap.querySelector('.cring');
   var chipStage=document.getElementById('chipStage');
+  function buildIntroChip(){
+    if(!introChip||introChip.firstElementChild||!chipStage)return;
+    var stage=chipStage.cloneNode(true);
+    stage.removeAttribute('id');
+    stage.removeAttribute('style');
+    stage.className='introStage';
+    [].forEach.call(stage.querySelectorAll('.on'),function(el){el.classList.remove('on')});
+    chipParts.forEach(function(L,ix){
+      var el=stage.querySelector(L.sel);
+      if(!el)return;
+      el.removeAttribute('style');
+      var from='translateZ('+(L.zf+L.ze).toFixed(2)+'vmin) translateY('+L.ty.toFixed(2)+'vmin) rotateZ('+L.rz.toFixed(1)+'deg) rotateX('+L.rx.toFixed(1)+'deg)';
+      var to='translateZ('+L.zf.toFixed(2)+'vmin) translateY(0vmin) rotateZ(0deg) rotateX(0deg)';
+      el.style.setProperty('--intro-from',from);
+      el.style.setProperty('--intro-to',to);
+      el.style.setProperty('--intro-delay',(0.16+ix*0.075).toFixed(3)+'s');
+      el.setAttribute('data-intro-part','');
+    });
+    introChip.appendChild(stage);
+  }
   function updateChip(i){
     if(!chipWrap)return;
     var p=N>1?i/(N-1):1,q=1-p;

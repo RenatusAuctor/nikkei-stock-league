@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>반도체 후공정 49개 용어 - 한국어/日本語 통합 쉬운 그림 사전</title>
+  <title>半導体後工程 49用語 - 韓国語/日本語 統合やさしい図鑑</title>
   <style>
     :root {
       --ink:#17324d;
@@ -105,8 +105,8 @@
 
     <div class="toolbar">
       <div class="lang-toggle">
-        <button class="btn active" id="btnKo">한국어</button>
-        <button class="btn" id="btnJa">日本語</button>
+        <button class="btn" id="btnKo" aria-pressed="false">한국어</button>
+        <button class="btn active" id="btnJa" aria-pressed="true">日本語</button>
       </div>
       <input class="search" id="searchBox" type="search" />
       <div class="pill" id="searchTip"></div>
@@ -282,7 +282,7 @@
       {cat:7, en:'OSAT', ko:'다른 회사가 만든 반도체를 받아 패키징하고 검사해주는 전문 회사.', ja:'ほかの会社が作った半導体を受け取って、パッケージにして検査してくれる専門会社。', icon:'🏭'}
     ];
 
-    let lang = 'ko';
+    let lang = 'ja';
 
     function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 // Each term has its own explanatory drawing. The build embeds this source in index.html.
@@ -817,6 +817,7 @@ function termDiagram(term, scope='card'){
 
     function renderStatic(){
       const t = uiText[lang];
+      document.title = t.heroTitle;
       document.getElementById('heroTitle').textContent = t.heroTitle;
       document.getElementById('heroP1').textContent = t.heroP1;
       document.getElementById('heroP2').textContent = t.heroP2;
@@ -978,7 +979,7 @@ function termDiagram(term, scope='card'){
       if(event.key==='ArrowRight'){event.preventDefault();moveViewer(1);}
     });
 
-    setLang('ko');
+    setLang('ja');
   </script>
 </body>
 </html>

@@ -8,6 +8,12 @@ const termDefinition = html.match(/const terms = \[[\s\S]*?\n    \];/)[0];
 const coverage = vm.runInNewContext(termDefinition+'\n'+illustrations+'\n({total:terms.length,drawings:Object.keys(termVisuals).length,missing:terms.filter(t=>!termVisuals[t.en]).map(t=>t.en)})');
 if(coverage.missing.length || coverage.total!==49 || coverage.drawings!==49) throw new Error(JSON.stringify(coverage));
 
+html = html.replace('<html lang="ko">', '<html lang="ja">');
+html = html.replace('<title>반도체 후공정 49개 용어 - 한국어/日本語 통합 쉬운 그림 사전</title>', '<title>半導体後工程 49用語 - 韓国語/日本語 統合やさしい図鑑</title>');
+html = html.replace('<button class="btn active" id="btnKo">', '<button class="btn" id="btnKo" aria-pressed="false">');
+html = html.replace('<button class="btn" id="btnJa">', '<button class="btn active" id="btnJa" aria-pressed="true">');
+html = html.replace("    let lang = 'ko';", "    let lang = 'ja';");
+
 html = html.replace('.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}', '.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}');
 html = html.replace('    @media print{', `    .card{padding:16px;display:flex;flex-direction:column;min-width:0}
     .term .title{font-size:1.1rem;line-height:1.35}
@@ -115,6 +121,7 @@ const cardRenderer = `
 `;
 html = html.slice(0,start)+illustrations+'\n'+cardRenderer+html.slice(end);
 
+html = html.replace('      const t = uiText[lang];', '      const t = uiText[lang];\n      document.title = t.heroTitle;');
 html = html.replace("      document.getElementById('footerSmall').textContent = t.footerSmall;", `      document.getElementById('footerSmall').textContent = t.footerSmall;
       document.getElementById('noResults').textContent = lang==='ko'?'일치하는 용어가 없어요. 다른 단어로 찾아보세요.':'一致する用語がありません。別の言葉で検索してください。';
       document.getElementById('sourceLabel').textContent = lang==='ko'?'개념 확인 자료: ':'概念の参考資料：';
@@ -198,7 +205,7 @@ const viewerCode = `
     });
 
 `;
-html=html.replace("    setLang('ko');",viewerCode+"    setLang('ko');");
+html=html.replace("    setLang('ko');",viewerCode+"    setLang('ja');");
 html=html.replace(/\r\n/g,'\n');
 new vm.Script(html.match(/<script>([\s\S]*?)<\/script>/)[1]);
 fs.writeFileSync(path.join(root,'index.html'),html,'utf8');

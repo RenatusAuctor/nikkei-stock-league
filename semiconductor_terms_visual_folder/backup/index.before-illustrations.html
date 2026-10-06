@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>반도체 후공정 49개 용어 - 한국어/日本語 통합 쉬운 그림 사전</title>
+  <style>
+    :root {
+      --ink:#17324d;
+      --muted:#5d6d7e;
+      --line:#d8e7f5;
+      --bg:#f5fbff;
+      --card:#ffffffee;
+      --shadow:0 10px 24px rgba(26,83,126,.1);
+      --hero1:#7cc7ff;
+      --hero2:#91e8c5;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Noto Sans JP","Malgun Gothic","Yu Gothic",sans-serif;background:linear-gradient(180deg,#f7fbff 0%,#edf7ff 100%);color:var(--ink);line-height:1.6}
+    .wrap{max-width:1360px;margin:0 auto;padding:26px 16px 48px}
+    .hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));border-radius:28px;padding:28px 24px;box-shadow:var(--shadow)}
+    .hero h1{margin:0 0 10px;font-size:clamp(1.9rem,3vw,3rem);line-height:1.2}
+    .hero p{margin:8px 0;font-size:1.04rem}
+    .toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:18px 0}
+    .search{flex:1 1 320px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font-size:1rem;box-shadow:0 4px 12px rgba(15,65,110,.05)}
+    .lang-toggle{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{border:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-weight:800;color:var(--ink);cursor:pointer;box-shadow:0 4px 12px rgba(15,65,110,.05)}
+    .btn.active{background:#17324d;color:#fff}
+    .pill{background:#fff;border:1px solid var(--line);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:.92rem}
+    .flow,.footer,.legend{background:#ffffffd9;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+    .flow{margin-bottom:18px}
+    .legend{margin:18px 0}
+    .flow h2,.legend h2,.footer h2{margin:0 0 10px;font-size:1.2rem}
+    .flowline{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-weight:700}
+    .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;box-shadow:0 4px 10px rgba(20,50,90,.05)}
+    .arrow{font-size:1.2rem;color:#2b84d8}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+    .group{margin-top:22px;padding:16px;border-radius:26px;border:1px solid rgba(12,51,86,.08);box-shadow:var(--shadow)}
+    .group h2{margin:2px 8px 8px;font-size:clamp(1.2rem,2vw,1.7rem)}
+    .group p.desc{margin:-4px 8px 14px;color:#385268}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+    .card{background:var(--card);border:1px solid rgba(19,50,75,.08);border-radius:22px;padding:12px;box-shadow:0 8px 14px rgba(20,50,90,.05);scroll-margin-top:24px;transition:transform .2s ease, box-shadow .2s ease, outline-color .2s ease}.card.jump-target{transform:translateY(-3px);box-shadow:0 14px 30px rgba(43,132,216,.24);outline:3px solid rgba(43,132,216,.35);outline-offset:3px}
+    .image-wrap{background:#f5fbff;border:1px solid rgba(23,50,77,.06);border-radius:18px;padding:8px;margin-bottom:10px}
+    .term{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+    .term .miniicon{width:34px;height:34px;border-radius:12px;background:#f5fbff;display:inline-flex;align-items:center;justify-content:center;font-size:1.2rem;flex:0 0 auto}
+    .term .title{font-weight:800;font-size:1.02rem;line-height:1.2}
+    .term .subtitle{display:block;font-size:.82rem;color:var(--muted);font-weight:600;margin-top:2px}
+    .card p{margin:0;font-size:.97rem}
+    .footer{margin-top:24px}
+    .hidden{display:none!important}
+    mark.hit{background:#fff39e;padding:0 .08em;border-radius:4px}
+    .count{font-weight:700;color:var(--muted)}
+    .g1{background:#dff3ff}.g2{background:#e9f9e3}.g3{background:#fff2d9}.g4{background:#efe7ff}.g5{background:#ffe4ee}.g6{background:#e6fbf5}.g7{background:#fff6cc}.g8{background:#e8eefc}
+    .legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+    .legend-item{background:#fff;padding:10px 12px;border-radius:14px;border:1px solid var(--line);font-weight:700}
+    .small{font-size:.92rem;color:var(--muted)}
+    @media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero,.flow,.legend,.footer,.group{box-shadow:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1 id="heroTitle"></h1>
+      <p id="heroP1"></p>
+      <p id="heroP2"></p>
+      <p class="small" id="heroP3"></p>
+    </header>
+
+    <div class="toolbar">
+      <div class="lang-toggle">
+        <button class="btn active" id="btnKo">한국어</button>
+        <button class="btn" id="btnJa">日本語</button>
+      </div>
+      <input class="search" id="searchBox" type="search" />
+      <div class="pill" id="searchTip"></div>
+    </div>
+
+    <div class="legend">
+      <h2 id="legendTitle"></h2>
+      <div class="legend-grid" id="legendGrid"></div>
+    </div>
+
+    <div class="flow">
+      <h2 id="flowTitle"></h2>
+      <div class="flowline" id="flowline"></div>
+    </div>
+
+    <div class="count" id="resultCount"></div>
+    <div id="groups"></div>
+
+    <div class="footer">
+      <h2 id="footerTitle"></h2>
+      <p id="footerText"></p>
+      <p class="small" id="footerSmall"></p>
+    </div>
+  </div>
+
+  <script>
+    const uiText = {
+      ko: {
+        heroTitle: '반도체 후공정 49개 용어 - 한국어/일본어 통합 쉬운 그림 사전',
+        heroP1: '반도체 후공정은 아주 작은 칩을 검사하고, 붙이고, 연결하고, 보호하고, 다시 검사해서 세상에 보내는 과정이에요.',
+        heroP2: '이 페이지는 49개 용어를 초등학생도 이해하기 쉬운 한 줄 설명과 작은 그림으로 정리한 통합 HTML입니다.',
+        heroP3: '원하는 언어를 누르고, 검색창으로 단어를 찾을 수 있어요.',
+        searchPlaceholder: '용어를 검색해 보세요. 예: HBM, Wire Bonding, 열, テスト',
+        searchTip: '💡 영어/한국어/일본어로 모두 검색 가능',
+        legendTitle: '📚 카테고리 한눈에 보기',
+        flowTitle: '🌈 후공정 큰 흐름',
+        footerTitle: '📝 마지막 한 줄 정리',
+        footerText: '반도체 후공정은 작은 칩을 검사하고 → 붙이고 → 연결하고 → 보호하고 → 다시 검사해서 → 좋은 제품만 보내는 일이에요.',
+        footerSmall: '이 파일 하나로 한국어/일본어 버전을 모두 볼 수 있고, 각 용어마다 작은 그림이 함께 들어 있습니다.',
+        resultCount: n => `보이는 용어 수: ${n} / 49`,
+        categories: [
+          '① 웨이퍼를 칩으로 만드는 과정',
+          '② 칩을 패키지로 만드는 과정',
+          '③ 여러 칩을 연결하는 첨단 패키징',
+          '④ 반도체를 검사하는 과정과 장비',
+          '⑤ 생산성이 좋은지 보는 숫자',
+          '⑥ 열과 패키지 품질',
+          '⑦ 오래 잘 쓰는지 보는 개념',
+          '⑧ 후공정을 전문으로 하는 회사'
+        ]
+      },
+      ja: {
+        heroTitle: '半導体後工程 49用語 - 韓国語/日本語 統合やさしい図鑑',
+        heroP1: '半導体の後工程は、とても小さなチップを調べて、くっつけて、つないで、守って、もう一度調べてから世の中に送る流れです。',
+        heroP2: 'このページは、49個の用語を小学生にもわかりやすい一文と小さなイラストでまとめた統合HTMLです。',
+        heroP3: '言語ボタンで切り替え、検索ボックスで言葉を探せます。',
+        searchPlaceholder: '用語を検索してください。例: HBM, Wire Bonding, 熱, 검사',
+        searchTip: '💡 英語/韓国語/日本語で検索できます',
+        legendTitle: '📚 カテゴリ一覧',
+        flowTitle: '🌈 後工程の大きな流れ',
+        footerTitle: '📝 さいごの一言',
+        footerText: '半導体の後工程は、小さなチップを調べて → くっつけて → つないで → 守って → もう一度調べて → 良いものだけ送る仕事です。',
+        footerSmall: 'この1つのファイルで韓国語版と日本語版を切り替えて見られ、各用語に小さなイラストが入っています。',
+        resultCount: n => `表示中の用語: ${n} / 49`,
+        categories: [
+          '① ウェハをチップにするまで',
+          '② チップをパッケージにする工程',
+          '③ いくつものチップをつなぐ先端パッケージ',
+          '④ 半導体を調べる工程と道具',
+          '⑤ 工場の元気さを見る数字',
+          '⑥ 熱とパッケージの品質',
+          '⑦ 長く使えるかを見る考え方',
+          '⑧ 後工程を専門にする会社'
+        ]
+      }
+    };
+
+    const flowSteps = {
+      ko: ['웨이퍼 검사', '얇게 만들기', '자르기', '붙이기/연결하기', '보호하기', '나누기', '다시 검사하기', '좋은 칩 출하'],
+      ja: ['ウェハ検査', '薄くする', '切る', '付ける/つなぐ', '守る', '分ける', 'もう一度検査', '良いチップを出荷']
+    };
+
+    const categoryInfo = [
+      { key:'g1', emoji:'🧪', koDesc:'웨이퍼를 검사하고 얇게 만들고 자르는 단계', jaDesc:'ウェハを調べて、薄くして、切る段階' },
+      { key:'g2', emoji:'📦', koDesc:'칩을 붙이고 연결하고 감싸는 단계', jaDesc:'チップを付けて、つないで、包む段階' },
+      { key:'g3', emoji:'🧩', koDesc:'여러 칩을 가까이 연결하는 첨단 기술', jaDesc:'いくつものチップを近くでつなぐ先端技術' },
+      { key:'g4', emoji:'🖥️', koDesc:'칩이 잘 작동하는지 검사하는 도구와 과정', jaDesc:'チップが動くか調べる道具と工程' },
+      { key:'g5', emoji:'📈', koDesc:'공장이 잘 돌아가는지 보는 숫자', jaDesc:'工場がうまく動いているかを見る数字' },
+      { key:'g6', emoji:'♨️', koDesc:'열과 휘어짐 같은 품질 문제', jaDesc:'熱や反りのような品質の話' },
+      { key:'g7', emoji:'💪', koDesc:'오래 쓰고 습기에 버티는지 보는 개념', jaDesc:'長く使えるか、湿気に強いかを見る考え方' },
+      { key:'g8', emoji:'🏭', koDesc:'후공정을 전문으로 하는 회사', jaDesc:'後工程を専門にする会社' }
+    ];
+
+    const terms = [
+      {cat:0, en:'Wafer Sort', ko:'웨이퍼를 자르기 전에 각 칩이 정상인지 하나씩 시험하는 과정.', ja:'ウェハを切る前に、1つ1つのチップがちゃんと動くか調べる工程。', icon:'🧪'},
+      {cat:0, en:'Back Grinding', ko:'두꺼운 웨이퍼의 뒷면을 갈아서 얇게 만드는 과정.', ja:'厚いウェハのうら側を削って薄くする工程。', icon:'🪨'},
+      {cat:0, en:'Dicing', ko:'웨이퍼에 붙어 있는 칩들을 하나하나 잘라내는 과정.', ja:'ウェハに並んでいるチップを1つずつ切り分ける工程。', icon:'✂️'},
+      {cat:0, en:'Singulation', ko:'여러 개 붙어 있는 칩이나 패키지를 최종적으로 하나씩 떼어내는 과정.', ja:'つながっているチップやパッケージを最後に1個ずつに分ける工程。', icon:'📦'},
+      {cat:0, en:'Pick & Place', ko:'작은 칩을 집어서 원하는 위치에 정확히 놓는 작업.', ja:'小さなチップをつまんで、決まった場所に正しく置く作業。', icon:'🤖'},
+
+      {cat:1, en:'Die Attach', ko:'잘라낸 반도체 칩을 패키지 바닥에 붙이는 과정.', ja:'切り分けた半導体チップをパッケージの土台に貼りつける工程。', icon:'🧷'},
+      {cat:1, en:'Wire Bonding', ko:'칩과 패키지를 아주 가는 금속선으로 연결하는 방법.', ja:'チップとパッケージをとても細い金属の線でつなぐ方法。', icon:'🧵'},
+      {cat:1, en:'Flip Chip', ko:'칩을 뒤집어서 아랫면의 작은 접점으로 기판에 바로 연결하는 방법.', ja:'チップを裏返して、下にある小さな接点で基板に直接つなぐ方法。', icon:'🔄'},
+      {cat:1, en:'Bump', ko:'칩과 기판을 연결하기 위해 칩 표면에 만든 아주 작은 금속 돌기.', ja:'チップと基板をつなぐために、チップの表面に作るとても小さな金属の突起。', icon:'🫧'},
+      {cat:1, en:'Cu Pillar / Micro-bump', ko:'Flip Chip이나 HBM에서 사용하는 아주 작고 촘촘한 금속 연결 기둥.', ja:'Flip Chip や HBM で使う、とても小さくてぎゅっと並んだ金属の接続。', icon:'🏗️'},
+      {cat:1, en:'Reflow', ko:'납을 뜨겁게 녹였다가 굳혀 칩과 기판을 단단히 연결하는 과정.', ja:'はんだを熱で溶かしてから固め、チップと基板をしっかりつなぐ工程。', icon:'🔥'},
+      {cat:1, en:'Underfill', ko:'칩과 기판 사이의 빈 공간을 접착제로 채워 연결부를 튼튼하게 하는 것.', ja:'チップと基板の間のすきまを樹脂で埋めて、接続を丈夫にすること。', icon:'🧴'},
+      {cat:1, en:'Molding', ko:'칩을 검은색 보호 수지로 감싸서 충격과 습기로부터 보호하는 과정.', ja:'チップを黒い保護樹脂で包んで、衝撃や湿気から守る工程。', icon:'🛡️'},
+      {cat:1, en:'Leadframe', ko:'칩을 올리고 전기를 연결할 수 있도록 만든 금속 뼈대.', ja:'チップをのせて電気をつなげるようにした金属の骨組み。', icon:'🪙'},
+      {cat:1, en:'Package Substrate', ko:'칩과 큰 회로기판 사이에서 전기를 연결해주는 작은 고밀도 회로기판.', ja:'チップと大きな基板の間で電気をつなぐ小さくて配線が細かい基板。', icon:'🟩'},
+      {cat:1, en:'BGA', ko:'패키지 밑에 작은 납땜 공을 바둑판처럼 깔아 연결하는 방식.', ja:'パッケージの裏に小さなはんだの玉を碁盤の目のように並べてつなぐ方法。', icon:'⚪'},
+      {cat:1, en:'WLP / WLCSP', ko:'웨이퍼를 자르기 전부터 웨이퍼 위에서 패키징을 만들어 놓는 기술.', ja:'ウェハを切る前から、ウェハの上でパッケージを作っておく技術。', icon:'🥏'},
+      {cat:1, en:'Fan-Out Packaging', ko:'칩보다 넓은 곳까지 전선을 퍼뜨려 더 많은 연결점을 만드는 패키징 방법.', ja:'チップより広い場所まで配線を広げて、もっと多くの接続を作るパッケージ方法。', icon:'🌟'},
+      {cat:1, en:'RDL', ko:'칩의 전기 연결점을 원하는 위치로 다시 이어주는 미세한 배선층.', ja:'チップの接点を好きな位置までつなぎ直す細かい配線の層。', icon:'🛣️'},
+
+      {cat:2, en:'Chiplet', ko:'큰 칩 하나를 여러 개의 작은 기능별 칩으로 나눈 것.', ja:'大きなチップ1つを、いくつかの小さな役割別チップに分けたもの。', icon:'🧩'},
+      {cat:2, en:'2.5D Packaging', ko:'여러 칩을 중간 연결판 위에 옆으로 아주 가깝게 놓고 연결하는 기술.', ja:'いくつものチップを中間の板の上で横に近く並べてつなぐ技術。', icon:'🏙️'},
+      {cat:2, en:'TSV', ko:'실리콘 칩을 위아래로 연결하기 위해 칩을 세로로 관통해 만든 전기 통로.', ja:'シリコンのチップを上下につなぐために、チップをたてに貫いて作る電気の通り道。', icon:'🕳️'},
+      {cat:2, en:'HBM', ko:'메모리 칩 여러 장을 아파트처럼 위로 쌓아 아주 빠르게 만든 메모리.', ja:'メモリのチップを何枚もマンションのように上に積み重ねた、とても速いメモリ。', icon:'🏢'},
+      {cat:2, en:'Hybrid Bonding', ko:'납땜 돌기 없이 두 칩의 구리 접점을 거의 직접 붙이는 초미세 연결 기술.', ja:'はんだの突起を使わず、2つのチップの銅の接点どうしをほとんど直接くっつける、とても細かい接続技術。', icon:'🤝'},
+      {cat:2, en:'Bond Pitch', ko:'옆에 있는 두 연결점 사이가 얼마나 가까운지를 나타내는 거리.', ja:'となり合う2つの接点がどれくらい近いかを表す距離。', icon:'📏'},
+      {cat:2, en:'I/O Density', ko:'작은 공간에 전기 연결점을 얼마나 많이 넣을 수 있는지 나타내는 정도.', ja:'小さな場所に電気の出入り口をどれくらいたくさん入れられるかを表す度合い。', icon:'🔌'},
+
+      {cat:3, en:'ATE', ko:'반도체에 전기 신호를 보내서 정상인지 검사하는 시험기 본체.', ja:'半導体に電気の信号を送り、正しく動くかを調べる本体の試験機。', icon:'🖥️'},
+      {cat:3, en:'Prober', ko:'웨이퍼 위의 작은 칩을 시험기에 연결해 주는 장비.', ja:'ウェハの上にある小さなチップを試験機につないでくれる装置。', icon:'🎯'},
+      {cat:3, en:'Probe Card', ko:'웨이퍼의 작은 칩과 시험기를 바늘처럼 생긴 접점으로 연결해주는 부품.', ja:'ウェハ上の小さなチップと試験機を、針のような接点でつないでくれる部品。', icon:'🪡'},
+      {cat:3, en:'Final Test', ko:'패키지가 완성된 반도체가 제대로 작동하는지 마지막으로 검사하는 과정.', ja:'パッケージが完成した半導体がちゃんと動くか、最後にもう一度調べる工程。', icon:'✅'},
+      {cat:3, en:'Handler', ko:'완성된 반도체를 시험기에 자동으로 넣고 빼주는 장비.', ja:'完成した半導体を試験機に自動で入れて、取り出してくれる装置。', icon:'📤'},
+      {cat:3, en:'Test Socket', ko:'반도체 패키지를 시험기에 잠시 꽂아 전기를 연결하는 소켓.', ja:'半導体パッケージを試験機に一時的に差し込んで電気をつなぐソケット。', icon:'🔲'},
+      {cat:3, en:'Load Board / DUT Board', ko:'시험기와 검사할 반도체 사이를 전기적으로 이어주는 전용 회로기판.', ja:'試験機と半導体の間を電気でつないでくれる専用の基板。', icon:'🧰'},
+      {cat:3, en:'Binning', ko:'검사한 칩을 결과에 따라 성능 좋은 칩, 낮은 칩, 불량 칩 등으로 나누는 것.', ja:'調べたチップを結果に合わせて、速いチップ・ふつうのチップ・不良品などに分けること。', icon:'🗂️'},
+      {cat:3, en:'Burn-In Test', ko:'칩을 일부러 뜨겁고 힘든 환경에서 오래 돌려 숨어 있는 초기 불량을 찾아내는 검사.', ja:'チップをわざと暑くてきびしい環境で長く動かし、かくれている最初の不良を見つける検査。', icon:'🌡️'},
+      {cat:3, en:'HTOL', ko:'칩을 높은 온도에서 오래 작동시켜 수명이 괜찮은지 확인하는 시험.', ja:'チップを高い温度で長時間動かして、長もちするか確かめる試験。', icon:'⏳'},
+      {cat:3, en:'Temperature Cycling', ko:'칩을 뜨겁게 했다 차갑게 하기를 반복해 온도 변화에도 잘 버티는지 보는 시험.', ja:'チップを熱くしたり冷たくしたりして、温度の変化に強いかを見る試験。', icon:'🔁'},
+      {cat:3, en:'Test Time', ko:'반도체 하나를 검사하는 데 걸리는 시간.', ja:'半導体1つを調べるのにかかる時間。', icon:'⏱️'},
+
+      {cat:4, en:'Yield', ko:'만든 칩 중에서 정상 제품이 몇 %나 나왔는지 나타내는 비율.', ja:'作ったチップの中で、ちゃんと使える製品が何％あるかを表す数字。', icon:'🎯'},
+      {cat:4, en:'UPH', ko:'장비가 한 시간 동안 몇 개를 처리할 수 있는지 나타내는 숫자.', ja:'装置が1時間に何個の製品を扱えるかを表す数字。', icon:'🏃'},
+      {cat:4, en:'OEE', ko:'장비가 가진 능력을 실제로 얼마나 효율적으로 사용했는지 나타내는 점수.', ja:'装置が持っている力を実際にどれくらいムダなく使えたかを表す数字。', icon:'📈'},
+
+      {cat:5, en:'Package Warpage', ko:'열 때문에 반도체 패키지가 평평하지 않고 휘어지는 현상.', ja:'熱のせいで、半導体パッケージがまっすぐではなく反ってしまうこと。', icon:'🌙'},
+      {cat:5, en:'CTE', ko:'물질이 뜨거워졌을 때 얼마나 많이 늘어나는지를 나타내는 값.', ja:'材料が熱くなったときにどれくらい伸びるかを表す値。', icon:'📐'},
+      {cat:5, en:'Thermal Resistance', ko:'칩에서 발생한 열이 밖으로 얼마나 빠져나가기 어려운지를 나타내는 값.', ja:'チップの熱が外へどれくらい逃げにくいかを表す値。', icon:'♨️'},
+      {cat:5, en:'TIM', ko:'칩의 열이 냉각장치로 잘 넘어가도록 사이에 넣는 열전달 재료.', ja:'チップの熱を冷やす部品へうまく伝えるために間にはさむ材料。', icon:'🧈'},
+      {cat:5, en:'Thermal Management', ko:'반도체가 너무 뜨거워지지 않게 열을 밖으로 빼내는 모든 기술.', ja:'半導体が熱くなりすぎないように熱を外へ逃がすためのいろいろな工夫。', icon:'🧊'},
+
+      {cat:6, en:'Reliability', ko:'반도체가 오랫동안 사용돼도 고장 나지 않고 잘 작동하는 정도.', ja:'半導体が長い時間使ってもこわれずにちゃんと動く度合い。', icon:'💪'},
+      {cat:6, en:'MSL', ko:'반도체 패키지가 습기를 얼마나 쉽게 먹는지를 나타내는 등급.', ja:'半導体パッケージが湿気をどれくらい気にするかを表す等級。', icon:'💧'},
+
+      {cat:7, en:'OSAT', ko:'다른 회사가 만든 반도체를 받아 패키징하고 검사해주는 전문 회사.', ja:'ほかの会社が作った半導体を受け取って、パッケージにして検査してくれる専門会社。', icon:'🏭'}
+    ];
+
+    let lang = 'ko';
+
+    function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+    function categoryColor(cat){ return ['#8fd3ff','#bde9a7','#ffd37a','#ccb4ff','#ffbad1','#b7f0dd','#ffe88b','#c9d6ff'][cat]; }
+    function chipPattern(cat){
+      const c = categoryColor(cat);
+      return `
+      <svg viewBox="0 0 320 180" width="100%" height="180" aria-hidden="true">
+        <defs>
+          <linearGradient id="g${cat}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="${c}"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="320" height="180" rx="20" fill="url(#g${cat})"/>
+        <rect x="26" y="28" width="88" height="88" rx="18" fill="rgba(255,255,255,.95)" stroke="rgba(23,50,77,.08)"/>
+        <text x="70" y="86" font-size="42" text-anchor="middle">__ICON__</text>
+        <rect x="140" y="28" width="154" height="16" rx="8" fill="rgba(255,255,255,.85)"/>
+        <rect x="140" y="54" width="126" height="14" rx="7" fill="rgba(255,255,255,.72)"/>
+        <rect x="140" y="78" width="108" height="14" rx="7" fill="rgba(255,255,255,.58)"/>
+        <rect x="26" y="132" width="268" height="26" rx="13" fill="rgba(255,255,255,.86)" stroke="rgba(23,50,77,.08)"/>
+        <text x="160" y="150" font-size="13" text-anchor="middle" fill="#17324d" font-weight="700">__LABEL__</text>
+      </svg>`;
+    }
+    function cardHTML(t, idx){
+      const desc = lang === 'ko' ? t.ko : t.ja;
+      const subtitle = lang === 'ko' ? uiText.ko.categories[t.cat] : uiText.ja.categories[t.cat];
+      const label = (lang === 'ko' ? '쉽게 보기: ' : 'やさしく見る: ') + t.en;
+      const svg = chipPattern(t.cat).replace('__ICON__', t.icon).replace('__LABEL__', escapeHTML(label));
+      const search = `${t.en} ${t.ko} ${t.ja} ${subtitle}`.toLowerCase();
+      return `<article class="card" data-search="${escapeHTML(search)}">
+        <div class="image-wrap">${svg}</div>
+        <div class="term">
+          <div class="miniicon">${t.icon}</div>
+          <div>
+            <div class="title">${escapeHTML(t.en)}</div>
+            <span class="subtitle">${escapeHTML(subtitle)}</span>
+          </div>
+        </div>
+        <p>${escapeHTML(desc)}</p>
+      </article>`;
+    }
+
+    function renderStatic(){
+      const t = uiText[lang];
+      document.getElementById('heroTitle').textContent = t.heroTitle;
+      document.getElementById('heroP1').textContent = t.heroP1;
+      document.getElementById('heroP2').textContent = t.heroP2;
+      document.getElementById('heroP3').textContent = t.heroP3;
+      const sb = document.getElementById('searchBox');
+      sb.placeholder = t.searchPlaceholder;
+      document.getElementById('searchTip').textContent = t.searchTip;
+      document.getElementById('legendTitle').textContent = t.legendTitle;
+      document.getElementById('flowTitle').textContent = t.flowTitle;
+      document.getElementById('footerTitle').textContent = t.footerTitle;
+      document.getElementById('footerText').textContent = t.footerText;
+      document.getElementById('footerSmall').textContent = t.footerSmall;
+
+      document.getElementById('legendGrid').innerHTML = categoryInfo.map((c,i)=>`<div class="legend-item ${c.key}">${c.emoji} ${t.categories[i]}<div class="small">${lang==='ko'?c.koDesc:c.jaDesc}</div></div>`).join('');
+      document.getElementById('flowline').innerHTML = flowSteps[lang].map((s,i)=>`<span class="step">${s}</span>${i<flowSteps[lang].length-1?'<span class="arrow">→</span>':''}`).join('');
+    }
+
+    function renderCards(){
+      const groupsEl = document.getElementById('groups');
+      const t = uiText[lang];
+      groupsEl.innerHTML = categoryInfo.map((c,ci)=>{
+        const cards = terms.filter(x=>x.cat===ci).map(cardHTML).join('');
+        const desc = lang==='ko'?c.koDesc:c.jaDesc;
+        return `<section class="group ${c.key}"><h2>${t.categories[ci]}</h2><p class="desc">${desc}</p><div class="cards">${cards}</div></section>`;
+      }).join('');
+      filterCards();
+    }
+
+    function clearMarks(el){
+      el.querySelectorAll('mark.hit').forEach(mark=>{
+        const parent = mark.parentNode;
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize();
+      });
+    }
+    function escapeRegExp(str){ return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+    function highlightText(node, query){
+      if(!query) return;
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+      const textNodes = [];
+      while(walker.nextNode()) textNodes.push(walker.currentNode);
+      const regex = new RegExp(escapeRegExp(query), 'gi');
+      textNodes.forEach(n=>{
+        const text = n.nodeValue;
+        if(!regex.test(text)) return;
+        const span = document.createElement('span');
+        span.innerHTML = text.replace(regex, m => `<mark class="hit">${m}</mark>`);
+        n.parentNode.replaceChild(span, n);
+      });
+    }
+
+    function filterCards(){
+      const q = document.getElementById('searchBox').value.trim().toLowerCase();
+      const cards = [...document.querySelectorAll('.card')];
+      let shown = 0;
+      cards.forEach(card=>{
+        clearMarks(card);
+        const hay = card.dataset.search + ' ' + card.innerText.toLowerCase();
+        const ok = !q || hay.includes(q);
+        card.classList.toggle('hidden', !ok);
+        if(ok){ shown++; if(q) highlightText(card, document.getElementById('searchBox').value.trim()); }
+      });
+      document.querySelectorAll('.group').forEach(group=>{
+        const hasVisible = [...group.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
+        group.classList.toggle('hidden', !hasVisible);
+      });
+      document.getElementById('resultCount').textContent = uiText[lang].resultCount(shown);
+    }
+
+    function setLang(next){
+      lang = next;
+      document.getElementById('btnKo').classList.toggle('active', lang==='ko');
+      document.getElementById('btnJa').classList.toggle('active', lang==='ja');
+      document.documentElement.lang = lang === 'ko' ? 'ko' : 'ja';
+      renderStatic();
+      renderCards();
+    }
+
+    document.getElementById('btnKo').addEventListener('click', ()=>setLang('ko'));
+    document.getElementById('btnJa').addEventListener('click', ()=>setLang('ja'));
+    document.getElementById('searchBox').addEventListener('input', filterCards);
+    document.getElementById('searchBox').addEventListener('keydown', (e)=>{
+      if(e.key !== 'Enter') return;
+      e.preventDefault();
+      filterCards();
+      const q = document.getElementById('searchBox').value.trim().toLowerCase();
+      if(!q) return;
+      const visibleCards = [...document.querySelectorAll('.card')].filter(c=>!c.classList.contains('hidden'));
+      if(!visibleCards.length) return;
+      const exact = visibleCards.find(c=>{
+        const title = c.querySelector('.title')?.textContent.trim().toLowerCase() || '';
+        return title === q;
+      });
+      const target = exact || visibleCards[0];
+      document.querySelectorAll('.card.jump-target').forEach(c=>c.classList.remove('jump-target'));
+      target.classList.add('jump-target');
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      setTimeout(()=>target.classList.remove('jump-target'), 1800);
+    });
+
+    setLang('ko');
+  </script>
+</body>
+</html>
